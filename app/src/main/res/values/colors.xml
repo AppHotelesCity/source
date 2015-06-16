@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="black_overlay">#66000000</color>
+	<color name="main_bar">#ff264b89</color>
+	<color name="main_option1">#214173</color>
+	<color name="main_option2">#1e3962</color>
+	<color name="main_option3">#0D4D8B</color>
+	<color name="main_search">#FFf9db45</color>
+	<color name="main_search_disabled">#99f9db45</color>
+
+	<color name="main_color1">#264b89</color>
+	<color name="main_color2">#1c345b</color>
+	<color name="main_color3">#15263e</color>
+
+	<color name="plus_color1">#160d35</color>
+	<color name="plus_color2">#130a29</color>
+	<color name="plus_color3">#0f081c</color>
+
+	<color name="suites_color1">#7a1831</color>
+	<color name="suites_color2">#5c1427</color>
+	<color name="suites_color3">#511424</color>
+
+	<color name="junior_color1">#12433a</color>
+	<color name="junior_color2">#103a32</color>
+	<color name="junior_color3">#082a25</color>
+
+	<color name="premios_color1">#E41D33</color>
+	<color name="premios_color2">#C81B2E</color>
+	<color name="premios_color3">#AA1727</color>
+
+	<color name="dialog_background">#7f000000</color>
+
+	<color name="control_border_darker">#FF000000</color>
+	<color name="control_border_dark">#FF999999</color>
+	<color name="control_border_light">#FFCCCCCC</color>
+
+	<color name="button_gray_dark">#FF9B9B9B</color>
+
+	<color name="radio_button_selected_color">#264b89</color>
+	<color name="radio_button_unselected_color">@android:color/transparent</color>
+
+	<color name="reserva_dark_gray">#FFA4A4A4</color>
+	<color name="reserva_light_gray">#FFE7E7E7</color>
+
+	<color name="search_pane_light">#FF0C2A47</color>
+	<color name="search_pane_dark">#FF0A253F</color>
+	<color name="search_pane_border">#FFFFFFFF</color>
+
+	<color name="cat_normal">#FFE7E7E7</color>
+	<color name="cat_pressed">#FFCCCCCC</color>
+</resources>

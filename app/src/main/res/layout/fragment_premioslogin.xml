@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 xmlns:tools="http://schemas.android.com/tools"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent"
+			 android:background="@android:color/white">
+
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical"
+		android:padding="12dp">
+
+		<ImageView
+			android:layout_width="200dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="12dp"
+			android:src="@drawable/logo_citypremios"
+			android:layout_gravity="center"/>
+
+		<EditText
+			android:id="@+id/txtSocio"
+			android:layout_width="match_parent"
+			android:layout_height="60dp"
+			android:layout_marginTop="24dp"
+			android:hint="No. de socio"
+			android:maxLength="10"
+			style="@style/RoundedControl"/>
+
+		<EditText
+			android:id="@+id/txtPassword"
+			android:layout_width="match_parent"
+			android:layout_height="60dp"
+			android:layout_marginTop="12dp"
+			android:hint="Contraseña"
+			android:inputType="textPassword"
+			style="@style/RoundedControl"/>
+
+		<Button
+			android:id="@+id/btnLogin"
+			android:layout_width="match_parent"
+			android:layout_height="60dp"
+			android:layout_marginTop="12dp"
+			android:background="@drawable/button_rounded_background"
+			android:textColor="@android:color/white"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:text="Entrar"/>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:layout_marginTop="12dp">
+
+			<Button
+				android:id="@+id/btnOlvide"
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:layout_marginRight="6dp"
+				android:background="@drawable/button_gray_background"
+				android:textColor="@android:color/white"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:text="Olvidé mi contraseña"
+				android:layout_weight="0.5"/>
+
+			<Button
+				android:id="@+id/btnCrear"
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:layout_marginLeft="6dp"
+				android:background="@drawable/button_gray_background"
+				android:textColor="@android:color/white"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:text="Crear cuenta"
+				android:layout_weight="0.5"/>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,160 @@
+<resources>
+
+	<!-- Base application theme. -->
+	<style name="BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+		<item name="android:homeAsUpIndicator">@drawable/boton_back</item>
+		<item name="homeAsUpIndicator">@drawable/boton_back</item>
+	</style>
+
+	<style name="AppThemeMain" parent="@style/BaseTheme">
+		<item name="android:actionBarStyle">@style/MainActionBar</item>
+		<item name="actionBarStyle">@style/MainActionBar</item>
+	</style>
+
+	<style name="MainTheme" parent="@style/BaseTheme">
+		<item name="android:actionBarStyle">@style/MainActionBar</item>
+		<item name="actionBarStyle">@style/MainActionBar</item>
+		<item name="android:actionBarTabStyle">@style/MainActionBarTab</item>
+		<item name="actionBarTabStyle">@style/MainActionBarTab</item>
+	</style>
+
+	<style name="PlusTheme" parent="@style/BaseTheme">
+		<item name="android:actionBarStyle">@style/PlusActionBar</item>
+		<item name="actionBarStyle">@style/PlusActionBar</item>
+		<item name="android:actionBarTabStyle">@style/PlusActionBarTab</item>
+		<item name="actionBarTabStyle">@style/PlusActionBarTab</item>
+	</style>
+
+	<style name="SuitesTheme" parent="@style/BaseTheme">
+		<item name="android:actionBarStyle">@style/SuitesActionBar</item>
+		<item name="actionBarStyle">@style/SuitesActionBar</item>
+		<item name="android:actionBarTabStyle">@style/SuitesActionBarTab</item>
+		<item name="actionBarTabStyle">@style/SuitesActionBarTab</item>
+	</style>
+
+	<style name="JuniorTheme" parent="@style/BaseTheme">
+		<item name="android:actionBarStyle">@style/JuniorActionBar</item>
+		<item name="actionBarStyle">@style/JuniorActionBar</item>
+		<item name="android:actionBarTabStyle">@style/JuniorActionBarTab</item>
+		<item name="actionBarTabStyle">@style/JuniorActionBarTab</item>
+	</style>
+
+	<style name="PremiosTheme" parent="@style/BaseTheme">
+		<item name="android:actionBarStyle">@style/PremiosActionBar</item>
+		<item name="actionBarStyle">@style/PremiosActionBar</item>
+		<item name="android:actionBarTabStyle">@style/PremiosActionBarTab</item>
+		<item name="actionBarTabStyle">@style/PremiosActionBarTab</item>
+	</style>
+
+	<style name="MainActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+		<item name="android:background">@color/main_bar</item>
+		<item name="background">@color/main_bar</item>
+	</style>
+
+	<style name="MainActionBarTab" parent="@style/Widget.AppCompat.ActionBar.TabView">
+		<item name="android:background">@drawable/main_tab_indicator</item>
+		<item name="background">@drawable/main_tab_indicator</item>
+		<item name="android:paddingLeft">0dp</item>
+		<item name="android:paddingRight">0dp</item>
+	</style>
+
+	<style name="PlusActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+		<item name="android:background">@color/plus_color1</item>
+		<item name="background">@color/plus_color1</item>
+	</style>
+
+	<style name="PlusActionBarTab" parent="@style/Widget.AppCompat.ActionBar.TabView">
+		<item name="android:background">@drawable/plus_tab_indicator</item>
+		<item name="background">@drawable/plus_tab_indicator</item>
+		<item name="android:paddingLeft">0dp</item>
+		<item name="android:paddingRight">0dp</item>
+	</style>
+
+	<style name="SuitesActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+		<item name="android:background">@color/suites_color1</item>
+		<item name="background">@color/suites_color1</item>
+	</style>
+
+	<style name="SuitesActionBarTab" parent="@style/Widget.AppCompat.ActionBar.TabView">
+		<item name="android:background">@drawable/suites_tab_indicator</item>
+		<item name="background">@drawable/suites_tab_indicator</item>
+		<item name="android:paddingLeft">0dp</item>
+		<item name="android:paddingRight">0dp</item>
+	</style>
+
+	<style name="JuniorActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+		<item name="android:background">@color/junior_color1</item>
+		<item name="background">@color/junior_color1</item>
+	</style>
+
+	<style name="JuniorActionBarTab" parent="@style/Widget.AppCompat.ActionBar.TabView">
+		<item name="android:background">@drawable/junior_tab_indicator</item>
+		<item name="background">@drawable/junior_tab_indicator</item>
+		<item name="android:paddingLeft">0dp</item>
+		<item name="android:paddingRight">0dp</item>
+	</style>
+
+	<style name="PremiosActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+		<item name="android:background">@color/premios_color1</item>
+		<item name="background">@color/premios_color1</item>
+	</style>
+
+	<style name="PremiosActionBarTab" parent="@style/Widget.AppCompat.ActionBar.TabView">
+		<item name="android:background">@drawable/premios_tab_indicator</item>
+		<item name="background">@drawable/premios_tab_indicator</item>
+		<item name="android:paddingLeft">0dp</item>
+		<item name="android:paddingRight">0dp</item>
+	</style>
+
+	<style name="AppThemeNoBar" parent="Theme.AppCompat">
+		<item name="android:windowNoTitle">true</item>
+		<item name="windowActionBar">false</item>
+	</style>
+
+	<style name="RadioButton">
+		<item name="android:textColor">@drawable/button_text_color</item>
+		<item name="android:minHeight">33dp</item>
+		<item name="android:minWidth">70dp</item>
+		<item name="android:gravity">center</item>
+		<item name="android:button">@null</item>
+		<item name="android:paddingTop">10dp</item>
+		<item name="android:paddingBottom">10dp</item>
+	</style>
+
+	<style name="RoundedControl">
+		<item name="android:background">@drawable/rounded_background</item>
+		<item name="android:textColorHint">@color/control_border_light</item>
+		<item name="android:textColor">@drawable/contro_font_color</item>
+		<item name="android:textSize">18dp</item>
+		<item name="android:padding">10dp</item>
+	</style>
+
+	<style name="RoundedSpinnerControl">
+		<item name="android:background">@drawable/spinner_rounded_background</item>
+		<item name="android:textColorHint">@color/control_border_light</item>
+		<item name="android:textColor">@drawable/contro_font_color</item>
+		<item name="android:textSize">18dp</item>
+		<item name="android:padding">10dp</item>
+	</style>
+
+	<style name="SearchPaneButton">
+		<item name="android:background">@drawable/buttonmain_background</item>
+		<item name="android:textColor">@android:color/white</item>
+		<item name="android:textColorHint">@color/control_border_light</item>
+		<item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+		<item name="android:gravity">left|center_vertical</item>
+		<item name="android:paddingLeft">12dp</item>
+		<item name="android:layout_marginLeft">24dp</item>
+		<item name="android:layout_marginRight">24dp</item>
+		<item name="android:layout_marginTop">12dp</item>
+	</style>
+
+	<style name="SearchPaneButtonSolid">
+		<item name="android:background">@drawable/buttonmain_solid_background</item>
+		<item name="android:textColor">@android:color/black</item>
+		<item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+		<item name="android:layout_marginLeft">24dp</item>
+		<item name="android:layout_marginRight">24dp</item>
+		<item name="android:layout_marginTop">12dp</item>
+	</style>
+</resources>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 xmlns:tools="http://schemas.android.com/tools"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent"
+			 android:background="@android:color/white">
+
+	<ScrollView
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			android:padding="12dp">
+
+			<EditText
+				android:id="@+id/txtName"
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:layout_marginTop="12dp"
+				android:hint="Nombre"
+				android:inputType="textCapWords"
+				style="@style/RoundedControl"/>
+
+			<EditText
+				android:id="@+id/txtPaterno"
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:layout_marginTop="12dp"
+				android:hint="Apellido paterno"
+				android:inputType="textCapWords"
+				style="@style/RoundedControl"/>
+
+			<EditText
+				android:id="@+id/txtMaterno"
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:layout_marginTop="12dp"
+				android:hint="Apellido materno"
+				android:inputType="textCapWords"
+				style="@style/RoundedControl"/>
+
+			<Spinner
+				android:id="@+id/spinGenero"
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:background="@drawable/spinner_rounded_background"
+				android:layout_marginTop="12dp"/>
+
+			<EditText
+				android:id="@+id/txtBirthday"
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:layout_marginTop="12dp"
+				android:hint="Fecha de nacimiento"
+				android:editable="false"
+				android:focusable="false"
+				style="@style/RoundedSpinnerControl"/>
+
+			<EditText
+				android:id="@+id/txtCountry"
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:layout_marginTop="12dp"
+				android:hint="País"
+				android:editable="false"
+				android:focusable="false"
+				style="@style/RoundedSpinnerControl"/>
+
+			<EditText
+				android:id="@+id/txtPhone"
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:layout_marginTop="12dp"
+				android:hint="Teléfono"
+				android:inputType="phone"
+				style="@style/RoundedControl"/>
+
+			<EditText
+				android:id="@+id/txtEmail"
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:layout_marginTop="12dp"
+				android:hint="e-mail"
+				android:inputType="textEmailAddress"
+				style="@style/RoundedControl"/>
+
+			<Button
+				android:id="@+id/btnCrear"
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:layout_marginTop="12dp"
+				android:background="@drawable/button_rounded_background"
+				android:textColor="@android:color/white"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:text="Crear cuenta"/>
+
+		</LinearLayout>
+
+	</ScrollView>
+</FrameLayout>

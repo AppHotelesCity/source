@@ -1,0 +1,196 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 xmlns:tools="http://schemas.android.com/tools"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent"
+			 tools:context="com.zebstudios.cityexpress.TabletHotelDetailsFragment">
+
+	<ScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+		<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical">
+
+			<TextView
+					android:id="@+id/lblDescription"
+					android:paddingLeft="24dp"
+					android:paddingTop="12dp"
+					android:paddingRight="24dp"
+					android:paddingBottom="0dp"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+			<TextView
+					android:paddingLeft="24dp"
+					android:paddingTop="12dp"
+					android:paddingRight="24dp"
+					android:paddingBottom="0dp"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:textStyle="bold"
+					android:text="Dirección:"
+					android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+			<TextView
+					android:id="@+id/lblAddress"
+					android:paddingLeft="24dp"
+					android:paddingTop="0dp"
+					android:paddingRight="24dp"
+					android:paddingBottom="12dp"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+			<com.zebstudios.cityexpress.NestedGridView
+					android:id="@+id/servicesGridView"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="24dp"
+					android:isScrollContainer="false"
+					android:verticalSpacing="3dp"
+					android:horizontalSpacing="0dp"
+					android:stretchMode="columnWidth"
+					android:numColumns="3">
+
+			</com.zebstudios.cityexpress.NestedGridView>
+
+			<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:layout_marginTop="20dp"
+					android:layout_marginBottom="20dp"
+					android:layout_gravity="center_horizontal">
+
+				<ImageButton
+						android:id="@+id/btnCall"
+						android:layout_width="64dp"
+						android:layout_height="64dp"
+						android:scaleType="fitXY"
+						android:padding="0dp"
+						android:background="@android:color/transparent"
+						android:layout_marginRight="20dp"
+						android:src="@drawable/boton_call"/>
+
+				<ImageButton
+						android:id="@+id/btnMail"
+						android:layout_width="64dp"
+						android:layout_height="64dp"
+						android:scaleType="fitXY"
+						android:padding="0dp"
+						android:background="@android:color/transparent"
+						android:src="@drawable/boton_mail"/>
+
+				<ImageButton
+						android:id="@+id/btnChat"
+						android:layout_width="64dp"
+						android:layout_height="64dp"
+						android:scaleType="fitXY"
+						android:padding="0dp"
+						android:background="@android:color/transparent"
+						android:layout_marginLeft="20dp"
+						android:src="@drawable/boton_chat"/>
+
+				<View
+						android:layout_width="1dp"
+						android:layout_height="match_parent"
+						android:layout_marginLeft="20dp"
+						android:layout_marginRight="20dp"
+						android:background="@color/main_color1"/>
+
+				<ImageView
+						android:id="@+id/imgWeather"
+						android:layout_width="64dp"
+						android:layout_height="64dp"
+						android:layout_gravity="center_vertical"
+						android:layout_marginRight="10dp"
+						android:scaleType="fitXY"/>
+
+				<TextView
+						android:id="@+id/lblWTemp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="@color/main_color1"
+						android:textStyle="bold"
+						android:textSize="14pt"
+						android:layout_marginRight="10dp"
+						android:layout_gravity="center_vertical"/>
+
+				<TextView
+						android:id="@+id/lblWDesc"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						android:textColor="@color/main_color1"
+						android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+			</LinearLayout>
+
+			<com.google.android.gms.maps.MapView
+					xmlns:android="http://schemas.android.com/apk/res/android"
+					android:id="@+id/mapView"
+					android:layout_marginTop="24dp"
+					android:layout_width="match_parent"
+					android:layout_height="300dp" />
+
+			<com.zebstudios.cityexpress.SegmentedGroup
+					android:id="@+id/segmented"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_margin="20dp"
+					android:orientation="horizontal"
+					android:layout_gravity="center_horizontal"
+					android:visibility="gone">
+
+				<RadioButton
+						android:id="@+id/btn_noticias"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:paddingLeft="20dp"
+						android:paddingTop="8dp"
+						android:paddingRight="20dp"
+						android:paddingBottom="8dp"
+						android:text="Noticias"
+						style="@style/RadioButton"/>
+
+				<RadioButton
+						android:id="@+id/btn_blog"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:paddingLeft="30dp"
+						android:paddingTop="8dp"
+						android:paddingRight="30dp"
+						android:paddingBottom="8dp"
+						android:text="Blog"
+						style="@style/RadioButton"/>
+
+			</com.zebstudios.cityexpress.SegmentedGroup>
+
+			<com.zebstudios.cityexpress.NestedListView
+					android:id="@+id/list_rss"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="150dp"
+					android:layout_marginRight="150dp"
+					android:layout_marginBottom="2dp"
+					android:visibility="gone">
+
+			</com.zebstudios.cityexpress.NestedListView>
+
+			<TextView
+					android:id="@+id/lblSource"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:textColor="@color/control_border_dark"
+					android:layout_marginBottom="24dp"
+					android:text="Fuente: CNN"
+					android:visibility="gone"/>
+		</LinearLayout>
+
+	</ScrollView>
+
+</FrameLayout>

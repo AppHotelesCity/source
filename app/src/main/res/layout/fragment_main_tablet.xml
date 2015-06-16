@@ -1,0 +1,93 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 xmlns:tools="http://schemas.android.com/tools"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent"
+			 tools:context="com.zebstudios.cityexpress.MainTabletFragment">
+
+	<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+		<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_weight="1"
+				android:background="@color/search_pane_light"
+				android:orientation="vertical">
+
+			<EditText
+					android:id="@+id/txtWord"
+					android:layout_width="match_parent"
+					android:layout_height="60dp"
+					android:layout_marginTop="36dp"
+					android:hint="Buscar por palabra"
+					style="@style/SearchPaneButton"/>
+
+			<Button
+					android:id="@+id/btnCity"
+					android:layout_width="match_parent"
+					android:layout_height="60dp"
+					style="@style/SearchPaneButton"
+					android:text="Buscar por estado"/>
+
+			<Button
+					android:layout_width="match_parent"
+					android:layout_height="60dp"
+					style="@style/SearchPaneButton"
+					android:text="Buscar por marca"/>
+
+			<ImageButton
+					android:id="@+id/btnOption1"
+					android:layout_width="match_parent"
+					android:layout_height="60dp"
+					style="@style/SearchPaneButton"
+					android:src="@drawable/bar_marca_1_off"/>
+
+			<ImageButton
+					android:id="@+id/btnOption2"
+					android:layout_width="match_parent"
+					android:layout_height="60dp"
+					style="@style/SearchPaneButton"
+					android:src="@drawable/bar_marca_2_off"/>
+
+			<ImageButton
+					android:id="@+id/btnOption3"
+					android:layout_width="match_parent"
+					android:layout_height="60dp"
+					style="@style/SearchPaneButton"
+					android:src="@drawable/bar_marca_3_off"/>
+
+			<ImageButton
+					android:id="@+id/btnOption4"
+					android:layout_width="match_parent"
+					android:layout_height="60dp"
+					style="@style/SearchPaneButton"
+					android:src="@drawable/bar_marca_4_off"/>
+
+			<Button
+					android:id="@+id/btnSearch"
+					android:layout_width="match_parent"
+					android:layout_height="60dp"
+					style="@style/SearchPaneButtonSolid"
+					android:text="Buscar"/>
+
+				</LinearLayout>
+
+		<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_weight="1"
+				android:background="@color/search_pane_dark"
+				android:paddingTop="32dp">
+
+			<ListView
+					android:id="@+id/result_list"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:divider="@null"></ListView>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</FrameLayout>

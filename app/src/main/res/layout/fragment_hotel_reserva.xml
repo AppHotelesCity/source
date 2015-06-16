@@ -1,0 +1,276 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 xmlns:tools="http://schemas.android.com/tools"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent"
+			 android:background="@android:color/white"
+			 tools:context="com.zebstudios.cityexpress.HotelReservaFragment">
+
+	<ScrollView
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+
+		<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:orientation="vertical">
+
+			<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:padding="12dp"
+					android:orientation="horizontal">
+
+				<ImageView
+						android:layout_width="36dp"
+						android:layout_height="36dp"
+						android:src="@drawable/paso1"/>
+
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Programa tu estancia"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textColor="@color/main_color1"
+						android:layout_gravity="center_vertical"
+						android:layout_marginLeft="10dp"/>
+			</LinearLayout>
+
+			<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:paddingLeft="12dp"
+					android:paddingRight="12dp"
+					android:layout_marginTop="10dp">
+
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_weight="0.5"
+						android:gravity="center"
+						android:text="Llegada"/>
+
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_weight="0.5"
+						android:gravity="center"
+						android:text="Salida"/>
+			</LinearLayout>
+
+			<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:paddingLeft="12dp"
+					android:paddingRight="12dp"
+					android:layout_marginTop="4dp">
+
+				<Button
+						android:id="@+id/btnArrival"
+						android:layout_width="0dp"
+						android:layout_height="60dp"
+						android:layout_weight="0.5"
+						android:background="@drawable/rounded_background"
+						android:layout_marginRight="5dp"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="Elegir"/>
+
+				<Button
+						android:id="@+id/btnDeparture"
+						android:layout_width="0dp"
+						android:layout_height="60dp"
+						android:layout_weight="0.5"
+						android:layout_marginLeft="5dp"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:background="@drawable/rounded_background"
+						android:text="Elegir"/>
+			</LinearLayout>
+
+			<EditText
+					android:id="@+id/txtPromocode"
+					android:layout_width="match_parent"
+					android:layout_height="60dp"
+					android:layout_marginLeft="12dp"
+					android:layout_marginRight="12dp"
+					android:layout_marginTop="12dp"
+					android:hint="Promocode"
+					style="@style/RoundedControl"/>
+
+			<Button
+					android:id="@+id/btnAvailability"
+					android:layout_width="match_parent"
+					android:layout_height="60dp"
+					android:layout_marginLeft="12dp"
+					android:layout_marginRight="12dp"
+					android:layout_marginTop="12dp"
+					android:background="@drawable/button_rounded_background"
+					android:textColor="@android:color/white"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:text="Buscar disponibilidad"/>
+
+			<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="12dp"
+					android:layout_marginRight="12dp"
+					android:layout_marginTop="12dp"
+					android:layout_marginBottom="8dp"
+					android:text="Elige tu habitación:"/>
+
+			<ImageView
+					android:id="@+id/imgElige"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:scaleType="centerCrop"
+					android:src="@drawable/eligefecha"/>
+
+			<LinearLayout
+					android:id="@+id/pnlRooms"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:background="@color/reserva_light_gray"
+					android:visibility="gone">
+
+				<android.support.v4.view.ViewPager
+						xmlns:android="http://schemas.android.com/apk/res/android"
+						android:id="@+id/view_pager"
+						android:layout_width="match_parent"
+						android:layout_height="280dp"/>
+
+				<com.zebstudios.cityexpress.CirclePageIndicator
+						android:id="@+id/indicator"
+						android:paddingTop="10dp"
+						android:paddingBottom="20dp"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"/>
+			</LinearLayout>
+
+			<LinearLayout
+					android:id="@+id/pnlContinue"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:visibility="gone">
+
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="12dp"
+						android:layout_marginBottom="8dp"
+						android:layout_gravity="center_horizontal"
+						android:text="Habitaciones"/>
+
+				<Spinner
+						android:id="@+id/spinHabitaciones"
+						android:layout_width="match_parent"
+						android:layout_height="60dp"
+						android:background="@drawable/spinner_rounded_background"
+						android:entries="@array/habitaciones"
+						android:layout_marginLeft="12dp"
+						android:layout_marginRight="12dp"
+						android:layout_marginBottom="12dp"/>
+
+				<View
+						android:layout_width="fill_parent"
+						android:layout_height="2dp"
+						android:layout_marginLeft="12dp"
+						android:layout_marginRight="12dp"
+						android:background="?android:attr/listDivider"/>
+
+				<TextView
+						android:id="@+id/lblTotal"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="12dp"
+						android:layout_marginRight="12dp"
+						android:layout_marginTop="12dp"
+						android:gravity="end"
+						android:textColor="@color/main_color1"
+						android:textSize="24sp"
+						android:textStyle="bold"
+						android:text="Total"/>
+
+				<TextView
+						android:id="@+id/lblProm"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="12dp"
+						android:layout_marginRight="12dp"
+						android:layout_marginBottom="12dp"
+						android:gravity="right"
+						android:textColor="#FFA4A4A4"
+						android:textSize="18sp"
+						android:text="Total promedio"/>
+
+				<View
+						android:layout_width="fill_parent"
+						android:layout_height="2dp"
+						android:layout_marginLeft="12dp"
+						android:layout_marginRight="12dp"
+						android:background="?android:attr/listDivider"/>
+
+				<LinearLayout
+						android:layout_marginLeft="12dp"
+						android:layout_marginTop="12dp"
+						android:layout_marginRight="12dp"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content">
+
+					<CheckBox
+							android:id="@+id/cbAgree1"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
+							android:text="CheckBox"/>
+
+					<TextView
+							android:id="@+id/txtAgree1"
+							android:layout_width="wrap_content"
+							android:layout_height="40dp"
+							android:text="TextView"
+							android:clickable="true"/>
+
+				</LinearLayout>
+
+				<LinearLayout
+						android:layout_marginLeft="12dp"
+						android:layout_marginTop="12dp"
+						android:layout_marginRight="12dp"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content">
+
+					<CheckBox
+							android:id="@+id/cbAgree2"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
+							android:text="CheckBox"/>
+
+					<TextView
+							android:id="@+id/txtAgree2"
+							android:layout_width="wrap_content"
+							android:layout_height="57dp"
+							android:text="TextView"
+							android:clickable="true"/>
+
+				</LinearLayout>
+
+				<Button
+						android:id="@+id/btnContinue"
+						android:layout_width="match_parent"
+						android:layout_height="60dp"
+						android:layout_marginLeft="12dp"
+						android:layout_marginRight="12dp"
+						android:layout_marginTop="12dp"
+						android:layout_marginBottom="24dp"
+						android:background="@drawable/button_rounded_background"
+						android:textColor="@android:color/white"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="Ingresa tus datos"/>
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</ScrollView>
+
+</FrameLayout>

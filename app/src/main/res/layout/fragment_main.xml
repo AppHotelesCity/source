@@ -1,0 +1,142 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 xmlns:tools="http://schemas.android.com/tools"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent"
+			 tools:context="com.zebstudios.cityexpress.MainFragment">
+
+	<ScrollView
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:stretchColumns="*">
+
+		<TableLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+
+			<TableRow
+					android:background="@color/main_option3"
+					android:focusableInTouchMode="true">
+
+				<EditText
+						android:id="@+id/txtWord"
+						android:layout_width="fill_parent"
+						android:layout_height="34dp"
+						android:layout_marginLeft="10dp"
+						android:layout_marginRight="10dp"
+						android:layout_marginTop="12dp"
+						android:layout_marginBottom="12dp"
+						android:padding="2dp"
+						android:layout_column="0"
+						android:layout_span="4"
+						android:hint="Buscar por palabra"
+						android:background="@android:color/white"
+						android:layout_weight="10"/>
+			</TableRow>
+
+			<TableRow
+					android:background="@color/main_option1">
+
+				<TextView
+						android:id="@+id/lblCity"
+						android:text="Buscar por estado"
+						android:layout_margin="16dp"
+						android:layout_gravity="start|center_vertical"
+						android:textColor="@android:color/white"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:layout_column="0"
+						android:layout_weight="10"/>
+
+				<ImageButton
+						android:id="@+id/btnGetCities"
+						android:layout_gravity="center_vertical|right|end"
+						android:background="@color/main_option1"
+						android:src="@drawable/drop_button"
+						android:layout_column="1"
+						android:layout_marginRight="16dp"
+						android:layout_width="wrap_content"
+						android:layout_weight="1"/>
+			</TableRow>
+
+			<TableRow
+					android:background="@color/main_option2">
+
+				<TextView
+						android:text="Buscar por marca"
+						android:layout_margin="16dp"
+						android:layout_gravity="start|center_vertical"
+						android:textColor="@android:color/white"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:layout_column="0"
+						android:layout_weight="100"/>
+			</TableRow>
+
+			<TableRow
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content">
+
+				<ImageView
+						android:id="@+id/imgOptionBar1"
+						android:layout_span="2"
+						android:src="@drawable/bar_marca_1_off"
+						android:layout_weight="1"
+						android:adjustViewBounds="true"/>
+			</TableRow>
+
+			<TableRow
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content">
+
+				<ImageView
+						android:id="@+id/imgOptionBar2"
+						android:layout_span="2"
+						android:src="@drawable/bar_marca_2_off"
+						android:layout_weight="1"
+						android:adjustViewBounds="true"/>
+			</TableRow>
+
+			<TableRow
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content">
+
+				<ImageView
+						android:id="@+id/imgOptionBar3"
+						android:layout_span="2"
+						android:src="@drawable/bar_marca_3_off"
+						android:layout_weight="1"
+						android:adjustViewBounds="true"/>
+			</TableRow>
+
+			<TableRow
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content">
+
+				<ImageView
+						android:id="@+id/imgOptionBar4"
+						android:layout_span="2"
+						android:src="@drawable/bar_marca_4_off"
+						android:layout_weight="1"
+						android:adjustViewBounds="true"/>
+			</TableRow>
+
+			<TableRow
+					android:id="@+id/row_search"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:background="@color/main_search_disabled">
+
+				<TextView
+						android:text="Buscar"
+						android:gravity="center_horizontal"
+						android:layout_span="2"
+						android:layout_margin="25dp"
+						android:layout_width="fill_parent"
+						android:layout_gravity="center_horizontal|center_vertical"
+						android:textColor="@color/main_bar"
+						android:textAppearance="?android:attr/textAppearanceLarge"
+						android:layout_weight="1"
+						android:textAlignment="center"/>
+			</TableRow>
+		</TableLayout>
+
+	</ScrollView>
+</FrameLayout>
