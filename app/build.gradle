@@ -35,14 +35,16 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':calendar')
     compile files('libs/ksoap2-android-assembly-3.3.0-jar-with-dependencies.jar')
     compile 'com.android.support:support-v4:21.0.3'
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.google.android.gms:play-services:6.5.87'
+    compile project(':card.io-5.0.1')
     compile('com.crashlytics.sdk.android:crashlytics:2.3.0@aar') {
         transitive = true;
     }
     compile files('libs/appsee.jar')
+
 }
