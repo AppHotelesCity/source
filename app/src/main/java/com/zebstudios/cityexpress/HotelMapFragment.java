@@ -15,8 +15,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import static com.appsee.Appsee.startScreen;
+
 /**
- * Created by rczuart on 23/10/2014.
+ * Created by Denumeris Interactive on 23/10/2014.
  */
 public class HotelMapFragment extends Fragment
 {
@@ -34,6 +36,7 @@ public class HotelMapFragment extends Fragment
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
+        startScreen("ViewHotelMap-Smartphone");
 		_view = inflater.inflate( R.layout.fragment_hotel_map, container, false );
 		_hotel = (Hotel) getArguments().getSerializable( "HOTEL" );
 

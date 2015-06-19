@@ -11,7 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by rczuart on 23/10/2014.
+ * Created by Denumeris Interactive on 23/10/2014.
  */
 public class ImageLoader extends AsyncTask<String, Void, Bitmap>
 {

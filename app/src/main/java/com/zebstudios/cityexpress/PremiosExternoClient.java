@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.Hashtable;
 
 /**
- * Created by rczuart on 4/23/2015.
+ * Created by Denumeris Interactive on 4/23/2015.
  */
 public class PremiosExternoClient
 {

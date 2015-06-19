@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.net.URL;
 
 /**
- * Created by rczuart on 24/10/2014.
+ * Created by Denumeris Interactive on 24/10/2014.
  */
 public class RSSArticle implements Serializable
 {

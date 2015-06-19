@@ -2,11 +2,11 @@ package com.zebstudios.cityexpress;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,12 +14,15 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
-import java.util.ArrayList;
 import com.appsee.Appsee;
+import com.crashlytics.android.Crashlytics;
+
+import java.util.ArrayList;
+
+import io.fabric.sdk.android.Fabric;
 
 import static com.appsee.Appsee.addEvent;
+
 
 public class MainActivity extends ActionBarActivity
 {
@@ -187,44 +190,45 @@ public class MainActivity extends ActionBarActivity
 			{
 				MainTabletFragment fragment = new MainTabletFragment();
 				getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
-				addEvent("HotelesTablet");
+				addEvent("ViewHotelesTablet");
+
 			}
 			else
 			{
 				MainFragment fragment = new MainFragment();
 				getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment).commit();
-				addEvent("HotelesSmartphone");
+				addEvent("ViewHotelesSmartphone");
 			}
 		}
 		else if( index == 1 )
 		{
 			PromotionsFragment fragment = new PromotionsFragment();
 			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
-			addEvent("Promociones");
+			addEvent("MenuPromociones-Smartphone");
 		}
 		else if( index == 2 )
 		{
 			CercaFragment fragment = new CercaFragment();
 			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
-			addEvent("CercaDeTi");
+			addEvent("MenuCercaDeTi-Smartphone");
 		}
 		else if( index == 3 )
 		{
 			ReservacionesFragment fragment = new ReservacionesFragment();
 			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
-			addEvent("Reservaciones");
+			addEvent("MenuReservaciones-Smartphone");
 		}
 		else if( index == 4 )
 		{
 			Intent dialog = new Intent( this, NewsActivity.class );
 			startActivityForResult( dialog, ACTIVITY_NEWS );
-			addEvent("Noticias");
+			addEvent("MenuNoticias-Smartphone");
 		}
 		else if( index == 5 )
 		{
 			Intent dialog = new Intent( this, BlogActivity.class );
 			startActivityForResult( dialog, ACTIVITY_BLOG );
-			addEvent("Blog");
+			addEvent("MenuBlog-SmartPhone");
 		}
 	}
 
@@ -247,6 +251,8 @@ public class MainActivity extends ActionBarActivity
 			Intent dialog = new Intent( this, PremiosDetailActivity.class );
 			startActivityForResult( dialog, ACTIVITY_PREMIOS_DETAIL );
 		}
+
+		addEvent("MenuCityPremios-Smartphone");
 	}
 
 	public void presentReservation( long reservationId )

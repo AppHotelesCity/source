@@ -1,7 +1,7 @@
 package com.zebstudios.cityexpress;
 
 /**
- * Created by rczuart on 05/11/2014.
+ * Created by Denumeris Interactive on 05/11/2014.
  * http://www.rgagnon.com/javadetails/java-0034.html
  */
 public class CCUtils

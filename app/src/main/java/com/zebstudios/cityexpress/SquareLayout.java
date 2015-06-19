@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 /**
- * Created by rczuart on 4/27/2015.
+ * Created by Denumeris Interactive on 4/27/2015.
  */
 public class SquareLayout extends LinearLayout
 {

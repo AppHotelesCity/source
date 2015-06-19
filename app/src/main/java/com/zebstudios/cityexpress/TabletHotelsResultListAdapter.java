@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static com.appsee.Appsee.startScreen;
+
 /**
- * Created by rczuart on 24/11/2014.
+ * Created by Denumeris Interactive on 24/11/2014.
  */
 public class TabletHotelsResultListAdapter extends ArrayAdapter<Hotel>
 {
@@ -25,6 +27,7 @@ public class TabletHotelsResultListAdapter extends ArrayAdapter<Hotel>
 		_items = items;
 
 		_imageCache = new ImageCache( context );
+		startScreen("ViewHotelReservaResult-Tablet");
 	}
 
 	@Override

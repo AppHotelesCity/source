@@ -16,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.json.JSONObject;
@@ -24,14 +23,16 @@ import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import static com.appsee.Appsee.addEvent;
+import static com.appsee.Appsee.startScreen;
+
 /**
- * Created by rczuart on 23/10/2014.
+ * Created by Denumeris Interactive on 23/10/2014.
  */
 public class HotelDetailsFragment extends Fragment
 {
@@ -45,12 +46,13 @@ public class HotelDetailsFragment extends Fragment
 
 	public HotelDetailsFragment()
 	{
-		// Required empty public constructor
 	}
 
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
+		startScreen("ViewHotelDetails-Smartphone");
+
 		_view = inflater.inflate( R.layout.fragment_hotel_details, container, false );
 
 		_hotel = (Hotel) getArguments().getSerializable( "HOTEL" );
@@ -71,10 +73,10 @@ public class HotelDetailsFragment extends Fragment
 		final float density = getResources().getDisplayMetrics().density;
 		//indicator.setBackgroundColor(0xFFCCCCCC);
 		indicator.setRadius( 4 * density );
-		indicator.setPageColor( 0xFF264b89 ); // 0xFF264b89
-		indicator.setFillColor( 0xFF264b89 );
-		indicator.setStrokeColor( 0xFF9daeca );
-		indicator.setStrokeWidth( 1 * density );
+		indicator.setPageColor(0xFF264b89); // 0xFF264b89
+		indicator.setFillColor(0xFF264b89);
+		indicator.setStrokeColor(0xFF9daeca);
+		indicator.setStrokeWidth(1 * density);
 
 		if( _hotel.getDescripcionMaps() != null && !_hotel.getDescripcionMaps().equalsIgnoreCase( "null" ) )
 		{
@@ -95,7 +97,9 @@ public class HotelDetailsFragment extends Fragment
 				String uri = "tel:" + _hotel.getTelefono();
 				Intent intent = new Intent( Intent.ACTION_CALL );
 				intent.setData( Uri.parse( uri ) );
-				startActivityForResult( intent, 0 );
+				startActivityForResult(intent, 0);
+				//Appsee
+				addEvent("HotelDetails-Call-Smartphone");
 			}
 		} );
 
@@ -108,8 +112,9 @@ public class HotelDetailsFragment extends Fragment
 				String to = _hotel.getEmail();
 				Intent email = new Intent( Intent.ACTION_SEND );
 				email.putExtra( Intent.EXTRA_EMAIL, new String[]{ to } );
-				email.setType( "message/rfc822" );
-				startActivityForResult( Intent.createChooser( email, "Send Email" ), 1 );
+				email.setType("message/rfc822");
+				startActivityForResult(Intent.createChooser(email, "Send Email"), 1);
+				addEvent("HotelDetails-SendEmail-Smartphone");
 			}
 		} );
 
@@ -119,6 +124,7 @@ public class HotelDetailsFragment extends Fragment
 			public void onClick( View v )
 			{
 				testPresentReservation();
+				addEvent("HotelDetails-Chat-Smartphone");
 			}
 		} );
 

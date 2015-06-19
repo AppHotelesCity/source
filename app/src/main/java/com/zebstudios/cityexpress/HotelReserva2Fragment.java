@@ -1,10 +1,8 @@
 package com.zebstudios.cityexpress;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,8 +36,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import io.card.payment.CardIOActivity;
-import io.card.payment.CreditCard;
+import static com.appsee.Appsee.addEvent;
+import static com.appsee.Appsee.startScreen;
+
 
 public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayPalCallerInterface
 {
@@ -52,7 +51,6 @@ public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayP
 	private ArrayList<GuestData> _guests;
 	private int _lastGuestIndex;
 
-
 	private View _view;
 	private ProgressDialogFragment _progress;
 	private long _idToPresent;
@@ -64,7 +62,7 @@ public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayP
 	private int _paymentMethod;
 	private boolean _isShowingWebView = false;
 
-
+	private Button escanear;
 
 
 	public HotelReserva2Fragment()
@@ -75,7 +73,7 @@ public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayP
 	@Override
 	public void onActivityCreated( final Bundle savedInstanceState )
 	{
-		super.onCreate(savedInstanceState);
+		super.onCreate( savedInstanceState );
 
 		android.util.Log.d( "TEST", "** onActivityCreated **" );
 
@@ -104,10 +102,10 @@ public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayP
 	{
 		super.onDestroyView();
 
-		android.util.Log.d("TEST", "** onDestroyView **");
+		android.util.Log.d( "TEST", "** onDestroyView **" );
 		Bundle args = new Bundle();
-		saveInstance(args);
-		( (HotelDetailsActivity) getActivity() ).saveReserva2FragmentArgs(args);
+		saveInstance( args );
+		( (HotelDetailsActivity) getActivity() ).saveReserva2FragmentArgs( args );
 	}
 
 	@Override
@@ -128,6 +126,7 @@ public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayP
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
+		startScreen("ViewHotelReserva2-Smartphone");
 		android.util.Log.d( "TEST", "** onCreateView **" );
 
 		Bundle args = getArguments();
@@ -364,6 +363,7 @@ public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayP
 			public void onClick( View v )
 			{
 				doReserva();
+				addEvent("HotelReserva-Smartphone");
 			}
 		} );
 
@@ -534,7 +534,7 @@ public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayP
 		RoomAvailable room = _rooms.get( _lastGuestIndex );
 		double lastCost = room.getTotal();
 
-		Log.d("TEST", "RESPONSE: " + result.getResponse());
+		Log.d( "TEST", "RESPONSE: " + result.getResponse() );
 		if( result.getResponse() == 0 )
 		{
 			Log.d( "TEST", "TOTAL: " + result.getAvailables().size() );
@@ -835,7 +835,7 @@ public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayP
 		else
 		{
 			pnlPaymentMethod.setVisibility( View.GONE );
-			btnReserva.setText("Ingresar a PayPal");
+			btnReserva.setText( "Ingresar a PayPal" );
 			_paymentMethod = PAYMENT_METHOD_PAYPAL;
 		}
 	}
@@ -905,10 +905,7 @@ public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayP
 		return true;
 	}
 
-
-
-
-    private boolean validateCapture()
+	private boolean validateCapture()
 	{
 		for( int i = 0; i < _guests.size(); i++ )
 		{
@@ -960,10 +957,23 @@ public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayP
 				alert( "El código de validación de la tarjeta es incorrecto. Ingresa los últimos tres dígitos del número que se encuentra en la parte posterior de la tarjeta." );
 				return false;
 			}
+
+			//Card.io
+			Button btnescanear = (Button) _view.findViewById( R.id.escanear );
+
+
+
+
+
 		}
 
 		return true;
 	}
+
+
+
+
+
 
 	private void saveReservante()
 	{
@@ -1933,4 +1943,6 @@ public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayP
 			_validationCode = validationCode;
 		}
 	}
+
+
 }

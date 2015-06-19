@@ -9,23 +9,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ListView;
 
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+
+import static com.appsee.Appsee.startScreen;
 
 /**
- * Created by rczuart on 4/27/2015.
+ * Created by Denumeris Interactive on 4/27/2015.
  */
 public class PremiosDetailCuentaFragment extends Fragment
 {
@@ -44,10 +41,15 @@ public class PremiosDetailCuentaFragment extends Fragment
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
-		if( CompatibilityUtil.isTablet( getActivity() ) )
-			_view = inflater.inflate( R.layout.fragment_premios_cuenta_tablet, container, false );
-		else
-			_view = inflater.inflate( R.layout.fragment_premios_cuenta, container, false );
+		if( CompatibilityUtil.isTablet( getActivity() ) ) {
+			_view = inflater.inflate(R.layout.fragment_premios_cuenta_tablet, container, false);
+			startScreen("ViewCityPremios-DetalleCuenta-Tablet");
+		}
+		else {
+			_view = inflater.inflate(R.layout.fragment_premios_cuenta, container, false);
+			startScreen("ViewCityPremios-DetalleCuenta-Smartphone");
+
+		}
 
 		PremiosUserLoggedDS db = new PremiosUserLoggedDS( getActivity() );
 		db.open();
@@ -232,6 +234,7 @@ public class PremiosDetailCuentaFragment extends Fragment
 			_dateFrom = null;
 			alert( "Selecciona una fecha no mayor a un año" );
 			datesUpdated();
+
 			return;
 		}
 

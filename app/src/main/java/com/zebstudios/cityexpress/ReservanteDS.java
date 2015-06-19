@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
- * Created by rczuart on 12/11/2014.
+ * Created by Denumeris Interactive on 12/11/2014.
  */
 public class ReservanteDS
 {

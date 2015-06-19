@@ -24,6 +24,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static com.appsee.Appsee.addEvent;
+
 public class MainFragment extends Fragment
 {
 	private final int FRAGMENT_LIST_STATES = 100;
@@ -81,6 +83,7 @@ public class MainFragment extends Fragment
 			public void onClick( View view )
 			{
 				Search();
+				addEvent("HomeSearch");
 			}
 		} );
 
@@ -104,14 +107,13 @@ public class MainFragment extends Fragment
 		{
 			AlertDialog alert = new AlertDialog.Builder( getActivity() ).create();
 			alert.setTitle( "Atención" );
-			alert.setMessage( "Por favor ingrese una palabra y/o seleccione un estado y/o una marca." );
+			alert.setMessage( "Por favor ingrese una palabra y/o seleccione una ciudad y/o una marca." );
 			alert.setIcon( R.drawable.notification_warning_small );
 			alert.setCancelable( false );
 			alert.setButton( "OK", new DialogInterface.OnClickListener()
 			{
 				public void onClick( DialogInterface dialog, int which )
 				{
-					// Nada
 				}
 			} );
 			alert.show();
@@ -146,9 +148,9 @@ public class MainFragment extends Fragment
 			else if( text.length() > 0 )
 				alert.setMessage( "No se encontraron hoteles con la palabra que ingresó." );
 			else if( _state != null && _currentSelectedOption != -1 )
-				alert.setMessage( "No se encontraron hoteles de esa marca en el estado que seleccionó." );
+				alert.setMessage( "No se encontraron hoteles de esa marca en la ciudad que seleccionó." );
 			else if( _state != null )
-				alert.setMessage( "No se encontraron hoteles en el estado que seleccionó." );
+				alert.setMessage( "No se encontraron hoteles en la ciudad que seleccionó." );
 			else
 				alert.setMessage( "No se encontraron hoteles de esa marca." );
 			alert.setIcon( R.drawable.notification_warning_small );
@@ -225,6 +227,7 @@ public class MainFragment extends Fragment
 		}
 	}
 
+	// Busqueda por estado
 	private void getStates()
 	{
 		StatesFragment fragment = new StatesFragment();
@@ -239,7 +242,7 @@ public class MainFragment extends Fragment
 		if( _state.getId() == -1 )
 		{
 			_state = null;
-			lblState.setText( "Buscar por estado" );
+			lblState.setText( "Buscar por ciudad" );
 		}
 		else
 		{

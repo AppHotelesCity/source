@@ -20,8 +20,10 @@ import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import static com.appsee.Appsee.startScreen;
+
 /**
- * Created by rczuart on 3/3/2015.
+ * Created by Denumeris Interactive on 3/3/2015.
  */
 public class NewsActivity extends ActionBarActivity
 {
@@ -31,6 +33,7 @@ public class NewsActivity extends ActionBarActivity
 	@Override
 	protected void onCreate( Bundle savedInstanceState )
 	{
+		startScreen("ViewNews");
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_news );
 

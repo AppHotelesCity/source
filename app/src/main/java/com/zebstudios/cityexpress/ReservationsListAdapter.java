@@ -10,8 +10,10 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import static com.appsee.Appsee.startScreen;
+
 /**
- * Created by rczuart on 06/11/2014.
+ * Created by Denumeris Interactive on 06/11/2014.
  */
 public class ReservationsListAdapter extends BaseAdapter
 {
@@ -27,6 +29,8 @@ public class ReservationsListAdapter extends BaseAdapter
 	@Override
 	public View getView( int position, View convertView, ViewGroup parent )
 	{
+		startScreen("ViewReservations");
+
 		View v = convertView;
 
 		if( v == null )
@@ -43,7 +47,7 @@ public class ReservationsListAdapter extends BaseAdapter
 		TextView txtName = (TextView) v.findViewById( R.id.txtName );
 		txtName.setText( item.getHotelName() );
 		TextView txtDates = (TextView) v.findViewById( R.id.txtDates );
-		txtDates.setText( sdf.format( item.getArrivalDate() ) + " / " + sdf.format( item.getDepartureDate() ) );
+		txtDates.setText(sdf.format(item.getArrivalDate()) + " / " + sdf.format(item.getDepartureDate()));
 
 		return v;
 	}

@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * Created by rczuart on 4/24/2015.
+ * Created by Denumeris Interactive on 4/24/2015.
  */
 public class PremiosRegisterFragment extends Fragment
 {

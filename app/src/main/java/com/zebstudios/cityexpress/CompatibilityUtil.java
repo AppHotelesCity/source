@@ -5,7 +5,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 
 /**
- * Created by rczuart on 24/11/2014.
+ * Created by Denumeris Interactive on 24/11/2014.
  */
 public class CompatibilityUtil
 {

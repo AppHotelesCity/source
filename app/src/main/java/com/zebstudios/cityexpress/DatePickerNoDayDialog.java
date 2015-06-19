@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * Created by rczuart on 4/28/2015.
+ * Created by Denumeris Interactive on 4/28/2015.
  */
 public class DatePickerNoDayDialog extends DatePickerDialog
 {

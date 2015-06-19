@@ -26,6 +26,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.appsee.Appsee.addEvent;
+import static com.appsee.Appsee.startScreen;
+
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
  */
@@ -48,10 +51,14 @@ public class HotelReservaResultFragment extends Fragment
 		Bundle args = getArguments();
 		_reservation = (Reservation) args.getSerializable( "RESERVATION" );
 
-		if( CompatibilityUtil.isTablet( getActivity() ) )
+		if( CompatibilityUtil.isTablet( getActivity() ) ){
 			_view = inflater.inflate( R.layout.fragment_hotel_reserva_result_tablet, container, false );
-		else
+			startScreen("ViewHotelReservaResult-Tablet");}
+		else {
 			_view = inflater.inflate( R.layout.fragment_hotel_reserva_result, container, false );
+			startScreen("ViewHotelReservaResult-Smartphone");
+		}
+
 
 		NestedListView listReservas = (NestedListView) _view.findViewById( R.id.list_reservations );
 		ReservationsSummaryListAdapter reservationsListAdapter = new ReservationsSummaryListAdapter( getActivity(), _reservation.getRooms() );
@@ -122,6 +129,7 @@ public class HotelReservaResultFragment extends Fragment
 				email.putExtra( Intent.EXTRA_TEXT, getEmailBody() );
 				email.setType( "message/rfc822" );
 				startActivityForResult( Intent.createChooser( email, "Send Email" ), 1 );
+				addEvent("HotelResultEmail-Smartphone");
 			}
 		} );
 
@@ -137,6 +145,7 @@ public class HotelReservaResultFragment extends Fragment
 				intent.putExtra( Intent.EXTRA_TEXT, "Ya tengo mi reserva en " + _reservation.getHotelName() );
 				intent.setType( "text/plain" );
 				startActivityForResult( Intent.createChooser( intent, "Compartir..." ), 2 );
+				addEvent("HotelResultShare-Smartphone");
 			}
 		} );
 
@@ -148,6 +157,7 @@ public class HotelReservaResultFragment extends Fragment
 			{
 				String uri = "geo:" + _reservation.getHotelLatitude() + "," + _reservation.getHotelLongitude() + "?q=" + _reservation.getHotelLatitude() + "," + _reservation.getHotelLongitude() + "(" + _reservation.getHotelName() + ")";
 				startActivityForResult( new Intent( Intent.ACTION_VIEW, Uri.parse( uri ) ), 3 );
+				addEvent("HotelResultOpenLocation-Smartphone");
 			}
 		} );
 
@@ -193,6 +203,7 @@ public class HotelReservaResultFragment extends Fragment
 				public void onClick( View v )
 				{
 					confirmDeleteReservation();
+					addEvent("HotelResultDelete-Smartphone");
 				}
 			} );
 		}

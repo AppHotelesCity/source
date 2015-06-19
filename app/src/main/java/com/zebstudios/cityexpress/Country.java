@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 /**
- * Created by rczuart on 4/24/2015.
+ * Created by Denumeris Interactive on 4/24/2015.
  */
 public class Country implements Serializable
 {

@@ -17,7 +17,7 @@
 			<LinearLayout
 					android:id="@+id/pnlCapture"
 					android:layout_width="fill_parent"
-					android:layout_height="1639dp"
+					android:layout_height="fill_parent"
 					android:padding="12dp"
 					android:orientation="vertical">
 
@@ -381,34 +381,13 @@
 								android:layout_height="wrap_content"
 								android:src="@drawable/logo_visa"/>
 
+						<Button android:id="@+id/escanear"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:onClick="onScanPress"
+							android:text="SCAN" />
+
 					</LinearLayout>
-
-					<!-- Pago con Tarjeta -->
-					<Button
-						android:id="@+id/scanButton"
-						android:layout_width="match_parent"
-						android:layout_height="60dp"
-						android:background="@drawable/button_rounded_background"
-						android:textColor="@android:color/white"
-						android:textAppearance="?android:attr/textAppearanceMedium"
-						android:text="Escanear Tarjeta de Credito"
-						android:onClick="onScanPress"/>
-
-					<TextView
-						android:id="@+id/resultTextView"
-						android:layout_width="match_parent"
-						android:layout_height="60dp"
-						android:layout_weight="0.95"
-						android:text=""/>
-
-					<EditText
-						android:layout_width="match_parent"
-						android:layout_height="60dp"
-						android:inputType="textPassword"
-						android:ems="10"
-						android:id="@+id/editText"
-						android:layout_gravity="center_horizontal" />
-
 
 					<EditText
 							android:id="@+id/txtCardName"

@@ -20,8 +20,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.appsee.Appsee.addEvent;
+import static com.appsee.Appsee.startScreen;
+
+
 /**
- * Created by rczuart on 4/28/2015.
+ * Created by Denumeris Interactive on 4/28/2015.
  */
 public class PremiosDetailDetailFragment extends Fragment
 {
@@ -33,10 +37,14 @@ public class PremiosDetailDetailFragment extends Fragment
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
-		if( CompatibilityUtil.isTablet( getActivity() ) )
+		if( CompatibilityUtil.isTablet( getActivity() ) ){
 			_view = inflater.inflate( R.layout.fragment_premios_detail_tablet, container, false );
-		else
-			_view = inflater.inflate( R.layout.fragment_premios_detail, container, false );
+		startScreen("ViewCityPremios-DetallePremio-Tablet");
+		}
+		else {
+			_view = inflater.inflate(R.layout.fragment_premios_detail, container, false);
+			startScreen("ViewCityPremios-DetallePremio-Smartphone");
+		}
 		_premio = (PremiosExternoClient.Prze)getArguments().getSerializable( "PREMIO" );
 
 		_imageCache = new ImageCache( getActivity() );
@@ -109,6 +117,7 @@ public class PremiosDetailDetailFragment extends Fragment
 			public void onClick( View v )
 			{
 				validateCanje();
+				addEvent("CityPremiosCanjear");
 			}
 		} );
 

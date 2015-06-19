@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 /**
- * Created by rczuart on 23/10/2014.
+ * Created by Denumeris Interactive on 23/10/2014.
  */
 public class Hotel implements Serializable
 {

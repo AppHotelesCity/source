@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 /**
- * Created by rczuart on 23/10/2014.
+ * *Created by Denumeris Interactive on 23/10/2014.
  */
 public class State implements Serializable
 {

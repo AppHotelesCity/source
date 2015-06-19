@@ -10,7 +10,7 @@ import com.google.android.gms.analytics.Tracker;
 import java.util.HashMap;
 
 /**
- * Created by rczuart on 12/10/2014.
+ * Created by Denumeris Interactive on 12/10/2014.
  */
 public class Analytics extends Application
 {

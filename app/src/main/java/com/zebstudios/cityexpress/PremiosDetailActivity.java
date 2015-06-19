@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by rczuart on 4/27/2015.
+ * Created by Denumeris Interactive on 4/27/2015.
  */
 public class PremiosDetailActivity extends ActionBarActivity
 {

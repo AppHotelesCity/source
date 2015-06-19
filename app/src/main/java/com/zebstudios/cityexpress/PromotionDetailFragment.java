@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import static com.appsee.Appsee.startScreen;
+
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -27,6 +29,7 @@ public class PromotionDetailFragment extends Fragment
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
 		// Inflate the layout for this fragment
+		startScreen("ViewPromotion");
 		_view = inflater.inflate( R.layout.fragment_promotion_detail, container, false );
 
 		ImageView picture = (ImageView)_view.findViewById( R.id.promoImageView );

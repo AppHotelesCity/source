@@ -17,8 +17,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static com.appsee.Appsee.startScreen;
+
 /**
- * Created by rczuart on 4/28/2015.
+ * Created by Denumeris Interactive on 4/28/2015.
  */
 public class PremiosDetailPremiosFragment extends Fragment
 {
@@ -30,10 +32,14 @@ public class PremiosDetailPremiosFragment extends Fragment
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
-		if( CompatibilityUtil.isTablet( getActivity() ) )
+		if( CompatibilityUtil.isTablet( getActivity() ) ){
 			_view = inflater.inflate( R.layout.fragment_premios_premios_tablet, container, false );
-		else
-			_view = inflater.inflate( R.layout.fragment_premios_premios, container, false );
+			startScreen("ViewCityPremios-Premios-Tablet");
+		}
+		else {
+			_view = inflater.inflate(R.layout.fragment_premios_premios, container, false);
+	        startScreen("ViewCityPremios-Premios-Smartphone");
+		}
 		_category = (PremiosExternoClient.entCatePremios)getArguments().getSerializable( "CATEGORY" );
 
 		TextView lblDisponibles = (TextView)_view.findViewById( R.id.lblDisponibles );
@@ -120,14 +126,12 @@ public class PremiosDetailPremiosFragment extends Fragment
 		alert.setTitle( "Atención" );
 		alert.setMessage( message );
 		alert.setIcon( R.drawable.notification_warning_small );
-		alert.setCancelable( false );
-		alert.setButton( DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener()
-		{
+		alert.setCancelable(false);
+		alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 			@Override
-			public void onClick( DialogInterface dialog, int which )
-			{
+			public void onClick(DialogInterface dialog, int which) {
 			}
-		} );
+		});
 		alert.show();
 	}
 

@@ -3,7 +3,6 @@ package com.zebstudios.cityexpress;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,8 +15,11 @@ import android.widget.EditText;
 
 import java.util.Date;
 
+import static com.appsee.Appsee.addEvent;
+import static com.appsee.Appsee.startScreen;
+
 /**
- * Created by rczuart on 4/23/2015.
+ * Created by Denumeris Interactive on 4/23/2015.
  */
 public class PremiosLoginFragment extends Fragment
 {
@@ -27,10 +29,14 @@ public class PremiosLoginFragment extends Fragment
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
-		if( CompatibilityUtil.isTablet( getActivity() ) )
+		if( CompatibilityUtil.isTablet( getActivity() ) ){
 			_view = inflater.inflate( R.layout.fragment_premioslogin_tablet, container, false );
-		else
+			startScreen("ViewCityPremios-Tablet");
+		}
+		else{
 			_view = inflater.inflate( R.layout.fragment_premioslogin, container, false );
+			startScreen("ViewCityPremios-Smartphone");
+		}
 
 		Button btnLogin = (Button) _view.findViewById( R.id.btnLogin );
 		btnLogin.setOnClickListener( new View.OnClickListener()
@@ -39,6 +45,7 @@ public class PremiosLoginFragment extends Fragment
 			public void onClick( View v )
 			{
 				doLogin();
+				addEvent("CityPremiosLogin");
 			}
 		} );
 
@@ -49,6 +56,7 @@ public class PremiosLoginFragment extends Fragment
 			public void onClick( View v )
 			{
 				register();
+				addEvent("CityPremiosRegister");
 			}
 		} );
 
@@ -59,6 +67,7 @@ public class PremiosLoginFragment extends Fragment
 			public void onClick( View v )
 			{
 				olvide();
+				addEvent("CityPremiosReset");
 			}
 		} );
 

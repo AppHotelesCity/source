@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by rczuart on 4/28/2015.
+ * Created by Denumeris Interactive on 4/28/2015.
  */
 public class CategoriesListAdapter extends BaseAdapter
 {

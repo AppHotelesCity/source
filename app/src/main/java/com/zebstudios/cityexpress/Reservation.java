@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by rczuart on 05/11/2014.
+ * Created by Denumeris Interactive on 05/11/2014.
  */
 public class Reservation implements Serializable
 {

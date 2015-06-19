@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -29,11 +28,13 @@ import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
+import static com.appsee.Appsee.addEvent;
+import static com.appsee.Appsee.startScreen;
 
 
 /**
@@ -59,6 +60,9 @@ public class TabletHotelDetailsFragment extends Fragment
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
+		startScreen("ViewHotelDetails-Tablet");
+
+
 		_view = inflater.inflate( R.layout.fragment_tablet_hotel_detail, container, false );
 		_hotel = (Hotel) getArguments().getSerializable( "HOTEL" );
 
@@ -86,7 +90,9 @@ public class TabletHotelDetailsFragment extends Fragment
 				String uri = "tel:" + _hotel.getTelefono();
 				Intent intent = new Intent( Intent.ACTION_CALL );
 				intent.setData( Uri.parse( uri ) );
-				startActivityForResult( intent, 0 );
+				startActivityForResult(intent, 0);
+				addEvent("HotelDetails-Call-Tablet");
+
 			}
 		} );
 
@@ -99,8 +105,10 @@ public class TabletHotelDetailsFragment extends Fragment
 				String to = _hotel.getEmail();
 				Intent email = new Intent( Intent.ACTION_SEND );
 				email.putExtra( Intent.EXTRA_EMAIL, new String[]{ to } );
-				email.setType( "message/rfc822" );
-				startActivityForResult( Intent.createChooser( email, "Send Email" ), 1 );
+				email.setType("message/rfc822");
+				startActivityForResult(Intent.createChooser(email, "Send Email"), 1);
+				addEvent("HotelDetails-SendEmail-Tablet");
+
 			}
 		} );
 
@@ -110,6 +118,8 @@ public class TabletHotelDetailsFragment extends Fragment
 			public void onClick( View v )
 			{
 				testPresentReservation();
+				addEvent("HotelDetails-Chat-Tablet");
+
 			}
 		} );
 

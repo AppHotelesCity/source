@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by rczuart on 23/10/2014.
+ * Created by Denumeris Interactive on 23/10/2014.
  */
 public class ServicesListAdapter extends ArrayAdapter<ServicesListAdapter.Servicio>
 {

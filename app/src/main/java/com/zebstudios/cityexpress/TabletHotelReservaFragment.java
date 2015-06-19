@@ -23,6 +23,9 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.zebstudios.calendar.CalendarFragment;
+import com.zebstudios.calendar.CalendarListener;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -31,8 +34,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.zebstudios.calendar.CalendarFragment;
-import com.zebstudios.calendar.CalendarListener;
+import static com.appsee.Appsee.addEvent;
+import static com.appsee.Appsee.startScreen;
 
 
 /**
@@ -68,6 +71,7 @@ public class TabletHotelReservaFragment extends Fragment
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
+		startScreen("ViewHotelReservaResult-Tablet");
 		_view = inflater.inflate( R.layout.fragment_tablet_hotel_reserva, container, false );
 		_hotel = (Hotel) getArguments().getSerializable( "HOTEL" );
 
@@ -151,6 +155,7 @@ public class TabletHotelReservaFragment extends Fragment
 
 		Analytics analytics = (Analytics)getActivity().getApplication();
 		analytics.sendAppEventTrack( "HOTEL DETAIL ANDROID", "RESERVA 1", "HOTEL", _hotel.getNombre(), 1 );
+		addEvent("");
 
 		return _view;
 	}

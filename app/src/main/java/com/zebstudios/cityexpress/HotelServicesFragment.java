@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import static com.appsee.Appsee.startScreen;
+
 /**
- * Created by rczuart on 23/10/2014.
+ * Created by Denumeris Interactive on 23/10/2014.
  */
 public class HotelServicesFragment extends Fragment
 {
@@ -25,6 +27,7 @@ public class HotelServicesFragment extends Fragment
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
 		// Inflate the layout for this fragment
+		startScreen("ViewHotelServices-Smartphone");
 		_view = inflater.inflate( R.layout.fragment_hotel_services, container, false );
 		_hotel = (Hotel) getArguments().getSerializable( "HOTEL" );
 

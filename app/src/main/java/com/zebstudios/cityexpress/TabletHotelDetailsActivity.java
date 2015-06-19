@@ -15,7 +15,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 /**
- * Created by rczuart on 24/11/2014.
+ * Created by Denumeris Interactive on 24/11/2014.
  */
 public class TabletHotelDetailsActivity extends ActionBarActivity
 {

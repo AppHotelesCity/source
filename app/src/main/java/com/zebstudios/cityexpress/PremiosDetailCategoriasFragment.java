@@ -16,8 +16,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static com.appsee.Appsee.startScreen;
+
 /**
- * Created by rczuart on 4/27/2015.
+ * Created by Denumeris Interactive on 4/27/2015.
  */
 public class PremiosDetailCategoriasFragment extends Fragment
 {
@@ -28,10 +30,15 @@ public class PremiosDetailCategoriasFragment extends Fragment
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
-		if( CompatibilityUtil.isTablet( getActivity() ) )
+		if( CompatibilityUtil.isTablet( getActivity() ) ){
+            startScreen("ViewCityPremios-CategoriaPremios-Tablet");
 			_view = inflater.inflate( R.layout.fragment_premios_categorias_tablet, container, false );
-		else
+		}
+		else{
 			_view = inflater.inflate( R.layout.fragment_premios_categorias, container, false );
+            startScreen("ViewCityPremios-CategoriaPremios-Smartphone");
+
+        }
 
 		TextView lblDisponibles = (TextView)_view.findViewById( R.id.lblDisponibles );
 		Activity parentActivity = getActivity();

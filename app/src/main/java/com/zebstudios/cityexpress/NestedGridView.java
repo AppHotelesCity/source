@@ -10,7 +10,7 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 
 /**
- * Created by rczuart on 25/11/2014.
+ * Created by Denumeris Interactive on 25/11/2014.
  */
 public class NestedGridView extends GridView //implements View.OnTouchListener, AbsListView.OnScrollListener
 {

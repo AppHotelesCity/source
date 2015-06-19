@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
 /**
- * Created by rczuart on 4/23/2015.
+ * Created by Denumeris Interactive on 4/23/2015.
  */
 public class PremiosLoginActivity extends ActionBarActivity
 {

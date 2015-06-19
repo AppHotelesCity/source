@@ -20,6 +20,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.appsee.Appsee.startScreen;
+
 public class CercaFragment extends Fragment
 {
 	private View _view;
@@ -39,6 +41,7 @@ public class CercaFragment extends Fragment
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
+		startScreen("ViewCercaDeTi");
 		_view = inflater.inflate( R.layout.fragment_cerca, container, false );
 
 		_isLocationObtained = false;

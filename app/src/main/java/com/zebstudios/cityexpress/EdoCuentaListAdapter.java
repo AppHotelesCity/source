@@ -1,6 +1,7 @@
 package com.zebstudios.cityexpress;
 
 import android.content.Context;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
- * Created by rczuart on 4/28/2015.
+ * Created by Denumeris Interactive on 4/28/2015.
  */
 public class EdoCuentaListAdapter extends BaseAdapter
 {

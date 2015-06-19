@@ -22,7 +22,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 /**
- * Created by rczuart on 14/09/2014.
+ * Created by Denumeris Interactive on 14/09/2014.
  */
 public class ReservationEngineClient
 {

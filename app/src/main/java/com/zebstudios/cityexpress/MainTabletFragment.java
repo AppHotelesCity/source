@@ -20,10 +20,11 @@ import android.widget.ListView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import static com.appsee.Appsee.startScreen;
 
 
 /**
@@ -54,6 +55,7 @@ public class MainTabletFragment extends Fragment
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
+		startScreen("ViewBuscarHotel-Tablet");
 		_view = inflater.inflate( R.layout.fragment_main_tablet, container, false );
 
 		_currentSelectedOption = -1;

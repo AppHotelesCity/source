@@ -23,6 +23,9 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.zebstudios.calendar.CalendarFragment;
+import com.zebstudios.calendar.CalendarListener;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -31,8 +34,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.zebstudios.calendar.CalendarFragment;
-import com.zebstudios.calendar.CalendarListener;
+import static com.appsee.Appsee.addEvent;
+import static com.appsee.Appsee.startScreen;
 
 public class HotelReservaFragment extends Fragment
 {
@@ -63,6 +66,7 @@ public class HotelReservaFragment extends Fragment
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
+		startScreen("ViewHotelReserva-Smartphone");
 		_view = inflater.inflate( R.layout.fragment_hotel_reserva, container, false );
 		_hotel = (Hotel) getArguments().getSerializable( "HOTEL" );
 
@@ -76,6 +80,7 @@ public class HotelReservaFragment extends Fragment
 			public void onClick( View v )
 			{
 				checkAvailability();
+				addEvent("HotelCheckAvailability-Smartphone");
 			}
 		} );
 
@@ -137,6 +142,7 @@ public class HotelReservaFragment extends Fragment
 			public void onClick( View v )
 			{
 				nextStep();
+				addEvent("HotelContinueReserva-Smartphone");
 			}
 		} );
 
@@ -183,6 +189,7 @@ public class HotelReservaFragment extends Fragment
 		viewPager.setAdapter( null );
 	}
 
+
 	private void checkAvailability( String tarifa )
 	{
 		// TODO: Validar promoCode?
@@ -199,7 +206,10 @@ public class HotelReservaFragment extends Fragment
 		promo.setNumeroAdultos( 1 );
 		promo.setNumeroHabitaciones( 1 );
 		promo.setFechaInicial( _arrivalDate );
-		if( tarifa != null && ( tarifa.equalsIgnoreCase( "1111" ) || tarifa.equalsIgnoreCase( "1211" ) || tarifa.equalsIgnoreCase( "1311" ) ) )
+		if( tarifa != null
+				&& ( tarifa.equalsIgnoreCase( "1111" )
+				|| tarifa.equalsIgnoreCase( "1211" )
+				|| tarifa.equalsIgnoreCase( "1311" ) ) )
 		{
 			_lastTarifaFetched = tarifa;
 			promo.setCodigoPromocion( "" );
@@ -474,6 +484,7 @@ public class HotelReservaFragment extends Fragment
 			@Override
 			public void onClick( View view )
 			{
+
 				Calendar cal = Calendar.getInstance();
 				Date d = cal.getTime();
 				if( _arrivalDate != null )

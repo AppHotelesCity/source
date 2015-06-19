@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
- * Created by rczuart on 22/10/2014.
+ * Created by Denumeris Interactive on 22/10/2014.
  */
 public class PromotionsImageView extends ImageView
 {

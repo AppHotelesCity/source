@@ -1,7 +1,7 @@
 package com.zebstudios.cityexpress;
 
 /**
- * Created by rczuart on 2/24/2015.
+ * Created by Denumeris Interactive on 2/24/2015.
  */
 public class APIAddress
 {

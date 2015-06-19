@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by rczuart on 24/10/2014.
+ * Created by Denumeris Interactive on 24/10/2014.
  * https://github.com/nerdability/AndroidRssReader
  */
 public class RSSHandler extends DefaultHandler

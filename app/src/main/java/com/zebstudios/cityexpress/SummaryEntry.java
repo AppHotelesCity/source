@@ -1,7 +1,7 @@
 package com.zebstudios.cityexpress;
 
 /**
- * Created by rczuart on 29/10/2014.
+ * Created by Denumeris Interactive on 29/10/2014.
  */
 public class SummaryEntry
 {

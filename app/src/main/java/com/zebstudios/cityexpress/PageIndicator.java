@@ -3,7 +3,7 @@ package com.zebstudios.cityexpress;
 import android.support.v4.view.ViewPager;
 
 /**
- * Created by rczuart on 23/10/2014.
+ * Created by Denumeris Interactive on 23/10/2014.
  */
 public interface PageIndicator extends ViewPager.OnPageChangeListener
 {

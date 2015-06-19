@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 /**
- * Created by rczuart on 4/26/2015.
+ * Created by Denumeris Interactive on 4/26/2015.
  */
 public class PremiosRecuperarFragment extends Fragment
 {

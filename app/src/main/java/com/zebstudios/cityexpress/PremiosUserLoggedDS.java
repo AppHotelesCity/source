@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.Date;
 
 /**
- * Created by rczuart on 4/27/2015.
+ * Created by Denumeris Interactive on 4/27/2015.
  */
 public class PremiosUserLoggedDS
 {

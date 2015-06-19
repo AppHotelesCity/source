@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Created by rczuart on 22/10/2014.
+ * Created by Denumeris Interactive on 22/10/2014.
  */
 public class ImageCache
 {

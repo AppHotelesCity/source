@@ -3,7 +3,7 @@ package com.zebstudios.cityexpress;
 import org.json.JSONObject;
 
 /**
- * Created by rczuart on 28/10/2014.
+ * Created by Denumeris Interactive on 28/10/2014.
  */
 public class RoomAvailableExtra
 {

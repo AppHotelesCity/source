@@ -9,7 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 /**
- * Created by rczuart on 22/10/2014.
+ * Created by Denumeris Interactive on 22/10/2014.
  */
 public class ImageCacheStrictLineReader implements Closeable
 {

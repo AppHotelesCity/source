@@ -15,8 +15,11 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.appsee.Appsee.addEvent;
+import static com.appsee.Appsee.startScreen;
+
 /**
- * Created by rczuart on 4/27/2015.
+ * Created by Denumeris Interactive on 4/27/2015.
  */
 public class PremiosDetailPuntosFragment extends Fragment
 {
@@ -26,10 +29,14 @@ public class PremiosDetailPuntosFragment extends Fragment
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
-		if( CompatibilityUtil.isTablet( getActivity() ) )
+		if( CompatibilityUtil.isTablet( getActivity() ) ){
 			_view = inflater.inflate( R.layout.fragment_premios_puntos_tablet, container, false );
-		else
+			startScreen("ViewCityPremios-MisPuntos-Tablet");
+		}
+		else{
 			_view = inflater.inflate( R.layout.fragment_premios_puntos, container, false );
+			startScreen("ViewCityPremios-MisPuntos-Smartphone");
+		}
 
 		Button btnLogout = (Button)_view.findViewById( R.id.btnLogout );
 		btnLogout.setOnClickListener( new View.OnClickListener()
@@ -38,6 +45,7 @@ public class PremiosDetailPuntosFragment extends Fragment
 			public void onClick( View v )
 			{
 				initiateLogout();
+				addEvent("CityPremiosLogout");
 			}
 		} );
 

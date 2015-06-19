@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Created by rczuart on 4/24/2015.
+ * Created by Denumeris Interactive on 4/24/2015.
  */
 public class CountriesDialogFragment extends DialogFragment
 {

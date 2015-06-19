@@ -5,7 +5,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 
 /**
- * Created by rczuart on 28/10/2014.
+ * Created by Denumeris Interactive on 28/10/2014.
  */
 public class RoomAvailable implements Serializable
 {

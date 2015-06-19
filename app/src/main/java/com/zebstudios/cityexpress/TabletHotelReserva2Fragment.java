@@ -35,6 +35,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.appsee.Appsee.startScreen;
+
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -77,7 +79,8 @@ public class TabletHotelReserva2Fragment extends Fragment implements PayPalCalle
 		_departureDate = (Date) args.getSerializable( "DEPARTURE" );
 		_totalRooms = args.getInt( "TOTAL_ROOMS" );
 
-		_view = inflater.inflate( R.layout.fragment_tablet_hotel_reserva2, container, false );
+		startScreen("ViewHotelReserva2-Tablet");
+		_view = inflater.inflate(R.layout.fragment_tablet_hotel_reserva2, container, false);
 
 		_lastGuestIndex = 0;
 

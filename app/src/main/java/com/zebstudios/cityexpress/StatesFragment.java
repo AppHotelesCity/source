@@ -55,7 +55,7 @@ public class StatesFragment extends DialogFragment
 		int width = display.getWidth();
 		int height = display.getHeight();
 		getDialog().getWindow().setLayout( width / 2, height / 2 );
-		getDialog().setTitle( "Estados" );
+		getDialog().setTitle( "Ciudades" );
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class StatesFragment extends DialogFragment
 		if( getDialog() == null )
 		{
 			ActionBarActivity activity = (ActionBarActivity) getActivity();
-			activity.getSupportActionBar().setTitle( "Estados" );
+			activity.getSupportActionBar().setTitle( "Ciudades" );
 		}
 	}
 
@@ -76,7 +76,7 @@ public class StatesFragment extends DialogFragment
 
 		Collections.sort( _states, new State.StateComparator() );
 
-		State c = new State( -1, "Todos los estados" );
+		State c = new State( -1, "Todas las ciudades" );
 		_states.add( 0, c );
 
 		StatesListAdapter statesListAdapter = new StatesListAdapter( getActivity(), _states );
@@ -120,13 +120,16 @@ public class StatesFragment extends DialogFragment
 			_progress.show( getFragmentManager(), "Dialog" );
 		}
 
+		//ESTADOS
+
 		@Override
 		protected Integer doInBackground( Void... arg0 )
 		{
 			_states = new ArrayList<State>();
 
 			ServiceHandler sh = new ServiceHandler();
-			String jsonStr = sh.makeServiceCall( APIAddress.HOTELS_API_MOBILE + "/GetStates", ServiceHandler.GET );
+            //String jsonStr = sh.makeServiceCall( APIAddress.HOTELS_API_MOBILE + "/GetStates", ServiceHandler.GET );
+            String jsonStr = sh.makeServiceCall( APIAddress.HOTELS_API_MOBILE + "/GetCities", ServiceHandler.GET );
 
 			if( jsonStr != null )
 			{
@@ -146,12 +149,12 @@ public class StatesFragment extends DialogFragment
 				}
 				catch( Exception e )
 				{
-					android.util.Log.e( "JSONParser", "Cant parse states: " + e.getMessage() );
+					android.util.Log.e( "JSONParser", "Cant parse city: " + e.getMessage() );
 					return -2;
 				}
 			}
 			else
-				android.util.Log.e( "ServiceHandler", "Couldn't get any state" );
+				android.util.Log.e( "ServiceHandler", "Couldn't get any city" );
 
 			return -1;
 		}
@@ -166,7 +169,7 @@ public class StatesFragment extends DialogFragment
 			{
 				AlertDialog alert = new AlertDialog.Builder( getActivity() ).create();
 				alert.setTitle( "Atención" );
-				alert.setMessage( "No se han podido obtener el listado de estados. Por favor intente nuevamente más tarde." );
+				alert.setMessage( "No se han podido obtener el listado de ciudades. Por favor intente nuevamente más tarde." );
 				alert.setIcon( R.drawable.notification_warning_small );
 				alert.setCancelable( false );
 				alert.setButton( "OK", new DialogInterface.OnClickListener()

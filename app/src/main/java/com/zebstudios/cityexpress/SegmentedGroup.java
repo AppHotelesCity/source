@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 
 /**
- * Created by rczuart on 24/10/2014.
+ * Created by Denumeris Interactive on 24/10/2014.
  */
 public class SegmentedGroup extends RadioGroup
 {
