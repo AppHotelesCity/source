@@ -1,6 +1,7 @@
 package com.zebstudios.cityexpress;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -206,7 +207,7 @@ public class MainFragment extends Fragment
 	@Override
 	public void onActivityResult( int requestCode, int resultCode, Intent data )
 	{
-		if( ( requestCode == RESULTS_ACTIVITY || requestCode == DETAILS_ACTIVITY ) && resultCode == getActivity().RESULT_OK )
+		if( ( requestCode == RESULTS_ACTIVITY || requestCode == DETAILS_ACTIVITY ) && resultCode == Activity.RESULT_OK)
 		{
 			long reservationId = data.getLongExtra( "RESERVATION_ID", 0 );
 			MainActivity mainActivity = (MainActivity)getActivity();
@@ -367,6 +368,8 @@ public class MainFragment extends Fragment
 			_progress.show( getFragmentManager(), "Dialog" );
 		}
 
+
+		//BUSCAR POR CIUDAD & MARCA
 		@Override
 		protected Integer doInBackground( Void... arg0 )
 		{
@@ -381,9 +384,9 @@ public class MainFragment extends Fragment
 			else if( text.trim().length() > 0 )
 				url = APIAddress.HOTELS_API_MOBILE + "/SearchHotels?term=" + urlEncode( text ) + "&marca=";
 			else if( _state != null && _currentSelectedOption != -1 )
-				url = APIAddress.HOTELS_API_MOBILE + "/GetHotelsByStateAndBrand?stateId=" + _state.getId() + "&brandName=" + _options.get( _currentSelectedOption ).getOption();
+				url = APIAddress.HOTELS_API_MOBILE + "/GetHotelsByCityAndBrand?cityId=" + _state.getId() + "&brandName=" + _options.get( _currentSelectedOption ).getOption();
 			else if( _state != null )
-				url = APIAddress.HOTELS_API_MOBILE + "/GetHotelsByState/" + _state.getId();
+				url = APIAddress.HOTELS_API_MOBILE + "/GetHotelsByCity/" + _state.getId();
 			else if( _currentSelectedOption != -1 )
 				url = APIAddress.HOTELS_API_MOBILE + "/GetHotelsByBrand?brandName=" + _options.get( _currentSelectedOption ).getOption();
 

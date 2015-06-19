@@ -212,14 +212,7 @@ public class PremiosRegisterFragment extends Fragment
 	private Boolean validateRequired( int id )
 	{
 		EditText field = (EditText) _view.findViewById( id );
-		if( field.getText().toString().trim().length() == 0 )
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return field.getText().toString().trim().length() != 0;
 	}
 
 	private void listCountries()

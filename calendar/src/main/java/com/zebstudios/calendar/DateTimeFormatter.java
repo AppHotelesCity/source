@@ -151,7 +151,6 @@ final class DateTimeFormatter
 		@Override
 		public String toString() { return "Start:" + Start + " End:" + End + " '" + Text + "'";}
 
-		;
 	}
 
 	/**

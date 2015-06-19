@@ -92,11 +92,7 @@ public class PremiosRecuperarFragment extends Fragment
 	private boolean isAlphaNumeric( String s )
 	{
 		String pattern = "^[a-zA-Z0-9]*$";
-		if( s.matches( pattern ) )
-		{
-			return true;
-		}
-		return false;
+		return s.matches(pattern);
 	}
 
 	private boolean isEmailValid( CharSequence email )

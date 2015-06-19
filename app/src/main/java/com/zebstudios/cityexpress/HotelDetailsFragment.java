@@ -367,7 +367,7 @@ public class HotelDetailsFragment extends Fragment
 		@Override
 		public boolean isViewFromObject( View view, Object object )
 		{
-			return view == (ImageView) object;
+			return view == object;
 		}
 
 
@@ -388,7 +388,7 @@ public class HotelDetailsFragment extends Fragment
 		@Override
 		public void destroyItem( ViewGroup container, int position, Object object )
 		{
-			( (ViewPager) container ).removeView( (ImageView) object );
+			container.removeView((ImageView) object);
 		}
 	}
 

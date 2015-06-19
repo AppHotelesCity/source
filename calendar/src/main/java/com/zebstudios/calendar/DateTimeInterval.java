@@ -78,14 +78,8 @@ final class DateTimeInterval
 		{
 			success = true;
 		}
-		else if( fFrom.unitsAllAbsent( DateTime.Unit.YEAR, DateTime.Unit.MONTH, DateTime.Unit.DAY ) && fFrom.unitsAllPresent( DateTime.Unit.HOUR, DateTime.Unit.MINUTE, DateTime.Unit.SECOND ) )
-		{
-			success = true;
-		}
 		else
-		{
-			success = false;
-		}
+			success = fFrom.unitsAllAbsent(DateTime.Unit.YEAR, DateTime.Unit.MONTH, DateTime.Unit.DAY) && fFrom.unitsAllPresent(DateTime.Unit.HOUR, DateTime.Unit.MINUTE, DateTime.Unit.SECOND);
 		if( !success )
 		{
 			throw new IllegalArgumentException( "For interval calculations, DateTime must have year-month-day, or hour-minute-second, or both." );

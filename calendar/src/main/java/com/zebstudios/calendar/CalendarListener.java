@@ -34,7 +34,7 @@ public abstract class CalendarListener
 	 */
 	public void onChangeMonth(int month, int year) {
 		// Do nothing
-	};
+	}
 
 
 	/**

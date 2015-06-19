@@ -36,7 +36,7 @@ public class RoomAvailablesPagerAdapter extends PagerAdapter
 	@Override
 	public boolean isViewFromObject( View view, Object o )
 	{
-		return view == ( (View) o );
+		return view == o;
 	}
 
 	@Override
@@ -60,13 +60,13 @@ public class RoomAvailablesPagerAdapter extends PagerAdapter
 		TextView lblRoomDesc = (TextView) view.findViewById( R.id.lblRoomDesc );
 		lblRoomDesc.setText( room.getDescription() );
 
-		( (ViewPager) container ).addView( view, 0 );
+		container.addView(view, 0);
 		return view;
 	}
 
 	@Override
 	public void destroyItem( ViewGroup container, int position, Object object )
 	{
-		( (ViewPager) container ).removeView( (View) object );
+		container.removeView((View) object);
 	}
 }

@@ -1,6 +1,7 @@
 package com.zebstudios.cityexpress;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -201,7 +202,7 @@ public class MainTabletFragment extends Fragment
 	@Override
 	public void onActivityResult( int requestCode, int resultCode, Intent data )
 	{
-		if( requestCode == DETAILS_ACTIVITY && resultCode == getActivity().RESULT_OK )
+		if( requestCode == DETAILS_ACTIVITY && resultCode == Activity.RESULT_OK)
 		{
 			long reservationId = data.getLongExtra( "RESERVATION_ID", 0 );
 			MainActivity mainActivity = (MainActivity)getActivity();

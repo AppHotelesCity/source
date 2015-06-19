@@ -171,8 +171,7 @@ public class ImageCache
 	}
 
 
-	private boolean writeBitmapToFile( Bitmap bitmap, DiskLruCache.Editor editor ) throws IOException, FileNotFoundException
-	{
+	private boolean writeBitmapToFile( Bitmap bitmap, DiskLruCache.Editor editor ) throws IOException {
 		OutputStream out = null;
 		try
 		{

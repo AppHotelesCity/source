@@ -310,7 +310,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable
 	 */
 	public enum Unit
 	{
-		YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, NANOSECONDS;
+		YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, NANOSECONDS
 	}
 
 	/**
@@ -371,7 +371,7 @@ public final class DateTime implements Comparable<DateTime>, Serializable
 		/**
 		 * Throw a RuntimeException.
 		 */
-		Abort;
+		Abort
 	}
 
 	/**

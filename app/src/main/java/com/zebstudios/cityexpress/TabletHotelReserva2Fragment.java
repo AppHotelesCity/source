@@ -1582,21 +1582,13 @@ public class TabletHotelReserva2Fragment extends Fragment implements PayPalCalle
 	private boolean isAlphaNumeric( String s )
 	{
 		String pattern = "^[a-zA-Z0-9]*$";
-		if( s.matches( pattern ) )
-		{
-			return true;
-		}
-		return false;
+		return s.matches(pattern);
 	}
 
 	private boolean isNumeric( String s )
 	{
 		String pattern = "^[0-9]*$";
-		if( s.matches( pattern ) )
-		{
-			return true;
-		}
-		return false;
+		return s.matches(pattern);
 	}
 
 	private boolean isEmailValid( CharSequence email )

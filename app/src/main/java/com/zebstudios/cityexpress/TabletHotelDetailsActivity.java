@@ -185,7 +185,7 @@ public class TabletHotelDetailsActivity extends ActionBarActivity
 		@Override
 		public boolean isViewFromObject( View view, Object object )
 		{
-			return view == (ImageView) object;
+			return view == object;
 		}
 
 
@@ -206,7 +206,7 @@ public class TabletHotelDetailsActivity extends ActionBarActivity
 		@Override
 		public void destroyItem( ViewGroup container, int position, Object object )
 		{
-			( (ViewPager) container ).removeView( (ImageView) object );
+			container.removeView((ImageView) object);
 		}
 
 		@Override public float getPageWidth(int position) { return(0.5f); }

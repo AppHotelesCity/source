@@ -149,7 +149,7 @@ public class SearchResultsActivity extends ActionBarActivity
 		@Override
 		protected Integer doInBackground( Void... arg0 )
 		{
-			String url = APIAddress.HOTELS_API_MOBILE + "/GetHotel/" + _id;
+			String url = APIAddress.HOTELS_API_MOBILE + "/GetHotelByCity/" + _id;
 
 			android.util.Log.d( "", "URL: " + url );
 			ServiceHandler sh = new ServiceHandler();
