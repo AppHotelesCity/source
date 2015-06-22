@@ -123,6 +123,9 @@ public class HotelDetailsFragment extends Fragment
 			@Override
 			public void onClick( View v )
 			{
+				Uri uri = Uri.parse("http://chat.hotelescity.com/WebAPISamples76/Chat/HtmlChatFrameSet.jsp");
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(intent);
 				testPresentReservation();
 				addEvent("HotelDetails-Chat-Smartphone");
 			}
