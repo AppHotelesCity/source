@@ -36,6 +36,7 @@ public class MainFragment extends Fragment
 	private ArrayList<ImageOption> _options;
 	private ArrayList<Hotel> _results;
 	private State _state;
+	private PromoCode _promocode;
 	private ProgressDialogFragment _progress;
 	private Hotel _tempHotel;
 
@@ -143,7 +144,7 @@ public class MainFragment extends Fragment
 		if( _results.size() == 0 )
 		{
 			AlertDialog alert = new AlertDialog.Builder( getActivity() ).create();
-			alert.setTitle( "Atención" );
+			alert.setTitle("Atención");
 			if( text.length() > 0 && _currentSelectedOption != -1 )
 				alert.setMessage( "No se encontraron hoteles de esa marca con la palabra que ingresó." );
 			else if( text.length() > 0 )
@@ -224,7 +225,7 @@ public class MainFragment extends Fragment
 		}
 		else
 		{
-			searchRow.setBackgroundColor( getResources().getColor( R.color.main_search ) );
+			searchRow.setBackgroundColor(getResources().getColor(R.color.main_search));
 		}
 	}
 
@@ -252,6 +253,21 @@ public class MainFragment extends Fragment
 
 		handleSearchButton();
 	}
+
+	public  void setSelectedPromocode(PromoCode promocode){
+
+		EditText lblpromocode = (EditText)_view.findViewById(R.id.txtPromocode);
+		_promocode = promocode;
+
+		lblpromocode.setText(promocode.getnumpromocode());
+
+		getFragmentManager().popBackStack();
+
+
+	}
+
+
+
 
 	private void prepareOptions()
 	{

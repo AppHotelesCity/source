@@ -16,4 +16,8 @@
 		<item>9</item>
 		<item>10</item>
 	</string-array>
+    <string name="title_activity_promo_code">PromoCode</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

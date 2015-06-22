@@ -1,99 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		  package="com.zebstudios.cityexpress">
+    package="com.zebstudios.cityexpress" >
 
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.CALL_PHONE" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-	<!-- Permission to vibrate - recommended, allows vibration feedback on scan -->
-	<uses-permission android:name="android.permission.VIBRATE" />
+    <!-- Permission to vibrate - recommended, allows vibration feedback on scan -->
+    <uses-permission android:name="android.permission.VIBRATE" />
 
-	<!-- Permission to use camera - required -->
-	<uses-permission android:name="android.permission.CAMERA" />
+    <!-- Permission to use camera - required -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
-	<!-- Camera features - recommended -->
-	<uses-feature android:name="android.hardware.camera" android:required="false" />
-	<uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
-	<uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+    <!-- Camera features - recommended -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
+    <application
+        android:name=".Analytics"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="CityExpress"
+        android:theme="@style/AppThemeMain" >
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBY2PqcrrkUarTgyWbJRfrmth6tgw-cIzU" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
-	<uses-feature android:glEsVersion="0x00020000" android:required="true"/>
+        <activity
+            android:name=".MainActivity"
+            android:label="CityExpress"
+            android:screenOrientation="portrait" >
+            <intent-filter android:label="CityExpress" >
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SearchResultsActivity"
+            android:label="Resultados"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".HotelDetailsActivity"
+            android:label="Detalles"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".TabletHotelDetailsActivity"
+            android:label="Detalles"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".NewsActivity"
+            android:label="Noticias"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".BlogActivity"
+            android:label="Blog"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".PremiosLoginActivity"
+            android:label="City Premios"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".PremiosDetailActivity"
+            android:label="City Premios"
+            android:screenOrientation="portrait" >
+        </activity>
 
-
-	<application
-			android:allowBackup="true"
-			android:icon="@drawable/ic_launcher"
-			android:label="CityExpress"
-			android:theme="@style/AppThemeMain"
-			android:name=".Analytics">
-
-		<meta-data android:name="com.google.android.maps.v2.API_KEY"
-				   android:value="AIzaSyBY2PqcrrkUarTgyWbJRfrmth6tgw-cIzU"/>
-		<meta-data
-				android:name="com.google.android.gms.version"
-				android:value="@integer/google_play_services_version" />
-
-		<activity
-				android:name="com.zebstudios.cityexpress.MainActivity"
-				android:label="CityExpress"
-				android:screenOrientation="portrait">
-			<intent-filter android:label="CityExpress">
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<activity
-				android:name="com.zebstudios.cityexpress.SearchResultsActivity"
-				android:label="Resultados"
-				android:screenOrientation="portrait">
-		</activity>
-		<activity
-				android:name="com.zebstudios.cityexpress.HotelDetailsActivity"
-				android:label="Detalles"
-				android:screenOrientation="portrait">
-		</activity>
-		<activity
-				android:name="com.zebstudios.cityexpress.TabletHotelDetailsActivity"
-				android:label="Detalles"
-				android:screenOrientation="portrait">
-		</activity>
-		<activity
-				android:name="com.zebstudios.cityexpress.NewsActivity"
-				android:label="Noticias"
-				android:screenOrientation="portrait">
-		</activity>
-		<activity
-				android:name="com.zebstudios.cityexpress.BlogActivity"
-				android:label="Blog"
-				android:screenOrientation="portrait">
-		</activity>
-		<activity
-			android:name=".PremiosLoginActivity"
-			android:label="City Premios"
-			android:screenOrientation="portrait">
-		</activity>
-		<activity
-			android:name=".PremiosDetailActivity"
-			android:label="City Premios"
-			android:screenOrientation="portrait">
-		</activity>
-	    <meta-data
+        <meta-data
             android:name="io.fabric.ApiKey"
             android:value="64762a12e4229006ed0f32b17f4afe58ccf82185" />
 
-		<!-- Appsee background uploader service -->
+        <!-- Appsee background uploader service -->
 
-		<service android:name="com.appsee.AppseeBackgroundUploader" />
+        <service android:name="com.appsee.AppseeBackgroundUploader" />
 
-		<!-- Activities responsible for gathering payment info -->
+        <!-- Activities responsible for gathering payment info -->
 
-		<activity android:name="io.card.payment.CardIOActivity" android:configChanges="keyboardHidden|orientation" />
-		<activity android:name="io.card.payment.DataEntryActivity" />
-
+        <activity
+            android:name="io.card.payment.CardIOActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity android:name="io.card.payment.DataEntryActivity" />
     </application>
 
 </manifest>

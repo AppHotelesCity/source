@@ -37,6 +37,7 @@ public class MainTabletFragment extends Fragment
 	private ArrayList<ImageOption> _options;
 	private int _currentSelectedOption;
 	private State _state;
+	private PromoCode _promocode;
 	private ProgressDialogFragment _progress;
 	private ArrayList<Hotel> _results;
 	private Hotel _tempHotel;
@@ -220,7 +221,15 @@ public class MainTabletFragment extends Fragment
 	{
 		StatesFragment fragment = new StatesFragment();
 		fragment.setTargetFragment( this, FRAGMENT_LIST_STATES );
-		fragment.show( getFragmentManager(), "dialog" );
+		fragment.show(getFragmentManager(), "dialog");
+	}
+
+	public  void setSelectedPromocode(PromoCode promocode){
+		EditText lblpromocode = (EditText)_view.findViewById(R.id.txtPromocode);
+		_promocode = promocode;
+
+		lblpromocode.setText(promocode.getnumpromocode());
+
 	}
 
 	public void setSelectedState( State state )

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,8 @@ public class HotelReservaFragment extends Fragment
 	private ArrayList<RoomAvailable> _rooms;
 	private int _totalHabitaciones;
 	private int _currentRoom;
+
+	private ArrayList<PromoCode> _promocode;
 
 	public HotelReservaFragment()
 	{
@@ -164,6 +167,7 @@ public class HotelReservaFragment extends Fragment
 			return;
 		}
 
+
 		checkAvailability( null );
 	}
 
@@ -195,17 +199,19 @@ public class HotelReservaFragment extends Fragment
 		// TODO: Validar promoCode?
 		EditText txtPromoCode = (EditText) _view.findViewById( R.id.txtPromocode );
 
+
+
 		long timeOne = _arrivalDate.getTime();
 		long timeTwo = _departureDate.getTime();
 		long oneDay = 1000 * 60 * 60 * 24;
 		long delta = ( timeTwo - timeOne ) / oneDay;
 
 		ReservationEngineClient.PromoRequestModel promo = new ReservationEngineClient.PromoRequestModel();
-		promo.setHotel( _hotel.getSiglas() );
-		promo.setNumeroDeNoches( (int) delta );
-		promo.setNumeroAdultos( 1 );
-		promo.setNumeroHabitaciones( 1 );
-		promo.setFechaInicial( _arrivalDate );
+		promo.setHotel(_hotel.getSiglas());
+		promo.setNumeroDeNoches((int) delta);
+		promo.setNumeroAdultos(1);
+		promo.setNumeroHabitaciones(1);
+		promo.setFechaInicial(_arrivalDate);
 		if( tarifa != null
 				&& ( tarifa.equalsIgnoreCase( "1111" )
 				|| tarifa.equalsIgnoreCase( "1211" )
@@ -247,9 +253,24 @@ public class HotelReservaFragment extends Fragment
 			}
 			promo.setCodigoPromocion( "" );
 		}
-		promo.setCodigoTarifa( _lastTarifaFetched );
+		promo.setCodigoTarifa(_lastTarifaFetched);
 
-		android.util.Log.d( "TEST", "GET: " + promo.getHotel() );
+		for (PromoCode temp: _promocode) {
+			Log.e("HotelReservafragment","Interacion  -- " + temp.getnumpromocode() + " - " + txtPromoCode.getText());
+
+			String t1 = txtPromoCode.getText().toString();
+			String t2 = temp.getnumpromocode();
+
+			if ( t1.equals(t2)){
+				promo.setCodigoTarifa(temp.getCodigoTarifa().replaceAll("xx","11"));
+				Log.e("hotelReservaFragment", "Si es igual _3:3:·:3:··:");
+				break;
+			}
+		}
+		Log.e("HotelReservafragment", "Tarifa--> " + promo.getCodigoTarifa() );
+
+
+		Log.e("TEST", "GET: " + promo.getHotel());
 		new ServiceCaller( SERVICE_GETROOMSAVAILABLEPROMO, promo ).execute();
 	}
 
@@ -391,7 +412,7 @@ public class HotelReservaFragment extends Fragment
 		CirclePageIndicator indicator = (CirclePageIndicator) _view.findViewById( R.id.indicator );
 		indicator.setViewPager( viewPager );
 
-		setRoomSelectedIndex( 0 );
+		setRoomSelectedIndex(0);
 	}
 
 	private void setRoomSelectedIndex( int page )
@@ -400,14 +421,14 @@ public class HotelReservaFragment extends Fragment
 		RoomAvailable room = _rooms.get( page );
 		TextView lblTotal = (TextView) _view.findViewById( R.id.lblTotal );
 		TextView lblProm = (TextView) _view.findViewById( R.id.lblProm );
-		lblTotal.setText( String.format( "Total: $%,.2f ", room.getTotal() * _totalHabitaciones ) + room.getMoneda() );
-		lblProm.setText( String.format( "Tarifa base para 2 adultos (impuestos incluídos) $%,.2f ", room.getTarifaProm() ) + room.getMoneda() );
+		lblTotal.setText(String.format("Total: $%,.2f ", room.getTotal() * _totalHabitaciones) + room.getMoneda());
+		lblProm.setText(String.format("Tarifa base para 2 adultos (impuestos incluídos) $%,.2f ", room.getTarifaProm()) + room.getMoneda());
 	}
 
 	private void changeHabitaciones( int total )
 	{
 		_totalHabitaciones = total;
-		setRoomSelectedIndex( _currentRoom );
+		setRoomSelectedIndex(_currentRoom);
 	}
 
 	private void nextStep()
@@ -437,6 +458,28 @@ public class HotelReservaFragment extends Fragment
 		HotelReserva2Fragment fragment = new HotelReserva2Fragment();
 		fragment.setArguments( parameters );
 		getFragmentManager().beginTransaction().add( R.id.fragment_container, fragment ).commit();
+	}
+
+	//PromoCode
+	void AbrirPormo(){
+
+		Log.i("HotelReservaFragment", "Abrir");
+		PromoCodeFragment fragment = new PromoCodeFragment();
+		fragment.setTargetFragment(this, 101);
+		getFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).commit();
+
+	}
+
+	//Escribir en edittext
+	void escribirPromocode(PromoCode promocode ){
+		EditText txtPromoCode = (EditText) _view.findViewById( R.id.txtPromocode );
+		txtPromoCode.setText(promocode.getnumpromocode());
+	}
+
+	//Arreglo de Promocodes para validar
+	void setPromoCodeArray(ArrayList<PromoCode> promocode){
+		_promocode = promocode;
+		Log.e("HotelReservaFragment", "Arreglo de promocode :3");
 	}
 
 	private void PrepareArrivalCalendar()
@@ -623,14 +666,15 @@ public class HotelReservaFragment extends Fragment
 		protected Void doInBackground( Void... arg0 )
 		{
 			String url = APIAddress.HOTELS_API_MOBILE + "/GetHabitaciones?HotelCode=" + _hotel.getSiglas() + "&RoomCodes=" + _codes;
-			android.util.Log.d( "TEST", "URL: " + url );
 			ServiceHandler sh = new ServiceHandler();
 			String jsonStr = sh.makeServiceCall( url, ServiceHandler.GET );
+			Log.e( "TEST", "URL: " + url + " -  json -- " +jsonStr);
 
 			if( jsonStr != null )
 			{
 				try
 				{
+					Log.e("HotelReservaFragment", "JSONSTR --> " + jsonStr);
 					JSONArray results = new JSONArray( jsonStr );
 					for( int i = 0; i < results.length(); i++ )
 					{

@@ -96,6 +96,12 @@
 					style="@style/RoundedControl"/>
 
 			<Button
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:text="PromoCode"
+				android:onClick="getPromocode"/>
+
+			<Button
 					android:id="@+id/btnAvailability"
 					android:layout_width="match_parent"
 					android:layout_height="60dp"

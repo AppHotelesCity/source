@@ -189,8 +189,14 @@ public class HotelDetailsActivity extends ActionBarActivity
 
 	}
 
+	public void getPromocode(View view) {
+		//Lanzar vista de promocode
+		Log.d("Promocode", "Click para lanzar vista de promocode");
+		_hotelReservaFragment.AbrirPormo();
+	}
 
-		public class TabListener implements android.support.v7.app.ActionBar.TabListener
+
+	public class TabListener implements android.support.v7.app.ActionBar.TabListener
 	{
 		Fragment _fragment;
 		public TabListener( Fragment fragment )
