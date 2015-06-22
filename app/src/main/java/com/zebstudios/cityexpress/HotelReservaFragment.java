@@ -156,6 +156,9 @@ public class HotelReservaFragment extends Fragment
 		Analytics analytics = (Analytics)getActivity().getApplication();
 		analytics.sendAppEventTrack( "HOTEL DETAIL ANDROID", "RESERVA 1", "HOTEL", _hotel.getNombre(), 1 );
 
+
+		_promocode = null;
+
 		return _view;
 	}
 
@@ -255,20 +258,21 @@ public class HotelReservaFragment extends Fragment
 		}
 		promo.setCodigoTarifa(_lastTarifaFetched);
 
-		for (PromoCode temp: _promocode) {
-			Log.e("HotelReservafragment","Interacion  -- " + temp.getnumpromocode() + " - " + txtPromoCode.getText());
+		if (_promocode != null) {
+			for (PromoCode temp : _promocode) {
+				Log.e("HotelReservafragment", "Interacion  -- " + temp.getnumpromocode() + " - " + txtPromoCode.getText());
 
-			String t1 = txtPromoCode.getText().toString();
-			String t2 = temp.getnumpromocode();
+				String t1 = txtPromoCode.getText().toString();
+				String t2 = temp.getnumpromocode();
 
-			if ( t1.equals(t2)){
-				promo.setCodigoTarifa(temp.getCodigoTarifa().replaceAll("xx","11"));
-				Log.e("hotelReservaFragment", "Si es igual _3:3:·:3:··:");
-				break;
+				if (t1.equals(t2)) {
+					promo.setCodigoTarifa(temp.getCodigoTarifa().replaceAll("xx", "11"));
+					Log.e("hotelReservaFragment", "Si es igual _3:3:·:3:··:");
+					break;
+				}
 			}
+			Log.e("HotelReservafragment", "Tarifa--> " + promo.getCodigoTarifa());
 		}
-		Log.e("HotelReservafragment", "Tarifa--> " + promo.getCodigoTarifa() );
-
 
 		Log.e("TEST", "GET: " + promo.getHotel());
 		new ServiceCaller( SERVICE_GETROOMSAVAILABLEPROMO, promo ).execute();

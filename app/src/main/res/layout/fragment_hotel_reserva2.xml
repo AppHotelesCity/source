@@ -381,11 +381,13 @@
 								android:layout_height="wrap_content"
 								android:src="@drawable/logo_visa"/>
 
-						<Button android:id="@+id/escanear"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
+						<ImageButton android:id="@+id/escanear"
+							android:layout_width="160dp"
+							android:layout_height="40dp"
 							android:onClick="onScanPress"
-							android:text="SCAN" />
+							android:text="SCAN"
+							android:layout_gravity="right|center_vertical"
+							android:src="@drawable/bttarjeta" />
 
 					</LinearLayout>
 
