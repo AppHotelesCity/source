@@ -90,6 +90,7 @@
 			android:label="City Premios"
 			android:screenOrientation="portrait">
 		</activity>
+        <!-- Card.io -->
 	    <meta-data
             android:name="io.fabric.ApiKey"
             android:value="64762a12e4229006ed0f32b17f4afe58ccf82185" />
@@ -111,6 +112,7 @@
 
 		<activity android:name="io.card.payment.CardIOActivity" android:configChanges="keyboardHidden|orientation" />
 		<activity android:name="io.card.payment.DataEntryActivity" />
+
 
     </application>
 
