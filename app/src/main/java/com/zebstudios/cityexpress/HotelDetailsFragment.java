@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,12 +124,13 @@ public class HotelDetailsFragment extends Fragment
 			@Override
 			public void onClick( View v )
 			{
-				Uri uri = Uri.parse("http://chat.hotelescity.com/WebAPISamples76/Chat/HtmlChatFrameSet.jsp");
-				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                Log.e("btnChat", "Web View Chat");
+                Uri chatwv = Uri.parse("http://chat.hotelescity.com/WebAPISamples76/Chat/HtmlChatFrameSet.jsp");
+				Intent intent = new Intent(Intent.ACTION_VIEW, chatwv);
 				startActivity(intent);
 				testPresentReservation();
 				addEvent("HotelDetails-Chat-Smartphone");
-			}
+            }
 		} );
 
 		/*RadioButton btnNoticias = (RadioButton)_view.findViewById( R.id.btn_noticias );
