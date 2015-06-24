@@ -16,13 +16,14 @@ import android.widget.ListView;
 
 import com.appsee.Appsee;
 import com.crashlytics.android.Crashlytics;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 import java.util.ArrayList;
 
 import io.fabric.sdk.android.Fabric;
 
 import static com.appsee.Appsee.addEvent;
-
 
 public class MainActivity extends ActionBarActivity
 {
@@ -74,8 +75,23 @@ public class MainActivity extends ActionBarActivity
 		analytics.sendAppScreenTrack( "MAIN ANDROID" );
 
 		Appsee.start("51b7d802b9ad459185653998504d6813");
+		FacebookSdk.sdkInitialize(getApplicationContext());
+
 
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		AppEventsLogger.activateApp(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		AppEventsLogger.deactivateApp(this);
+	}
+	
 
 	@Override
 	protected void onDestroy()
