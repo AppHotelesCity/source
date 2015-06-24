@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/androidciti.iml" filepath="$PROJECT_DIR$/androidciti.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Android.iml" filepath="$PROJECT_DIR$/Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/calendar/calendar.iml" filepath="$PROJECT_DIR$/calendar/calendar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/urbanairship-lib-6.1.0/urbanairship-lib-6.1.0.iml" filepath="$PROJECT_DIR$/urbanairship-lib-6.1.0/urbanairship-lib-6.1.0.iml" />
     </modules>
   </component>
 </project>

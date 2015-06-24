@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="urbanairship-lib-6.1.0-unspecified">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/Android/urbanairship-lib-6.1.0/unspecified/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/Android/urbanairship-lib-6.1.0/unspecified/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

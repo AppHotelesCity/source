@@ -1,0 +1,4 @@
+configurations.create("default")
+artifacts.add("default", file('urbanairship-lib-6.1.0.aar'))
+dependencies {
+}

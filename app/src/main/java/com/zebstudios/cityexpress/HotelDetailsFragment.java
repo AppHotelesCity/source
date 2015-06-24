@@ -58,6 +58,7 @@ public class HotelDetailsFragment extends Fragment
 
 		_hotel = (Hotel) getArguments().getSerializable( "HOTEL" );
 		_imageCache = new ImageCache( getActivity() );
+
 		//_imageCache.ClearCache();
 
 		String[] images = new String[_hotel.getImagenesExtra().length];
