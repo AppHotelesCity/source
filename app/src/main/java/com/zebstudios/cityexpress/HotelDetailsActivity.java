@@ -99,6 +99,7 @@ public class HotelDetailsActivity extends ActionBarActivity
 		getSupportActionBar().addTab(tab);
 	}
 
+
 	public void onScanPress(View view) {
 		Log.d("escanear ", "€scanear");
 
@@ -194,7 +195,6 @@ public class HotelDetailsActivity extends ActionBarActivity
 		Log.d("Promocode", "Click para lanzar vista de promocode");
 		_hotelReservaFragment.AbrirPormo();
 	}
-
 
 	public class TabListener implements android.support.v7.app.ActionBar.TabListener
 	{

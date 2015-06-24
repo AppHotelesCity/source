@@ -63,31 +63,31 @@ public class MainFragment extends Fragment
 		ImageView imgBar2 = (ImageView)_view.findViewById( R.id.imgOptionBar2 );
 		_options.add( new ImageOption( imgBar2, R.drawable.bar_marca_2_on, R.drawable.bar_marca_2_off, "plus" ) );
 		ImageView imgBar3 = (ImageView)_view.findViewById( R.id.imgOptionBar3 );
-		_options.add( new ImageOption( imgBar3, R.drawable.bar_marca_3_on, R.drawable.bar_marca_3_off, "suites" ) );
+		_options.add(new ImageOption(imgBar3, R.drawable.bar_marca_3_on, R.drawable.bar_marca_3_off, "suites"));
 		ImageView imgBar4 = (ImageView)_view.findViewById( R.id.imgOptionBar4 );
 		_options.add( new ImageOption( imgBar4, R.drawable.bar_marca_4_on, R.drawable.bar_marca_4_off, "junior" ) );
 		prepareOptions();
 
 		ImageButton btnCities = (ImageButton)_view.findViewById( R.id.btnGetCities );
-		btnCities.setOnClickListener( new View.OnClickListener()
-		{
+		btnCities.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick( View view )
-			{
+			public void onClick(View view) {
 				getStates();
 			}
-		} );
+		});
 
 		TableRow searchRow = (TableRow) _view.findViewById( R.id.row_search );
-		searchRow.setOnClickListener( new View.OnClickListener()
-		{
+		searchRow.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick( View view )
-			{
+			public void onClick(View view) {
 				Search();
 				addEvent("HomeSearch");
 			}
-		} );
+		});
+
+
+
+
 
 		return _view;
 	}

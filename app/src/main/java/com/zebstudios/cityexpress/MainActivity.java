@@ -41,9 +41,11 @@ public class MainActivity extends ActionBarActivity
 	@Override
 	protected void onCreate( Bundle savedInstanceState )
 	{
-		super.onCreate( savedInstanceState );
+		super.onCreate(savedInstanceState);
 		Fabric.with(this, new Crashlytics());
-		setContentView( R.layout.activity_main );
+		setContentView(R.layout.activity_main);
+
+
 
 		_drawerLayout = (DrawerLayout) findViewById( R.id.drawer_layout );
 		_actionBarDrawerToggle = new ActionBarDrawerToggle( this, _drawerLayout, R.string.app_name, R.string.app_name ) {};
@@ -71,16 +73,37 @@ public class MainActivity extends ActionBarActivity
 		}
 
 		Analytics analytics = (Analytics)getApplication();
-		analytics.sendAppScreenTrack( "MAIN ANDROID" );
+		analytics.sendAppScreenTrack("MAIN ANDROID");
 
 		Appsee.start("51b7d802b9ad459185653998504d6813");
 
+
 	}
 
-	@Override
+	protected void onStart() {
+		super.onStart();
+
+		/*
+		AppRater appRater = new AppRater(this);
+		//Dias en los que se volvera a lanzar la alerta
+		appRater.setDaysBeforePrompt(5);
+		//Numero de veces que se tenga que realizar la accion
+		appRater.setLaunchesBeforePrompt(3);
+		appRater.setPhrases("Califica esta app!", "Si te ha gustado City Express, ¿Te gustaria calificarnos? No tomará más de un minuto. ¡Gracias por tu colaboración!", "Calificar CityExpress", "Recordar mas tarde", "No, gracias");
+		appRater.setTargetUri("https://play.google.com/store/apps/details?id=%1$s");
+		//appRater.show();
+		appRater.demo();
+
+		Log.e("MainFragment", "Lanzar apprater D=");*/
+
+
+
+	}
+
+		@Override
 	protected void onDestroy()
 	{
-		getSupportFragmentManager().removeOnBackStackChangedListener( _onBackStackChangedListener );
+		getSupportFragmentManager().removeOnBackStackChangedListener(_onBackStackChangedListener);
 		super.onDestroy();
 	}
 

@@ -199,6 +199,7 @@ public class HotelReservaFragment extends Fragment
 
 	private void checkAvailability( String tarifa )
 	{
+
 		// TODO: Validar promoCode?
 		EditText txtPromoCode = (EditText) _view.findViewById( R.id.txtPromocode );
 
@@ -645,6 +646,20 @@ public class HotelReservaFragment extends Fragment
 		}
 	}
 
+	private void AppRatealert(){
+
+	AppRater appRater = new AppRater(getActivity());
+	//Dias en los que se volvera a lanzar la alerta
+	appRater.setDaysBeforePrompt(5);
+	//Numero de veces que se tenga que realizar la accion
+	appRater.setLaunchesBeforePrompt(3);
+	appRater.setPhrases("Califica esta app!", "Si te ha gustado City Express, ¿Te gustaria calificarnos? No tomará más de un minuto. ¡Gracias por tu colaboración!", "Calificar CityExpress", "Recordar mas tarde", "No, gracias");
+	appRater.setTargetUri("https://play.google.com/store/apps/details?id=%1$s");
+	appRater.show();
+	//appRater.demo();
+
+	}
+
 	private class CompleteRoomsInfo extends AsyncTask<Void, Void, Void>
 	{
 		String _codes;
@@ -672,13 +687,15 @@ public class HotelReservaFragment extends Fragment
 			String url = APIAddress.HOTELS_API_MOBILE + "/GetHabitaciones?HotelCode=" + _hotel.getSiglas() + "&RoomCodes=" + _codes;
 			ServiceHandler sh = new ServiceHandler();
 			String jsonStr = sh.makeServiceCall( url, ServiceHandler.GET );
-			Log.e( "TEST", "URL: " + url + " -  json -- " +jsonStr);
+			Log.e("TEST", "URL: " + url + " -  json -- " + jsonStr);
 
 			if( jsonStr != null )
 			{
 				try
 				{
 					Log.e("HotelReservaFragment", "JSONSTR --> " + jsonStr);
+
+
 					JSONArray results = new JSONArray( jsonStr );
 					for( int i = 0; i < results.length(); i++ )
 					{
@@ -690,6 +707,9 @@ public class HotelReservaFragment extends Fragment
 						}
 						_extras.add( r );
 					}
+
+
+
 
 					return null;
 				}
@@ -710,6 +730,8 @@ public class HotelReservaFragment extends Fragment
 		protected void onPostExecute( Void arg0 )
 		{
 			super.onPostExecute( arg0 );
+			AppRatealert();
+
 
 			for( int i = 0; i < _rooms.size(); i++ )
 			{
