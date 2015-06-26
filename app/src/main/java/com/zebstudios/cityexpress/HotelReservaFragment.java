@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
+import android.text.InputFilter;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -77,15 +78,15 @@ public class HotelReservaFragment extends Fragment
 		PrepareDepartureCalendar();
 
 		Button btnAvailability = (Button) _view.findViewById( R.id.btnAvailability );
-		btnAvailability.setOnClickListener( new View.OnClickListener()
-		{
+		btnAvailability.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick( View v )
-			{
+			public void onClick(View v) {
 				checkAvailability();
 				addEvent("HotelCheckAvailability-Smartphone");
 			}
-		} );
+		});
+
+
 
 		CirclePageIndicator indicator = (CirclePageIndicator) _view.findViewById( R.id.indicator );
 
@@ -155,9 +156,10 @@ public class HotelReservaFragment extends Fragment
 
 		Analytics analytics = (Analytics)getActivity().getApplication();
 		analytics.sendAppEventTrack( "HOTEL DETAIL ANDROID", "RESERVA 1", "HOTEL", _hotel.getNombre(), 1 );
-
-
 		_promocode = null;
+
+		EditText txtPromoCode = (EditText) _view.findViewById( R.id.txtPromocode );
+		txtPromoCode.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
 
 		return _view;
 	}
