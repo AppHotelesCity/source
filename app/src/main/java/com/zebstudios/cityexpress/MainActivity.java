@@ -46,8 +46,6 @@ public class MainActivity extends ActionBarActivity
 		Fabric.with(this, new Crashlytics());
 		setContentView(R.layout.activity_main);
 
-
-
 		_drawerLayout = (DrawerLayout) findViewById( R.id.drawer_layout );
 		_actionBarDrawerToggle = new ActionBarDrawerToggle( this, _drawerLayout, R.string.app_name, R.string.app_name ) {};
 		_drawerLayout.setDrawerListener( _actionBarDrawerToggle );

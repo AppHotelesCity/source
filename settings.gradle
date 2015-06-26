@@ -1,1 +1,1 @@
-include ':app', ':calendar', ':urbanairship-lib-6.1.0'
+include ':app', ':calendar', ':urbanairship-lib-6.1.0', ':urbanairship-lib-6.1.1'

@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/calendar" />
             <option value="$PROJECT_DIR$/urbanairship-lib-6.1.0" />
+            <option value="$PROJECT_DIR$/urbanairship-lib-6.1.1" />
           </set>
         </option>
       </GradleProjectSettings>
