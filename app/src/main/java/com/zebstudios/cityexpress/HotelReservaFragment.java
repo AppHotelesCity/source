@@ -472,9 +472,14 @@ public class HotelReservaFragment extends Fragment
 
 		Log.i("HotelReservaFragment", "Abrir");
 		PromoCodeFragment fragment = new PromoCodeFragment();
-		fragment.setTargetFragment(this, 101);
-		getFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).commit();
+		fragment.setTargetFragment(this, 101 );
+		getFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).addToBackStack(null).commit();
 
+		/*
+		StatesFragment fragment = new StatesFragment();
+		fragment.setTargetFragment(this, FRAGMENT_LIST_STATES);
+		getFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).addToBackStack(null).commit();
+		 */
 	}
 
 	//Escribir en edittext

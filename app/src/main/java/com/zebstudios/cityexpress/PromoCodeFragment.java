@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -108,30 +107,39 @@ public class PromoCodeFragment extends DialogFragment
         Log.e("PromocodeFragment" , "ItemSelected :3");
 
         PromoCode promoCode = _promocode.get( position );
-        HotelReservaFragment parent = (HotelReservaFragment) getTargetFragment();
-        parent.escribirPromocode(promoCode);
-        parent.setPromoCodeArray(_promocode);
-        //getFragmentManager().popBackStackImmediate();
-        this.dismiss();
 
 
         /*
-        if( fragmentObject instanceof MainFragment )
+        TabletHotelReservaFragment parent = (TabletHotelReservaFragment) getTargetFragment();
+        parent.escribirPromocode(promoCode);
+        parent.setPromoCodeArray(_promocode);
+        //getFragmentManager().popBackStackImmediate();
+        //this.dismiss();
+
+        */
+
+        Fragment fragmentObject = getTargetFragment();
+
+
+        if( fragmentObject instanceof HotelReservaFragment )
         {
-            MainFragment parent = (MainFragment) getTargetFragment();
-            parent.setSelectedPromocode(promoCode);
+            HotelReservaFragment parent = (HotelReservaFragment) getTargetFragment();
+            parent.escribirPromocode(promoCode);
+            parent.setPromoCodeArray(_promocode);
+
             getFragmentManager().popBackStackImmediate();
             Log.e("PromocodeFragment", "Selecionar uno");
 
-        }
-        else if( fragmentObject instanceof MainTabletFragment )
+        }else if( fragmentObject instanceof TabletHotelReservaFragment )
         {
-            MainTabletFragment parent = (MainTabletFragment) getTargetFragment();
-            parent.setSelectedPromocode(promoCode);
+            TabletHotelReservaFragment parent = (TabletHotelReservaFragment) getTargetFragment();
+            parent.escribirPromocode(promoCode);
+            parent.setPromoCodeArray(_promocode);
+
             this.dismiss();
             Log.e("PromocodeFragment", "Selecionar dos");
 
-        }*/
+        }
 
 
     }

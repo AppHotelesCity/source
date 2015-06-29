@@ -107,10 +107,11 @@
 				android:text="PromoCode"
 				android:onClick="getPromocode"
 				android:id="@+id/promo"
+				android:background="@null"
 				android:layout_gravity="right|center_vertical"
 				android:src="@drawable/icon_promocode" />
 
-		</LinearLayout>
+			</LinearLayout>
 
 			<Button
 				android:id="@+id/btnAvailability"

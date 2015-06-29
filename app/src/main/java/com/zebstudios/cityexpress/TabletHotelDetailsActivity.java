@@ -7,12 +7,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import io.card.payment.CardIOActivity;
+
+import static com.appsee.Appsee.addEvent;
 
 /**
  * Created by Denumeris Interactive on 24/11/2014.
@@ -161,9 +166,44 @@ public class TabletHotelDetailsActivity extends ActionBarActivity
 	{
 		Intent intent = getIntent();
 		intent.putExtra( "RESERVATION_ID", reservationId );
-		setResult( RESULT_OK, intent );
+		setResult(RESULT_OK, intent);
 		finish();
 	}
+
+	public void getPromocode(View view) {
+		//Lanzar vista de promocode
+		Log.d("Promocode", "Click para lanzar vista de promocode");
+		//_tabletHotelDetailFragment.AbrirPormo();
+		_tabletHotelReservaFragment.AbrirPormo();
+		//_hotelReservaFragment
+
+	}
+
+	public void onScanPress(View view) {
+
+		Log.d("escanear ", "€scanear");
+
+
+		Intent scanIntent = new Intent(this, CardIOActivity.class);
+
+		// customize these values to suit your needs.
+		scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, true); // default: false
+		scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, false); // default: false
+		scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_POSTAL_CODE, false); // default: false
+
+		// hides the manual entry button
+		// if set, developers should provide their own manual entry mechanism in the app
+		scanIntent.putExtra(CardIOActivity.EXTRA_SUPPRESS_MANUAL_ENTRY, false); // default: false
+
+		// matches the theme of your application
+		scanIntent.putExtra(CardIOActivity.EXTRA_KEEP_APPLICATION_THEME, false); // default: false
+
+		// MY_SCAN_REQUEST_CODE is arbitrary and is only used within this activity.
+		startActivityForResult(scanIntent, 100);
+		addEvent("");
+	}
+
+
 
 	// https://github.com/chiuki/android-swipe-image-viewer
 	private class ImagePagerAdapter extends PagerAdapter

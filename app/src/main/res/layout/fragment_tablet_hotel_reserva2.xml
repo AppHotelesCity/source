@@ -337,7 +337,8 @@
 							android:layout_height="wrap_content"
 							android:orientation="horizontal"
 							android:gravity="center"
-							android:layout_marginTop="12dp">
+							android:layout_marginTop="12dp"
+						android:weightSum="1">
 
 						<ImageView
 								android:layout_width="60dp"
@@ -355,6 +356,13 @@
 								android:layout_width="60dp"
 								android:layout_height="wrap_content"
 								android:src="@drawable/logo_visa"/>
+
+						<ImageButton
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:onClick="onScanPress"
+							android:background="@null"
+							android:src="@drawable/bttarjeta" />
 
 					</LinearLayout>
 

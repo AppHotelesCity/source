@@ -115,15 +115,35 @@
 
 					</LinearLayout>
 
+
+					<LinearLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="4dp">
+
 					<EditText
 							android:id="@+id/txtPromocode"
-							android:layout_width="match_parent"
-							android:layout_height="60dp"
 							android:layout_marginLeft="6dp"
 							android:layout_marginRight="6dp"
 							android:layout_marginTop="12dp"
+							android:layout_width="0dp"
+							android:layout_height="60dp"
+							android:layout_weight="0.5"
 							android:hint="Promocode"
 							style="@style/RoundedControl"/>
+
+						<ImageButton
+							android:layout_width="wrap_content"
+							android:layout_height="match_parent"
+							android:text="PromoCode"
+							android:onClick="getPromocode"
+							android:id="@+id/promo"
+							android:background="@null"
+							android:layout_gravity="top|left|center_vertical|bottom|right"
+							android:src="@drawable/icon_promocode_blanco"
+							android:layout_weight="0.03" />
+
+					</LinearLayout>
 
 					<Button
 							android:id="@+id/btnAvailability"

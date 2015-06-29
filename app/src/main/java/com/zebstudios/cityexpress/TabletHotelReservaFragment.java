@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
+import android.text.InputFilter;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,6 +158,9 @@ public class TabletHotelReservaFragment extends Fragment
 		Analytics analytics = (Analytics)getActivity().getApplication();
 		analytics.sendAppEventTrack( "HOTEL DETAIL ANDROID", "RESERVA 1", "HOTEL", _hotel.getNombre(), 1 );
 		addEvent("");
+
+		EditText txtPromoCode = (EditText) _view.findViewById( R.id.txtPromocode );
+		txtPromoCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
 
 		return _view;
 	}
@@ -700,7 +705,34 @@ public class TabletHotelReservaFragment extends Fragment
 			}
 		} );
 	}
+	//PromoCode
+	void AbrirPormo(){
 
+		Log.i("HotelReservaFragment", "Abrir");
+		PromoCodeFragment fragment = new PromoCodeFragment();
+		fragment.setTargetFragment(this, 101);
+		//getFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).commit();
+
+		fragment.show(getFragmentManager(),"dialog");
+		/*
+				StatesFragment fragment = new StatesFragment();
+		fragment.setTargetFragment( this, FRAGMENT_LIST_STATES );
+		fragment.show(getFragmentManager(), "dialog");
+		 */
+
+	}
+
+	//Escribir en edittext
+	void escribirPromocode(PromoCode promocode ){
+		EditText txtPromoCode = (EditText) _view.findViewById( R.id.txtPromocode );
+		txtPromoCode.setText(promocode.getnumpromocode());
+	}
+
+	//Arreglo de Promocodes para validar
+	void setPromoCodeArray(ArrayList<PromoCode> promocode){
+		//_promocode = promocode;
+		Log.e("HotelReservaFragment", "Arreglo de promocode :3");
+	}
 	private void alert( String message )
 	{
 		AlertDialog alert = new AlertDialog.Builder( getActivity() ).create();

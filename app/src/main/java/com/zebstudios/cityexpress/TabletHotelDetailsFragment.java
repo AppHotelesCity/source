@@ -390,6 +390,7 @@ public class TabletHotelDetailsFragment extends Fragment
 		}
 	}
 
+
 	private class GetRSS extends AsyncTask<Void, Void, Integer>
 	{
 		private int _task;
