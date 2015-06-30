@@ -660,7 +660,7 @@ public class HotelReservaFragment extends Fragment
 	appRater.setDaysBeforePrompt(5);
 	//Numero de veces que se tenga que realizar la accion
 	appRater.setLaunchesBeforePrompt(3);
-	appRater.setPhrases("Califica esta app!", "Si te ha gustado City Express, ¿Te gustaria calificarnos? No tomará más de un minuto. ¡Gracias por tu colaboración!", "Calificar CityExpress", "Recordar mas tarde", "No, gracias");
+	appRater.setPhrases("Califica nuestra APP", "En City Express nos gusta escuchar tu opinión. Califica nuestra APP, te tomará 1 minuto. ¡Gracias por tu tiempo!", "Calificar City Express", "Recordar mas tarde", "No, gracias");
 	appRater.setTargetUri("https://play.google.com/store/apps/details?id=%1$s");
 	appRater.show();
 	//appRater.demo();
