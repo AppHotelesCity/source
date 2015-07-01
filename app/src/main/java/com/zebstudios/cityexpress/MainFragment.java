@@ -65,10 +65,11 @@ public class MainFragment extends Fragment {
 		prepareOptions();
 
 		ImageButton btnCities = (ImageButton) _view.findViewById(R.id.btnGetCities);
-		btnCities.setOnClickListener(new View.OnClickListener() {@Override
-																 public void onClick(View view) {
-			getStates();
-		}
+		btnCities.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				getStates();
+			}
 		});
 
 		TableRow searchRow = (TableRow) _view.findViewById(R.id.row_search);
@@ -80,9 +81,12 @@ public class MainFragment extends Fragment {
 		});
 
 
+/*
+		SplashScreen fragment = new SplashScreen();
+		fragment.setTargetFragment(this, FRAGMENT_LIST_STATES);
+		getFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).addToBackStack(null).commit();
 
-
-
+*/
 		return _view;
 	}
 
