@@ -28,6 +28,7 @@
 						android:padding="2dp"
 						android:layout_column="0"
 						android:layout_span="4"
+						android:singleLine="true"
 						android:hint="Buscar por palabra"
 						android:background="@android:color/white"
 						android:layout_weight="10"/>

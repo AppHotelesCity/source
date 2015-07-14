@@ -21,7 +21,9 @@
 					android:layout_height="60dp"
 					android:layout_marginTop="36dp"
 					android:hint="Buscar por palabra"
-					style="@style/SearchPaneButton"/>
+					android:singleLine="true"
+
+				style="@style/SearchPaneButton"/>
 
 			<Button
 					android:id="@+id/btnCity"
