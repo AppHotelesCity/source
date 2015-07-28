@@ -514,6 +514,14 @@ public class HotelReservaFragment extends Fragment
 				_btnArrival.setText( sdf.format( date ) );
 				_arrivalCalendarFragment.dismiss();
 
+				Calendar c = Calendar.getInstance();
+				c.setTime( date );
+				c.add( Calendar.DATE, 1 );
+
+				_departureDate = c.getTime();
+				_btnDeparture.setText(sdf.format(_departureDate));
+
+				/*
 				if( _departureDate == null )
 				{
 					Calendar c = Calendar.getInstance();
@@ -523,6 +531,8 @@ public class HotelReservaFragment extends Fragment
 					_departureDate = c.getTime();
 					_btnDeparture.setText( sdf.format( _departureDate ) );
 				}
+				*/
+
 
 				resetCapture();
 			}
