@@ -4,6 +4,7 @@ package com.zebstudios.cityexpress;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,9 +90,11 @@ public class ReservacionesFragment extends Fragment
 
 	private void reservationSelected( int index )
 	{
+
 		Bundle parameters = new Bundle();
 		parameters.putSerializable( "RESERVATION", _reservations.get( index ) );
 
+		Log.d("Reservacionesfragment", "Index :3:3:· --> " + _reservations.get(index).getId() );
 		HotelReservaResultFragment fragment = new HotelReservaResultFragment();
 		fragment.setArguments( parameters );
 		getFragmentManager().beginTransaction().add( R.id.fragment_container, fragment ).addToBackStack( "ReservationDetail" ).commit();

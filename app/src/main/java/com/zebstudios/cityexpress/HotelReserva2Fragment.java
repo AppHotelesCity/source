@@ -363,6 +363,7 @@ public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayP
 			public void onClick( View v )
 			{
 				doReserva();
+				//emailSent();
 				addEvent("HotelReserva-Smartphone");
 			}
 		} );
@@ -958,9 +959,6 @@ public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayP
 				return false;
 			}
 
-			//Card.io
-			Button btnescanear = (Button) _view.findViewById( R.id.escanear );
-
 
 
 
@@ -1437,17 +1435,49 @@ public class HotelReserva2Fragment extends Fragment implements PayPalCaller.PayP
 		ReservationDS ds = new ReservationDS( getActivity() );
 		ds.open();
 		long id = ds.insert( reservation );
+
 		ds.close();
 
 		_idToPresent = id;
 
 		new EmailSender( results ).execute();
+
+
+		Log.d("Hotel Reserva 2 fragment", "Final de request reservacion");
+
+
+		Bundle parameters = new Bundle();
+		parameters.putSerializable( "RESERVATION", reservation );
+
+		HotelReservaResultFragment fragment = new HotelReservaResultFragment();
+		fragment.setArguments( parameters );
+		getFragmentManager().beginTransaction().add( R.id.fragment_container, fragment ).addToBackStack( "ReservationDetail" ).commit();
+
+
+		Log.d("Hotel Reserva 2 fragment", "Final de request reservacion 2");
+
+
 	}
 
 	private void emailSent()
 	{
+
+		Log.d("HotelReserva2Fragment :3 ", "EMAILSEND D=");
+
 		HotelDetailsActivity hotelDetailsActivity = (HotelDetailsActivity) getActivity();
-		hotelDetailsActivity.presentReservation( _idToPresent );
+		hotelDetailsActivity.presentReservation( 2 );
+		/*
+		ReservationDS ds = new ReservationDS( getActivity() );
+		ArrayList<Reservation> lista =  ds.;
+		Reservation reser = lista.get( lista.size() - 1 );
+
+		Bundle parameters = new Bundle();
+		parameters.putSerializable( "RESERVATION",reser  );
+
+		HotelReservaResultFragment fragment = new HotelReservaResultFragment();
+		fragment.setArguments( parameters );
+		getFragmentManager().beginTransaction().add( R.id.fragment_container, fragment ).addToBackStack( "ReservationDetail" ).commit();
+*/
 	}
 
 	private PaymentData getPaymentData()

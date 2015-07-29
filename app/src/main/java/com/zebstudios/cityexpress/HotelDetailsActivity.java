@@ -206,10 +206,11 @@ public class HotelDetailsActivity extends ActionBarActivity {
     }
     
     public void presentReservation(long reservationId) {
+
         Intent intent = getIntent();
         intent.putExtra("RESERVATION_ID", reservationId);
         setResult(RESULT_OK, intent);
-        finish();
+        //finish();
     }
     
     private Bundle _reserva2FragmentArgs;
