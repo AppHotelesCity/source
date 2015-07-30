@@ -167,7 +167,7 @@ public class TabletHotelDetailsActivity extends ActionBarActivity
 		Intent intent = getIntent();
 		intent.putExtra( "RESERVATION_ID", reservationId );
 		setResult(RESULT_OK, intent);
-		finish();
+		//finish();
 	}
 
 	public void getPromocode(View view) {

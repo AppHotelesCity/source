@@ -1324,6 +1324,22 @@ public class TabletHotelReserva2Fragment extends Fragment implements PayPalCalle
 		_idToPresent = id;
 
 		new EmailSender( results ).execute();
+
+
+
+		Log.d("Hotel Reserva 2 fragment", "Final de request reservacion");
+
+
+		Bundle parameters = new Bundle();
+		parameters.putSerializable( "RESERVATION", reservation );
+
+		HotelReservaResultFragment fragment = new HotelReservaResultFragment();
+		fragment.setArguments( parameters );
+		getFragmentManager().beginTransaction().add( R.id.fragment_container, fragment ).addToBackStack( "ReservationDetail" ).commit();
+
+
+		Log.d("Hotel Reserva 2 fragment", "Final de request reservacion 2");
+
 	}
 
 	private void emailSent()

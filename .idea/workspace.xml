@@ -43,12 +43,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/HotelDetailsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/HotelDetailsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/HotelReserva2Fragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/HotelReserva2Fragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/ReservacionesFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/ReservacionesFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/TabletHotelDetailsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/TabletHotelDetailsActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/TabletHotelReserva2Fragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/TabletHotelReserva2Fragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="androidciti.iws" />
@@ -70,82 +67,191 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HotelReserva2Fragment.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HotelReserva2Fragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/HotelReserva2Fragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.42948717">
-              <caret line="368" column="12" selection-start-line="368" selection-start-column="12" selection-end-line="368" selection-end-column="12" />
+            <state vertical-scroll-proportion="-4.148148">
+              <caret line="1442" column="22" selection-start-line="1442" selection-start-column="17" selection-end-line="1442" selection-end-column="22" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#54251#54294#0" expanded="true" />
-                <element signature="e#55835#55843#0" expanded="true" />
-                <element signature="e#55893#55901#0" expanded="true" />
-                <element signature="e#57924#57939#0" expanded="true" />
-                <element signature="e#60675#60676#0" expanded="true" />
-                <element signature="e#60702#60703#0" expanded="true" />
-                <element signature="e#60753#60754#0" expanded="true" />
-                <element signature="e#60786#60787#0" expanded="true" />
-                <element signature="e#60817#60818#0" expanded="true" />
-                <element signature="e#60838#60839#0" expanded="true" />
-                <element signature="e#60880#60881#0" expanded="true" />
-                <element signature="e#60901#60902#0" expanded="true" />
-                <element signature="e#60936#60937#0" expanded="true" />
-                <element signature="e#60961#60962#0" expanded="true" />
-                <element signature="e#61011#61012#0" expanded="true" />
-                <element signature="e#61040#61041#0" expanded="true" />
-                <element signature="e#61072#61073#0" expanded="true" />
-                <element signature="e#61094#61095#0" expanded="true" />
-                <element signature="e#61138#61139#0" expanded="true" />
-                <element signature="e#61161#61162#0" expanded="true" />
-                <element signature="e#61193#61194#0" expanded="true" />
-                <element signature="e#61215#61216#0" expanded="true" />
-                <element signature="e#61259#61260#0" expanded="true" />
-                <element signature="e#61282#61283#0" expanded="true" />
-                <element signature="e#61317#61318#0" expanded="true" />
-                <element signature="e#61342#61343#0" expanded="true" />
-                <element signature="e#61393#61394#0" expanded="true" />
-                <element signature="e#61422#61423#0" expanded="true" />
-                <element signature="e#61454#61455#0" expanded="true" />
-                <element signature="e#61476#61477#0" expanded="true" />
-                <element signature="e#61520#61521#0" expanded="true" />
-                <element signature="e#61543#61544#0" expanded="true" />
-                <element signature="e#61572#61573#0" expanded="true" />
-                <element signature="e#61594#61595#0" expanded="true" />
-                <element signature="e#61635#61636#0" expanded="true" />
-                <element signature="e#61658#61659#0" expanded="true" />
-                <element signature="e#61689#61690#0" expanded="true" />
-                <element signature="e#61713#61714#0" expanded="true" />
-                <element signature="e#61758#61759#0" expanded="true" />
-                <element signature="e#61785#61786#0" expanded="true" />
-                <element signature="e#61814#61815#0" expanded="true" />
-                <element signature="e#61836#61837#0" expanded="true" />
-                <element signature="e#61877#61878#0" expanded="true" />
-                <element signature="e#61900#61901#0" expanded="true" />
-                <element signature="e#62200#62201#0" expanded="true" />
-                <element signature="e#62228#62229#0" expanded="true" />
-                <element signature="e#62284#62285#0" expanded="true" />
-                <element signature="e#62319#62320#0" expanded="true" />
-                <element signature="e#62354#62355#0" expanded="true" />
-                <element signature="e#62379#62380#0" expanded="true" />
-                <element signature="e#62429#62430#0" expanded="true" />
-                <element signature="e#62458#62459#0" expanded="true" />
-                <element signature="e#62495#62496#0" expanded="true" />
-                <element signature="e#62522#62523#0" expanded="true" />
-                <element signature="e#62576#62577#0" expanded="true" />
-                <element signature="e#62609#62610#0" expanded="true" />
-                <element signature="e#62651#62652#0" expanded="true" />
-                <element signature="e#62683#62684#0" expanded="true" />
-                <element signature="e#62747#62748#0" expanded="true" />
-                <element signature="e#62790#62791#0" expanded="true" />
-                <element signature="e#62831#62832#0" expanded="true" />
-                <element signature="e#62862#62863#0" expanded="true" />
-                <element signature="e#62924#62925#0" expanded="true" />
-                <element signature="e#62965#62966#0" expanded="true" />
-                <element signature="e#63003#63004#0" expanded="true" />
-                <element signature="e#63034#63035#0" expanded="true" />
-                <element signature="e#63093#63094#0" expanded="true" />
-                <element signature="e#63134#63135#0" expanded="true" />
+                <element signature="e#5862#5870#0" expanded="false" />
+                <element signature="e#5922#5936#0" expanded="false" />
+                <element signature="e#7845#7846#0" expanded="false" />
+                <element signature="e#7883#7884#0" expanded="false" />
+                <element signature="e#8339#8340#0" expanded="false" />
+                <element signature="e#8377#8378#0" expanded="false" />
+                <element signature="e#9663#9671#0" expanded="false" />
+                <element signature="e#10095#10103#0" expanded="false" />
+                <element signature="e#10148#10156#0" expanded="false" />
+                <element signature="e#11175#11183#0" expanded="false" />
+                <element signature="e#11783#11791#0" expanded="false" />
+                <element signature="e#15800#15808#0" expanded="false" />
+                <element signature="e#19471#19479#0" expanded="false" />
+                <element signature="e#20675#20683#0" expanded="false" />
+                <element signature="e#21984#21998#0" expanded="false" />
+                <element signature="e#33449#33496#0" expanded="false" />
+                <element signature="e#43782#43829#0" expanded="false" />
+                <element signature="e#54251#54294#0" expanded="false" />
+                <element signature="e#55835#55843#0" expanded="false" />
+                <element signature="e#55893#55901#0" expanded="false" />
+                <element signature="e#57924#57939#0" expanded="false" />
+                <element signature="e#60675#60676#0" expanded="false" />
+                <element signature="e#60702#60703#0" expanded="false" />
+                <element signature="e#60753#60754#0" expanded="false" />
+                <element signature="e#60786#60787#0" expanded="false" />
+                <element signature="e#60817#60818#0" expanded="false" />
+                <element signature="e#60838#60839#0" expanded="false" />
+                <element signature="e#60880#60881#0" expanded="false" />
+                <element signature="e#60901#60902#0" expanded="false" />
+                <element signature="e#60936#60937#0" expanded="false" />
+                <element signature="e#60961#60962#0" expanded="false" />
+                <element signature="e#61011#61012#0" expanded="false" />
+                <element signature="e#61040#61041#0" expanded="false" />
+                <element signature="e#61072#61073#0" expanded="false" />
+                <element signature="e#61094#61095#0" expanded="false" />
+                <element signature="e#61138#61139#0" expanded="false" />
+                <element signature="e#61161#61162#0" expanded="false" />
+                <element signature="e#61193#61194#0" expanded="false" />
+                <element signature="e#61215#61216#0" expanded="false" />
+                <element signature="e#61259#61260#0" expanded="false" />
+                <element signature="e#61282#61283#0" expanded="false" />
+                <element signature="e#61317#61318#0" expanded="false" />
+                <element signature="e#61342#61343#0" expanded="false" />
+                <element signature="e#61393#61394#0" expanded="false" />
+                <element signature="e#61422#61423#0" expanded="false" />
+                <element signature="e#61454#61455#0" expanded="false" />
+                <element signature="e#61476#61477#0" expanded="false" />
+                <element signature="e#61520#61521#0" expanded="false" />
+                <element signature="e#61543#61544#0" expanded="false" />
+                <element signature="e#61572#61573#0" expanded="false" />
+                <element signature="e#61594#61595#0" expanded="false" />
+                <element signature="e#61635#61636#0" expanded="false" />
+                <element signature="e#61658#61659#0" expanded="false" />
+                <element signature="e#61689#61690#0" expanded="false" />
+                <element signature="e#61713#61714#0" expanded="false" />
+                <element signature="e#61758#61759#0" expanded="false" />
+                <element signature="e#61785#61786#0" expanded="false" />
+                <element signature="e#61814#61815#0" expanded="false" />
+                <element signature="e#61836#61837#0" expanded="false" />
+                <element signature="e#61877#61878#0" expanded="false" />
+                <element signature="e#61900#61901#0" expanded="false" />
+                <element signature="e#62200#62201#0" expanded="false" />
+                <element signature="e#62228#62229#0" expanded="false" />
+                <element signature="e#62284#62285#0" expanded="false" />
+                <element signature="e#62319#62320#0" expanded="false" />
+                <element signature="e#62354#62355#0" expanded="false" />
+                <element signature="e#62379#62380#0" expanded="false" />
+                <element signature="e#62429#62430#0" expanded="false" />
+                <element signature="e#62458#62459#0" expanded="false" />
+                <element signature="e#62495#62496#0" expanded="false" />
+                <element signature="e#62522#62523#0" expanded="false" />
+                <element signature="e#62576#62577#0" expanded="false" />
+                <element signature="e#62609#62610#0" expanded="false" />
+                <element signature="e#62651#62652#0" expanded="false" />
+                <element signature="e#62683#62684#0" expanded="false" />
+                <element signature="e#62747#62748#0" expanded="false" />
+                <element signature="e#62790#62791#0" expanded="false" />
+                <element signature="e#62831#62832#0" expanded="false" />
+                <element signature="e#62862#62863#0" expanded="false" />
+                <element signature="e#62924#62925#0" expanded="false" />
+                <element signature="e#62965#62966#0" expanded="false" />
+                <element signature="e#63003#63004#0" expanded="false" />
+                <element signature="e#63034#63035#0" expanded="false" />
+                <element signature="e#63093#63094#0" expanded="false" />
+                <element signature="e#63134#63135#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TabletHotelReserva2Fragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/TabletHotelReserva2Fragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.4">
+              <caret line="1347" column="47" selection-start-line="1347" selection-start-column="29" selection-end-line="1347" selection-end-column="47" />
+              <folding>
+                <element signature="e#2840#3201#0" expanded="true" />
+                <element signature="e#3200#3201#0" expanded="true" />
+                <element signature="e#5676#5847#0" expanded="true" />
+                <element signature="e#5846#5847#0" expanded="true" />
+                <element signature="e#6003#6174#0" expanded="true" />
+                <element signature="e#6173#6174#0" expanded="true" />
+                <element signature="e#10025#10132#0" expanded="true" />
+                <element signature="e#10131#10132#0" expanded="true" />
+                <element signature="e#57008#57009#0" expanded="true" />
+                <element signature="e#57035#57036#0" expanded="true" />
+                <element signature="e#57086#57087#0" expanded="true" />
+                <element signature="e#57119#57120#0" expanded="true" />
+                <element signature="e#57150#57151#0" expanded="true" />
+                <element signature="e#57171#57172#0" expanded="true" />
+                <element signature="e#57213#57214#0" expanded="true" />
+                <element signature="e#57234#57235#0" expanded="true" />
+                <element signature="e#57269#57270#0" expanded="true" />
+                <element signature="e#57294#57295#0" expanded="true" />
+                <element signature="e#57344#57345#0" expanded="true" />
+                <element signature="e#57373#57374#0" expanded="true" />
+                <element signature="e#57405#57406#0" expanded="true" />
+                <element signature="e#57427#57428#0" expanded="true" />
+                <element signature="e#57471#57472#0" expanded="true" />
+                <element signature="e#57494#57495#0" expanded="true" />
+                <element signature="e#57526#57527#0" expanded="true" />
+                <element signature="e#57548#57549#0" expanded="true" />
+                <element signature="e#57592#57593#0" expanded="true" />
+                <element signature="e#57615#57616#0" expanded="true" />
+                <element signature="e#57650#57651#0" expanded="true" />
+                <element signature="e#57675#57676#0" expanded="true" />
+                <element signature="e#57726#57727#0" expanded="true" />
+                <element signature="e#57755#57756#0" expanded="true" />
+                <element signature="e#57787#57788#0" expanded="true" />
+                <element signature="e#57809#57810#0" expanded="true" />
+                <element signature="e#57853#57854#0" expanded="true" />
+                <element signature="e#57876#57877#0" expanded="true" />
+                <element signature="e#57905#57906#0" expanded="true" />
+                <element signature="e#57927#57928#0" expanded="true" />
+                <element signature="e#57968#57969#0" expanded="true" />
+                <element signature="e#57991#57992#0" expanded="true" />
+                <element signature="e#58022#58023#0" expanded="true" />
+                <element signature="e#58046#58047#0" expanded="true" />
+                <element signature="e#58091#58092#0" expanded="true" />
+                <element signature="e#58118#58119#0" expanded="true" />
+                <element signature="e#58147#58148#0" expanded="true" />
+                <element signature="e#58169#58170#0" expanded="true" />
+                <element signature="e#58210#58211#0" expanded="true" />
+                <element signature="e#58233#58234#0" expanded="true" />
+                <element signature="e#58533#58534#0" expanded="true" />
+                <element signature="e#58561#58562#0" expanded="true" />
+                <element signature="e#58617#58618#0" expanded="true" />
+                <element signature="e#58652#58653#0" expanded="true" />
+                <element signature="e#58687#58688#0" expanded="true" />
+                <element signature="e#58712#58713#0" expanded="true" />
+                <element signature="e#58762#58763#0" expanded="true" />
+                <element signature="e#58791#58792#0" expanded="true" />
+                <element signature="e#58828#58829#0" expanded="true" />
+                <element signature="e#58855#58856#0" expanded="true" />
+                <element signature="e#58909#58910#0" expanded="true" />
+                <element signature="e#58942#58943#0" expanded="true" />
+                <element signature="e#58984#58985#0" expanded="true" />
+                <element signature="e#59016#59017#0" expanded="true" />
+                <element signature="e#59080#59081#0" expanded="true" />
+                <element signature="e#59123#59124#0" expanded="true" />
+                <element signature="e#59164#59165#0" expanded="true" />
+                <element signature="e#59195#59196#0" expanded="true" />
+                <element signature="e#59257#59258#0" expanded="true" />
+                <element signature="e#59298#59299#0" expanded="true" />
+                <element signature="e#59336#59337#0" expanded="true" />
+                <element signature="e#59367#59368#0" expanded="true" />
+                <element signature="e#59426#59427#0" expanded="true" />
+                <element signature="e#59467#59468#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TabletHotelDetailsActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/TabletHotelDetailsActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.6884273">
+              <caret line="172" column="41" selection-start-line="172" selection-start-column="41" selection-end-line="172" selection-end-column="41" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -153,13 +259,12 @@
       <file leaf-file-name="HotelDetailsActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/HotelDetailsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.555555">
+            <state vertical-scroll-proportion="0.0">
               <caret line="212" column="10" selection-start-line="212" selection-start-column="10" selection-end-line="212" selection-end-column="10" />
               <folding>
-                <element signature="e#8699#8700#0" expanded="true" />
-                <element signature="e#8743#8744#0" expanded="true" />
-                <element signature="e#8794#8795#0" expanded="true" />
-                <element signature="e#8838#8839#0" expanded="true" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#7838#7839#0" expanded="false" />
+                <element signature="e#7882#7883#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -170,7 +275,15 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#846#847#0" expanded="false" />
+                <element signature="e#899#900#0" expanded="false" />
+                <element signature="e#923#924#0" expanded="false" />
+                <element signature="e#973#974#0" expanded="false" />
+                <element signature="e#998#999#0" expanded="false" />
+                <element signature="e#1022#1023#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -180,30 +293,81 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fragment_hotel_reserva2.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_hotel_reserva2.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.62069">
-              <caret line="532" column="51" selection-start-line="532" selection-start-column="41" selection-end-line="532" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ReservacionesFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/ReservacionesFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.9615383">
-              <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#651#652#0" expanded="false" />
+                <element signature="e#688#689#0" expanded="false" />
+                <element signature="e#713#714#0" expanded="false" />
+                <element signature="e#730#731#0" expanded="false" />
+                <element signature="e#764#765#0" expanded="false" />
+                <element signature="e#779#780#0" expanded="false" />
+                <element signature="e#813#814#0" expanded="false" />
+                <element signature="e#837#838#0" expanded="false" />
+                <element signature="e#887#888#0" expanded="false" />
+                <element signature="e#916#917#0" expanded="false" />
+                <element signature="e#953#954#0" expanded="false" />
+                <element signature="e#980#981#0" expanded="false" />
+                <element signature="e#1036#1037#0" expanded="false" />
+                <element signature="e#1071#1072#0" expanded="false" />
+                <element signature="e#1108#1109#0" expanded="false" />
+                <element signature="e#1135#1136#0" expanded="false" />
+                <element signature="e#1191#1192#0" expanded="false" />
+                <element signature="e#1226#1227#0" expanded="false" />
+                <element signature="e#1264#1265#0" expanded="false" />
+                <element signature="e#1292#1293#0" expanded="false" />
+                <element signature="e#1350#1351#0" expanded="false" />
+                <element signature="e#1387#1388#0" expanded="false" />
+                <element signature="e#1426#1427#0" expanded="false" />
+                <element signature="e#1455#1456#0" expanded="false" />
+                <element signature="e#1515#1516#0" expanded="false" />
+                <element signature="e#1554#1555#0" expanded="false" />
+                <element signature="e#1588#1589#0" expanded="false" />
+                <element signature="e#1614#1615#0" expanded="false" />
+                <element signature="e#1666#1667#0" expanded="false" />
+                <element signature="e#1699#1700#0" expanded="false" />
+                <element signature="e#1735#1736#0" expanded="false" />
+                <element signature="e#1763#1764#0" expanded="false" />
+                <element signature="e#1819#1820#0" expanded="false" />
+                <element signature="e#1856#1857#0" expanded="false" />
+                <element signature="e#1895#1896#0" expanded="false" />
+                <element signature="e#1915#1916#0" expanded="false" />
+                <element signature="e#1966#1967#0" expanded="false" />
+                <element signature="e#1987#1988#0" expanded="false" />
+                <element signature="e#2022#2023#0" expanded="false" />
+                <element signature="e#2047#2048#0" expanded="false" />
+                <element signature="e#2099#2100#0" expanded="false" />
+                <element signature="e#2130#2131#0" expanded="false" />
+                <element signature="e#2165#2166#0" expanded="false" />
+                <element signature="e#2190#2191#0" expanded="false" />
+                <element signature="e#2242#2243#0" expanded="false" />
+                <element signature="e#2273#2274#0" expanded="false" />
+                <element signature="e#2304#2305#0" expanded="false" />
+                <element signature="e#2325#2326#0" expanded="false" />
+                <element signature="e#2369#2370#0" expanded="false" />
+                <element signature="e#2392#2393#0" expanded="false" />
+                <element signature="e#2714#2715#0" expanded="false" />
+                <element signature="e#2756#2757#0" expanded="false" />
+                <element signature="e#2783#2784#0" expanded="false" />
+                <element signature="e#2802#2803#0" expanded="false" />
+                <element signature="e#2838#2839#0" expanded="false" />
+                <element signature="e#2855#2856#0" expanded="false" />
+                <element signature="e#2899#2900#0" expanded="false" />
+                <element signature="e#2933#2934#0" expanded="false" />
+                <element signature="e#3093#3094#0" expanded="false" />
+                <element signature="e#3128#3129#0" expanded="false" />
+                <element signature="e#3291#3292#0" expanded="false" />
+                <element signature="e#3314#3315#0" expanded="false" />
+                <element signature="e#3371#3372#0" expanded="false" />
+                <element signature="e#3396#3397#0" expanded="false" />
+                <element signature="e#3437#3438#0" expanded="false" />
+                <element signature="e#3468#3469#0" expanded="false" />
+                <element signature="e#3530#3531#0" expanded="false" />
+                <element signature="e#3571#3572#0" expanded="false" />
+                <element signature="e#3607#3608#0" expanded="false" />
+                <element signature="e#3636#3637#0" expanded="false" />
+                <element signature="e#3691#3692#0" expanded="false" />
+                <element signature="e#3728#3729#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -213,7 +377,15 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#1551#1552#0" expanded="false" />
+                <element signature="e#1578#1579#0" expanded="false" />
+                <element signature="e#1632#1633#0" expanded="false" />
+                <element signature="e#1650#1651#0" expanded="false" />
+                <element signature="e#1704#1705#0" expanded="false" />
+                <element signature="e#1719#1720#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -223,21 +395,29 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="42" column="58" selection-start-line="42" selection-start-column="58" selection-end-line="42" selection-end-column="58" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#1221#1222#0" expanded="false" />
+                <element signature="e#1248#1249#0" expanded="false" />
+                <element signature="e#1291#1292#0" expanded="false" />
+                <element signature="e#1309#1310#0" expanded="false" />
+                <element signature="e#1352#1353#0" expanded="false" />
+                <element signature="e#1367#1368#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="reservation_list_item.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/reservation_list_item.xml">
+          <provider selected="true" editor-type-id="android-designer">
+            <state />
+          </provider>
           <provider editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
-          </provider>
-          <provider selected="true" editor-type-id="android-designer">
-            <state />
           </provider>
         </entry>
       </file>
@@ -2521,6 +2701,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/ReservacionesFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/HotelDetailsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/HotelReserva2Fragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/TabletHotelReserva2Fragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/TabletHotelDetailsActivity.java" />
       </list>
     </option>
   </component>
@@ -2562,10 +2744,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
-      <pane id="ProjectPane" />
-      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2650,13 +2828,17 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="com.genymobile.genymotion.ide.idea.GdmSettings" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="4203008fc4222100" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="emulator-5554" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_5_API_22_x86" />
     <property name="FullScreen" value="false" />
   </component>
@@ -2988,47 +3170,47 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/splash.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="5" column="42" selection-start-line="5" selection-start-column="42" selection-end-line="5" selection-end-column="42" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_countries.xml">
       <provider selected="true" editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_countries.xml">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_main.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="30" column="40" selection-start-line="30" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_main_tablet.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_main_tablet.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="23" column="20" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/MainActivity.java">
@@ -3086,14 +3268,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/splash.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/MainActivity.java">
@@ -3151,14 +3333,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/splash.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/MainActivity.java">
@@ -3216,47 +3398,47 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/splash.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="5" column="42" selection-start-line="5" selection-start-column="42" selection-end-line="5" selection-end-column="42" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_countries.xml">
       <provider selected="true" editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_countries.xml">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_main.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="30" column="40" selection-start-line="30" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_main_tablet.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_main_tablet.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6864989">
           <caret line="34" column="19" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="19" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/MainActivity.java">
@@ -3298,47 +3480,47 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_hotel_reserva_result_tablet.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_hotel_reserva_result.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/reservation_list_item.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/reservation_item.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/ReservationEngineClient.java">
@@ -3353,7 +3535,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1551#1552#0" expanded="false" />
+            <element signature="e#1578#1579#0" expanded="false" />
+            <element signature="e#1632#1633#0" expanded="false" />
+            <element signature="e#1650#1651#0" expanded="false" />
+            <element signature="e#1704#1705#0" expanded="false" />
+            <element signature="e#1719#1720#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3369,7 +3559,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="42" column="58" selection-start-line="42" selection-start-column="58" selection-end-line="42" selection-end-column="58" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1221#1222#0" expanded="false" />
+            <element signature="e#1248#1249#0" expanded="false" />
+            <element signature="e#1291#1292#0" expanded="false" />
+            <element signature="e#1309#1310#0" expanded="false" />
+            <element signature="e#1352#1353#0" expanded="false" />
+            <element signature="e#1367#1368#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3382,41 +3580,76 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_hotel_details.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_reservaciones.xml">
       <provider selected="true" editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_reservaciones.xml">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="8" column="46" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="46" />
           <folding />
         </state>
       </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/ReservationDS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#846#847#0" expanded="false" />
+            <element signature="e#899#900#0" expanded="false" />
+            <element signature="e#923#924#0" expanded="false" />
+            <element signature="e#973#974#0" expanded="false" />
+            <element signature="e#998#999#0" expanded="false" />
+            <element signature="e#1022#1023#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-21/android/app/Activity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.212987">
+          <caret line="670" column="28" selection-start-line="670" selection-start-column="28" selection-end-line="670" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/HotelDetailsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="212" column="10" selection-start-line="212" selection-start-column="10" selection-end-line="212" selection-end-column="10" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#7838#7839#0" expanded="false" />
+            <element signature="e#7882#7883#0" expanded="false" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_hotel_reserva2.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.62069">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
           <caret line="532" column="51" selection-start-line="532" selection-start-column="41" selection-end-line="532" selection-end-column="51" />
           <folding />
         </state>
       </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/ReservacionesFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.9615383">
+        <state vertical-scroll-proportion="0.75274724">
           <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
           <folding />
         </state>
@@ -3426,114 +3659,264 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/ReservationDS.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-21/android/app/Activity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.212987">
-          <caret line="670" column="28" selection-start-line="670" selection-start-column="28" selection-end-line="670" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/HotelDetailsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.555555">
-          <caret line="212" column="10" selection-start-line="212" selection-start-column="10" selection-end-line="212" selection-end-column="10" />
           <folding>
-            <element signature="e#8699#8700#0" expanded="true" />
-            <element signature="e#8743#8744#0" expanded="true" />
-            <element signature="e#8794#8795#0" expanded="true" />
-            <element signature="e#8838#8839#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#651#652#0" expanded="false" />
+            <element signature="e#688#689#0" expanded="false" />
+            <element signature="e#713#714#0" expanded="false" />
+            <element signature="e#730#731#0" expanded="false" />
+            <element signature="e#764#765#0" expanded="false" />
+            <element signature="e#779#780#0" expanded="false" />
+            <element signature="e#813#814#0" expanded="false" />
+            <element signature="e#837#838#0" expanded="false" />
+            <element signature="e#887#888#0" expanded="false" />
+            <element signature="e#916#917#0" expanded="false" />
+            <element signature="e#953#954#0" expanded="false" />
+            <element signature="e#980#981#0" expanded="false" />
+            <element signature="e#1036#1037#0" expanded="false" />
+            <element signature="e#1071#1072#0" expanded="false" />
+            <element signature="e#1108#1109#0" expanded="false" />
+            <element signature="e#1135#1136#0" expanded="false" />
+            <element signature="e#1191#1192#0" expanded="false" />
+            <element signature="e#1226#1227#0" expanded="false" />
+            <element signature="e#1264#1265#0" expanded="false" />
+            <element signature="e#1292#1293#0" expanded="false" />
+            <element signature="e#1350#1351#0" expanded="false" />
+            <element signature="e#1387#1388#0" expanded="false" />
+            <element signature="e#1426#1427#0" expanded="false" />
+            <element signature="e#1455#1456#0" expanded="false" />
+            <element signature="e#1515#1516#0" expanded="false" />
+            <element signature="e#1554#1555#0" expanded="false" />
+            <element signature="e#1588#1589#0" expanded="false" />
+            <element signature="e#1614#1615#0" expanded="false" />
+            <element signature="e#1666#1667#0" expanded="false" />
+            <element signature="e#1699#1700#0" expanded="false" />
+            <element signature="e#1735#1736#0" expanded="false" />
+            <element signature="e#1763#1764#0" expanded="false" />
+            <element signature="e#1819#1820#0" expanded="false" />
+            <element signature="e#1856#1857#0" expanded="false" />
+            <element signature="e#1895#1896#0" expanded="false" />
+            <element signature="e#1915#1916#0" expanded="false" />
+            <element signature="e#1966#1967#0" expanded="false" />
+            <element signature="e#1987#1988#0" expanded="false" />
+            <element signature="e#2022#2023#0" expanded="false" />
+            <element signature="e#2047#2048#0" expanded="false" />
+            <element signature="e#2099#2100#0" expanded="false" />
+            <element signature="e#2130#2131#0" expanded="false" />
+            <element signature="e#2165#2166#0" expanded="false" />
+            <element signature="e#2190#2191#0" expanded="false" />
+            <element signature="e#2242#2243#0" expanded="false" />
+            <element signature="e#2273#2274#0" expanded="false" />
+            <element signature="e#2304#2305#0" expanded="false" />
+            <element signature="e#2325#2326#0" expanded="false" />
+            <element signature="e#2369#2370#0" expanded="false" />
+            <element signature="e#2392#2393#0" expanded="false" />
+            <element signature="e#2714#2715#0" expanded="false" />
+            <element signature="e#2756#2757#0" expanded="false" />
+            <element signature="e#2783#2784#0" expanded="false" />
+            <element signature="e#2802#2803#0" expanded="false" />
+            <element signature="e#2838#2839#0" expanded="false" />
+            <element signature="e#2855#2856#0" expanded="false" />
+            <element signature="e#2899#2900#0" expanded="false" />
+            <element signature="e#2933#2934#0" expanded="false" />
+            <element signature="e#3093#3094#0" expanded="false" />
+            <element signature="e#3128#3129#0" expanded="false" />
+            <element signature="e#3291#3292#0" expanded="false" />
+            <element signature="e#3314#3315#0" expanded="false" />
+            <element signature="e#3371#3372#0" expanded="false" />
+            <element signature="e#3396#3397#0" expanded="false" />
+            <element signature="e#3437#3438#0" expanded="false" />
+            <element signature="e#3468#3469#0" expanded="false" />
+            <element signature="e#3530#3531#0" expanded="false" />
+            <element signature="e#3571#3572#0" expanded="false" />
+            <element signature="e#3607#3608#0" expanded="false" />
+            <element signature="e#3636#3637#0" expanded="false" />
+            <element signature="e#3691#3692#0" expanded="false" />
+            <element signature="e#3728#3729#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/HotelReserva2Fragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42948717">
-          <caret line="368" column="12" selection-start-line="368" selection-start-column="12" selection-end-line="368" selection-end-column="12" />
+        <state vertical-scroll-proportion="-4.148148">
+          <caret line="1442" column="22" selection-start-line="1442" selection-start-column="17" selection-end-line="1442" selection-end-column="22" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#54251#54294#0" expanded="true" />
-            <element signature="e#55835#55843#0" expanded="true" />
-            <element signature="e#55893#55901#0" expanded="true" />
-            <element signature="e#57924#57939#0" expanded="true" />
-            <element signature="e#60675#60676#0" expanded="true" />
-            <element signature="e#60702#60703#0" expanded="true" />
-            <element signature="e#60753#60754#0" expanded="true" />
-            <element signature="e#60786#60787#0" expanded="true" />
-            <element signature="e#60817#60818#0" expanded="true" />
-            <element signature="e#60838#60839#0" expanded="true" />
-            <element signature="e#60880#60881#0" expanded="true" />
-            <element signature="e#60901#60902#0" expanded="true" />
-            <element signature="e#60936#60937#0" expanded="true" />
-            <element signature="e#60961#60962#0" expanded="true" />
-            <element signature="e#61011#61012#0" expanded="true" />
-            <element signature="e#61040#61041#0" expanded="true" />
-            <element signature="e#61072#61073#0" expanded="true" />
-            <element signature="e#61094#61095#0" expanded="true" />
-            <element signature="e#61138#61139#0" expanded="true" />
-            <element signature="e#61161#61162#0" expanded="true" />
-            <element signature="e#61193#61194#0" expanded="true" />
-            <element signature="e#61215#61216#0" expanded="true" />
-            <element signature="e#61259#61260#0" expanded="true" />
-            <element signature="e#61282#61283#0" expanded="true" />
-            <element signature="e#61317#61318#0" expanded="true" />
-            <element signature="e#61342#61343#0" expanded="true" />
-            <element signature="e#61393#61394#0" expanded="true" />
-            <element signature="e#61422#61423#0" expanded="true" />
-            <element signature="e#61454#61455#0" expanded="true" />
-            <element signature="e#61476#61477#0" expanded="true" />
-            <element signature="e#61520#61521#0" expanded="true" />
-            <element signature="e#61543#61544#0" expanded="true" />
-            <element signature="e#61572#61573#0" expanded="true" />
-            <element signature="e#61594#61595#0" expanded="true" />
-            <element signature="e#61635#61636#0" expanded="true" />
-            <element signature="e#61658#61659#0" expanded="true" />
-            <element signature="e#61689#61690#0" expanded="true" />
-            <element signature="e#61713#61714#0" expanded="true" />
-            <element signature="e#61758#61759#0" expanded="true" />
-            <element signature="e#61785#61786#0" expanded="true" />
-            <element signature="e#61814#61815#0" expanded="true" />
-            <element signature="e#61836#61837#0" expanded="true" />
-            <element signature="e#61877#61878#0" expanded="true" />
-            <element signature="e#61900#61901#0" expanded="true" />
-            <element signature="e#62200#62201#0" expanded="true" />
-            <element signature="e#62228#62229#0" expanded="true" />
-            <element signature="e#62284#62285#0" expanded="true" />
-            <element signature="e#62319#62320#0" expanded="true" />
-            <element signature="e#62354#62355#0" expanded="true" />
-            <element signature="e#62379#62380#0" expanded="true" />
-            <element signature="e#62429#62430#0" expanded="true" />
-            <element signature="e#62458#62459#0" expanded="true" />
-            <element signature="e#62495#62496#0" expanded="true" />
-            <element signature="e#62522#62523#0" expanded="true" />
-            <element signature="e#62576#62577#0" expanded="true" />
-            <element signature="e#62609#62610#0" expanded="true" />
-            <element signature="e#62651#62652#0" expanded="true" />
-            <element signature="e#62683#62684#0" expanded="true" />
-            <element signature="e#62747#62748#0" expanded="true" />
-            <element signature="e#62790#62791#0" expanded="true" />
-            <element signature="e#62831#62832#0" expanded="true" />
-            <element signature="e#62862#62863#0" expanded="true" />
-            <element signature="e#62924#62925#0" expanded="true" />
-            <element signature="e#62965#62966#0" expanded="true" />
-            <element signature="e#63003#63004#0" expanded="true" />
-            <element signature="e#63034#63035#0" expanded="true" />
-            <element signature="e#63093#63094#0" expanded="true" />
-            <element signature="e#63134#63135#0" expanded="true" />
+            <element signature="e#5862#5870#0" expanded="false" />
+            <element signature="e#5922#5936#0" expanded="false" />
+            <element signature="e#7845#7846#0" expanded="false" />
+            <element signature="e#7883#7884#0" expanded="false" />
+            <element signature="e#8339#8340#0" expanded="false" />
+            <element signature="e#8377#8378#0" expanded="false" />
+            <element signature="e#9663#9671#0" expanded="false" />
+            <element signature="e#10095#10103#0" expanded="false" />
+            <element signature="e#10148#10156#0" expanded="false" />
+            <element signature="e#11175#11183#0" expanded="false" />
+            <element signature="e#11783#11791#0" expanded="false" />
+            <element signature="e#15800#15808#0" expanded="false" />
+            <element signature="e#19471#19479#0" expanded="false" />
+            <element signature="e#20675#20683#0" expanded="false" />
+            <element signature="e#21984#21998#0" expanded="false" />
+            <element signature="e#33449#33496#0" expanded="false" />
+            <element signature="e#43782#43829#0" expanded="false" />
+            <element signature="e#54251#54294#0" expanded="false" />
+            <element signature="e#55835#55843#0" expanded="false" />
+            <element signature="e#55893#55901#0" expanded="false" />
+            <element signature="e#57924#57939#0" expanded="false" />
+            <element signature="e#60675#60676#0" expanded="false" />
+            <element signature="e#60702#60703#0" expanded="false" />
+            <element signature="e#60753#60754#0" expanded="false" />
+            <element signature="e#60786#60787#0" expanded="false" />
+            <element signature="e#60817#60818#0" expanded="false" />
+            <element signature="e#60838#60839#0" expanded="false" />
+            <element signature="e#60880#60881#0" expanded="false" />
+            <element signature="e#60901#60902#0" expanded="false" />
+            <element signature="e#60936#60937#0" expanded="false" />
+            <element signature="e#60961#60962#0" expanded="false" />
+            <element signature="e#61011#61012#0" expanded="false" />
+            <element signature="e#61040#61041#0" expanded="false" />
+            <element signature="e#61072#61073#0" expanded="false" />
+            <element signature="e#61094#61095#0" expanded="false" />
+            <element signature="e#61138#61139#0" expanded="false" />
+            <element signature="e#61161#61162#0" expanded="false" />
+            <element signature="e#61193#61194#0" expanded="false" />
+            <element signature="e#61215#61216#0" expanded="false" />
+            <element signature="e#61259#61260#0" expanded="false" />
+            <element signature="e#61282#61283#0" expanded="false" />
+            <element signature="e#61317#61318#0" expanded="false" />
+            <element signature="e#61342#61343#0" expanded="false" />
+            <element signature="e#61393#61394#0" expanded="false" />
+            <element signature="e#61422#61423#0" expanded="false" />
+            <element signature="e#61454#61455#0" expanded="false" />
+            <element signature="e#61476#61477#0" expanded="false" />
+            <element signature="e#61520#61521#0" expanded="false" />
+            <element signature="e#61543#61544#0" expanded="false" />
+            <element signature="e#61572#61573#0" expanded="false" />
+            <element signature="e#61594#61595#0" expanded="false" />
+            <element signature="e#61635#61636#0" expanded="false" />
+            <element signature="e#61658#61659#0" expanded="false" />
+            <element signature="e#61689#61690#0" expanded="false" />
+            <element signature="e#61713#61714#0" expanded="false" />
+            <element signature="e#61758#61759#0" expanded="false" />
+            <element signature="e#61785#61786#0" expanded="false" />
+            <element signature="e#61814#61815#0" expanded="false" />
+            <element signature="e#61836#61837#0" expanded="false" />
+            <element signature="e#61877#61878#0" expanded="false" />
+            <element signature="e#61900#61901#0" expanded="false" />
+            <element signature="e#62200#62201#0" expanded="false" />
+            <element signature="e#62228#62229#0" expanded="false" />
+            <element signature="e#62284#62285#0" expanded="false" />
+            <element signature="e#62319#62320#0" expanded="false" />
+            <element signature="e#62354#62355#0" expanded="false" />
+            <element signature="e#62379#62380#0" expanded="false" />
+            <element signature="e#62429#62430#0" expanded="false" />
+            <element signature="e#62458#62459#0" expanded="false" />
+            <element signature="e#62495#62496#0" expanded="false" />
+            <element signature="e#62522#62523#0" expanded="false" />
+            <element signature="e#62576#62577#0" expanded="false" />
+            <element signature="e#62609#62610#0" expanded="false" />
+            <element signature="e#62651#62652#0" expanded="false" />
+            <element signature="e#62683#62684#0" expanded="false" />
+            <element signature="e#62747#62748#0" expanded="false" />
+            <element signature="e#62790#62791#0" expanded="false" />
+            <element signature="e#62831#62832#0" expanded="false" />
+            <element signature="e#62862#62863#0" expanded="false" />
+            <element signature="e#62924#62925#0" expanded="false" />
+            <element signature="e#62965#62966#0" expanded="false" />
+            <element signature="e#63003#63004#0" expanded="false" />
+            <element signature="e#63034#63035#0" expanded="false" />
+            <element signature="e#63093#63094#0" expanded="false" />
+            <element signature="e#63134#63135#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/TabletHotelReserva2Fragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.4">
+          <caret line="1347" column="47" selection-start-line="1347" selection-start-column="29" selection-end-line="1347" selection-end-column="47" />
+          <folding>
+            <element signature="e#2840#3201#0" expanded="true" />
+            <element signature="e#3200#3201#0" expanded="true" />
+            <element signature="e#5676#5847#0" expanded="true" />
+            <element signature="e#5846#5847#0" expanded="true" />
+            <element signature="e#6003#6174#0" expanded="true" />
+            <element signature="e#6173#6174#0" expanded="true" />
+            <element signature="e#10025#10132#0" expanded="true" />
+            <element signature="e#10131#10132#0" expanded="true" />
+            <element signature="e#57008#57009#0" expanded="true" />
+            <element signature="e#57035#57036#0" expanded="true" />
+            <element signature="e#57086#57087#0" expanded="true" />
+            <element signature="e#57119#57120#0" expanded="true" />
+            <element signature="e#57150#57151#0" expanded="true" />
+            <element signature="e#57171#57172#0" expanded="true" />
+            <element signature="e#57213#57214#0" expanded="true" />
+            <element signature="e#57234#57235#0" expanded="true" />
+            <element signature="e#57269#57270#0" expanded="true" />
+            <element signature="e#57294#57295#0" expanded="true" />
+            <element signature="e#57344#57345#0" expanded="true" />
+            <element signature="e#57373#57374#0" expanded="true" />
+            <element signature="e#57405#57406#0" expanded="true" />
+            <element signature="e#57427#57428#0" expanded="true" />
+            <element signature="e#57471#57472#0" expanded="true" />
+            <element signature="e#57494#57495#0" expanded="true" />
+            <element signature="e#57526#57527#0" expanded="true" />
+            <element signature="e#57548#57549#0" expanded="true" />
+            <element signature="e#57592#57593#0" expanded="true" />
+            <element signature="e#57615#57616#0" expanded="true" />
+            <element signature="e#57650#57651#0" expanded="true" />
+            <element signature="e#57675#57676#0" expanded="true" />
+            <element signature="e#57726#57727#0" expanded="true" />
+            <element signature="e#57755#57756#0" expanded="true" />
+            <element signature="e#57787#57788#0" expanded="true" />
+            <element signature="e#57809#57810#0" expanded="true" />
+            <element signature="e#57853#57854#0" expanded="true" />
+            <element signature="e#57876#57877#0" expanded="true" />
+            <element signature="e#57905#57906#0" expanded="true" />
+            <element signature="e#57927#57928#0" expanded="true" />
+            <element signature="e#57968#57969#0" expanded="true" />
+            <element signature="e#57991#57992#0" expanded="true" />
+            <element signature="e#58022#58023#0" expanded="true" />
+            <element signature="e#58046#58047#0" expanded="true" />
+            <element signature="e#58091#58092#0" expanded="true" />
+            <element signature="e#58118#58119#0" expanded="true" />
+            <element signature="e#58147#58148#0" expanded="true" />
+            <element signature="e#58169#58170#0" expanded="true" />
+            <element signature="e#58210#58211#0" expanded="true" />
+            <element signature="e#58233#58234#0" expanded="true" />
+            <element signature="e#58533#58534#0" expanded="true" />
+            <element signature="e#58561#58562#0" expanded="true" />
+            <element signature="e#58617#58618#0" expanded="true" />
+            <element signature="e#58652#58653#0" expanded="true" />
+            <element signature="e#58687#58688#0" expanded="true" />
+            <element signature="e#58712#58713#0" expanded="true" />
+            <element signature="e#58762#58763#0" expanded="true" />
+            <element signature="e#58791#58792#0" expanded="true" />
+            <element signature="e#58828#58829#0" expanded="true" />
+            <element signature="e#58855#58856#0" expanded="true" />
+            <element signature="e#58909#58910#0" expanded="true" />
+            <element signature="e#58942#58943#0" expanded="true" />
+            <element signature="e#58984#58985#0" expanded="true" />
+            <element signature="e#59016#59017#0" expanded="true" />
+            <element signature="e#59080#59081#0" expanded="true" />
+            <element signature="e#59123#59124#0" expanded="true" />
+            <element signature="e#59164#59165#0" expanded="true" />
+            <element signature="e#59195#59196#0" expanded="true" />
+            <element signature="e#59257#59258#0" expanded="true" />
+            <element signature="e#59298#59299#0" expanded="true" />
+            <element signature="e#59336#59337#0" expanded="true" />
+            <element signature="e#59367#59368#0" expanded="true" />
+            <element signature="e#59426#59427#0" expanded="true" />
+            <element signature="e#59467#59468#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/zebstudios/cityexpress/TabletHotelDetailsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6884273">
+          <caret line="172" column="41" selection-start-line="172" selection-start-column="41" selection-end-line="172" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>
