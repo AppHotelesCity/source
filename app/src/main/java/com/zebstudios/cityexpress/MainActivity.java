@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,6 +40,43 @@ public class MainActivity extends ActionBarActivity
 			setActionBarArrowDependingOnFragmentsBackStack();
 		}
 	};
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_activity_actions, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
+			case R.id.message_center:
+				openMessageCenter();
+				return true;
+			default:
+				if( _actionBarDrawerToggle.isDrawerIndicatorEnabled() && _actionBarDrawerToggle.onOptionsItemSelected( item ) )
+					return true;
+				else if( item.getItemId() == android.R.id.home && getSupportFragmentManager().popBackStackImmediate() )
+					return true;
+				else
+					return super.onOptionsItemSelected( item );
+		}
+	}
+/*
+	public boolean onOptionsItemSelected( MenuItem item )
+	{
+		if( _actionBarDrawerToggle.isDrawerIndicatorEnabled() && _actionBarDrawerToggle.onOptionsItemSelected( item ) )
+			return true;
+		else if( item.getItemId() == android.R.id.home && getSupportFragmentManager().popBackStackImmediate() )
+			return true;
+		else
+			return super.onOptionsItemSelected( item );
+	}
+
+*/
 
 	@Override
 	protected void onCreate( Bundle savedInstanceState )
@@ -138,16 +177,7 @@ public class MainActivity extends ActionBarActivity
 		}
 	}
 
-	@Override
-	public boolean onOptionsItemSelected( MenuItem item )
-	{
-		if( _actionBarDrawerToggle.isDrawerIndicatorEnabled() && _actionBarDrawerToggle.onOptionsItemSelected( item ) )
-			return true;
-		else if( item.getItemId() == android.R.id.home && getSupportFragmentManager().popBackStackImmediate() )
-			return true;
-		else
-			return super.onOptionsItemSelected( item );
-	}
+
 
 	@Override
 	protected void onPostCreate( Bundle savedInstanceState )
@@ -202,6 +232,8 @@ public class MainActivity extends ActionBarActivity
 	private static final int ACTIVITY_BLOG = 2222;
 	private static final int ACTIVITY_PREMIOS_LOGIN = 3333;
 	private static final int ACTIVITY_PREMIOS_DETAIL = 4444;
+	private static final int ACTIVITY_MESSAGE_CENTER = 5555;
+
 
 	@Override
 	protected void onActivityResult( int requestCode, int resultCode, Intent data )
@@ -307,5 +339,33 @@ public class MainActivity extends ActionBarActivity
 		getSupportFragmentManager().popBackStackImmediate();
 		ReservacionesFragment fragment = new ReservacionesFragment();
 		getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
+	}
+
+	public void messagecenter(View view) {
+
+		/*
+		RichPushInbox mensaje = UAirship.shared().getRichPushManager().getRichPushInbox();
+		List<RichPushMessage> mensajes = mensaje.getMessages();
+
+		Log.d("Main activity", "Mensajes :3 " + mensaje.getCount() );
+		Log.d("Main activity", "Mensajes no leidos " + mensaje.getUnreadCount() );
+		Log.d("Main activity", "Mensajes leidos " + mensaje.getReadCount() );
+
+		for(RichPushMessage msj : mensajes) {
+			Log.e("Main Activity", "Titulo --> " + msj.getTitle() );
+			Log.e("Main Activity", "Expiracion --> " + msj.getMessageId() );
+		}
+*/
+		openMessageCenter();
+
+}
+
+	public void openMessageCenter(){
+
+		MessagecenterFragment fragment = new MessagecenterFragment();
+		getSupportActionBar().setTitle("Inbox");
+		//activity.getSupportActionBar().setTitle( "PromoCode" );
+		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+
 	}
 }

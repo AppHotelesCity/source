@@ -34,6 +34,17 @@
 						android:layout_weight="10"/>
 			</TableRow>
 
+			<!--
+			<TableRow
+				android:background="@color/main_option3"
+				android:focusableInTouchMode="true">
+
+				<Button
+					android:text="Lalalala"
+					android:onClick="messagecenter"/>
+
+			</TableRow>
+			-->
 			<TableRow
 					android:background="@color/main_option1">
 
