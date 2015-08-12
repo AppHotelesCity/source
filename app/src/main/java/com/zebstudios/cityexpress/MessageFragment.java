@@ -1,29 +1,3 @@
-/*
-Copyright 2009-2015 Urban Airship Inc. All rights reserved.
-
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this
-list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright notice,
-this list of conditions and the following disclaimer in the documentation
-and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE URBAN AIRSHIP INC ``AS IS'' AND ANY EXPRESS OR
-IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
-EVENT SHALL URBAN AIRSHIP INC OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
 package com.zebstudios.cityexpress;
 
 import android.animation.Animator;
@@ -31,7 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +23,7 @@ import com.urbanairship.widget.UAWebViewClient;
  * Fragment that displays a rich push message in a RichPushMessageView
  */
 @SuppressLint("NewApi")
-public class MessageFragment extends Fragment {
+public class MessageFragment extends DialogFragment {
 
     private static final String MESSAGE_ID_KEY = "com.urbanairship.richpush.URL_KEY";
     private RichPushMessageWebView browser;
@@ -73,7 +47,7 @@ public class MessageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
 
         String messageId = getArguments().getString(MESSAGE_ID_KEY);
         message = UAirship.shared().getRichPushManager().getRichPushInbox().getMessage(messageId);
@@ -85,6 +59,8 @@ public class MessageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //_view = inflater.inflate( R.layout.fragment_message_center, container, false );
+
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         browser = (RichPushMessageWebView) view.findViewById(R.id.message_view);
@@ -106,6 +82,7 @@ public class MessageFragment extends Fragment {
                 showMessage();
             }
         });
+
 
         return view;
     }
@@ -141,6 +118,7 @@ public class MessageFragment extends Fragment {
      * Reveals the message.
      */
     private void showMessage() {
+
         if (Build.VERSION.SDK_INT < 12) {
             browser.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
@@ -164,6 +142,7 @@ public class MessageFragment extends Fragment {
                         progressBar.setVisibility(View.GONE);
                     }
                 });
+
     }
 
 }

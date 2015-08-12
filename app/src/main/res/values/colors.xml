@@ -48,4 +48,5 @@
 
 	<color name="cat_normal">#FFE7E7E7</color>
 	<color name="cat_pressed">#FFCCCCCC</color>
+	<color name="message_center">#EF4C41</color>
 </resources>

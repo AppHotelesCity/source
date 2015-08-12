@@ -24,21 +24,11 @@ public class MessagecenterFragment extends DialogFragment
     private ArrayList<RichPushMessage> _mensaje;
     private ProgressDialogFragment _progress;
 
-    /*
-    public StatesFragment()
-    {
-        // Required empty public constructor
-    }
-    */
-
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
     {
         _view = inflater.inflate( R.layout.fragment_message_center, container, false );
-
-
         Log.e("Messagecenter", "OncreateView :3");
-
         RichPushInbox mensaje = UAirship.shared().getRichPushManager().getRichPushInbox();
         List<RichPushMessage> mensajes = mensaje.getMessages();
 
@@ -48,6 +38,8 @@ public class MessagecenterFragment extends DialogFragment
         }
 
         EstadosObtained();
+
+
         return _view;
     }
 
@@ -55,14 +47,7 @@ public class MessagecenterFragment extends DialogFragment
     private void EstadosObtained()
     {
         Log.e("TEST", "RESULTS: " + _mensaje.size());
-
-
-        //Collections.sort(_mensaje, new PromoCode.PromoCodeComparator());
-
-/*        PromoCode c = new PromoCode("lala", "Sin PromoCode");
-        _promocode.add( 0, c );
-        */
-
+        
         MessagecenterListAdapter messagecenterlistadap = new MessagecenterListAdapter(getActivity(), _mensaje);
         ListView list = (ListView) _view.findViewById(R.id.result_list);
         list.setAdapter(messagecenterlistadap);
@@ -74,23 +59,6 @@ public class MessagecenterFragment extends DialogFragment
                 Log.d("PromoCodeFragment", "Onitemclick :3 ");
             }
         });
-
-        /*
-        PromoCodeListAdapter promoCodeListAdapter = new PromoCodeListAdapter(getActivity(), _promocode);
-        ListView list = (ListView) _view.findViewById(R.id.result_list);
-        list.setAdapter(promoCodeListAdapter);
-        list.setOnItemClickListener( new AdapterView.OnItemClickListener() {
-                                         @Override
-                                         public void onItemClick( AdapterView<?> adapterView, View view, int i, long l )
-                                         {
-                                             ItemSelected( i );
-                                             Log.d("PromoCodeFragment", "Onitemclick :3 ");
-                                         }
-                                     }
-
-        );
-        */
-
 
     }
 
@@ -125,12 +93,22 @@ public class MessagecenterFragment extends DialogFragment
     public void ItemSelected( int position )
     {
 
+
+
         RichPushMessage msj = _mensaje.get(position);
         Log.e("Messagecenter", "Tocaste --> " + msj.getTitle());
         MessageFragment fragment = new MessageFragment();
+        msj.markRead();
         fragment = fragment.newInstance(msj.getMessageId());
-        //getSupportActionBar().setTitle("Inbox");
         getFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).addToBackStack(null).commit();
+		//getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, "tag").addToBackStack(null).commit();
+
+        //getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, "tag").addToBackStack(null).commit();
+
+        //getFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).addToBackStack(null).commit();
+
+        MainActivity main = (MainActivity) getActivity();
+        main.OcultarBagde();
 
     }
 

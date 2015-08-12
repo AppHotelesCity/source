@@ -41,8 +41,6 @@
             android:name=".MainActivity"
             android:label="@string/app_name" >
         </activity>
-        <activity
-            android:name="com.zebstudios.cityexpress.MessageCenterActivity" />
 
         <activity android:name="com.zebstudios.cityexpress.SearchResultsActivity" android:label="Resultados" android:screenOrientation="portrait" />
         <activity android:name="com.zebstudios.cityexpress.HotelDetailsActivity" android:label="Detalles" android:screenOrientation="portrait" />

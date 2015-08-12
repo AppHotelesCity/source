@@ -1,6 +1,7 @@
 package com.zebstudios.cityexpress;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,14 @@ public class MessagecenterListAdapter extends ArrayAdapter<RichPushMessage>
             }
 
         }
+
+        if ( !item.isRead() ){
+            rowView.setBackgroundColor(Color.parseColor("#EF4C41"));
+
+        }
+
+        item.markRead();
+        notifyDataSetChanged();
 
         return rowView;
     }

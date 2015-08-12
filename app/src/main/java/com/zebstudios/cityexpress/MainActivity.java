@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,7 +21,10 @@ import com.appsee.Appsee;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.urbanairship.UAirship;
+import com.urbanairship.richpush.RichPushInbox;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import io.fabric.sdk.android.Fabric;
@@ -29,6 +33,10 @@ import static com.appsee.Appsee.addEvent;
 
 public class MainActivity extends ActionBarActivity
 {
+	private Menu messagesAction;
+	private ImageView imgMessagesIcon;
+	private BadgeView messageCenterBadge;
+
 	ActionBarDrawerToggle _actionBarDrawerToggle;
 	ArrayList<NavDrawerListAdapter.ListItem> _navDrawerItems;
 	DrawerLayout _drawerLayout;
@@ -42,11 +50,82 @@ public class MainActivity extends ActionBarActivity
 	};
 	public boolean onCreateOptionsMenu(Menu menu) {
 
+		Log.e("Main activity " , "Titulo :3 " +getTitle() );
 
-		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_activity_actions, menu);
+
+		MenuItem msgItem = menu.findItem(R.id.message_center);
+		messagesAction = menu;
+
+		msgItem.setActionView(R.layout.common_messages_indicator);
+
+		if(msgItem.getActionView().findViewById(R.id.imgMessagesIcon) != null)
+		{
+			imgMessagesIcon = ((ImageView)msgItem.getActionView().findViewById(R.id.imgMessagesIcon));
+
+			imgMessagesIcon.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					//((SlidingMenuBase)view.getContext()).onOptionsItemSelected(msgItem);
+					Log.e("MainActivity", "Click en item message center");
+					openMessageCenter();
+					OcultarBagde();
+				}
+			});
+
+			RichPushInbox mensaje = UAirship.shared().getRichPushManager().getRichPushInbox();
+
+			Log.d("Main activity", "Mensajes no leidos " + mensaje.getUnreadCount());
+			updateMessagesBadge(mensaje.getUnreadCount());
+		}
+		//msgItem.setVisible(false);
+
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	public void OcultarBagde(){
+		MenuItem msgItem = messagesAction.findItem(R.id.message_center);
+		msgItem.setVisible(false);
+	}
+	public void MostrarBagde(){
+		MenuItem msgItem = messagesAction.findItem(R.id.message_center);
+		msgItem.setVisible(true);
+	}
+
+	public void onBackPressed() {
+		MostrarBagde();
+		final MessagecenterFragment fragment = (MessagecenterFragment) getSupportFragmentManager().findFragmentByTag("tag");
+
+		super.onBackPressed();
+	}
+
+
+		private void updateMessagesBadge(int badgeCnt)
+	{
+		if(messagesAction != null)
+		{
+			ImageView imgMessagesIcon = ((ImageView) messagesAction.getItem(0).getActionView().findViewById(R.id.imgMessagesIcon));
+
+
+			if(messageCenterBadge == null && badgeCnt > 0)
+			{
+				messageCenterBadge = new BadgeView(this, imgMessagesIcon);
+				messageCenterBadge.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
+				messageCenterBadge.setBadgeMargin(0);
+				messageCenterBadge.setTextSize(12);
+				messageCenterBadge.setText(String.valueOf(badgeCnt));
+				messageCenterBadge.show();
+			}
+			else if(messageCenterBadge != null && badgeCnt > 0 )
+			{
+				messageCenterBadge.setText(String.valueOf(badgeCnt));
+				messageCenterBadge.show();
+			}
+			else if(messageCenterBadge != null && badgeCnt == 0) {
+				messageCenterBadge.hide();
+			}
+		}
 	}
 
 	@Override
@@ -151,6 +230,7 @@ public class MainActivity extends ActionBarActivity
 
 
 
+
 	}
 
 		@Override
@@ -162,19 +242,31 @@ public class MainActivity extends ActionBarActivity
 
 	private void setActionBarArrowDependingOnFragmentsBackStack()
 	{
+
 		int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
-		_actionBarDrawerToggle.setDrawerIndicatorEnabled( backStackEntryCount == 0 );
-		if( backStackEntryCount == 0 )
-			_drawerLayout.setDrawerLockMode( DrawerLayout.LOCK_MODE_UNLOCKED );
-		else
-			_drawerLayout.setDrawerLockMode( DrawerLayout.LOCK_MODE_LOCKED_CLOSED );
+
+		_actionBarDrawerToggle.setDrawerIndicatorEnabled(backStackEntryCount == 0);
+
 
 		FragmentManager manager = getSupportFragmentManager();
 		if (manager != null)
 		{
-			Fragment fragment = manager.findFragmentById( R.id.fragment_container );
+			Fragment fragment = manager.findFragmentById(R.id.fragment_container);
 			fragment.onResume();
+			Log.e("MainActivity", "FRAGMENT-----> S=S=S=");
 		}
+
+		Log.e("MainActivity", "NUMEROOOOO-----> " + backStackEntryCount );
+
+		if( backStackEntryCount == 0 ) {
+			_drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+			MostrarBagde();
+		}else {
+			OcultarBagde();
+			_drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+		}
+
+
 	}
 
 
@@ -182,7 +274,7 @@ public class MainActivity extends ActionBarActivity
 	@Override
 	protected void onPostCreate( Bundle savedInstanceState )
 	{
-		super.onPostCreate( savedInstanceState );
+		super.onPostCreate(savedInstanceState);
 		_actionBarDrawerToggle.syncState();
 	}
 
@@ -364,8 +456,7 @@ public class MainActivity extends ActionBarActivity
 
 		MessagecenterFragment fragment = new MessagecenterFragment();
 		getSupportActionBar().setTitle("Inbox");
-		//activity.getSupportActionBar().setTitle( "PromoCode" );
-		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, "tag").addToBackStack(null).commit();
 
 	}
 }

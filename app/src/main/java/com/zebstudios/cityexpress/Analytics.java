@@ -31,12 +31,12 @@ public class Analytics extends Application
 		//La clase que recibe y manipula las notificacione spush es IntentReceiver
 
 		AirshipConfigOptions options = new AirshipConfigOptions();
-		//options.developmentAppKey = "edLry_oVTlSBkX6O04Nzsg";
-		//options.developmentAppSecret = "yXBxRhAQQzqxXUp52Yh_lg";
-		options.productionAppKey = "edLry_oVTlSBkX6O04Nzsg";
-		options.productionAppSecret = "yXBxRhAQQzqxXUp52Yh_lg";
+		options.developmentAppKey = "edLry_oVTlSBkX6O04Nzsg";
+		options.developmentAppSecret = "yXBxRhAQQzqxXUp52Yh_lg";
+		//options.productionAppKey = "edLry_oVTlSBkX6O04Nzsg";
+		//options.productionAppSecret = "yXBxRhAQQzqxXUp52Yh_lg";
 		options.gcmSender = "844586752934";
-		options.inProduction = true;
+		options.inProduction = false;
 
 		UAirship.takeOff(this, options);
 		UAirship.shared().getPushManager().setUserNotificationsEnabled(true);
