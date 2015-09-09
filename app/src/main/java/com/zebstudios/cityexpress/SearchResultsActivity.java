@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -95,6 +96,7 @@ public class SearchResultsActivity extends ActionBarActivity
 	{
 		_tempHotel = _results.get( position );
 		new GetHotelData( _tempHotel.getId() ).execute();
+		Log.e("SearchResult", "id de hotel :3 --> " + _tempHotel.getId() );
 	}
 
 	private void hotelObtained( int res, Hotel hotel )
@@ -149,7 +151,7 @@ public class SearchResultsActivity extends ActionBarActivity
 		@Override
 		protected Integer doInBackground( Void... arg0 )
 		{
-			String url = APIAddress.HOTELS_API_MOBILE + "/GetHotelByCity/" + _id;
+			String url = APIAddress.HOTELS_API_MOBILE + "/GetHotel/" + _id;
 
 			android.util.Log.d( "", "URL: " + url );
 			ServiceHandler sh = new ServiceHandler();
@@ -159,6 +161,7 @@ public class SearchResultsActivity extends ActionBarActivity
 			{
 				try
 				{
+					Log.e("search", "GETHOTELID -- " + jsonStr );
 					JSONObject raw = new JSONObject( jsonStr );
 					JSONObject h = raw.getJSONObject( "Hotele" );
 					Hotel hotel = new Hotel( h );

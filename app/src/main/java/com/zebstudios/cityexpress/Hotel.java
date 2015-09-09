@@ -1,5 +1,7 @@
 package com.zebstudios.cityexpress;
 
+import android.util.Log;
+
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -98,28 +100,46 @@ public class Hotel implements Serializable {
             _imagenesExtra = json.getString("Imagenes_Extra").replace("\r\n", "").split(",");
             _idMarca = json.getInt("IdMarca");
             _imagenFondoApp = json.getString("Imagen_Fondo_Hotel_App");
-            
-            ArrayList < String > imagesOk = new ArrayList < String > ();
-            for (int i = 0; i < _imagenesExtra.length; i++) {
-                if (_imagenesExtra[i] != null) {
-                    if (_imagenesExtra[i].trim().length() > 0) {
-                        if (_imagenesExtra[i].trim().startsWith("http")) imagesOk.add(_imagenesExtra[i].trim());
-                        else android.util.Log.d("VERIFY", _imagenesExtra[i].trim());
+
+            if (!json.isNull("Imagenes")) {
+
+                Log.e("Hotel", "imagenes --> " + json.getString("Imagenes").replace("\r\n", ""));
+
+                ArrayList<String> imagesOk = new ArrayList<String>();
+                for (int i = 0; i < _imagenesExtra.length; i++) {
+                    if (_imagenesExtra[i] != null) {
+                        if (_imagenesExtra[i].trim().length() > 0) {
+                            if (_imagenesExtra[i].trim().startsWith("http")) {
+
+                                imagesOk.add(_imagenesExtra[i].trim());
+                                Log.e("Hotel", "URL --> " + _imagenesExtra[i].trim());
+                            } else android.util.Log.d("VERIFY", _imagenesExtra[i].trim());
+                        }
                     }
                 }
+
+                _imagenesExtra = new String[imagesOk.size()];
+                for (int i = 0; i < imagesOk.size(); i++)
+                    _imagenesExtra[i] = imagesOk.get(i);
+
+            }else{
+
+                Log.e("Hotel", "Imagenes no existen D=");
+
             }
-            
-            _imagenesExtra = new String[imagesOk.size()];
-            for (int i = 0; i < imagesOk.size(); i++)
-                _imagenesExtra[i] = imagesOk.get(i);
-            
-            String servs = json.getString("Servicios");
-            if (servs.length() > 0) {
-                String[] temp = servs.split(",");
-                _servicios = new int[temp.length];
-                for (int i = 0; i < temp.length; i++)
-                    _servicios[i] = Integer.parseInt(temp[i]);
-            } else _servicios = new int[0];
+            if (!json.isNull("Servicios")) {
+
+
+                String servs = json.getString("Servicios");
+                if (servs.length() > 0) {
+                    String[] temp = servs.split(",");
+                    _servicios = new int[temp.length];
+                    for (int i = 0; i < temp.length; i++)
+                        _servicios[i] = Integer.parseInt(temp[i]);
+                } else _servicios = new int[0];
+            }else {
+                Log.e("Hoteles", "No existe servicios");
+            }
             
             _source = source;
             _idEstado = json.getInt("IdEstado");

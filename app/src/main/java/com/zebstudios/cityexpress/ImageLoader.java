@@ -29,9 +29,10 @@ public class ImageLoader extends AsyncTask<String, Void, Bitmap>
 		String urldisplay = urls[0];
 		Bitmap bitmap = null;
 
-		//android.util.Log.w( "IMG LOADER", "URL: " + urldisplay );
-		//android.util.Log.w( "IMG LOADER", "KEY: " + GetKeyForCache( urldisplay ) );
+		android.util.Log.w( "IMG LOADER", "URL: " + urldisplay );
+		android.util.Log.w( "IMG LOADER", "KEY: " + GetKeyForCache( urldisplay ) );
 
+		urldisplay = urldisplay.replace("http://23.253.241.31/","https://www.cityexpress.com/");
 
 
 		try

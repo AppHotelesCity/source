@@ -5,6 +5,8 @@ package com.zebstudios.cityexpress;
  */
 public class APIAddress
 {
+
+	//https://www.cityexpress.com/umbraco/api/MobileAppServices/GetAllHotels
 	public static final String HOTELS_WEB_BASE = "https://www.cityexpress.com";
 	public static final String HOTELS_API_MOBILE = "https://www.cityexpress.com/umbraco/api/MobileAppServices";
 

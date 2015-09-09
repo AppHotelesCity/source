@@ -14,6 +14,9 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
+repositories {
+    maven { url "https://github.com/adform/adform-tracking-android-sdk/raw/master/releases/" }
+}
 
 android {
     compileSdkVersion 21
@@ -55,5 +58,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:7.5.0'
     // Required for Android (GCM) push notifications
     compile 'com.google.android.gms:play-services-gcm:7.5.0'
+    //AdForm tracking
+    compile 'com.adform.tracking.sdk:adform-tracking-sdk:0.2.4'
+
 
 }

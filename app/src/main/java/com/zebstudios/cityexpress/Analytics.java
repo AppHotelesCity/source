@@ -2,6 +2,7 @@ package com.zebstudios.cityexpress;
 
 import android.app.Application;
 
+import com.adform.adformtrackingsdk.AdformTrackingSdk;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Logger;
@@ -43,6 +44,10 @@ public class Analytics extends Application
 
 		String channelId = UAirship.shared().getPushManager().getChannelId();
 		com.urbanairship.Logger.info("My Application Channel ID: " + channelId);
+
+
+		AdformTrackingSdk.startTracking(this,424115);
+
 	}
 
 	HashMap<TrackerName, Tracker> _trackers = new HashMap<TrackerName, Tracker>();
