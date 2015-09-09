@@ -1065,7 +1065,7 @@ public class TabletHotelReserva2Fragment extends Fragment implements PayPalCalle
 	public void onPayPalPaymentInitiated( PayPalCaller.PayPalSECResponse response )
 	{
 		_payPalSECResponse = response;
-		android.util.Log.d( "TEST", "PAYMENT INITIATED" );
+		android.util.Log.d("TEST", "PAYMENT INITIATED");
 		if( _payPalSECResponse.getACK().equalsIgnoreCase( "SUCCESS" ) )
 		{
 			android.util.Log.d( "TEST", "TOKEN: " + _payPalSECResponse.getToken() );
@@ -1114,12 +1114,12 @@ public class TabletHotelReserva2Fragment extends Fragment implements PayPalCalle
 			{
 				_payPalDECParameters = new PayPalCaller.PayPalDECParameters();
 				_payPalDECParameters.setUser( _hotel.getMerchantUserName() );
-				_payPalDECParameters.setPassword( _hotel.getMerchantPassword() );
-				_payPalDECParameters.setSignature( _hotel.getSignature() );
-				_payPalDECParameters.setToken( _payPalReturnResponse.getToken() );
+				_payPalDECParameters.setPassword(_hotel.getMerchantPassword());
+				_payPalDECParameters.setSignature(_hotel.getSignature());
+				_payPalDECParameters.setToken(_payPalReturnResponse.getToken());
 				_payPalDECParameters.setPayerId( _payPalReturnResponse.getPayerId() );
-				_payPalDECParameters.setAmount( _payPalPayment.getAmount() );
-				_payPalDECParameters.setCurrency( _payPalPayment.getCurrencyCode() );
+				_payPalDECParameters.setAmount(_payPalPayment.getAmount());
+				_payPalDECParameters.setCurrency(_payPalPayment.getCurrencyCode());
 
 				new PayPalCaller( this, PayPalCaller.DO_EXPRESS_CHECKOUT, _payPalDECParameters, getFragmentManager(), _progress ).execute();
 			}
@@ -1130,7 +1130,7 @@ public class TabletHotelReserva2Fragment extends Fragment implements PayPalCalle
 		}
 		else
 		{
-			alert( "Error de comunicación con PayPal. Por favor intente nuevamente más tarde." );
+			alert("Error de comunicación con PayPal. Por favor intente nuevamente más tarde.");
 		}
 	}
 
@@ -1167,13 +1167,13 @@ public class TabletHotelReserva2Fragment extends Fragment implements PayPalCalle
 		else
 		{
 			alert( "Error de comunicación con PayPal. Por favor intente nuevamente más tarde." );
-			android.util.Log.d( "PAYPAL", "ERROR: " + _payPalDECResponse.getLongMessage() );
+			android.util.Log.d("PAYPAL", "ERROR: " + _payPalDECResponse.getLongMessage());
 		}
 	}
 
 	public void onPayPalRefundTransaction( PayPalCaller.PayPalRTResponse response )
 	{
-		android.util.Log.d( "TEST", "REFUND TRANSACTION DONE" );
+		android.util.Log.d("TEST", "REFUND TRANSACTION DONE");
 		if( response.getACK().equalsIgnoreCase( "Success" ) )
 		{
 			alert( "No se ha podido realizar su pago con PayPal. Fecha de reservación menor a 48 horas." );
@@ -1232,8 +1232,15 @@ public class TabletHotelReserva2Fragment extends Fragment implements PayPalCalle
 			reserva.getHabitacion().getHuespedTitular().setTotAcompMenor( d.getNinos() );
 			reserva.getHabitacion().getHuespedTitular().setCodigoPais( "MEX" );
 			// TODO: Cuál es el código de país que debe llevar el huesped titular
+			/**/
+			if (_rooms.size()==1) {
+				reserva.getDeposito().setComprobante(_payPalDECResponse.getTransactionId());
+			}
+			else {
+				reserva.getDeposito().setComprobante(_payPalDECResponse.getTransactionId() + "- " + (i+1));
 
-			reserva.getDeposito().setComprobante( _payPalDECResponse.getTransactionId() );
+			}
+
 			reserva.getDeposito().setFecha( sdf.format( cal.getTime() ) );
 			reserva.getDeposito().setMonto( Float.parseFloat( _payPalDECResponse.getAmount() ) );
 			reserva.getDeposito().setTipoMoneda( _payPalDECResponse.getCourrencyCode() );
@@ -1241,9 +1248,7 @@ public class TabletHotelReserva2Fragment extends Fragment implements PayPalCalle
 			if( _payPalDECResponse.getPaymentStatus().equalsIgnoreCase( "PENDING" ) )
 			{
 				reserva.getDeposito().setNotas2( "PENDING" );
-			}
-			else
-			{
+			} else {
 				reserva.getDeposito().setNotas2( "OK" );
 			}
 
