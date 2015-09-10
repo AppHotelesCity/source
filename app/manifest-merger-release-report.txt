@@ -550,6 +550,12 @@ action#com.urbanairship.push.DISMISSED
 ADDED from AndroidManifest.xml:144:17
 	android:name
 		ADDED from AndroidManifest.xml:144:25
+receiver#com.adform.adformtrackingsdk.services.ReferrerReceiver
+ADDED from AndroidManifest.xml:152:9
+	android:exported
+		ADDED from AndroidManifest.xml:154:13
+	android:name
+		ADDED from AndroidManifest.xml:153:13
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from androidcity:calendar:unspecified:7:5
