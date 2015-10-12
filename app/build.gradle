@@ -26,8 +26,8 @@ android {
         applicationId "com.zebstudios.cityexpress"
         minSdkVersion 9
         targetSdkVersion 21
-        versionCode 21
-        versionName "3.2"
+        versionCode 23
+        versionName "3.3"
     }
     buildTypes {
         release {
@@ -38,7 +38,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':calendar')
     compile files('libs/ksoap2-android-assembly-3.3.0-jar-with-dependencies.jar')
     compile('com.crashlytics.sdk.android:crashlytics:2.3.0@aar') {
@@ -50,8 +50,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:7.5.0'
     compile 'io.card:android-sdk:5.0.1'
     compile 'com.facebook.android:facebook-android-sdk:4.1.0'
-
-    compile project (':urbanairship-lib-6.1.0')
+    compile project(':urbanairship-lib-6.1.0')
     //for in-app messaging
     compile 'com.android.support:cardview-v7:22.2.0'
     //for location services
@@ -60,6 +59,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-gcm:7.5.0'
     //AdForm tracking
     compile 'com.adform.tracking.sdk:adform-tracking-sdk:0.2.4'
-
-
+    compile files('libs/GoogleConversionTrackingSdk-2.2.4.jar')
 }

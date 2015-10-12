@@ -21,6 +21,7 @@ import com.appsee.Appsee;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.ads.conversiontracking.AdWordsConversionReporter;
 import com.urbanairship.UAirship;
 import com.urbanairship.richpush.RichPushInbox;
 
@@ -49,6 +50,7 @@ public class MainActivity extends ActionBarActivity
 		}
 	};
 	public boolean onCreateOptionsMenu(Menu menu) {
+
 
 		Log.e("Main activity " , "Titulo :3 " +getTitle() );
 
@@ -214,6 +216,10 @@ public class MainActivity extends ActionBarActivity
 
 	protected void onStart() {
 		super.onStart();
+
+		//
+		//
+		AdWordsConversionReporter.reportWithConversionId(this.getApplicationContext(),"997489850", "dLpzCPjT7lYQuvnR2wM", "1.00", true);
 
 		/*
 		AppRater appRater = new AppRater(this);

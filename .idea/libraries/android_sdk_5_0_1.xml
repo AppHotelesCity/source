@@ -5,6 +5,8 @@
       <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/io.card/android-sdk/5.0.1/res" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.card/android-sdk/5.0.1/b069573ebe117ff34814d0441122e726aa9f3858/android-sdk-5.0.1-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>
