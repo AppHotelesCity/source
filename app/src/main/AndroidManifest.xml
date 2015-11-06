@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.zebstudios.cityexpress">
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zebstudios.cityexpress" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -14,41 +15,87 @@
     <uses-permission android:name="com.zebstudios.cityexpress.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="com.zebstudios.cityexpress.permission.UA_DATA" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
-    <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
-    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
-    <permission android:name="com.zebstudios.cityexpress.permission.C2D_MESSAGE" android:protectionLevel="signature" />
-    <permission android:name="com.zebstudios.cityexpress.permission.UA_DATA" android:protectionLevel="signature" />
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
-    <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="CityExpress" android:theme="@style/AppThemeMain" android:name=".Analytics">
+    <permission
+        android:name="com.zebstudios.cityexpress.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <permission
+        android:name="com.zebstudios.cityexpress.permission.UA_DATA"
+        android:protectionLevel="signature" />
 
-        <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBY2PqcrrkUarTgyWbJRfrmth6tgw-cIzU" />
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+    <application
+        android:name=".Analytics"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="CityExpress"
+        android:theme="@style/AppThemeMain" >
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBY2PqcrrkUarTgyWbJRfrmth6tgw-cIzU" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <!-- Add the following meta-data for devices running Google Play service. -->
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".SplashScreen" android:label="CityExpress" android:screenOrientation="portrait">
-            <intent-filter android:label="CityExpress">
+        <activity
+            android:name=".SplashScreen"
+            android:label="CityExpress"
+            android:screenOrientation="portrait" >
+            <intent-filter android:label="CityExpress" >
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
         </activity>
-
-        <activity android:name="com.zebstudios.cityexpress.SearchResultsActivity" android:label="Resultados" android:screenOrientation="portrait" />
-        <activity android:name="com.zebstudios.cityexpress.HotelDetailsActivity" android:label="Detalles" android:screenOrientation="portrait" />
-        <activity android:name="com.zebstudios.cityexpress.TabletHotelDetailsActivity" android:label="Detalles" android:screenOrientation="portrait" />
-        <activity android:name="com.zebstudios.cityexpress.NewsActivity" android:label="Noticias" android:screenOrientation="portrait" />
-        <activity android:name="com.zebstudios.cityexpress.BlogActivity" android:label="Blog" android:screenOrientation="portrait" />
-        <activity android:name=".PremiosLoginActivity" android:label="City Premios" android:screenOrientation="portrait" />
-        <activity android:name=".PremiosDetailActivity" android:label="City Premios" android:screenOrientation="portrait" />
+        <activity
+            android:name=".SearchResultsActivity"
+            android:label="Resultados"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HotelDetailsActivity"
+            android:label="Detalles"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TabletHotelDetailsActivity"
+            android:label="Detalles"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".NewsActivity"
+            android:label="Noticias"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BlogActivity"
+            android:label="Blog"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PremiosLoginActivity"
+            android:label="City Premios"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PremiosDetailActivity"
+            android:label="City Premios"
+            android:screenOrientation="portrait" />
         <!-- Urban Airship -->
         <!-- REQUIRED for Action.startActivityForResult -->
         <activity android:name="com.urbanairship.actions.ActionActivity" />
@@ -56,39 +103,45 @@
         <activity android:name="com.urbanairship.CoreActivity" />
         <!-- ******************* -->
         <!-- Card.io -->
-        <meta-data android:name="io.fabric.ApiKey" android:value="64762a12e4229006ed0f32b17f4afe58ccf82185" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="64762a12e4229006ed0f32b17f4afe58ccf82185" />
         <!-- Appsee background uploader service -->
         <service android:name="com.appsee.AppseeBackgroundUploader" />
-        <!-- CampaignTrackingReceiver and CampaignTrackingService to enable
-           installation campaign reporting -->
-        <receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver" android:exported="true">
+        <!--
+           CampaignTrackingReceiver and CampaignTrackingService to enable
+           installation campaign reporting
+        -->
+        <receiver
+            android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name="com.google.ads.conversiontracking.InstallReceiver" android:exported="true">
+        <receiver
+            android:name="com.google.ads.conversiontracking.InstallReceiver"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
 
         <!-- Urban Airship -->
-        <receiver android:name="com.urbanairship.CoreReceiver" android:exported="false">
-
-        <intent-filter android:priority="-999">
+        <receiver
+            android:name="com.urbanairship.CoreReceiver"
+            android:exported="false" >
+            <intent-filter android:priority="-999" >
                 <action android:name="com.urbanairship.push.OPENED" />
+
                 <category android:name="com.zebstudios.cityexpress" />
             </intent-filter>
         </receiver>
 
-
-
         <!-- REQUIRED for Landing Pages - For more customization details, see com.urbanairship.actions.LandingPageActivity -->
         <activity
             android:name="com.urbanairship.actions.LandingPageActivity"
-            android:exported="false">
-
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.urbanairship.actions.SHOW_LANDING_PAGE_INTENT_ACTION" />
 
@@ -100,49 +153,64 @@
             </intent-filter>
         </activity>
 
-
-
         <!-- ******************* -->
         <!-- REQUIRED for Urban Airship -->
-        <service android:name="com.urbanairship.push.PushService" android:label="Push Notification Service" />
+        <service
+            android:name="com.urbanairship.push.PushService"
+            android:label="Push Notification Service" />
         <!-- Required for analytics -->
-        <service android:name="com.urbanairship.analytics.EventService" android:label="Event Service" />
+        <service
+            android:name="com.urbanairship.analytics.EventService"
+            android:label="Event Service" />
         <!-- Required for Actions -->
         <service android:name="com.urbanairship.actions.ActionService" />
         <!-- Required for Rich Push -->
         <service android:name="com.urbanairship.richpush.RichPushUpdateService" />
         <!-- OPTIONAL for Urban Airship Location (for segments support) -->
-        <service android:name="com.urbanairship.location.LocationService" android:label="Segments Service" />
+        <service
+            android:name="com.urbanairship.location.LocationService"
+            android:label="Segments Service" />
 
         <!-- This is required for persisting preferences related to push and location -->
         <provider
             android:name="com.urbanairship.UrbanAirshipProvider"
             android:authorities="com.zebstudios.cityexpress.urbanairship.provider"
-            android:permission="com.zebstudios.cityexpress.permission.UA_DATA"
             android:exported="true"
-            android:multiprocess="true" />
-
+            android:multiprocess="true"
+            android:permission="com.zebstudios.cityexpress.permission.UA_DATA" />
 
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
-        <activity android:name="io.card.payment.CardIOActivity" android:configChanges="keyboardHidden|orientation" />
+
+        <activity
+            android:name="io.card.payment.CardIOActivity"
+            android:configChanges="keyboardHidden|orientation" />
         <activity android:name="io.card.payment.DataEntryActivity" />
         <!-- Urban Airship -->
         <!-- This is required for persisting preferences related to push and location -->
-        <provider android:name="com.urbanairship.UrbanAirshipProvider" android:authorities="com.zebstudios.cityexpress.urbanairship.provider" android:permission="com.zebstudios.cityexpress.permission.UA_DATA" android:exported="true" android:multiprocess="true" />
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
+        <provider
+            android:name="com.urbanairship.UrbanAirshipProvider"
+            android:authorities="com.zebstudios.cityexpress.urbanairship.provider"
+            android:exported="true"
+            android:multiprocess="true"
+            android:permission="com.zebstudios.cityexpress.permission.UA_DATA" />
 
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-        <receiver android:name="com.urbanairship.push.GCMPushReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+        <receiver
+            android:name="com.urbanairship.push.GCMPushReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name="com.zebstudios.cityexpress" />
             </intent-filter>
         </receiver>
-
-
-        <receiver android:name="com.zebstudios.cityexpress.IntentReceiver" android:exported="false" >
+        <receiver
+            android:name=".IntentReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.urbanairship.push.CHANNEL_UPDATED" />
                 <action android:name="com.urbanairship.push.OPENED" />
@@ -150,21 +218,22 @@
                 <action android:name="com.urbanairship.push.DISMISSED" />
 
                 <category android:name="com.zebstudios.cityexpress" />
-
             </intent-filter>
         </receiver>
-
-
         <receiver
             android:name="com.adform.adformtrackingsdk.services.ReferrerReceiver"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
+
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+            android:value="@integer/google_play_services_version" />
 
+        <activity android:name=".IniciarSesionActivity" >
+        </activity>
     </application>
+
 </manifest>

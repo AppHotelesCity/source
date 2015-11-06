@@ -20,4 +20,22 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 	<string name="facebook_app_id">692589974203305</string>
+
+    <!--Principal-->
+    
+    <string name="iniciar_sesion">INICIAR SESION</string>
+    <string name="registrarme">REGISTRARME</string>
+    <string name="hotel_destino_ciudad">Hotel, destino o ciudad</string>
+    <string name="selecciona_promocode">Selecciona un promocode</string>
+    <string name="buscar_disponibilidad">BUSCAR DISPONIBILIDAD</string>
+
+    <!--Iniciar Sesion-->
+    <string name="ingresa_datos">INGRESA TUS DATOS</string>
+    <string name="correo_electronico">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="entrar">ENTRAR</string>
+    <string name="olvide_password">Olvide mi contraseña</string>
+    <string name="no_registro">¿NO ESTAS REGISTRADO?</string>
+    <string name="registrate">REGÍSTRATE</string>
+
 </resources>
