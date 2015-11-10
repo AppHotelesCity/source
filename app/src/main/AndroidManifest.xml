@@ -232,9 +232,11 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".IniciarSesionActivity" >
+        <activity android:name=".IniciarSesionActivity"
+            android:theme="@style/ToolbarColor">
         </activity>
-        <activity android:name=".RegistroActivity" >
+        <activity android:name=".RegistroActivity"
+            android:theme="@style/ToolbarColor">
         </activity>
     </application>
 

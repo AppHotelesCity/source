@@ -48,5 +48,7 @@
     <string name="pais">País</string>
     <string name="teléfono">Teléfono</string>
     <string name="acepto_condiciones">ACEPTO LOS TÉRMINOS Y CONDICIONES</string>
+    <string name="iniciar_sesion_toolbar">Iniciar Sesión</string>
+    <string name="registro_toolbar">Registro</string>
 
 </resources>
