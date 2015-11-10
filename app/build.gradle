@@ -19,8 +19,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
 
     defaultConfig {
         applicationId "com.zebstudios.cityexpress"
@@ -45,19 +45,18 @@ dependencies {
         transitive = true;
     }
     compile files('libs/appsee.jar')
-    compile 'com.android.support:support-v4:22.2.0'
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile project(':urbanairship-lib-6.1.0')
+    //for in-app messaging
+    //for location services
+    // Required for Android (GCM) push notifications
+    //AdForm tracking
+    compile files('libs/GoogleConversionTrackingSdk-2.2.4.jar')
+    compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.google.android.gms:play-services:7.5.0'
     compile 'io.card:android-sdk:5.0.1'
     compile 'com.facebook.android:facebook-android-sdk:4.1.0'
-    compile project(':urbanairship-lib-6.1.0')
-    //for in-app messaging
-    compile 'com.android.support:cardview-v7:22.2.0'
-    //for location services
+    compile 'com.android.support:cardview-v7:21.0.3'
     compile 'com.google.android.gms:play-services-location:7.5.0'
-    // Required for Android (GCM) push notifications
     compile 'com.google.android.gms:play-services-gcm:7.5.0'
-    //AdForm tracking
     compile 'com.adform.tracking.sdk:adform-tracking-sdk:0.2.4'
-    compile files('libs/GoogleConversionTrackingSdk-2.2.4.jar')
 }

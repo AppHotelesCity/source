@@ -187,7 +187,7 @@ public class MainActivity extends ActionBarActivity
 		else
 		{
 			android.util.Log.d( "TEST", "PHONE" );
-			MainFragment fragment = new MainFragment();
+			PrincipalFragment fragment = new PrincipalFragment();
 			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
 		}
 

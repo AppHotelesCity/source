@@ -234,6 +234,8 @@
 
         <activity android:name=".IniciarSesionActivity" >
         </activity>
+        <activity android:name=".RegistroActivity" >
+        </activity>
     </application>
 
 </manifest>

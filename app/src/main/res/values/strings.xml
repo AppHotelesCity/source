@@ -38,4 +38,15 @@
     <string name="no_registro">¿NO ESTAS REGISTRADO?</string>
     <string name="registrate">REGÍSTRATE</string>
 
+    <!--Registro-->
+    <string name="nombre">Nombre</string>
+    <string name="apellido_paterno">Apellido Paterno</string>
+    <string name="apellido_materno">Apellido Materno</string>
+    <string name="genero">Género</string>
+    <string name="titulo">Título</string>
+    <string name="validar_pass">La contraseña debe tener 8 caracteres como mínimo, debe incluir un numero</string>
+    <string name="pais">País</string>
+    <string name="teléfono">Teléfono</string>
+    <string name="acepto_condiciones">ACEPTO LOS TÉRMINOS Y CONDICIONES</string>
+
 </resources>
