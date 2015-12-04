@@ -48,6 +48,7 @@
                 android:background="@color/white"
                 android:orientation="horizontal">
                 <EditText
+                    android:id="@+id/edtxtUsuarioLogIn"
                     android:layout_width="wrap_content"
                     android:layout_weight="2"
                     android:background="@color/white"
@@ -69,6 +70,7 @@
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal">
                 <EditText
+                    android:id="@+id/edtxtPassLogIn"
                     android:layout_width="wrap_content"
                     android:layout_weight="2"
                     android:gravity="center_vertical"
@@ -84,6 +86,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/btnEntrarLogIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -91,6 +94,7 @@
                 android:textColor="@color/white"
                 android:text="@string/entrar" />
             <Button
+                android:id="@+id/btnOlvidePassLogIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/main_color1"
@@ -104,8 +108,9 @@
                 android:layout_marginTop="25dp"
                 android:layout_gravity="center"
                 android:textColor="@color/gray_letters_color"
-                android:textSize="22sp"/>
+                android:textSize="20sp"/>
             <Button
+                android:id="@+id/btnRegistrateLogIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

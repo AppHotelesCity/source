@@ -1,7 +1,9 @@
 package com.zebstudios.cityexpress;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,6 +23,8 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
     LinearLayout linearLlegada;
     EditText editTextPromoCode;
     Button btnDisponibilidad;
+
+    boolean usuarioActivo;
 
     public static PrincipalFragment newInstance(String param1, String param2) {
         PrincipalFragment fragment = new PrincipalFragment();
@@ -50,6 +54,14 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         linearLlegada = (LinearLayout) view.findViewById(R.id.linearLlegada);
         editTextPromoCode = (EditText) view.findViewById(R.id.editTextPromoCode);
         btnDisponibilidad = (Button) view.findViewById(R.id.btnDisponibilidad);
+
+      /*  SharedPreferences prefsUsuario = getActivity().getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
+        usuarioActivo = Boolean.parseBoolean(prefsUsuario.getString("Active",null));
+        if(usuarioActivo){
+            btnIniciarSesion.setVisibility(View.GONE);
+            btnRegistrarme.setVisibility(View.GONE);
+        }*/
+
 
         btnIniciarSesion.setOnClickListener(this);
         btnRegistrarme.setOnClickListener(this);

@@ -23,4 +23,8 @@ public class APIAddress
 	public static final String RESERVATION_ENGINE_URL = "http://wshc.hotelescity.com:9742/wsMotorapp/ReservationEngine.svc";
 	public static final String CITYPREMIOS_ENGINE_URL = "http://wshc.hotelescity.com:9742/wcfCityPremios/CityPremios/wcfCityPremiosExterno.svc";
 	public static final int PAYPAL_MODE = 1;
+
+
+	//SharedPrefereces
+	public static String LOGIN_USUARIO_PREFERENCES = "datosUsuarioPreferences";
 }

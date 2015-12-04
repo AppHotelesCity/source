@@ -51,4 +51,7 @@
     <string name="iniciar_sesion_toolbar">Iniciar Sesión</string>
     <string name="registro_toolbar">Registro</string>
 
+    <!--Extras-->
+    <string name="entendido">Entendido</string>
+
 </resources>
