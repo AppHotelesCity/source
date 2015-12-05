@@ -34,6 +34,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
+                    android:id="@+id/edtxtNombre"
                     android:layout_marginBottom="10dp"
                     android:background="@color/white"
                     android:hint="@string/nombre"/>
@@ -41,30 +42,44 @@
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginBottom="10dp"
+                    android:id="@+id/edtxtApPaterno"
                     android:background="@color/white"
                     android:hint="@string/apellido_paterno"/>
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
+                    android:id="@+id/edtxtApMaterno"
                     android:layout_marginBottom="10dp"
                     android:background="@color/white"
                     android:hint="@string/apellido_materno"/>
-                <EditText
+                <Button
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginBottom="10dp"
+                    android:id="@+id/btnGenero"
                     android:background="@color/white"
                     android:hint="@string/genero" />
-                <EditText
+                <Button
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
+                    android:id="@+id/btnTitulo"
                     android:layout_marginBottom="10dp"
                     android:background="@color/white"
                     android:hint="@string/titulo" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:id="@+id/edtxtCorreo"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/white"
+                    android:hint="@string/correo_electronico" />
+
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginBottom="10dp"
+                    android:id="@+id/edtxtPassReg"
                     android:background="@color/white"
                     android:hint="@string/password"/>
                 <TextView
@@ -73,20 +88,22 @@
                     android:text="@string/validar_pass"
                     android:layout_marginBottom="10dp"
                     android:textSize="10dp"/>
-                <TextView
+                <Button
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:background="@color/white"
                     android:layout_marginBottom="10dp"
-                    android:gravity="center_vertical"
+                    android:id="@+id/btnPais"
+                    android:gravity="center"
                     android:textSize="18sp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/pais"/>
+                    android:layout_gravity="center"
+                    android:hint="@string/pais"/>
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginBottom="10dp"
                     android:background="@color/white"
+                    android:id="@+id/edtxtTelefono"
                     android:hint="@string/teléfono"
                     android:inputType="phone"/>
                 <LinearLayout
@@ -112,6 +129,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/blue_button"
+                    android:id="@+id/btnRegistrate"
                     android:text="@string/registrate"
                     android:textColor="@color/white" />
             </LinearLayout>

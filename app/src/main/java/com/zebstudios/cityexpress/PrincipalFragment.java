@@ -55,12 +55,12 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         editTextPromoCode = (EditText) view.findViewById(R.id.editTextPromoCode);
         btnDisponibilidad = (Button) view.findViewById(R.id.btnDisponibilidad);
 
-      /*  SharedPreferences prefsUsuario = getActivity().getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
-        usuarioActivo = Boolean.parseBoolean(prefsUsuario.getString("Active",null));
+        SharedPreferences prefsUsuario = getActivity().getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
+        usuarioActivo = Boolean.parseBoolean(prefsUsuario.getString("activo",null));
         if(usuarioActivo){
             btnIniciarSesion.setVisibility(View.GONE);
             btnRegistrarme.setVisibility(View.GONE);
-        }*/
+        }
 
 
         btnIniciarSesion.setOnClickListener(this);

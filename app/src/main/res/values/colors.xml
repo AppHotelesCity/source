@@ -53,7 +53,7 @@
 <!-- Principal Fragment, color para los botones-->
 
 	<color name="white">#fff</color>
-	<color name="white_alpha">#c8ffffff</color>
+	<color name="white_alpha">#64b1b0b0</color>
 	<color name="yellow_button">#fbb900</color>
 	<color name="blue_button">#11387b</color>
 	<color name="gray_letters_color">#434343</color>

@@ -54,4 +54,9 @@
     <!--Extras-->
     <string name="entendido">Entendido</string>
 
+    <string-array name="gender_user">
+                <item>Masculino</item>
+                <item>Femenino</item>
+    </string-array>
+
 </resources>

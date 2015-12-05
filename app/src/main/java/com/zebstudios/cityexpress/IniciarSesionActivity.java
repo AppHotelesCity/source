@@ -2,6 +2,7 @@ package com.zebstudios.cityexpress;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,7 +30,7 @@ public class IniciarSesionActivity extends Activity {
     Button btnEntrarLogin;
     Button btnOlvidePass;
     Button btnRegistro;
-
+    ProgressDialog progressDialog;
     SoapObject resultString;
 
     @Override
@@ -56,18 +57,55 @@ public class IniciarSesionActivity extends Activity {
         btnEntrarLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(edtPassUsuario.getText().toString().equals("")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(IniciarSesionActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("El campo de contraseña no puede estar vacío")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                //Hacer validaciones si bien.
-                LoginUsuario task = new LoginUsuario();
-                task.execute();
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }else if(edtUsuario.getText().toString().equals("")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(IniciarSesionActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("El campo de e-mail no puede estar vacío")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                } else{
+                    LoginUsuario task = new LoginUsuario();
+                    task.execute();
+                }
+
+            }
+        });
+        btnRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(),RegistroActivity.class);
+                startActivity(intent);
             }
         });
     }
+
 
     private class LoginUsuario extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(IniciarSesionActivity.this, "Hoteles City",
+                    "Cargando...", true);
             System.out.println("OnPreExecute");
         }
 
@@ -81,6 +119,7 @@ public class IniciarSesionActivity extends Activity {
         @Override
         protected void onPostExecute(Void result) {
             System.out.println("OnPostExecute");
+            progressDialog.dismiss();
         }
 
     }
@@ -95,8 +134,8 @@ public class IniciarSesionActivity extends Activity {
             SoapObject Request = new SoapObject(NAMESPACE, METHOD_NAME);
             Request.addProperty("UserService", "USERWS");
             Request.addProperty("PasswordService", "PasswordWS");
-            Request.addProperty("Username", "manuel2@denumeris.com");
-            Request.addProperty("Password", "Manuel8&");
+            Request.addProperty("Username", edtUsuario.getText().toString());//manuel2@denumeris.com
+            Request.addProperty("Password", edtPassUsuario.getText().toString()); //Manuel8&
 
             SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             soapEnvelope.dotNet = true;
@@ -115,7 +154,7 @@ public class IniciarSesionActivity extends Activity {
                SharedPreferences prefs =
                        getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES,getBaseContext().MODE_PRIVATE);
                SharedPreferences.Editor editor = prefs.edit();
-               editor.putString("activo",test.getPropertyAsString("Active"));
+               editor.putString("activo", test.getPropertyAsString("Active"));
                editor.putString("nombre",test.getPropertySafelyAsString("Name"));
                editor.putString("apellido",test.getPropertySafelyAsString("LastName"));
                editor.putString("usuario",test.getPropertySafelyAsString("Username"));
@@ -132,10 +171,11 @@ public class IniciarSesionActivity extends Activity {
 
                Intent intent = new Intent(this,MainActivity.class);
                startActivity(intent);
+               finish();
 
            }else{
                AlertDialog.Builder builder = new AlertDialog.Builder(IniciarSesionActivity.this);
-               builder.setTitle("Wisum")
+               builder.setTitle("CityExpress")
                        .setMessage("El usuario o contraseña son incorrectos, favor de verificarlos.")
                        .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                            @Override

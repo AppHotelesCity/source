@@ -73,6 +73,7 @@
                     android:id="@+id/edtxtPassLogIn"
                     android:layout_width="wrap_content"
                     android:layout_weight="2"
+                    android:inputType="textPassword"
                     android:gravity="center_vertical"
                     android:layout_gravity="center"
                     android:background="@color/white"
@@ -107,7 +108,7 @@
                 android:text="@string/no_registro"
                 android:layout_marginTop="25dp"
                 android:layout_gravity="center"
-                android:textColor="@color/gray_letters_color"
+                android:textColor="#fff"
                 android:textSize="20sp"/>
             <Button
                 android:id="@+id/btnRegistrateLogIn"
