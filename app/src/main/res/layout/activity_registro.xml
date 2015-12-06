@@ -105,7 +105,7 @@
                     android:background="@color/white"
                     android:id="@+id/edtxtTelefono"
                     android:hint="@string/teléfono"
-                    android:inputType="phone"/>
+                    android:inputType="numberDecimal"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
