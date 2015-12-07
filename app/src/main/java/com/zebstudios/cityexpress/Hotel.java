@@ -54,7 +54,8 @@ public class Hotel implements Serializable {
     private boolean _blockCC;
     
     private int _source;
-    
+
+    public Hotel(){}
     public Hotel(JSONObject json) {
         this(json, 0);
     }
@@ -332,5 +333,9 @@ public class Hotel implements Serializable {
         public int compare(Hotel c1, Hotel c2) {
             return c1.getNombre().compareToIgnoreCase(c2.getNombre());
         }
+    }
+
+    public void set_nombre(String _nombre) {
+        this._nombre = _nombre;
     }
 }

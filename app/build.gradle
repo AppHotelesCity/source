@@ -59,4 +59,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:7.5.0'
     compile 'com.google.android.gms:play-services-gcm:7.5.0'
     compile 'com.adform.tracking.sdk:adform-tracking-sdk:0.2.4'
+    compile 'com.android.support:recyclerview-v7:21.0.3'
 }

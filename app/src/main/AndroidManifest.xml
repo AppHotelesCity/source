@@ -238,6 +238,9 @@
         <activity android:name=".RegistroActivity"
             android:theme="@style/ToolbarColor">
         </activity>
+        <activity android:name=".ResultadosDisponibilidad"
+            android:theme="@style/ToolbarColor">
+        </activity>
     </application>
 
 </manifest>

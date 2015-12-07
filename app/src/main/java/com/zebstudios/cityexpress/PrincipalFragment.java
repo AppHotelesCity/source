@@ -89,6 +89,8 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
             case R.id.linearLlegada:
                 break;
             case R.id.btnDisponibilidad:
+                intent = new Intent(getActivity(),ResultadosDisponibilidad.class);
+                startActivity(intent);
                 break;
         }
     }
