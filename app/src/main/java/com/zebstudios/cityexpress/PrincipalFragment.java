@@ -90,6 +90,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.btnDisponibilidad:
                 intent = new Intent(getActivity(),ResultadosDisponibilidad.class);
+                intent.putExtra("busqueda",editTextHotelDestino.getText().toString());
                 startActivity(intent);
                 break;
         }
