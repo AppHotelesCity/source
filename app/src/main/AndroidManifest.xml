@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zebstudios.cityexpress" >
+    package="com.zebstudios.cityexpress">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -41,7 +41,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="CityExpress"
-        android:theme="@style/AppThemeMain" >
+        android:theme="@style/AppThemeMain">
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBY2PqcrrkUarTgyWbJRfrmth6tgw-cIzU" />
@@ -57,8 +57,8 @@
         <activity
             android:name=".SplashScreen"
             android:label="CityExpress"
-            android:screenOrientation="portrait" >
-            <intent-filter android:label="CityExpress" >
+            android:screenOrientation="portrait">
+            <intent-filter android:label="CityExpress">
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -66,8 +66,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".SearchResultsActivity"
             android:label="Resultados"
@@ -114,14 +113,14 @@
         -->
         <receiver
             android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
         <receiver
             android:name="com.google.ads.conversiontracking.InstallReceiver"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
@@ -130,8 +129,8 @@
         <!-- Urban Airship -->
         <receiver
             android:name="com.urbanairship.CoreReceiver"
-            android:exported="false" >
-            <intent-filter android:priority="-999" >
+            android:exported="false">
+            <intent-filter android:priority="-999">
                 <action android:name="com.urbanairship.push.OPENED" />
 
                 <category android:name="com.zebstudios.cityexpress" />
@@ -141,7 +140,7 @@
         <!-- REQUIRED for Landing Pages - For more customization details, see com.urbanairship.actions.LandingPageActivity -->
         <activity
             android:name="com.urbanairship.actions.LandingPageActivity"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.urbanairship.actions.SHOW_LANDING_PAGE_INTENT_ACTION" />
 
@@ -200,7 +199,7 @@
 
         <receiver
             android:name="com.urbanairship.push.GCMPushReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -210,7 +209,7 @@
         </receiver>
         <receiver
             android:name=".IntentReceiver"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.urbanairship.push.CHANNEL_UPDATED" />
                 <action android:name="com.urbanairship.push.OPENED" />
@@ -222,7 +221,7 @@
         </receiver>
         <receiver
             android:name="com.adform.adformtrackingsdk.services.ReferrerReceiver"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
@@ -232,15 +231,19 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".IniciarSesionActivity"
-            android:theme="@style/ToolbarColor">
-        </activity>
-        <activity android:name=".RegistroActivity"
-            android:theme="@style/ToolbarColor">
-        </activity>
-        <activity android:name=".ResultadosDisponibilidad"
-            android:theme="@style/ToolbarColor">
-        </activity>
+        <activity
+            android:name=".IniciarSesionActivity"
+            android:theme="@style/ToolbarColor"></activity>
+        <activity
+            android:name=".RegistroActivity"
+            android:theme="@style/ToolbarColor"></activity>
+        <activity
+            android:name=".ResultadosDisponibilidad"
+            android:theme="@style/ToolbarColor"></activity>
+
+        <activity android:name=".OlvidePassActivity"
+            android:theme="@style/ToolbarColor"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

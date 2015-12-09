@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -50,6 +49,7 @@ public class IniciarSesionActivity extends Activity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+                finish();
             }
         });
 
@@ -94,6 +94,14 @@ public class IniciarSesionActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(),RegistroActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnOlvidePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), OlvidePassActivity.class);
                 startActivity(intent);
             }
         });
