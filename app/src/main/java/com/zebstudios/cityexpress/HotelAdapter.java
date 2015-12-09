@@ -28,8 +28,8 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
     @Override
     public void onBindViewHolder(HotelViewHolder holder, int position) {
         final Hotel hotel = arrayHoteles.get(position);
-        holder.txtNombreHotel.setText("City Express");
-        holder.txtDescripcionHotel.setText("A 5 minutos de Plaza Angelopolis y a 20 minutos del Centro de la Ciudad");
+        holder.txtNombreHotel.setText(hotel.getNombre());
+        holder.txtDescripcionHotel.setText(hotel.getLugaresCercanos());
         holder.txtPrecioHotel.setText("$789");
 
         holder.cardViewHotel.setOnClickListener(new View.OnClickListener() {

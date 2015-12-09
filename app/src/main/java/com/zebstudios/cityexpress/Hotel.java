@@ -2,6 +2,8 @@ package com.zebstudios.cityexpress;
 
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -52,7 +54,7 @@ public class Hotel implements Serializable {
     private String _merchantPassword;
     private String _signature;
     private boolean _blockCC;
-    
+    private String[] _imagenes;
     private int _source;
 
     public Hotel(){}
@@ -155,6 +157,19 @@ public class Hotel implements Serializable {
             _parsedOk = false;
             android.util.Log.e("Hotel", "Cant parse hotel: " + e.getMessage());
         }
+    }
+
+    public Hotel(JSONObject json, JSONArray imagenesHotel){
+        this(json, 0);
+        try {
+            _imagenes = new String[imagenesHotel.length()];
+            for (int i = 0; i <imagenesHotel.length(); i++) {
+                _imagenes[i] = imagenesHotel.get(i).toString();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
     
     public int getId() {
