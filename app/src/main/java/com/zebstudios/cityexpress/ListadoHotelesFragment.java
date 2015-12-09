@@ -14,9 +14,9 @@ import java.util.ArrayList;
 
 public class ListadoHotelesFragment extends Fragment {
 
-    RecyclerView listaTarjetasHotel;
+    /*RecyclerView listaTarjetasHotel;
     Hotel uno,dos;
-    ArrayList<Hotel> listaHotel;
+    ArrayList<Hotel> listaHotel;*/
 
     public static ListadoHotelesFragment newInstance(String param1, String param2) {
         ListadoHotelesFragment fragment = new ListadoHotelesFragment();
@@ -39,9 +39,9 @@ public class ListadoHotelesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        System.out.println("Entre al fragment");
         View view = inflater.inflate(R.layout.fragment_listado_hoteles, container, false);
+      /*  System.out.println("Entre al fragment");
+
         listaTarjetasHotel= (RecyclerView)view.findViewById(R.id.cardListHoteles);
         listaTarjetasHotel.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
@@ -58,11 +58,11 @@ public class ListadoHotelesFragment extends Fragment {
         listaHotel.add(uno);
         listaHotel.add(dos);
         listaHotel.add(uno);
-        listaHotel.add(dos);*/
+        listaHotel.add(dos);
 
         HotelAdapter mAdapter = new HotelAdapter(ResultadosDisponibilidad.listaHotel);
 
-        listaTarjetasHotel.setAdapter(mAdapter);
+        listaTarjetasHotel.setAdapter(mAdapter);*/
 
         return view;
     }

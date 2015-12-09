@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -14,6 +15,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,11 +33,18 @@ import java.util.Map;
 
 public class ResultadosDisponibilidad extends FragmentActivity {
 
-    /*RecyclerView listaTarjetasHotel;
-    Hotel uno,dos; */
+    RecyclerView listaTarjetasHotel;
+    Hotel uno,dos;
     static ArrayList<Hotel> listaHotel;
+    HotelAdapter hotelAdapter;
     Button btnListas;
     Button btnMapa;
+    ImageView imageViewBack;
+    private GoogleMap _map;
+    private MapView _mapView;
+    LatLng hotelPosition;
+    Marker marker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +52,39 @@ public class ResultadosDisponibilidad extends FragmentActivity {
         btnListas = (Button) findViewById(R.id.btnLista);
         btnMapa = (Button) findViewById(R.id.btnMapa);
 
+        imageViewBack = (ImageView) findViewById(R.id.back_button);
+
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         listaHotel = new ArrayList<>();
         Bundle bundle = getIntent().getExtras();
+
+        listaTarjetasHotel= (RecyclerView)findViewById(R.id.cardListHoteles);
+        listaTarjetasHotel.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        listaTarjetasHotel.setLayoutManager(llm);
         buscarDisponibilidad(bundle.getString("busqueda"));
 
+        _mapView = (MapView) findViewById( R.id.mapView );
+        _mapView.onCreate(savedInstanceState);
+        _mapView.onResume();
 
-        if (findViewById(R.id.fragment_contenedor) != null) {
+        try
+        {
+            MapsInitializer.initialize(getBaseContext());
+        }
+        catch( Exception e )
+        {
+            e.printStackTrace();
+        }
+        _map = _mapView.getMap();
+
+        /*if (findViewById(R.id.fragment_contenedor) != null) {
 
             if (savedInstanceState != null) {
                 return;
@@ -54,46 +96,32 @@ public class ResultadosDisponibilidad extends FragmentActivity {
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_contenedor, listadoHotelesFragment).commit();
-        }
+        }*/
 
         btnListas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ListadoHotelesFragment listadoHotelesFragment = new ListadoHotelesFragment();
+                _mapView.setVisibility(View.GONE);
+                listaTarjetasHotel.setVisibility(View.VISIBLE);
+                /*ListadoHotelesFragment listadoHotelesFragment = new ListadoHotelesFragment();
                 listadoHotelesFragment.setArguments(getIntent().getExtras());
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_contenedor, listadoHotelesFragment).commit();
+                        .replace(R.id.fragment_contenedor, listadoHotelesFragment).commit();*/
             }
         });
         btnMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                 _mapView.setVisibility(View.VISIBLE);
+                listaTarjetasHotel.setVisibility(View.GONE);
 
-                ListadoHotelesFragment menuPrincipal = new ListadoHotelesFragment();
+               /* ListadoHotelesFragment menuPrincipal = new ListadoHotelesFragment();
                 menuPrincipal.setArguments(getIntent().getExtras());
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_contenedor, menuPrincipal).commit();
+                        .replace(R.id.fragment_contenedor, menuPrincipal).commit();*/
             }
         });
-        /*listaTarjetasHotel= (RecyclerView)findViewById(R.id.cardListHoteles);
-        listaTarjetasHotel.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        listaTarjetasHotel.setLayoutManager(llm);
 
-        uno = new Hotel();
-        uno.set_nombre("Uno");
-
-        dos = new Hotel();
-        dos.set_nombre("Dos");
-
-        listaHotel= new ArrayList<>();
-        listaHotel.add(uno);
-        listaHotel.add(dos);
-
-        HotelAdapter mAdapter = new HotelAdapter(listaHotel);
-
-        listaTarjetasHotel.setAdapter(mAdapter);*/
     }
     public void buscarDisponibilidad(String busqueda){
         System.out.println("->"+busqueda);
@@ -127,6 +155,27 @@ public class ResultadosDisponibilidad extends FragmentActivity {
                 System.out.println("--->>" + nuevo.getString("Hotele"));*/
                 listaHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")),new JSONArray(nuevo.getString("Imagenes"))));
             }
+            hotelAdapter = new HotelAdapter(listaHotel);
+
+            listaTarjetasHotel.setAdapter(hotelAdapter);
+
+
+            if( _map != null )
+            {
+                for (int i = 0; i < listaHotel.size(); i++) {
+                    hotelPosition = new LatLng(listaHotel.get(i).getLatitude(), listaHotel.get(i).getLongitude() );
+                    marker = _map.addMarker( new MarkerOptions().position( hotelPosition ).title( listaHotel.get(i).getNombre() ) );
+                }
+                _map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+
+                    }
+                });
+                _map.moveCamera(CameraUpdateFactory.newLatLngZoom(hotelPosition, 10));
+                _map.getUiSettings().setMapToolbarEnabled(false);
+            }
+
 
 /*            for (int i = 0; i < hoteles.length(); i++) {
                 listaHotel.add(new Hotel(hoteles.get(i).toString()));
