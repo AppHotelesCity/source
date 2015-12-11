@@ -218,7 +218,7 @@ public class RegistroActivity extends Activity {
         imageConditions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageConditions.setImageDrawable(getDrawable(R.drawable.checked));
+                imageConditions.setImageResource(R.drawable.checked);
                 banderaCondiciones = true;
             }
         });
