@@ -4,11 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,11 +14,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONObject;
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.ksoap2.SoapEnvelope;
-import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
@@ -33,6 +36,7 @@ public class RegistroActivity extends Activity {
 
     TextView tituloToolbar;
     ImageView imageViewBack;
+    ImageView imageConditions;
     EditText edtxtNombre;
     EditText edtxtApPaterno;
     EditText edtxtApMaterno;
@@ -46,17 +50,22 @@ public class RegistroActivity extends Activity {
     Button btnRegistrar;
     ProgressDialog progressDialog;
 
+    String gender;
+
     String genero[];
     String paises[];
     ArrayList<Pais> arrayPais;
     SoapObject resultString;
     String paisSeleccionado;
+    boolean banderaCondiciones = false;
+    String cadena;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+
 
 
         arrayPais = new ArrayList<>();
@@ -72,6 +81,7 @@ public class RegistroActivity extends Activity {
                 onBackPressed();
             }
         });
+        imageConditions = (ImageView)findViewById(R.id.img_condiciones);
 
         edtxtNombre = (EditText)findViewById(R.id.edtxtNombre);
         edtxtApPaterno = (EditText)findViewById(R.id.edtxtApPaterno);
@@ -103,6 +113,11 @@ public class RegistroActivity extends Activity {
                            @Override
                            public void onClick(DialogInterface dialog, int which) {
                                btnGenero.setText(genero[which]);
+                               if("Masculino".equals(btnGenero.getText().toString())){
+                                   gender = "H";
+                               }else if("Femenino".equals(btnGenero.getText().toString())){
+                                   gender = "F";
+                               }
                            }
                        });
 
@@ -148,13 +163,108 @@ public class RegistroActivity extends Activity {
             }
         });
 
-       btnRegistrar.setOnClickListener(new View.OnClickListener() {
+        cadena = "<soapenv:Envelope\n" +
+                "    xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
+                "    xmlns:tem=\"http://tempuri.org/\"\n" +
+                "    xmlns:cit=\"http://schemas.datacontract.org/2004/07/CityHub\">\n" +
+                "    <soapenv:Header/>\n" +
+                "    <soapenv:Body>\n" +
+                "        <InsertUser\n" +
+                "            xmlns=\"http://tempuri.org/\">\n" +
+                "            <UserInfo\n" +
+                "                xmlns:d4p1=\"http://schemas.datacontract.org/2004/07/CityExpress.ClienteUnico.Entidades\"\n" +
+                "                xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
+                "                <d4p1:Active>false</d4p1:Active>\n" +
+                "                <d4p1:Changed>2015-06-03T14:47:00</d4p1:Changed>\n" +
+                "                <d4p1:CityAccess_Pwd i:nil=\"true\" />\n" +
+                "                <d4p1:CityAccess_Usr i:nil=\"true\" />\n" +
+                "                <d4p1:CityPremios_Pwd i:nil=\"true\" />\n" +
+                "                <d4p1:CityPremios_Usr i:nil=\"true\" />\n" +
+                "                <d4p1:Country>MX</d4p1:Country>\n" +
+                "                <d4p1:Created>2015-06-03T14:47:00</d4p1:Created>\n" +
+                "                <d4p1:Gender>"+ gender +"</d4p1:Gender>\n" +
+                "                <d4p1:IsValidCityPremios>false</d4p1:IsValidCityPremios>\n" +
+                "                <d4p1:LastName>"+ edtxtApPaterno.getText().toString() +"</d4p1:LastName>\n" +
+                "                <d4p1:Name>" + edtxtNombre.getText().toString() +"</d4p1:Name>\n" +
+                "                <d4p1:Password>" + edtxtPass.getText().toString() +"</d4p1:Password>\n" +
+                "                <d4p1:Pers_Id_F2G>0</d4p1:Pers_Id_F2G>\n" +
+                "                <d4p1:Phone>" + edtxtTelefono.getText().toString() +"</d4p1:Phone>\n" +
+                "                <d4p1:SecondLastName>"+ edtxtApMaterno.getText().toString() +"</d4p1:SecondLastName>\n" +
+                "                <d4p1:System_ID i:nil=\"true\" />\n" +
+                "                <d4p1:UserType_ID>1</d4p1:UserType_ID>\n" +
+                "                <d4p1:User_Changed>0</d4p1:User_Changed>\n" +
+                "                <d4p1:User_Created>0</d4p1:User_Created>\n" +
+                "                <d4p1:User_ID>0</d4p1:User_ID>\n" +
+                "                <d4p1:Username>"+ edtxtCorreo.getText().toString() +"</d4p1:Username>\n" +
+                "            </UserInfo>\n" +
+                "            <AfilCityPrem>0</AfilCityPrem>\n" +
+                "            <Title>Mr</Title>\n" +
+                "        </InsertUser >\n" +
+                "    </soapenv:Body>\n" +
+                "</soapenv:Envelope>";
+
+        btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validarCampos();
+               if( validarCampos()){
+                   enviarRegistro();
+               }
+
             }
         });
-        
+
+
+
+        imageConditions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageConditions.setImageDrawable(getDrawable(R.drawable.checked));
+                banderaCondiciones = true;
+            }
+        });
+
+    }
+
+
+    public void enviarRegistro(){
+        StringRequest registro = new StringRequest(Request.Method.POST,"http://wshc.hotelescity.com:9742/wcfMiCityExpress_WCF_Des/ClienteUnico.svc", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                System.out.println("RESPUESTA OK -------> "+response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                NetworkResponse response = error.networkResponse;
+                String datos = new String(response.data);
+                System.out.println("sout ERROR ------> " + datos);
+            }
+        }){
+
+            public String getBodyContentType(){
+                return "text/xml; charset=utf-8";
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                HashMap<String, String>  params = new HashMap<String,String>();
+                //params.put("Content-Type", "text/xml; charset=utf-8");
+                params.put("SOAPAction", "http://tempuri.org/IClienteUnico/InsertUser");
+                Log.d("hsdhsdfhuidiuhsd","clave");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return cadena.toString().getBytes();
+            }
+
+        };
+        System.out.println("registro->"+registro.toString());
+        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(registro);
     }
 
     private class RegistroUsuario extends AsyncTask<Void, Void, Void> {
@@ -248,7 +358,7 @@ public class RegistroActivity extends Activity {
         }
     }
 
-    public void validarCampos(){
+    public boolean validarCampos(){
         if("".equals(edtxtNombre.getText().toString())){
 
             AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
@@ -329,29 +439,90 @@ public class RegistroActivity extends Activity {
 
             AlertDialog dialog = builder.create();
             dialog.show();
+        }else if(!banderaCondiciones) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
+            builder.setTitle("City Express")
+                    .setMessage("Debes aceptar los términos y condiciones")
+                    .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        }else if("Género".equals(btnGenero.getText().toString())){
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
+            builder.setTitle("City Express")
+                    .setMessage("Selecciona tu Género")
+                    .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        }else if("Título".equals(btnTitulo.getText().toString())){
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
+            builder.setTitle("City Express")
+                    .setMessage("Selecciona tu título")
+                    .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        }else if("País".equals(btnPais.getText().toString())){
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
+            builder.setTitle("City Express")
+                    .setMessage("Selecciona tu país")
+                    .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
         }else{
 
-            edtxtNombre.getText();
-            edtxtApPaterno.getText();
-            edtxtApMaterno.getText();
-            edtxtCorreo.getText();
-            edtxtPass.getText();
-            edtxtTelefono.getText();
-            btnTitulo.getText();
-            btnGenero.getText();
+                edtxtNombre.getText();
+                edtxtApPaterno.getText();
+                edtxtApMaterno.getText();
+                edtxtCorreo.getText();
+                edtxtPass.getText();
+                edtxtTelefono.getText();
+                btnTitulo.getText();
+                btnGenero.getText();
 
-            Toast.makeText(RegistroActivity.this, "Guardado", Toast.LENGTH_SHORT).show();
-            System.out.println("----> " + edtxtNombre.getText().toString());
-            System.out.println("----> " + edtxtApPaterno.getText().toString());
-            System.out.println("----> " + edtxtApMaterno.getText().toString());
-            System.out.println("----> " + edtxtCorreo.getText().toString());
-            System.out.println("----> " + edtxtPass.getText().toString());
-            System.out.println("----> " + edtxtTelefono.getText().toString());
-            System.out.println("----> " + btnTitulo.getText().toString());
-            System.out.println("----> " + btnGenero.getText().toString());
-            System.out.println("----> " + paisSeleccionado);
+                Toast.makeText(RegistroActivity.this, "Guardado", Toast.LENGTH_SHORT).show();
+                System.out.println("----> " + edtxtNombre.getText().toString());
+                System.out.println("----> " + edtxtApPaterno.getText().toString());
+                System.out.println("----> " + edtxtApMaterno.getText().toString());
+                System.out.println("----> " + edtxtCorreo.getText().toString());
+                System.out.println("----> " + edtxtPass.getText().toString());
+                System.out.println("----> " + edtxtTelefono.getText().toString());
+                System.out.println("----> " + btnTitulo.getText().toString());
+                System.out.println("----> " + btnGenero.getText().toString());
+                System.out.println("----> " + paisSeleccionado);
+            }
+        return false;
         }
-    }
 
     public void enviarDatos(){
 

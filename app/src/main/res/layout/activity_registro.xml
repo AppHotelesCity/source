@@ -37,12 +37,20 @@
                     android:id="@+id/edtxtNombre"
                     android:layout_marginBottom="10dp"
                     android:background="@color/white"
+                    android:inputType="textPersonName"
+                    android:textSize="16sp"
+                    android:padding="10dp"
+                    android:layout_gravity="center"
                     android:hint="@string/nombre"/>
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginBottom="10dp"
                     android:id="@+id/edtxtApPaterno"
+                    android:inputType="textPersonName"
+                    android:padding="10dp"
+                    android:layout_gravity="center"
+                    android:textSize="16sp"
                     android:background="@color/white"
                     android:hint="@string/apellido_paterno"/>
                 <EditText
@@ -50,6 +58,10 @@
                     android:layout_height="42dp"
                     android:id="@+id/edtxtApMaterno"
                     android:layout_marginBottom="10dp"
+                    android:layout_gravity="center"
+                    android:inputType="textPersonName"
+                    android:padding="10dp"
+                    android:textSize="16sp"
                     android:background="@color/white"
                     android:hint="@string/apellido_materno"/>
                 <Button
@@ -57,20 +69,36 @@
                     android:layout_height="42dp"
                     android:layout_marginBottom="10dp"
                     android:id="@+id/btnGenero"
+                    android:layout_gravity="center"
+                    android:textSize="14sp"
+                    android:gravity="left|center"
+                    android:padding="10dp"
+                    android:textColor="@color/blue_button"
                     android:background="@color/white"
-                    android:hint="@string/genero" />
+                    android:drawableRight="@drawable/flecha_drop"
+                    android:text="@string/genero" />
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:id="@+id/btnTitulo"
+                    android:layout_gravity="center"
+                    android:textSize="14sp"
+                    android:gravity="left|center"
+                    android:padding="10dp"
+                    android:textColor="@color/blue_button"
                     android:layout_marginBottom="10dp"
+                    android:drawableRight="@drawable/flecha_drop"
                     android:background="@color/white"
-                    android:hint="@string/titulo" />
+                    android:text="@string/titulo" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:id="@+id/edtxtCorreo"
+                    android:padding="10dp"
+                    android:layout_gravity="center"
+                    android:inputType="textEmailAddress"
+                    android:textSize="16sp"
                     android:layout_marginBottom="10dp"
                     android:background="@color/white"
                     android:hint="@string/correo_electronico" />
@@ -79,7 +107,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginBottom="10dp"
-                    android:id="@+id/edtxtPassReg"
+                    android:id="@+id/edtxtPassReg"                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:inputType="textPassword"
+                    android:layout_gravity="center"
                     android:background="@color/white"
                     android:hint="@string/password"/>
                 <TextView
@@ -87,33 +118,43 @@
                     android:layout_height="wrap_content"
                     android:text="@string/validar_pass"
                     android:layout_marginBottom="10dp"
-                    android:textSize="10dp"/>
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"/>
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:background="@color/white"
                     android:layout_marginBottom="10dp"
                     android:id="@+id/btnPais"
-                    android:gravity="center"
-                    android:textSize="18sp"
+                    android:gravity="left|center"
+                    android:padding="10dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/blue_button"
                     android:layout_gravity="center"
-                    android:hint="@string/pais"/>
+                    android:drawableRight="@drawable/flecha_drop"
+                    android:text="@string/pais"/>
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginBottom="10dp"
                     android:background="@color/white"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:layout_gravity="center"
                     android:id="@+id/edtxtTelefono"
                     android:hint="@string/teléfono"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="number"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
+                        android:id="@+id/img_condiciones"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/unchecked"/>
                     <TextView
@@ -122,6 +163,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_gravity="center_vertical"
                         android:gravity="center"
+                        android:textColor="@color/white"
                         android:textAlignment="center"
                         android:text="@string/acepto_condiciones"/>
                 </LinearLayout>
