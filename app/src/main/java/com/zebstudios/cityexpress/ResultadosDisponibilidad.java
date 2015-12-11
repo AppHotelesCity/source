@@ -43,6 +43,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
+import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
@@ -143,52 +144,7 @@ public class ResultadosDisponibilidad extends FragmentActivity {
             }
         });
 
-
-        cadena = "<soapenv:Envelope" +
-                "    xmlns:soapenv=http://schemas.xmlsoap.org/soap/envelope/" +
-                "    xmlns:tem=http://tempuri.org/" +
-                "    xmlns:cit=http://schemas.datacontract.org/2004/07/CityHub>" +
-                "    <soapenv:Header/>" +
-                "    <soapenv:Body>" +
-                "        <tem:GetRoomsAvailablePromo>" +
-                "            <tem:promoRequestModelv3>" +
-                "                <cit:CodigoPromocion></cit:CodigoPromocion>" +
-                "                <cit:CodigoTarifa>"+1114+"</cit:CodigoTarifa>" +
-                "                <cit:FechaInicial>2015-12-16</cit:FechaInicial>" +
-                "                <cit:Hotel>CJPAU</cit:Hotel>" +
-                "                <cit:NumeroAdultos>"+1+"</cit:NumeroAdultos>" +
-                "                <cit:NumeroDeNoches>"+1+"</cit:NumeroDeNoches>" +
-                "                <cit:NumeroHabitaciones>"+1+"</cit:NumeroHabitaciones>" +
-                "                <cit:Segmento></cit:Segmento>" +
-                "                <cit:TipoHabitacion></cit:TipoHabitacion>" +
-                "            </tem:promoRequestModelv3>" +
-                "        </tem:GetRoomsAvailablePromo>" +
-                "    </soapenv:Body>" +
-                "</soapenv:Envelope>";
-
-        cadena = "<soapenv:Envelope\n" +
-                "    xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
-                "    xmlns:tem=\"http://tempuri.org/\"\n" +
-                "    xmlns:cit=\"http://schemas.datacontract.org/2004/07/CityHub\">\n" +
-                "    <soapenv:Header/>\n" +
-                "    <soapenv:Body>\n" +
-                "        <tem:GetRoomsAvailablePromo>\n" +
-                "            <tem:promoRequestModelv3>\n" +
-                "                <cit:CodigoPromocion></cit:CodigoPromocion>\n" +
-                "                <cit:CodigoTarifa>1114</cit:CodigoTarifa>\n" +
-                "                <cit:FechaInicial>2015-12-16</cit:FechaInicial>\n" +
-                "                <cit:Hotel>CJPAU</cit:Hotel>\n" +
-                "                <cit:NumeroAdultos>1</cit:NumeroAdultos>\n" +
-                "                <cit:NumeroDeNoches>1</cit:NumeroDeNoches>\n" +
-                "                <cit:NumeroHabitaciones>1</cit:NumeroHabitaciones>\n" +
-                "                <cit:Segmento></cit:Segmento>\n" +
-                "                <cit:TipoHabitacion></cit:TipoHabitacion>\n" +
-                "            </tem:promoRequestModelv3>\n" +
-                "        </tem:GetRoomsAvailablePromo>\n" +
-                "    </soapenv:Body>\n" +
-                "</soapenv:Envelope>";
-
-        enviarRegistro();
+        obtenerDescripcionHotel();
 
     }
     public void buscarDisponibilidad(String busqueda){
@@ -254,39 +210,35 @@ public class ResultadosDisponibilidad extends FragmentActivity {
         }
     }
 
-    private class AsyncCallWS extends AsyncTask<Void, Void, Void> {
 
-        @Override
-        protected void onPreExecute() {
-            //Log.i(TAG, "onPreExecute");
-        }
+    public void obtenerDescripcionHotel(){
+        cadena = "<soapenv:Envelope\n" +
+                "    xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
+                "    xmlns:tem=\"http://tempuri.org/\"\n" +
+                "    xmlns:cit=\"http://schemas.datacontract.org/2004/07/CityHub\">\n" +
+                "    <soapenv:Header/>\n" +
+                "    <soapenv:Body>\n" +
+                "        <tem:GetRoomsAvailablePromo>\n" +
+                "            <tem:promoRequestModelv3>\n" +
+                "                <cit:CodigoPromocion></cit:CodigoPromocion>\n" +
+                "                <cit:CodigoTarifa>1114</cit:CodigoTarifa>\n" +
+                "                <cit:FechaInicial>2015-12-16</cit:FechaInicial>\n" +
+                "                <cit:Hotel>CJPAU</cit:Hotel>\n" +
+                "                <cit:NumeroAdultos>1</cit:NumeroAdultos>\n" +
+                "                <cit:NumeroDeNoches>1</cit:NumeroDeNoches>\n" +
+                "                <cit:NumeroHabitaciones>1</cit:NumeroHabitaciones>\n" +
+                "                <cit:Segmento></cit:Segmento>\n" +
+                "                <cit:TipoHabitacion></cit:TipoHabitacion>\n" +
+                "            </tem:promoRequestModelv3>\n" +
+                "        </tem:GetRoomsAvailablePromo>\n" +
+                "    </soapenv:Body>\n" +
+                "</soapenv:Envelope>";
 
-        @Override
-        protected Void doInBackground(Void... params) {
-           // Log.i(TAG, "doInBackground");
-            limpiarDatosUsuario();
-            //calculate();
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(Void result) {
-            //Log.i(TAG, "onPostExecute");
-            //Toast.makeText(ResultadosDisponibilidad.this, "Response" , Toast.LENGTH_LONG).show();
-        }
-
-    }
-
-    public void limpiarDatosUsuario(){
-
-    }
-
-    public void enviarRegistro(){
         StringRequest registro = new StringRequest(Request.Method.POST,"http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                System.out.println("->"+response);
-
+                System.out.println("->" + response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -321,4 +273,5 @@ public class ResultadosDisponibilidad extends FragmentActivity {
         registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(this).add(registro);
     }
+
 }
