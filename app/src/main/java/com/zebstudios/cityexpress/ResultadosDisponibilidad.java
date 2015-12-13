@@ -47,16 +47,27 @@ import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ResultadosDisponibilidad extends FragmentActivity {
 
     RecyclerView listaTarjetasHotel;
-    Hotel uno,dos;
+    Hotel hotel;
+    HabitacionBase habitacionBase;
     static ArrayList<Hotel> listaHotel;
+    static ArrayList<Hotel> listaGeneralHotel;
+    static ArrayList<HabitacionBase> habitacionBaseList;
     HotelAdapter hotelAdapter;
     Button btnListas;
     Button btnMapa;
@@ -66,6 +77,9 @@ public class ResultadosDisponibilidad extends FragmentActivity {
     LatLng hotelPosition;
     Marker marker;
     String cadena;
+    String text;
+    int contador = 0;
+    JSONArray hotelJSON;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +97,8 @@ public class ResultadosDisponibilidad extends FragmentActivity {
             }
         });
         listaHotel = new ArrayList<>();
+        habitacionBaseList = new ArrayList<>();
+        listaGeneralHotel = new ArrayList<>();
         Bundle bundle = getIntent().getExtras();
 
         listaTarjetasHotel= (RecyclerView)findViewById(R.id.cardListHoteles);
@@ -134,7 +150,7 @@ public class ResultadosDisponibilidad extends FragmentActivity {
         btnMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 _mapView.setVisibility(View.VISIBLE);
+                _mapView.setVisibility(View.VISIBLE);
                 listaTarjetasHotel.setVisibility(View.GONE);
 
                /* ListadoHotelesFragment menuPrincipal = new ListadoHotelesFragment();
@@ -144,12 +160,12 @@ public class ResultadosDisponibilidad extends FragmentActivity {
             }
         });
 
-        obtenerDescripcionHotel();
+
 
     }
     public void buscarDisponibilidad(String busqueda){
         System.out.println("->"+busqueda);
-
+        contador=0;
         StringRequest registro = new StringRequest(Request.Method.GET,"https://www.cityexpress.com/umbraco/api/MobileAppServices/GetHotelsWithServices?SearchTerms="+busqueda, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -171,7 +187,7 @@ public class ResultadosDisponibilidad extends FragmentActivity {
 
     public void obtenerHoteles(JSONArray hoteles){
         try{
-
+            hotelJSON = hoteles;
             for (int i = 0; i < hoteles.length(); i++) {
                 JSONObject nuevo = new JSONObject(hoteles.get(i).toString());
                 /*System.out.println("---->"+hoteles.get(0).toString());
@@ -179,10 +195,8 @@ public class ResultadosDisponibilidad extends FragmentActivity {
                 System.out.println("--->>" + nuevo.getString("Hotele"));*/
                 listaHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")),new JSONArray(nuevo.getString("Imagenes"))));
             }
-            hotelAdapter = new HotelAdapter(listaHotel);
 
-            listaTarjetasHotel.setAdapter(hotelAdapter);
-
+            pedirDescripcionHotel();
 
             if( _map != null )
             {
@@ -211,67 +225,174 @@ public class ResultadosDisponibilidad extends FragmentActivity {
     }
 
 
-    public void obtenerDescripcionHotel(){
-        cadena = "<soapenv:Envelope\n" +
-                "    xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
-                "    xmlns:tem=\"http://tempuri.org/\"\n" +
-                "    xmlns:cit=\"http://schemas.datacontract.org/2004/07/CityHub\">\n" +
-                "    <soapenv:Header/>\n" +
-                "    <soapenv:Body>\n" +
-                "        <tem:GetRoomsAvailablePromo>\n" +
-                "            <tem:promoRequestModelv3>\n" +
-                "                <cit:CodigoPromocion></cit:CodigoPromocion>\n" +
-                "                <cit:CodigoTarifa>1114</cit:CodigoTarifa>\n" +
-                "                <cit:FechaInicial>2015-12-16</cit:FechaInicial>\n" +
-                "                <cit:Hotel>CJPAU</cit:Hotel>\n" +
-                "                <cit:NumeroAdultos>1</cit:NumeroAdultos>\n" +
-                "                <cit:NumeroDeNoches>1</cit:NumeroDeNoches>\n" +
-                "                <cit:NumeroHabitaciones>1</cit:NumeroHabitaciones>\n" +
-                "                <cit:Segmento></cit:Segmento>\n" +
-                "                <cit:TipoHabitacion></cit:TipoHabitacion>\n" +
-                "            </tem:promoRequestModelv3>\n" +
-                "        </tem:GetRoomsAvailablePromo>\n" +
-                "    </soapenv:Body>\n" +
-                "</soapenv:Envelope>";
+    public void pedirDescripcionHotel() {
+        if (contador < listaHotel.size()) {
+            System.out.println("SIGLAS->"+listaHotel.get(contador).getSiglas());
+            cadena = "<soapenv:Envelope\n" +
+                    "    xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
+                    "    xmlns:tem=\"http://tempuri.org/\"\n" +
+                    "    xmlns:cit=\"http://schemas.datacontract.org/2004/07/CityHub\">\n" +
+                    "    <soapenv:Header/>\n" +
+                    "    <soapenv:Body>\n" +
+                    "        <tem:GetRoomsAvailablePromo>\n" +
+                    "            <tem:promoRequestModelv3>\n" +
+                    "                <cit:CodigoPromocion></cit:CodigoPromocion>\n" +
+                    "                <cit:CodigoTarifa>1114</cit:CodigoTarifa>\n" +
+                    "                <cit:FechaInicial>2015-12-16</cit:FechaInicial>\n" +
+                    "                <cit:Hotel>" + listaHotel.get(contador).getSiglas() + "</cit:Hotel>\n" +
+                    "                <cit:NumeroAdultos>1</cit:NumeroAdultos>\n" +
+                    "                <cit:NumeroDeNoches>1</cit:NumeroDeNoches>\n" +
+                    "                <cit:NumeroHabitaciones>1</cit:NumeroHabitaciones>\n" +
+                    "                <cit:Segmento></cit:Segmento>\n" +
+                    "                <cit:TipoHabitacion></cit:TipoHabitacion>\n" +
+                    "            </tem:promoRequestModelv3>\n" +
+                    "        </tem:GetRoomsAvailablePromo>\n" +
+                    "    </soapenv:Body>\n" +
+                    "</soapenv:Envelope>";
 
 
-        StringRequest registro = new StringRequest(Request.Method.POST,"http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                System.out.println("->" + response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                NetworkResponse response = error.networkResponse;
-                String datos = new String(response.data);
-                System.out.println("sout" + datos);
-            }
-        }){
+            StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    System.out.println(contador + "->contador" + response);
+                    InputStream stream = null;
+                    try {
+                        stream = new ByteArrayInputStream(response.getBytes("UTF-8"));
+                        parseXML(stream);
 
-            public String getBodyContentType(){
-                return "text/xml; charset=utf-8";
-            }
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError
-            {
-                HashMap<String, String>  params = new HashMap<String,String>();
-                //params.put("Content-Type", "application/xml; charset=utf-8");
-                params.put("SOAPAction", "http://tempuri.org/IReservationEngine/GetRoomsAvailablePromo");
-                Log.d("hsdhsdfhuidiuhsd","clave");
-                return params;
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    obtenerDescripcionHotel(response);
+                    contador++;
+                    pedirDescripcionHotel();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                    NetworkResponse response = error.networkResponse;
+                    String datos = new String(response.data);
+                    System.out.println("sout" + datos);
+                }
+            }) {
+
+                public String getBodyContentType() {
+                    return "text/xml; charset=utf-8";
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> params = new HashMap<String, String>();
+                    //params.put("Content-Type", "application/xml; charset=utf-8");
+                    params.put("SOAPAction", "http://tempuri.org/IReservationEngine/GetRoomsAvailablePromo");
+                    Log.d("hsdhsdfhuidiuhsd", "clave");
+                    return params;
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    return cadena.toString().getBytes();
+                }
+
+            };
+            System.out.println("registro->" + registro.toString());
+            registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            Volley.newRequestQueue(this).add(registro);
+        }else{
+            hotelAdapter = new HotelAdapter(listaGeneralHotel);
+            listaTarjetasHotel.setAdapter(hotelAdapter);
+        }
+    }
+
+    public void obtenerDescripcionHotel(String hotel){
+
+    }
+
+    public void parseXML(InputStream is) {
+        XmlPullParserFactory factory = null;
+        XmlPullParser parser = null;
+        //List<String> listaBase = null;
+        try {
+            //listaBase = new ArrayList<>();
+            factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            parser = factory.newPullParser();
+
+            parser.setInput(is, null);
+
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                String tagname = parser.getName();
+                switch (eventType) {
+                    case XmlPullParser.START_TAG:
+                        if (tagname.equalsIgnoreCase("Available")) {
+                            // create a new instance of employee
+                            //employee = new Disponibilidad();
+                        } else if(tagname.equalsIgnoreCase("Disponibilidad")){
+                            habitacionBaseList = new ArrayList<>();
+                        } else if(tagname.equalsIgnoreCase("HabBase")){
+                            habitacionBase = new HabitacionBase();
+                        }
+                        break;
+
+                    case XmlPullParser.TEXT:
+                        text = parser.getText();
+                        break;
+
+                    case XmlPullParser.END_TAG:
+                        if (tagname.equalsIgnoreCase("Available")) {
+                            // add employee object to list
+                           // employee.setHabitacionBasesList(habitacionBasesList);
+                        }else if(tagname.equalsIgnoreCase("Disponibilidad")){
+                            JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
+                            listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")),habitacionBaseList));
+                            System.out.println("TOTAL->" + listaGeneralHotel.size());
+                            habitacionBaseList = new ArrayList<>();
+                        } else if(tagname.equalsIgnoreCase("HabBase")){
+                            habitacionBaseList.add(habitacionBase);
+                        }else if (tagname.equalsIgnoreCase("Descripcion")) {
+                           // employee.setName(text);
+                            System.out.println(text);
+                        } else if (tagname.equalsIgnoreCase("CodigoTarifa")) {
+                            //employee.setId(text);
+                            System.out.println(text);
+                        } else if (tagname.equalsIgnoreCase("Hotel")) {
+                            //employee.setDepartment(text);
+                            System.out.println(text);
+                        } else if (tagname.equalsIgnoreCase("AVAILABILITY")) {
+                            habitacionBase.setDisponibilidad(text);
+                            System.out.println(text);
+                        } else if (tagname.equalsIgnoreCase("CodBase")) {
+                            habitacionBase.setCodigoBase(text);
+                            System.out.println(text);
+                        } else if (tagname.equalsIgnoreCase("DescBase")) {
+                            habitacionBase.setDescBase(text);
+                            System.out.println(text);
+                        } else if (tagname.equalsIgnoreCase("Costo")) {
+                            habitacionBase.setCosto(text);
+                            System.out.println(text);
+                        } else if (tagname.equalsIgnoreCase("Fecha")) {
+                            habitacionBase.setFecha(text);
+                            System.out.println(text);
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+                eventType = parser.next();
             }
 
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                return cadena.toString().getBytes();
-            }
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        };
-        System.out.println("registro->"+registro.toString());
-        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Volley.newRequestQueue(this).add(registro);
+        //return habitacionBaseList;
     }
 
 }

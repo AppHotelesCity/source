@@ -14,6 +14,7 @@ import java.util.ArrayList;
  */
 public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHolder>{
     ArrayList<Hotel> arrayHoteles;
+    ArrayList<HabitacionBase> habitacionBaseArrayList;
 
     public HotelAdapter(ArrayList<Hotel> arrayHoteles){
         this.arrayHoteles=arrayHoteles;
@@ -28,9 +29,24 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
     @Override
     public void onBindViewHolder(HotelViewHolder holder, int position) {
         final Hotel hotel = arrayHoteles.get(position);
+        double precioAux = 0;
+        String precio = "";
         holder.txtNombreHotel.setText(hotel.getNombre());
         holder.txtDescripcionHotel.setText(hotel.getLugaresCercanos());
-        holder.txtPrecioHotel.setText("$789");
+        habitacionBaseArrayList = hotel.getArrayHabitaciones();
+        System.out.println(habitacionBaseArrayList.size() + "hotelNombre>>**->" + hotel.getNombre());
+        for (int i = 0; i < habitacionBaseArrayList.size(); i++) {
+            if(precioAux<Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",",""))){
+                precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",",""));
+                precio = habitacionBaseArrayList.get(i).getCosto();
+            }else{
+                precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",",""));
+                precio = habitacionBaseArrayList.get(i).getCosto();
+            }
+            System.out.println("habitacioneDescBase->" + habitacionBaseArrayList.get(i).getDescBase());
+            System.out.println("habitacionesCosto->" + habitacionBaseArrayList.get(i).getCosto());
+        }
+        holder.txtPrecioHotel.setText("$ "+precio);
 
         holder.cardViewHotel.setOnClickListener(new View.OnClickListener() {
             @Override

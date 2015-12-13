@@ -57,6 +57,8 @@ public class Hotel implements Serializable {
     private String[] _imagenes;
     private int _source;
 
+
+    private ArrayList<HabitacionBase> arrayHabitaciones;
     public Hotel(){}
     public Hotel(JSONObject json) {
         this(json, 0);
@@ -159,6 +161,20 @@ public class Hotel implements Serializable {
         }
     }
 
+    public Hotel(JSONObject json, JSONArray imagenesHotel, ArrayList<HabitacionBase> habitaciones){
+        this(json, 0);
+        try {
+            this.arrayHabitaciones= habitaciones;
+            _imagenes = new String[imagenesHotel.length()];
+            for (int i = 0; i <imagenesHotel.length(); i++) {
+                _imagenes[i] = imagenesHotel.get(i).toString();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public Hotel(JSONObject json, JSONArray imagenesHotel){
         this(json, 0);
         try {
@@ -171,7 +187,8 @@ public class Hotel implements Serializable {
         }
 
     }
-    
+
+
     public int getId() {
         return _id;
     }
@@ -352,5 +369,13 @@ public class Hotel implements Serializable {
 
     public void set_nombre(String _nombre) {
         this._nombre = _nombre;
+    }
+
+    public ArrayList<HabitacionBase> getArrayHabitaciones() {
+        return arrayHabitaciones;
+    }
+
+    public void setArrayHabitaciones(ArrayList<HabitacionBase> arrayHabitaciones) {
+        this.arrayHabitaciones = arrayHabitaciones;
     }
 }
