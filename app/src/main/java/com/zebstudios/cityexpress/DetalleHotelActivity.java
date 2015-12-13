@@ -5,23 +5,46 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 public class DetalleHotelActivity extends ActionBarActivity {
+
     private ServicesListAdapter _serviciosListAdapter;
-
     private ImageCache _imageCache;
-
+    private GoogleMap _map;
+    private MapView _mapView;
+    private RecyclerView recyclerViewHabitaciones;
+    private TextView txtDescripcion;
+    private TextView txtServicios;
+    private TextView txtMapa;
+    private ListView listView;
+    private LinearLayout linearLayoutDescripcion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_hotel);
 
+        txtDescripcion = (TextView) findViewById(R.id.txtDescripcionHotel);
+        txtServicios = (TextView) findViewById(R.id.txtServiciosHotel);
+        txtMapa = (TextView) findViewById(R.id.txtMapaHotel);
+        _mapView = (MapView) findViewById( R.id.mapViewDetalle );
+         listView= (ListView) findViewById(R.id.listServicios);
+        linearLayoutDescripcion = (LinearLayout) findViewById(R.id.linearDescripcion);
 
         //Detalles
 
@@ -53,14 +76,66 @@ public class DetalleHotelActivity extends ActionBarActivity {
 
 
         //Servicios
-        /*_serviciosListAdapter = new ServicesListAdapter(this, ResultadosDisponibilidad.listaGeneralHotel.get(0).getServicios() );
-        ListView listView = (ListView) findViewById(R.id.listServicios);
+        _serviciosListAdapter = new ServicesListAdapter(this, ResultadosDisponibilidad.listaGeneralHotel.get(0).getServicios() );
+
         listView.setAdapter( _serviciosListAdapter );
 
         listView.setDivider( null );
-        listView.setDividerHeight(0);*/
+        listView.setDividerHeight(0);
         //Analytics analytics = (Analytics)getApplication();
         //analytics.sendAppEventTrack("HOTEL DETAIL ANDROID", "SERVICES", "HOTEL", _hotel.getNombre(), 1);
+
+        //Mapa
+
+
+        _mapView.onCreate( savedInstanceState );
+        _mapView.onResume();
+
+        try
+        {
+            MapsInitializer.initialize(getApplicationContext());
+        }
+        catch( Exception e )
+        {
+            e.printStackTrace();
+        }
+
+        _map = _mapView.getMap();
+        //_map = ((SupportMapFragment) getFragmentManager().findFragmentById( R.id.map )).getMap();
+
+        LatLng hotelPosition =  new LatLng( ResultadosDisponibilidad.listaGeneralHotel.get(0).getLatitude(), ResultadosDisponibilidad.listaGeneralHotel.get(0).getLongitude() );
+        Marker m = _map.addMarker( new MarkerOptions().position( hotelPosition ).title( ResultadosDisponibilidad.listaGeneralHotel.get(0).getNombre() ) );
+        //_map.animateCamera( CameraUpdateFactory.newLatLngZoom( hotelPosition, 14 ) );
+        _map.moveCamera( CameraUpdateFactory.newLatLngZoom(hotelPosition, 14) );
+        m.showInfoWindow();
+
+
+        txtDescripcion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _mapView.setVisibility(View.GONE);
+                listView.setVisibility(View.GONE);
+                linearLayoutDescripcion.setVisibility(View.VISIBLE);
+
+            }
+        });
+        txtServicios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _mapView.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
+                linearLayoutDescripcion.setVisibility(View.GONE);
+            }
+        });
+        txtMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _mapView.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+                linearLayoutDescripcion.setVisibility(View.GONE);
+            }
+        });
+
 
 
     }
