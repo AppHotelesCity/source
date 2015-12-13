@@ -5,7 +5,7 @@
     tools:context="com.zebstudios.cityexpress.ListadoHotelesFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/cardListHoteles"
+        android:id="@+id/cardListHoteles3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

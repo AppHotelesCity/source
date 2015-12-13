@@ -1,5 +1,7 @@
 package com.zebstudios.cityexpress;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,7 +29,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
     }
 
     @Override
-    public void onBindViewHolder(HotelViewHolder holder, int position) {
+    public void onBindViewHolder(final HotelViewHolder holder, int position) {
         final Hotel hotel = arrayHoteles.get(position);
         double precioAux = 0;
         String precio = "";
@@ -51,7 +53,12 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
         holder.cardViewHotel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*Intent intent = new Intent(holder.context,DetalleHotelActivity.class);
+                holder.context.startActivity(intent);*/
 
+                Intent dialog = new Intent(holder.context, DetalleHotelActivity.class);
+                //dialog.putExtra("HOTEL", hotel);
+                holder.context.startActivity(dialog);
             }
         });
     }
@@ -66,12 +73,15 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
     protected TextView txtDescripcionHotel;
     protected TextView txtPrecioHotel;
     protected CardView cardViewHotel;
+        protected Context context;
     public HotelViewHolder(View v) {
         super(v);
         txtNombreHotel =  (TextView) v.findViewById(R.id.textViewHotel);
         txtDescripcionHotel = (TextView)  v.findViewById(R.id.textViewDescripcionHotel);
         txtPrecioHotel = (TextView)  v.findViewById(R.id.textViewPrecioHotel);
         cardViewHotel= (CardView) v.findViewById(R.id.cardViewHotel);
+        context = v.getContext();
+
     }
 }
 

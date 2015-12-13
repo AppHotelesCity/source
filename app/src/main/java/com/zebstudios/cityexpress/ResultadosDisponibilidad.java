@@ -9,8 +9,9 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -60,9 +61,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ResultadosDisponibilidad extends FragmentActivity {
+public class ResultadosDisponibilidad extends ActionBarActivity {
 
-    RecyclerView listaTarjetasHotel;
+    ExtensionRecyclerView listaTarjetasHotel;
     Hotel hotel;
     HabitacionBase habitacionBase;
     static ArrayList<Hotel> listaHotel;
@@ -87,26 +88,31 @@ public class ResultadosDisponibilidad extends FragmentActivity {
         setContentView(R.layout.activity_resultados_disponibilidad);
         btnListas = (Button) findViewById(R.id.btnLista);
         btnMapa = (Button) findViewById(R.id.btnMapa);
-
+        listaTarjetasHotel= (ExtensionRecyclerView)findViewById(R.id.cardListHoteles);
+        listaTarjetasHotel.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        listaTarjetasHotel.setLayoutManager(llm);
         imageViewBack = (ImageView) findViewById(R.id.back_button);
-
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-        listaHotel = new ArrayList<>();
-        habitacionBaseList = new ArrayList<>();
-        listaGeneralHotel = new ArrayList<>();
+
         Bundle bundle = getIntent().getExtras();
 
-        listaTarjetasHotel= (RecyclerView)findViewById(R.id.cardListHoteles);
-        listaTarjetasHotel.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        listaTarjetasHotel.setLayoutManager(llm);
-        buscarDisponibilidad(bundle.getString("busqueda"));
+        if (bundle != null) {
+            listaHotel = new ArrayList<>();
+            habitacionBaseList = new ArrayList<>();
+            listaGeneralHotel = new ArrayList<>();
+            buscarDisponibilidad(bundle.getString("busqueda"));
+        }else{
+            hotelAdapter = new HotelAdapter(listaGeneralHotel);
+            listaTarjetasHotel.setAdapter(hotelAdapter);
+        }
+
 
         _mapView = (MapView) findViewById( R.id.mapView );
         _mapView.onCreate(savedInstanceState);
@@ -163,6 +169,10 @@ public class ResultadosDisponibilidad extends FragmentActivity {
 
 
     }
+
+
+
+
     public void buscarDisponibilidad(String busqueda){
         System.out.println("->"+busqueda);
         contador=0;

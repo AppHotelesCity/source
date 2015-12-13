@@ -352,7 +352,15 @@ public class Hotel implements Serializable {
     public void setMerchantPassword(String merchantPassword) {
         _merchantPassword = merchantPassword;
     }
-    
+
+    public String[] get_imagenes() {
+        return _imagenes;
+    }
+
+    public void set_imagenes(String[] _imagenes) {
+        this._imagenes = _imagenes;
+    }
+
     public String getMerchantUserName() {
         return _merchantUserName;
     }
