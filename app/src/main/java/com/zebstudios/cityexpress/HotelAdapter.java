@@ -7,7 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -36,6 +39,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
         holder.txtNombreHotel.setText(hotel.getNombre());
         holder.txtDescripcionHotel.setText(hotel.getLugaresCercanos());
         habitacionBaseArrayList = hotel.getArrayHabitaciones();
+        Picasso.with(holder.context).load(hotel.getImagenPrincipal()).into(holder.imageViewHotel);
         System.out.println(habitacionBaseArrayList.size() + "hotelNombre>>**->" + hotel.getNombre());
         for (int i = 0; i < habitacionBaseArrayList.size(); i++) {
             if(precioAux<Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",",""))){
@@ -69,10 +73,11 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
     }
 
     public static class HotelViewHolder extends RecyclerView.ViewHolder{
-    protected TextView txtNombreHotel;
-    protected TextView txtDescripcionHotel;
-    protected TextView txtPrecioHotel;
-    protected CardView cardViewHotel;
+        protected TextView txtNombreHotel;
+        protected TextView txtDescripcionHotel;
+        protected TextView txtPrecioHotel;
+        protected CardView cardViewHotel;
+        protected ImageView imageViewHotel;
         protected Context context;
     public HotelViewHolder(View v) {
         super(v);
@@ -80,6 +85,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
         txtDescripcionHotel = (TextView)  v.findViewById(R.id.textViewDescripcionHotel);
         txtPrecioHotel = (TextView)  v.findViewById(R.id.textViewPrecioHotel);
         cardViewHotel= (CardView) v.findViewById(R.id.cardViewHotel);
+        imageViewHotel = (ImageView) v.findViewById(R.id.imageViewHotel);
         context = v.getContext();
 
     }

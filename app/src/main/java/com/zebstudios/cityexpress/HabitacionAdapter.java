@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -45,6 +46,13 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
 
             }
         });
+        holder.btnReservar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Intent intent = new Intent(this, HabitacionAdapter)
+            }
+        });
     }
 
     @Override
@@ -57,6 +65,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         protected TextView txtPrecioPremioHabitacion;
         protected TextView txtPrecioDestinoHabitacion;
         protected CardView cardViewHotel;
+        protected Button btnReservar;
         protected Context context;
         public HabitacionViewHolder(View v) {
             super(v);
@@ -64,6 +73,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
             txtPrecioPremioHabitacion = (TextView)  v.findViewById(R.id.textViewPrecioPremioHabitacion);
             txtPrecioDestinoHabitacion = (TextView)  v.findViewById(R.id.textViewPrecioPagoDestinoHotel);
             cardViewHotel= (CardView) v.findViewById(R.id.cardViewHabitacion);
+            btnReservar = (Button) v.findViewById(R.id.btnReservarAhora);
             context = v.getContext();
         }
     }
