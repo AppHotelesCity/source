@@ -1,6 +1,7 @@
 package com.zebstudios.cityexpress;
 
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,8 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 
 public class PrincipalFragment extends Fragment implements View.OnClickListener{
@@ -23,7 +31,15 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
     LinearLayout linearLlegada;
     EditText editTextPromoCode;
     Button btnDisponibilidad;
+    TextView txtLlegada;
+    TextView txtSalida;
 
+    SimpleDateFormat formatoFecha;
+    SimpleDateFormat formatoFechaJSON;
+    DatePickerDialog fechaLlegada;
+    DatePickerDialog fechaSalida;
+    String fecha;
+    String mes;
     boolean usuarioActivo;
 
     public static PrincipalFragment newInstance(String param1, String param2) {
@@ -54,6 +70,177 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         linearLlegada = (LinearLayout) view.findViewById(R.id.linearLlegada);
         editTextPromoCode = (EditText) view.findViewById(R.id.editTextPromoCode);
         btnDisponibilidad = (Button) view.findViewById(R.id.btnDisponibilidad);
+        txtLlegada = (TextView)view.findViewById(R.id.txt_llegada);
+        txtSalida =(TextView)view.findViewById(R.id.txt_salida);
+
+        formatoFechaJSON = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+
+        txtLlegada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fechaLlegada.show();
+            }
+        });
+
+        Calendar CalendarLlegada = Calendar.getInstance();
+        fechaLlegada = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                switch (monthOfYear){
+                    case 0:
+                        mes = "ene";
+                        break;
+                    case 1:
+                        mes = "feb";
+                        break;
+                    case 2:
+                        mes = "mar";
+                        break;
+                    case 3:
+                        mes = "abr";
+                        break;
+                    case 4:
+                        mes = "may";
+                        break;
+                    case 5:
+                        mes = "jun";
+                        break;
+                    case 6:
+                        mes = "jul";
+                        break;
+                    case 7:
+                        mes = "ago";
+                        break;
+                    case 8:
+                        mes = "sep";
+                        break;
+                    case 9:
+                        mes = "oct";
+                        break;
+                    case 10:
+                        mes = "nov";
+                        break;
+                    case 11:
+                        mes = "dic";
+                        break;
+                }
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                txtLlegada.setText(dayOfMonth +" "+ mes +" "+ year);
+                System.out.println(dayOfMonth +" "+ mes +" "+ year);
+
+                if(dayOfMonth < Calendar.DAY_OF_MONTH){
+                    Toast.makeText(getActivity(), "adscacd", Toast.LENGTH_SHORT).show();
+                }
+                fecha = formatoFechaJSON.format(newDate.getTime());
+            }
+
+        }, CalendarLlegada.get(Calendar.YEAR), CalendarLlegada.get(Calendar.MONTH), CalendarLlegada.get(Calendar.DAY_OF_MONTH));
+
+        final Calendar c = Calendar.getInstance();
+        int anio = c.get(Calendar.YEAR); //obtenemos el año
+        int mesT = c.get(Calendar.MONTH); //obtenemos el mes
+        int dia = c.get(Calendar.DAY_OF_MONTH); // obtemos el día.
+        switch (mesT){
+            case 0:
+                mes = "ene";
+                break;
+            case 1:
+                mes = "feb";
+                break;
+            case 2:
+                mes = "mar";
+                break;
+            case 3:
+                mes = "abr";
+                break;
+            case 4:
+                mes = "may";
+                break;
+            case 5:
+                mes = "jun";
+                break;
+            case 6:
+                mes = "jul";
+                break;
+            case 7:
+                mes = "ago";
+                break;
+            case 8:
+                mes = "sep";
+                break;
+            case 9:
+                mes = "oct";
+                break;
+            case 10:
+                mes = "nov";
+                break;
+            case 11:
+                mes = "dic";
+                break;
+        }
+        txtLlegada.setText(dia+" " + mes +" "+anio); //cambiamos el texto que tiene el TextView por la fecha actual.
+
+        txtSalida.setText(dia+" " + mes +" "+anio);
+
+        txtSalida.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fechaSalida.show();
+            }
+        });
+
+        Calendar CalendarSalida = Calendar.getInstance();
+        fechaSalida = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                switch (monthOfYear){
+                    case 0:
+                        mes = "ene";
+                        break;
+                    case 1:
+                        mes = "feb";
+                        break;
+                    case 2:
+                        mes = "mar";
+                        break;
+                    case 3:
+                        mes = "abr";
+                        break;
+                    case 4:
+                        mes = "may";
+                        break;
+                    case 5:
+                        mes = "jun";
+                        break;
+                    case 6:
+                        mes = "jul";
+                        break;
+                    case 7:
+                        mes = "ago";
+                        break;
+                    case 8:
+                        mes = "sep";
+                        break;
+                    case 9:
+                        mes = "oct";
+                        break;
+                    case 10:
+                        mes = "nov";
+                        break;
+                    case 11:
+                        mes = "dic";
+                        break;
+                }
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                txtSalida.setText(dayOfMonth +" " + mes + " " + year);
+                fecha = formatoFechaJSON.format(newDate.getTime());
+            }
+
+        }, CalendarSalida.get(Calendar.YEAR), CalendarSalida.get(Calendar.MONTH), CalendarSalida.get(Calendar.DAY_OF_MONTH));
+
 
         SharedPreferences prefsUsuario = getActivity().getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
         usuarioActivo = Boolean.parseBoolean(prefsUsuario.getString("activo",null));
