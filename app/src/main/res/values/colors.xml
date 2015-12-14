@@ -57,6 +57,7 @@
 	<color name="yellow_button">#fbb900</color>
 	<color name="blue_button">#11387b</color>
 	<color name="gray_letters_color">#434343</color>
+	<color name="gray_letters_color_alpha">#b4434343</color>
 	<color name="blue_letters_color">#0c4da2</color>
 
 </resources>

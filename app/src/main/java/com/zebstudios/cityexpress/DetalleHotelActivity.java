@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +42,7 @@ public class DetalleHotelActivity extends ActionBarActivity {
     private TextView txtServicios;
     private TextView txtMapa;
     private ListView listView;
+    private HabitacionAdapter habitacionAdapter;
     private WeatherReport _weatherReport;
     private LinearLayout linearLayoutDescripcion;
 
@@ -55,6 +57,14 @@ public class DetalleHotelActivity extends ActionBarActivity {
         _mapView = (MapView) findViewById( R.id.mapViewDetalle );
          listView= (ListView) findViewById(R.id.listServicios);
         linearLayoutDescripcion = (LinearLayout) findViewById(R.id.linearDescripcion);
+        recyclerViewHabitaciones = (RecyclerView) findViewById(R.id.cardListHabitaciones);
+        recyclerViewHabitaciones.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(getBaseContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerViewHabitaciones.setLayoutManager(llm);
+
+        habitacionAdapter = new HabitacionAdapter(ResultadosDisponibilidad.listaGeneralHotel, ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones());
+        recyclerViewHabitaciones.setAdapter(habitacionAdapter);
 
         //Detalles
 
