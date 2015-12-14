@@ -49,8 +49,8 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         holder.btnReservar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //Intent intent = new Intent(this, HabitacionAdapter)
+                Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
+                v.getContext().startActivity(intent);
             }
         });
     }

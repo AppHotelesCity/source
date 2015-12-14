@@ -330,7 +330,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             parser = factory.newPullParser();
 
             parser.setInput(is, null);
-
+            habitacionBaseList = new ArrayList<>();
             int eventType = parser.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 String tagname = parser.getName();
@@ -340,9 +340,10 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                             // create a new instance of employee
                             //employee = new Disponibilidad();
                         } else if(tagname.equalsIgnoreCase("Disponibilidad")){
-                            habitacionBaseList = new ArrayList<>();
+
                         } else if(tagname.equalsIgnoreCase("HabBase")){
                             habitacionBase = new HabitacionBase();
+
                         }
                         break;
 
@@ -352,13 +353,14 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
                     case XmlPullParser.END_TAG:
                         if (tagname.equalsIgnoreCase("Available")) {
-                            // add employee object to list
-                           // employee.setHabitacionBasesList(habitacionBasesList);
-                        }else if(tagname.equalsIgnoreCase("Disponibilidad")){
                             JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
                             listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")),habitacionBaseList));
                             System.out.println("TOTAL->" + listaGeneralHotel.size());
                             habitacionBaseList = new ArrayList<>();
+                            // add employee object to list
+                           // employee.setHabitacionBasesList(habitacionBasesList);
+                        }else if(tagname.equalsIgnoreCase("Disponibilidad")){
+
                         } else if(tagname.equalsIgnoreCase("HabBase")){
                             habitacionBaseList.add(habitacionBase);
                         }else if (tagname.equalsIgnoreCase("Descripcion")) {

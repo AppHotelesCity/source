@@ -62,7 +62,7 @@ public class DetalleHotelActivity extends ActionBarActivity {
         LinearLayoutManager llm = new LinearLayoutManager(getBaseContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewHabitaciones.setLayoutManager(llm);
-
+        System.out.println(ResultadosDisponibilidad.listaGeneralHotel);
         habitacionAdapter = new HabitacionAdapter(ResultadosDisponibilidad.listaGeneralHotel, ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones());
         recyclerViewHabitaciones.setAdapter(habitacionAdapter);
 

@@ -39,7 +39,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
         holder.txtNombreHotel.setText(hotel.getNombre());
         holder.txtDescripcionHotel.setText(hotel.getLugaresCercanos());
         habitacionBaseArrayList = hotel.getArrayHabitaciones();
-        Picasso.with(holder.context).load(hotel.getImagenPrincipal()).into(holder.imageViewHotel);
+        //Picasso.with(holder.context).load(hotel.getImagenPrincipal()).into(holder.imageViewHotel);
         System.out.println(habitacionBaseArrayList.size() + "hotelNombre>>**->" + hotel.getNombre());
         for (int i = 0; i < habitacionBaseArrayList.size(); i++) {
             if(precioAux<Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",",""))){

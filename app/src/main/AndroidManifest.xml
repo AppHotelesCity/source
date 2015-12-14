@@ -239,16 +239,20 @@
             android:theme="@style/ToolbarColor" />
         <activity
             android:name=".ResultadosDisponibilidad"
-            android:theme="@style/ToolbarColor"/>
+            android:theme="@style/ToolbarColor" />
         <activity
             android:name=".OlvidePassActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ToolbarColor" />
-        <activity android:name=".DetalleHotelActivity"
+        <activity
+            android:name=".DetalleHotelActivity"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@style/ToolbarColor"
-            android:launchMode="singleInstance">
-
+            android:theme="@style/ToolbarColor" >
+        </activity>
+        <activity android:name=".Reservacion" >
+        </activity>
+        <activity android:name=".ReservacionActivity" >
         </activity>
     </application>
 
