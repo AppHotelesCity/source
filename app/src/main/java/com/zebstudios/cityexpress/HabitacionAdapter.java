@@ -18,10 +18,12 @@ import java.util.ArrayList;
 public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.HabitacionViewHolder>{
     ArrayList<Hotel> arrayHoteles;
     ArrayList<HabitacionBase> habitacionBaseArrayList;
+    ArrayList<HabitacionBase> habitacionBaseArrayListCity;
 
-    public HabitacionAdapter(ArrayList<Hotel> arrayHoteles, ArrayList<HabitacionBase> arrayHabitacion){
+    public HabitacionAdapter(ArrayList<Hotel> arrayHoteles, ArrayList<HabitacionBase> arrayHabitacion, ArrayList<HabitacionBase> habitacionesCity){
         this.arrayHoteles=arrayHoteles;
         this.habitacionBaseArrayList = arrayHabitacion;
+        this.habitacionBaseArrayListCity = habitacionesCity;
     }
     @Override
     public HabitacionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -36,9 +38,17 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         final HabitacionBase habitacionBase= habitacionBaseArrayList.get(position);
         double precioAux = 0;
         String precio = "";
+        System.out.println("Tamaño dentro del adapter de Habitacion" + habitacionBaseArrayListCity.size());
 
+        for (int i = 0; i < habitacionBaseArrayListCity.size(); i++) {
+            for (int j = 0; j < habitacionBaseArrayList.size(); j++) {
+                if(habitacionBaseArrayList.get(j).getCodigoBase().equalsIgnoreCase(habitacionBaseArrayListCity.get(i).getCodigoBase())){
+                   // holder.txtPrecioPremioHabitacion.setText(habitacionBaseArrayListCity.get(position).getCosto());
+                }
+            }
+        }
         holder.txtDescripcionHabitacion.setText(habitacionBaseArrayList.get(position).getDescBase());
-        holder.txtPrecioPremioHabitacion.setText(habitacionBaseArrayList.get(position).getCosto());
+
         holder.txtPrecioDestinoHabitacion.setText(habitacionBaseArrayList.get(position).getCosto());
         holder.cardViewHotel.setOnClickListener(new View.OnClickListener() {
             @Override

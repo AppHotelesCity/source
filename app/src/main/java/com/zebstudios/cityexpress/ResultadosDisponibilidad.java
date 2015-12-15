@@ -196,7 +196,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
 
     public void buscarDisponibilidad(String busqueda){
-        System.out.println("->"+busqueda);
+        //System.out.println("->"+busqueda);
         contador=0;
         StringRequest registro = new StringRequest(Request.Method.GET,"https://www.cityexpress.com/umbraco/api/MobileAppServices/GetHotelsWithServices?SearchTerms="+busqueda, new Response.Listener<String>() {
             @Override
@@ -259,7 +259,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
     public void pedirDescripcionHotel() {
         if (contador < listaHotel.size()) {
-            System.out.println("SIGLAS->"+listaHotel.get(contador).getSiglas());
+            //System.out.println("SIGLAS->"+listaHotel.get(contador).getSiglas());
             cadena = "<soapenv:Envelope\n" +
                     "    xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
                     "    xmlns:tem=\"http://tempuri.org/\"\n" +
@@ -286,7 +286,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    System.out.println(contador + "->contador" + response);
+                    //System.out.println(contador + "->contador" + response);
                     InputStream stream = null;
                     try {
                         stream = new ByteArrayInputStream(response.getBytes("UTF-8"));
@@ -305,7 +305,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     error.printStackTrace();
                     NetworkResponse response = error.networkResponse;
                     String datos = new String(response.data);
-                    System.out.println("sout" + datos);
+                    //System.out.println("sout" + datos);
                 }
             }) {
 
@@ -328,7 +328,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                 }
 
             };
-            System.out.println("registro->" + registro.toString());
+            //System.out.println("registro->" + registro.toString());
             registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             Volley.newRequestQueue(this).add(registro);
         }else{
@@ -376,8 +376,9 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     case XmlPullParser.END_TAG:
                         if (tagname.equalsIgnoreCase("Available")) {
                             JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
-                            listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList));
-                            System.out.println("TOTAL->" + listaGeneralHotel.size());
+                            listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList,habitacionCityPremiosList));
+                            //listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList));
+                            //System.out.println("TOTAL->" + listaGeneralHotel.size());
                             habitacionBaseList = new ArrayList<>();
                             //habitacionCityPremiosList = new ArrayList<>();
                             // add employee object to list
@@ -399,10 +400,14 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
                         }else if(tagname.equalsIgnoreCase("TarifaBase")){
                         } else if(tagname.equalsIgnoreCase("HabBase")){
-                            habitacionBaseList.add(habitacionBase);
-                            habitacionCityPremiosList.add(habitacionCity);
+
+                            if(cityPremios){
+                                habitacionCityPremiosList.add(habitacionCity);
+                            }else{
+                                habitacionBaseList.add(habitacionBase);
+                            }
                             System.out.println("HabitacionBase" + habitacionBaseList.size());
-                            System.out.println("HabitacionCity" + habitacionCity.getCodigoBase());
+                            System.out.println("HabitacionCity" + habitacionCityPremiosList.size());
                         }else if (tagname.equalsIgnoreCase("Descripcion")) {
                         } else if (tagname.equalsIgnoreCase("CodigoTarifa")) {
                         } else if (tagname.equalsIgnoreCase("Hotel")) {
@@ -420,7 +425,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                             habitacionBase.setDescBase(text);
                         } else if (tagname.equalsIgnoreCase("Costo")) {
                             if(cityPremios){
-                                habitacionBase.setCosto(text);
+                                habitacionCity.setCosto(text);
                             }else{
                                 habitacionBase.setCosto(text);
                             }

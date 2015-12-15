@@ -91,7 +91,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
         LinearLayoutManager llm = new LinearLayoutManager(getBaseContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewHabitaciones.setLayoutManager(llm);
-        habitacionAdapter = new HabitacionAdapter(ResultadosDisponibilidad.listaGeneralHotel, ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones());
+        habitacionAdapter = new HabitacionAdapter(ResultadosDisponibilidad.listaGeneralHotel, ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones(),ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitacionesCity());
         recyclerViewHabitaciones.setAdapter(habitacionAdapter);
         System.out.println("SIGLAS DETALLE" + ResultadosDisponibilidad.listaGeneralHotel.get(0).getSiglas());
 

@@ -59,6 +59,7 @@ public class Hotel implements Serializable {
 
 
     private ArrayList<HabitacionBase> arrayHabitaciones;
+    private ArrayList<HabitacionBase> arrayHabitacionesCity;
     public Hotel(){}
     public Hotel(JSONObject json) {
         this(json, 0);
@@ -161,7 +162,21 @@ public class Hotel implements Serializable {
         }
     }
 
-    public Hotel(JSONObject json, JSONArray imagenesHotel, ArrayList<HabitacionBase> habitaciones){
+    public Hotel(JSONObject json, JSONArray imagenesHotel, ArrayList<HabitacionBase> habitaciones, ArrayList<HabitacionBase> habitacionesCity){
+        this(json, 0);
+        try {
+            this.arrayHabitaciones= habitaciones;
+            this.arrayHabitacionesCity = habitacionesCity;
+            _imagenes = new String[imagenesHotel.length()];
+            for (int i = 0; i <imagenesHotel.length(); i++) {
+                _imagenes[i] = imagenesHotel.get(i).toString();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+    /*public Hotel(JSONObject json, JSONArray imagenesHotel, ArrayList<HabitacionBase> habitaciones){
         this(json, 0);
         try {
             this.arrayHabitaciones= habitaciones;
@@ -173,7 +188,7 @@ public class Hotel implements Serializable {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     public Hotel(JSONObject json, JSONArray imagenesHotel){
         this(json, 0);
@@ -385,5 +400,13 @@ public class Hotel implements Serializable {
 
     public void setArrayHabitaciones(ArrayList<HabitacionBase> arrayHabitaciones) {
         this.arrayHabitaciones = arrayHabitaciones;
+    }
+
+    public ArrayList<HabitacionBase> getArrayHabitacionesCity() {
+        return arrayHabitacionesCity;
+    }
+
+    public void setArrayHabitacionesCity(ArrayList<HabitacionBase> arrayHabitacionesCity) {
+        this.arrayHabitacionesCity = arrayHabitacionesCity;
     }
 }
