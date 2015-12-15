@@ -1,8 +1,10 @@
 package com.zebstudios.cityexpress;
 
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -74,6 +76,8 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         txtSalida =(TextView)view.findViewById(R.id.txt_salida);
 
         formatoFechaJSON = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+
 
 
         txtLlegada.setOnClickListener(new View.OnClickListener() {
@@ -276,9 +280,25 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
             case R.id.linearLlegada:
                 break;
             case R.id.btnDisponibilidad:
-                intent = new Intent(getActivity(),ResultadosDisponibilidad.class);
-                intent.putExtra("busqueda",editTextHotelDestino.getText().toString());
-                startActivity(intent);
+                if("".equals(editTextHotelDestino.getText().toString())){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("City Express")
+                            .setMessage("El campo Destino es obligatorio")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }else{
+                    intent = new Intent(getActivity(),ResultadosDisponibilidad.class);
+                    intent.putExtra("busqueda",editTextHotelDestino.getText().toString());
+                    startActivity(intent);
+                }
+
                 break;
         }
     }

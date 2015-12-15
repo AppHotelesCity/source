@@ -135,6 +135,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     .replace(R.id.fragment_contenedor, listadoHotelesFragment).commit();
         }*/
 
+        btnMapa.setBackgroundResource(R.color.control_border_light);
         imageBusqueda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,6 +165,8 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             public void onClick(View v) {
                 _mapView.setVisibility(View.GONE);
                 listaTarjetasHotel.setVisibility(View.VISIBLE);
+                btnMapa.setBackgroundResource(R.color.control_border_light);
+                btnListas.setBackgroundResource(R.color.white);
                 /*ListadoHotelesFragment listadoHotelesFragment = new ListadoHotelesFragment();
                 listadoHotelesFragment.setArguments(getIntent().getExtras());
                 getSupportFragmentManager().beginTransaction()
@@ -173,6 +176,8 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         btnMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btnMapa.setBackgroundResource(R.color.white);
+                btnListas.setBackgroundResource(R.color.control_border_light);
                 _mapView.setVisibility(View.VISIBLE);
                 listaTarjetasHotel.setVisibility(View.GONE);
 
@@ -371,7 +376,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     case XmlPullParser.END_TAG:
                         if (tagname.equalsIgnoreCase("Available")) {
                             JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
-                            listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList, habitacionCityPremiosList));
+                            listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList));
                             System.out.println("TOTAL->" + listaGeneralHotel.size());
                             habitacionBaseList = new ArrayList<>();
                             //habitacionCityPremiosList = new ArrayList<>();
@@ -415,10 +420,10 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                             habitacionBase.setDescBase(text);
                         } else if (tagname.equalsIgnoreCase("Costo")) {
                             if(cityPremios){
-                                habitacionCity.setCostoCityPremios(text);
+                                //habitacionCity.setCostoCityPremios(text);
                                 habitacionBase.setCosto(text);
                             }else{
-                                habitacionCity.setCostoCityPremios("");
+                               // habitacionCity.setCostoCityPremios("");
                                 habitacionBase.setCosto(text);
                             }
                         } else if (tagname.equalsIgnoreCase("Fecha")) {

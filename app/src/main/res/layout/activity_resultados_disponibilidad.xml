@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@android:color/white"
     tools:context="com.zebstudios.cityexpress.ResultadosDisponibilidad">
 
 
@@ -219,7 +220,7 @@
         android:id="@+id/linearblue"
         android:background="@color/blue_button"
         android:layout_marginBottom="5dp"
-        android:layout_height="10dp">
+        android:layout_height="8dp">
     </RelativeLayout>
 
 
@@ -227,12 +228,14 @@
     <com.zebstudios.cityexpress.ExtensionRecyclerView
         android:id="@+id/cardListHoteles"
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="match_parent"/>
 
     <com.google.android.gms.maps.MapView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mapView"
         android:visibility="gone"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

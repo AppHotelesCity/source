@@ -171,11 +171,18 @@ public class DetalleHotelActivity extends ActionBarActivity {
         m.showInfoWindow();
 
 
+
+        txtDescripcion.setBackgroundResource(R.color.white);
+        txtServicios.setBackgroundResource(R.color.control_border_light);
+        txtMapa.setBackgroundResource(R.color.control_border_light);
         txtDescripcion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 _mapView.setVisibility(View.GONE);
                 listView.setVisibility(View.GONE);
+                txtServicios.setBackgroundResource(R.color.control_border_light);
+                txtMapa.setBackgroundResource(R.color.control_border_light);
+                txtDescripcion.setBackgroundResource(R.color.white);
                 linearLayoutDescripcion.setVisibility(View.VISIBLE);
 
             }
@@ -183,6 +190,9 @@ public class DetalleHotelActivity extends ActionBarActivity {
         txtServicios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                txtDescripcion.setBackgroundResource(R.color.control_border_light);
+                txtServicios.setBackgroundResource(R.color.white);
+                txtMapa.setBackgroundResource(R.color.control_border_light);
                 _mapView.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);
                 linearLayoutDescripcion.setVisibility(View.GONE);
@@ -191,6 +201,9 @@ public class DetalleHotelActivity extends ActionBarActivity {
         txtMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                txtMapa.setBackgroundResource(R.color.white);
+                txtServicios.setBackgroundResource(R.color.control_border_light);
+                txtDescripcion.setBackgroundResource(R.color.control_border_light);
                 _mapView.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.GONE);
                 linearLayoutDescripcion.setVisibility(View.GONE);

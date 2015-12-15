@@ -14,6 +14,23 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:layout_width="wrap_content"
+                android:background="@drawable/bg_home"
+                android:layout_height="100dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:textStyle="bold"
+                    android:text="Paso 2 de 3"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/pnlCapture"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -70,6 +87,7 @@
                     android:id="@+id/list_summary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:layout_marginTop="4dp"/>
 
                 <TextView
