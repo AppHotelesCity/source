@@ -46,9 +46,11 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     ExtensionRecyclerView listaTarjetasHotel;
     Hotel hotel;
     HabitacionBase habitacionBase;
+    HabitacionBase habitacionCity;
     static ArrayList<Hotel> listaHotel;
     static ArrayList<Hotel> listaGeneralHotel;
     static ArrayList<HabitacionBase> habitacionBaseList;
+    static ArrayList<HabitacionBase> habitacionCityPremiosList;
     HotelAdapter hotelAdapter;
     Button btnListas;
     Button btnMapa;
@@ -66,6 +68,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     RelativeLayout linearAzul;
     LinearLayout linearBotones;
     boolean estadobton = false;
+    boolean cityPremios =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +99,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             listaHotel = new ArrayList<>();
             habitacionBaseList = new ArrayList<>();
             listaGeneralHotel = new ArrayList<>();
+            habitacionCityPremiosList = new ArrayList<>();
             buscarDisponibilidad(bundle.getString("busqueda"));
         }else{
             hotelAdapter = new HotelAdapter(listaGeneralHotel);
@@ -344,18 +348,18 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
             parser.setInput(is, null);
             habitacionBaseList = new ArrayList<>();
+            habitacionCityPremiosList = new ArrayList<>();
             int eventType = parser.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 String tagname = parser.getName();
                 switch (eventType) {
                     case XmlPullParser.START_TAG:
                         if (tagname.equalsIgnoreCase("Available")) {
-                            // create a new instance of employee
-                            //employee = new Disponibilidad();
                         } else if(tagname.equalsIgnoreCase("Disponibilidad")){
 
                         } else if(tagname.equalsIgnoreCase("HabBase")){
                             habitacionBase = new HabitacionBase();
+                            habitacionCity = new HabitacionBase();
 
                         }
                         break;
@@ -367,39 +371,58 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     case XmlPullParser.END_TAG:
                         if (tagname.equalsIgnoreCase("Available")) {
                             JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
-                            listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")),habitacionBaseList));
+                            listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList, habitacionCityPremiosList));
                             System.out.println("TOTAL->" + listaGeneralHotel.size());
                             habitacionBaseList = new ArrayList<>();
+                            //habitacionCityPremiosList = new ArrayList<>();
                             // add employee object to list
                            // employee.setHabitacionBasesList(habitacionBasesList);
+                        }else if(tagname.equalsIgnoreCase("CodigoError")){
+
+                        }else if(tagname.equalsIgnoreCase("CodigoTarifa")){
+                            if(text.equalsIgnoreCase("1115P")){
+                                System.out.println("Hola15");
+                                cityPremios = true;
+                            }else{
+                                cityPremios = false;
+                            }
+                        }else if(tagname.equalsIgnoreCase("DescError")){
+                        }else if(tagname.equalsIgnoreCase("Descripcion")){
+                        }else if(tagname.equalsIgnoreCase("Hotel")){
+                        }else if(tagname.equalsIgnoreCase("Promociones")){
                         }else if(tagname.equalsIgnoreCase("Disponibilidad")){
 
+                        }else if(tagname.equalsIgnoreCase("TarifaBase")){
                         } else if(tagname.equalsIgnoreCase("HabBase")){
                             habitacionBaseList.add(habitacionBase);
+                            habitacionCityPremiosList.add(habitacionCity);
+                            System.out.println("HabitacionBase" + habitacionBaseList.size());
+                            System.out.println("HabitacionCity" + habitacionCity.getCodigoBase());
                         }else if (tagname.equalsIgnoreCase("Descripcion")) {
-                           // employee.setName(text);
-                            System.out.println(text);
                         } else if (tagname.equalsIgnoreCase("CodigoTarifa")) {
-                            //employee.setId(text);
-                            System.out.println(text);
                         } else if (tagname.equalsIgnoreCase("Hotel")) {
-                            //employee.setDepartment(text);
-                            System.out.println(text);
                         } else if (tagname.equalsIgnoreCase("AVAILABILITY")) {
                             habitacionBase.setDisponibilidad(text);
-                            System.out.println(text);
                         } else if (tagname.equalsIgnoreCase("CodBase")) {
-                            habitacionBase.setCodigoBase(text);
-                            System.out.println(text);
+                            if(cityPremios){
+                                habitacionCity.setCodigoBase(text);
+                                System.out.println(text+"zz------");
+                            }else{
+                                habitacionCity.setCodigoBase("");
+                                habitacionBase.setCodigoBase(text);
+                            }
                         } else if (tagname.equalsIgnoreCase("DescBase")) {
                             habitacionBase.setDescBase(text);
-                            System.out.println(text);
                         } else if (tagname.equalsIgnoreCase("Costo")) {
-                            habitacionBase.setCosto(text);
-                            System.out.println(text);
+                            if(cityPremios){
+                                habitacionCity.setCostoCityPremios(text);
+                                habitacionBase.setCosto(text);
+                            }else{
+                                habitacionCity.setCostoCityPremios("");
+                                habitacionBase.setCosto(text);
+                            }
                         } else if (tagname.equalsIgnoreCase("Fecha")) {
                             habitacionBase.setFecha(text);
-                            System.out.println(text);
                         }
                         break;
 
@@ -417,7 +440,6 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        //return habitacionBaseList;
     }
 
 }

@@ -42,12 +42,16 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
         //Picasso.with(holder.context).load(hotel.getImagenPrincipal()).into(holder.imageViewHotel);
         System.out.println(habitacionBaseArrayList.size() + "hotelNombre>>**->" + hotel.getNombre());
         for (int i = 0; i < habitacionBaseArrayList.size(); i++) {
-            if(precioAux<Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",",""))){
-                precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",",""));
-                precio = habitacionBaseArrayList.get(i).getCosto();
+
+            if(habitacionBaseArrayList.get(i).getCosto().equalsIgnoreCase("")) {
             }else{
-                precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",",""));
-                precio = habitacionBaseArrayList.get(i).getCosto();
+                if (precioAux < Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",", ""))) {
+                    precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",", ""));
+                    precio = habitacionBaseArrayList.get(i).getCosto();
+                } else {
+                    precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",", ""));
+                    precio = habitacionBaseArrayList.get(i).getCosto();
+                }
             }
             System.out.println("habitacioneDescBase->" + habitacionBaseArrayList.get(i).getDescBase());
             System.out.println("habitacionesCosto->" + habitacionBaseArrayList.get(i).getCosto());
