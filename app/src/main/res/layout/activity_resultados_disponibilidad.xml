@@ -88,6 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:inputType="textPersonName"
                 android:hint="@string/hotel_destino_ciudad"
                 android:id="@+id/edtxtHotelDestinoResultados"/>
             <ImageView
@@ -170,6 +171,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:inputType="textPersonName"
                 android:hint="@string/selecciona_promocode"/>
             <ImageView
                 android:id="@+id/imgPromocodeResultados"
