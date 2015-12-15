@@ -381,7 +381,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                             habitacionBaseList = new ArrayList<>();
                             //habitacionCityPremiosList = new ArrayList<>();
                             // add employee object to list
-                           // employee.setHabitacionBasesList(habitacionBasesList);
+                            // employee.setHabitacionBasesList(habitacionBasesList);
                         }else if(tagname.equalsIgnoreCase("CodigoError")){
 
                         }else if(tagname.equalsIgnoreCase("CodigoTarifa")){
@@ -420,10 +420,8 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                             habitacionBase.setDescBase(text);
                         } else if (tagname.equalsIgnoreCase("Costo")) {
                             if(cityPremios){
-                                //habitacionCity.setCostoCityPremios(text);
                                 habitacionBase.setCosto(text);
                             }else{
-                               // habitacionCity.setCostoCityPremios("");
                                 habitacionBase.setCosto(text);
                             }
                         } else if (tagname.equalsIgnoreCase("Fecha")) {
