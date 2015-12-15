@@ -1,22 +1,14 @@
 package com.zebstudios.cityexpress;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -34,20 +26,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHttpResponse;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.SoapFault;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -58,7 +39,6 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ResultadosDisponibilidad extends ActionBarActivity {
@@ -73,6 +53,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     Button btnListas;
     Button btnMapa;
     ImageView imageViewBack;
+    ImageView imageBusqueda;
     private GoogleMap _map;
     private MapView _mapView;
     LatLng hotelPosition;
@@ -81,6 +62,10 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     String text;
     int contador = 0;
     JSONArray hotelJSON;
+    LinearLayout lineaDisponibilidad;
+    RelativeLayout linearAzul;
+    LinearLayout linearBotones;
+    boolean estadobton = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +78,11 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         listaTarjetasHotel.setLayoutManager(llm);
+        lineaDisponibilidad = (LinearLayout)findViewById(R.id.linearBuscarDisponibilidad);
         imageViewBack = (ImageView) findViewById(R.id.back_button);
+        imageBusqueda = (ImageView) findViewById(R.id.imgViewMostrarOcultarLinear);
+        linearAzul = (RelativeLayout) findViewById(R.id.linearblue);
+        linearBotones = (LinearLayout)findViewById(R.id.linearbtns);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,6 +130,30 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_contenedor, listadoHotelesFragment).commit();
         }*/
+
+        imageBusqueda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(!estadobton){
+                    estadobton = true;
+                    imageBusqueda.setImageResource(R.drawable.ocultar_buscador);
+                    lineaDisponibilidad.setVisibility(View.VISIBLE);
+                    linearAzul.setVisibility(View.GONE);
+                    linearBotones.setVisibility(View.GONE);
+                }else {
+                    estadobton = false;
+                    imageBusqueda.setImageResource(R.drawable.mostrar_buscador);
+                    lineaDisponibilidad.setVisibility(View.GONE);
+                    linearAzul.setVisibility(View.VISIBLE);
+                    linearBotones.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+
+
 
         btnListas.setOnClickListener(new View.OnClickListener() {
             @Override
