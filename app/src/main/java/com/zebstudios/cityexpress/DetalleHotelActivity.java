@@ -1,7 +1,10 @@
 package com.zebstudios.cityexpress;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,12 +16,27 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -27,11 +45,22 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import static com.appsee.Appsee.addEvent;
 
-public class DetalleHotelActivity extends ActionBarActivity {
+public class DetalleHotelActivity extends ActionBarActivity{
 
     private ServicesListAdapter _serviciosListAdapter;
     private ImageCache _imageCache;
@@ -62,9 +91,10 @@ public class DetalleHotelActivity extends ActionBarActivity {
         LinearLayoutManager llm = new LinearLayoutManager(getBaseContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewHabitaciones.setLayoutManager(llm);
-        System.out.println(ResultadosDisponibilidad.listaGeneralHotel);
         habitacionAdapter = new HabitacionAdapter(ResultadosDisponibilidad.listaGeneralHotel, ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones());
         recyclerViewHabitaciones.setAdapter(habitacionAdapter);
+        System.out.println("SIGLAS DETALLE" + ResultadosDisponibilidad.listaGeneralHotel.get(0).getSiglas());
+
 
         //Detalles
 
@@ -302,12 +332,12 @@ public class DetalleHotelActivity extends ActionBarActivity {
         }
 
         TextView lblTemp = (TextView) findViewById(R.id.lblWTemp);
-        lblTemp.setText( String.format( "%.2f", _weatherReport.getTemperature() ) + "°C" );
+        lblTemp.setText(String.format("%.2f", _weatherReport.getTemperature()) + "°C");
     }
 
     private int GetResourceForWeatherIcon( String icon )
     {
-        if( icon.equalsIgnoreCase( "01d" ) ) return R.drawable.w_01d;
+        if( icon.equalsIgnoreCase("01d") ) return R.drawable.w_01d;
         else if( icon.equalsIgnoreCase( "01n" ) ) return R.drawable.w_01n;
         else if( icon.equalsIgnoreCase( "02d" ) ) return R.drawable.w_02d;
         else if( icon.equalsIgnoreCase( "02n" ) ) return R.drawable.w_02n;
@@ -373,4 +403,29 @@ public class DetalleHotelActivity extends ActionBarActivity {
             if( result == 0 ) weatherObtained();
         }
     }
+
+    public void pedirDetalleHabitacion(String siglas){
+        StringRequest registro = new StringRequest(Request.Method.GET,"https://www.cityexpress.com/umbraco/api/MobileAppServices/GetHotelsWithServices?SearchTerms="+siglas, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    obtenerHabitacion(new JSONArray(response));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(registro);
+    }
+
+    public void obtenerHabitacion(JSONArray detalleHabitacion){
+
+    }
+
 }

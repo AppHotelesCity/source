@@ -87,13 +87,8 @@ public class ReservacionActivity extends Activity {
         NestedListView list = (NestedListView) findViewById( R.id.list_summary );
         NestedListView list2 = (NestedListView) findViewById( R.id.list_summary2 );
 
-        Button btnReserva = (Button) findViewById(R.id.btnReserva);
-        btnReserva.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enviarReservacion();
-            }
-        });
+        Button btnReserva2 = (Button) findViewById(R.id.btnReserva);
+
 
         /*SummaryListAdapter adapter = new SummaryListAdapter( this, sumary );
         list.setAdapter( adapter );
@@ -118,7 +113,7 @@ public class ReservacionActivity extends Activity {
                     "                </d4p1:AplicaSMART>\n" +
                     "                <d4p1:Deposito>\n" +
                     "                    <d4p1:Comprobante>SmartComprobante</d4p1:Comprobante>\n" +
-                    "                    <d4p1:Fecha>2015-12-17</d4p1:Fecha>\n" +
+                    "                    <d4p1:Fecha>2015-12-18</d4p1:Fecha>\n" +
                     "                    <d4p1:Monto>854.05</d4p1:Monto>\n" +
                     "                    <d4p1:Notas></d4p1:Notas>\n" +
                     "                    <d4p1:Notas2></d4p1:Notas2>\n" +
@@ -134,55 +129,56 @@ public class ReservacionActivity extends Activity {
                     "                    <d4p1:CodigoOperador>APP_MOVIL</d4p1:CodigoOperador>\n" +
                     "                    <d4p1:CodigoOrigen>007</d4p1:CodigoOrigen>\n" +
                     "                    <d4p1:CodigoSegmento>001</d4p1:CodigoSegmento>\n" +
-                    "                    <d4p1:FechaEntrada>2015-12-18</d4p1:FechaEntrada>\n" +
-                    "                    <d4p1:FormaDePago>TCRED</d4p1:FormaDePago>\n" +
+                    "                    <d4p1:FechaEntrada>2015-12-19</d4p1:FechaEntrada>\n" +
+                    "                    <d4p1:FormaDePago>VISA</d4p1:FormaDePago>\n" +
                     "                    <d4p1:Hotel>CEAGU</d4p1:Hotel>\n" +
                     "                    <d4p1:NotasFormaPago />\n" +
                     "                    <d4p1:NotasReservacion />\n" +
                     "                    <d4p1:NumeroDeNoches>1</d4p1:NumeroDeNoches>\n" +
-                    "                    <d4p1:TipoReservacion>DEPO</d4p1:TipoReservacion>\n" +
+                    "                    <d4p1:TipoReservacion>TCRED</d4p1:TipoReservacion>\n" +
                     "                </d4p1:Estancia>\n" +
                     "                <d4p1:Habitacion>\n" +
                     "                    <d4p1:CodigoHabitacion>NSD</d4p1:CodigoHabitacion>\n" +
                     "                    <d4p1:CodigoPromocion></d4p1:CodigoPromocion>\n" +
                     "                    <d4p1:CodigoTarifa>1114</d4p1:CodigoTarifa>\n" +
                     "                    <d4p1:HuespedTitular>\n" +
-                    "                        <d4p1:Apellidos>SANDOVAL FLORES</d4p1:Apellidos>\n" +
+                    "                        <d4p1:Apellidos>SANDOVAL</d4p1:Apellidos>\n" +
                     "                        <d4p1:Edad>0</d4p1:Edad>\n" +
-                    "                        <d4p1:Nombre>FERNANDO</d4p1:Nombre>\n" +
+                    "                        <d4p1:Nombre>FERNANDINHO</d4p1:Nombre>\n" +
                     "                        <d4p1:Acompanantes_Ar></d4p1:Acompanantes_Ar>\n" +
-                    "                        <d4p1:CodigoPais>MEX</d4p1:CodigoPais>\n" +
-                    "                        <d4p1:CorreoElectronico>fsandoval@denumeris.com</d4p1:CorreoElectronico>\n" +
+                    "                        <d4p1:CodigoPais>MX</d4p1:CodigoPais>\n" +
+                    "                        <d4p1:CorreoElectronico>lala@gegerg.com</d4p1:CorreoElectronico>\n" +
                     "                        <d4p1:Indicaciones />\n" +
                     "                        <d4p1:RwdNumber />\n" +
-                    "                        <d4p1:Telefono>123456789</d4p1:Telefono>\n" +
+                    "                        <d4p1:Telefono>12121212</d4p1:Telefono>\n" +
                     "                        <d4p1:TotAcompAdult>0</d4p1:TotAcompAdult>\n" +
                     "                        <d4p1:TotAcompMenor>0</d4p1:TotAcompMenor>\n" +
                     "                    </d4p1:HuespedTitular>\n" +
                     "                    <d4p1:NumeroHabitaciones>1</d4p1:NumeroHabitaciones>\n" +
                     "                </d4p1:Habitacion>\n" +
                     "                <d4p1:Reservante>\n" +
-                    "                    <d4p1:Apellidos>SANDOVAL FLORES</d4p1:Apellidos>\n" +
+                    "                    <d4p1:Apellidos>SANDOVAL</d4p1:Apellidos>\n" +
                     "                    <d4p1:Edad>0</d4p1:Edad>\n" +
-                    "                    <d4p1:Nombre>FERNANDO</d4p1:Nombre>\n" +
-                    "                    <d4p1:CorreoElectronico>fsandoval@denumeris.com</d4p1:CorreoElectronico>\n" +
+                    "                    <d4p1:Nombre>FERNANDINHO</d4p1:Nombre>\n" +
+                    "                    <d4p1:CorreoElectronico>lala@gegerg.com</d4p1:CorreoElectronico>\n" +
                     "                    <d4p1:RwdNumber />\n" +
-                    "                    <d4p1:TelefonoReservante>123456789</d4p1:TelefonoReservante>\n" +
+                    "                    <d4p1:TelefonoReservante>12121212</d4p1:TelefonoReservante>\n" +
                     "                </d4p1:Reservante>\n" +
                     "                <d4p1:SMART>\n" +
-                    "                    <d4p1:CVV></d4p1:CVV>\n" +
-                    "                    <d4p1:Clasificacion_Transaccion></d4p1:Clasificacion_Transaccion>\n" +
-                    "                    <d4p1:CuentaId></d4p1:CuentaId>\n" +
-                    "                    <d4p1:Host></d4p1:Host>\n" +
-                    "                    <d4p1:SMART_Moneda></d4p1:SMART_Moneda>\n" +
-                    "                    <d4p1:SMART_Pais></d4p1:SMART_Pais>\n" +
-                    "                    <d4p1:Tipo_Cliente>C</d4p1:Tipo_Cliente>\n" +
+                    "                    <d4p1:CVV/>\n" +
+                    "                    <d4p1:Clasificacion_Transaccion/>\n" +
+                    "                    <d4p1:CuentaId/>\n" +
+                    "                    <d4p1:Host/>\n" +
+                    "                    <d4p1:PuntoVenta/>\n" +
+                    "                    <d4p1:SMART_Moneda/>\n" +
+                    "                    <d4p1:SMART_Pais/>\n" +
+                    "                    <d4p1:Tipo_Cliente/>\n" +
                     "                </d4p1:SMART>\n" +
                     "                <d4p1:TarjetaCredito>\n" +
-                    "                    <d4p1:AnoVencimiento>2016</d4p1:AnoVencimiento>\n" +
-                    "                    <d4p1:CodigoSeguridad>212</d4p1:CodigoSeguridad>\n" +
-                    "                    <d4p1:MesVencimiento>03</d4p1:MesVencimiento>\n" +
-                    "                    <d4p1:NombreTarjeta>FERNANDO SANDOVAL FLORES</d4p1:NombreTarjeta>\n" +
+                    "                    <d4p1:AnoVencimiento>2024</d4p1:AnoVencimiento>\n" +
+                    "                    <d4p1:CodigoSeguridad>123</d4p1:CodigoSeguridad>\n" +
+                    "                    <d4p1:MesVencimiento>01</d4p1:MesVencimiento>\n" +
+                    "                    <d4p1:NombreTarjeta>HACHAD HJBDJHB</d4p1:NombreTarjeta>\n" +
                     "                    <d4p1:NumeroTarjeta>4111111111111111</d4p1:NumeroTarjeta>\n" +
                     "                </d4p1:TarjetaCredito>\n" +
                     "                <d4p1:TarjetaVirtual>\n" +
@@ -201,7 +197,6 @@ public class ReservacionActivity extends Activity {
             StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    System.out.println(response);
                     InputStream stream = null;
                     try {
                         stream = new ByteArrayInputStream(response.getBytes("UTF-8"));
@@ -229,7 +224,7 @@ public class ReservacionActivity extends Activity {
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     HashMap<String, String> params = new HashMap<String, String>();
                     //params.put("Content-Type", "application/xml; charset=utf-8");
-                    params.put("SOAPAction", "http://tempuri.org/IReservationEngine/InsertBookingv3_01");
+                    params.put("SOAPAction", "http://tempuri.org/IReservationEngine/GetRoomsAvailablePromo");
                     Log.d("hsdhsdfhuidiuhsd", "clave");
                     return params;
                 }

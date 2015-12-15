@@ -371,7 +371,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     case XmlPullParser.END_TAG:
                         if (tagname.equalsIgnoreCase("Available")) {
                             JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
-                            listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList, habitacionCityPremiosList));
+                            listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList));
                             System.out.println("TOTAL->" + listaGeneralHotel.size());
                             habitacionBaseList = new ArrayList<>();
                             //habitacionCityPremiosList = new ArrayList<>();
@@ -415,10 +415,8 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                             habitacionBase.setDescBase(text);
                         } else if (tagname.equalsIgnoreCase("Costo")) {
                             if(cityPremios){
-                                habitacionCity.setCostoCityPremios(text);
                                 habitacionBase.setCosto(text);
                             }else{
-                                habitacionCity.setCostoCityPremios("");
                                 habitacionBase.setCosto(text);
                             }
                         } else if (tagname.equalsIgnoreCase("Fecha")) {
