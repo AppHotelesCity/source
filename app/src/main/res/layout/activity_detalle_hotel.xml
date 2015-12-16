@@ -18,18 +18,27 @@
        <LinearLayout
            android:layout_width="wrap_content"
            android:background="@drawable/bg_home"
+           android:orientation="vertical"
            android:layout_height="100dp">
+
 
            <TextView
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:layout_gravity="center"
                android:textColor="@color/white"
-               android:layout_marginLeft="20dp"
+               android:layout_marginTop="30dp"
+               android:layout_marginLeft="28dp"
                android:layout_marginBottom="10dp"
+               android:gravity="center_vertical"
                android:textStyle="bold"
                android:text="Paso 1 de 3"/>
 
+           <ImageView
+               android:layout_width="wrap_content"
+               android:background="@drawable/paso1Y"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="20dp"
+               android:layout_gravity="center_vertical" />
 
        </LinearLayout>
 
