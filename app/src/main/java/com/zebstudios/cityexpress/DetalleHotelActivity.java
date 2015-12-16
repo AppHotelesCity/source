@@ -51,6 +51,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
     private TextView txtDescripcion;
     private TextView txtServicios;
     private TextView txtMapa;
+    private TextView txtTitulo;
     private ListView listView;
     private HabitacionAdapter habitacionAdapter;
     private WeatherReport _weatherReport;
@@ -68,6 +69,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
         txtMapa = (TextView) findViewById(R.id.txtMapaHotel);
         _mapView = (MapView) findViewById( R.id.mapViewDetalle );
          listView= (ListView) findViewById(R.id.listServicios);
+        txtTitulo = (TextView) findViewById(R.id.textViewTituloDetalleHotel);
         linearLayoutDescripcion = (LinearLayout) findViewById(R.id.linearDescripcion);
         recyclerViewHabitaciones = (RecyclerView) findViewById(R.id.cardListHabitaciones);
         recyclerViewHabitaciones.setHasFixedSize(true);
@@ -77,7 +79,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
 
         System.out.println("SIGLAS DETALLE -" + ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().get(0).getCodigoBase());
 
-
+        txtTitulo.setText(ResultadosDisponibilidad.listaGeneralHotel.get(0).getNombre());
 
         _extras = new ArrayList<RoomAvailableExtra>();
         //Detalles
