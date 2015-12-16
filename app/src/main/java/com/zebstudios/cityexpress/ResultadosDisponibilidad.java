@@ -220,12 +220,18 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     public void obtenerHoteles(JSONArray hoteles){
         try{
             hotelJSON = hoteles;
+            Hotel hotel;
             for (int i = 0; i < hoteles.length(); i++) {
                 JSONObject nuevo = new JSONObject(hoteles.get(i).toString());
+                hotel = new Hotel(new JSONObject(nuevo.getString("Hotele")),new JSONArray(nuevo.getString("Imagenes")));
                 /*System.out.println("---->"+hoteles.get(0).toString());
                 System.out.println("--->>" + nuevo.getString("Imagenes"));
                 System.out.println("--->>" + nuevo.getString("Hotele"));*/
-                listaHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")),new JSONArray(nuevo.getString("Imagenes"))));
+                if(hotel.getImagenPrincipal().equalsIgnoreCase("")){
+
+                }else{
+                    listaHotel.add(hotel);
+                }
             }
 
             pedirDescripcionHotel();
@@ -375,14 +381,20 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
                     case XmlPullParser.END_TAG:
                         if (tagname.equalsIgnoreCase("Available")) {
-                            JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
-                            listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList,habitacionCityPremiosList));
-                            //listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList));
-                            //System.out.println("TOTAL->" + listaGeneralHotel.size());
-                            habitacionBaseList = new ArrayList<>();
-                            //habitacionCityPremiosList = new ArrayList<>();
-                            // add employee object to list
-                            // employee.setHabitacionBasesList(habitacionBasesList);
+
+                            if(cityPremios){
+
+                            }else{
+                                JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
+                                listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList,habitacionCityPremiosList));
+                                //listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList));
+                                //System.out.println("TOTAL->" + listaGeneralHotel.size());
+                                habitacionBaseList = new ArrayList<>();
+                                //habitacionCityPremiosList = new ArrayList<>();
+                                // add employee object to list
+                                // employee.setHabitacionBasesList(habitacionBasesList);
+                            }
+
                         }else if(tagname.equalsIgnoreCase("CodigoError")){
 
                         }else if(tagname.equalsIgnoreCase("CodigoTarifa")){

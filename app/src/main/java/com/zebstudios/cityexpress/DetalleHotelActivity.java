@@ -37,6 +37,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import static com.appsee.Appsee.addEvent;
 
 public class DetalleHotelActivity extends ActionBarActivity{
@@ -53,6 +55,8 @@ public class DetalleHotelActivity extends ActionBarActivity{
     private HabitacionAdapter habitacionAdapter;
     private WeatherReport _weatherReport;
     private LinearLayout linearLayoutDescripcion;
+    private String siglas;
+    ArrayList<RoomAvailableExtra> _extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +74,23 @@ public class DetalleHotelActivity extends ActionBarActivity{
         LinearLayoutManager llm = new LinearLayoutManager(getBaseContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewHabitaciones.setLayoutManager(llm);
-        habitacionAdapter = new HabitacionAdapter(ResultadosDisponibilidad.listaGeneralHotel, ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones(),ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitacionesCity());
-        recyclerViewHabitaciones.setAdapter(habitacionAdapter);
-        System.out.println("SIGLAS DETALLE" + ResultadosDisponibilidad.listaGeneralHotel.get(0).getSiglas());
+
+        System.out.println("SIGLAS DETALLE -" + ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().get(0).getCodigoBase());
 
 
+
+        _extras = new ArrayList<RoomAvailableExtra>();
         //Detalles
+
+        for (int i = 0; i < ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().size(); i++) {
+            if(i==0){
+                siglas = ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().get(i).getCodigoBase();
+            }else{
+                siglas += ","+ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().get(i).getCodigoBase();
+            }
+        }
+        pedirDetalleHabitacion(ResultadosDisponibilidad.listaGeneralHotel.get(0).getSiglas(),siglas );
+
 
         TextView lblAddress = (TextView) findViewById(R.id.lblAddress);
         String address = getAddressString();
@@ -363,7 +378,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
         protected Integer doInBackground( Void... arg0 )
         {
             ServiceHandler sh = new ServiceHandler();
-            String jsonStr = sh.makeServiceCall( "http://api.openweathermap.org/data/2.5/weather?lat=" + ResultadosDisponibilidad.listaGeneralHotel.get(1).getLatitude() + "&lon=" + ResultadosDisponibilidad.listaGeneralHotel.get(1).getLongitude() + "&lang=ES&units=metric", ServiceHandler.GET );
+            String jsonStr = sh.makeServiceCall( "http://api.openweathermap.org/data/2.5/weather?lat=" + ResultadosDisponibilidad.listaGeneralHotel.get(0).getLatitude() + "&lon=" + ResultadosDisponibilidad.listaGeneralHotel.get(0).getLongitude() + "&lang=ES&units=metric", ServiceHandler.GET );
 
             if( jsonStr != null )
             {
@@ -396,11 +411,12 @@ public class DetalleHotelActivity extends ActionBarActivity{
         }
     }
 
-    public void pedirDetalleHabitacion(String siglas){
-        StringRequest registro = new StringRequest(Request.Method.GET,"https://www.cityexpress.com/umbraco/api/MobileAppServices/GetHotelsWithServices?SearchTerms="+siglas, new Response.Listener<String>() {
+    public void pedirDetalleHabitacion(String siglasHotel, String siglasHabitacion){
+        StringRequest registro = new StringRequest(Request.Method.GET,"https://www.cityexpress.com/umbraco/api/MobileAppServices/GetHabitaciones?HotelCode="+siglasHotel+"&RoomCodes="+siglasHabitacion, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
+                    System.out.println("JSONRespuesta->"+response);
                     obtenerHabitacion(new JSONArray(response));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -416,8 +432,22 @@ public class DetalleHotelActivity extends ActionBarActivity{
         Volley.newRequestQueue(this).add(registro);
     }
 
-    public void obtenerHabitacion(JSONArray detalleHabitacion){
+    public void obtenerHabitacion(JSONArray results){
+        try {
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject h = results.getJSONObject(i);
+                RoomAvailableExtra r = new RoomAvailableExtra(h);
+                if (!r.isParsedOk()) {
 
+                }
+                _extras.add(r);
+            }
+
+            habitacionAdapter = new HabitacionAdapter(ResultadosDisponibilidad.listaGeneralHotel, ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones(),ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitacionesCity(),_extras);
+            recyclerViewHabitaciones.setAdapter(habitacionAdapter);
+        }catch(Exception e){
+
+        }
     }
 
 }

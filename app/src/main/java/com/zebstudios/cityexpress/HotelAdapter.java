@@ -35,40 +35,47 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
     public void onBindViewHolder(final HotelViewHolder holder, int position) {
         final Hotel hotel = arrayHoteles.get(position);
         double precioAux = 0;
-        String precio = "";
-        holder.txtNombreHotel.setText(hotel.getNombre());
-        holder.txtDescripcionHotel.setText(hotel.getLugaresCercanos());
-        habitacionBaseArrayList = hotel.getArrayHabitaciones();
-        //Picasso.with(holder.context).load(hotel.getImagenPrincipal()).into(holder.imageViewHotel);
-        System.out.println(habitacionBaseArrayList.size() + "hotelNombre>>**->" + hotel.getNombre());
-        for (int i = 0; i < habitacionBaseArrayList.size(); i++) {
 
-            if(habitacionBaseArrayList.get(i).getCosto().equalsIgnoreCase("")) {
-            }else{
-                if (precioAux < Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",", ""))) {
-                    precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",", ""));
-                    precio = habitacionBaseArrayList.get(i).getCosto();
-                } else {
-                    precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",", ""));
-                    precio = habitacionBaseArrayList.get(i).getCosto();
+        System.out.println("--->" + hotel.getImagenPrincipal());
+        if(hotel.getImagenPrincipal().equalsIgnoreCase("")){
+
+        }else{
+            String precio = "";
+            holder.txtNombreHotel.setText(hotel.getNombre());
+            holder.txtDescripcionHotel.setText(hotel.getLugaresCercanos());
+            habitacionBaseArrayList = hotel.getArrayHabitaciones();
+            System.out.println(habitacionBaseArrayList.size() + "hotelNombre>>**->" + hotel.getNombre());
+            for (int i = 0; i < habitacionBaseArrayList.size(); i++) {
+
+                if(habitacionBaseArrayList.get(i).getCosto().equalsIgnoreCase("")) {
+                }else{
+                    if (precioAux < Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",", ""))) {
+                        precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",", ""));
+                        precio = habitacionBaseArrayList.get(i).getCosto();
+                    } else {
+                        precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",", ""));
+                        precio = habitacionBaseArrayList.get(i).getCosto();
+                    }
                 }
+                System.out.println("habitacioneDescBase->" + habitacionBaseArrayList.get(i).getDescBase());
+                System.out.println("habitacionesCosto->" + habitacionBaseArrayList.get(i).getCosto());
             }
-            System.out.println("habitacioneDescBase->" + habitacionBaseArrayList.get(i).getDescBase());
-            System.out.println("habitacionesCosto->" + habitacionBaseArrayList.get(i).getCosto());
-        }
-        holder.txtPrecioHotel.setText("$ "+precio);
+            holder.txtPrecioHotel.setText("$ "+precio);
 
-        holder.cardViewHotel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            holder.cardViewHotel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                 /*Intent intent = new Intent(holder.context,DetalleHotelActivity.class);
                 holder.context.startActivity(intent);*/
 
-                Intent dialog = new Intent(holder.context, DetalleHotelActivity.class);
-                //dialog.putExtra("HOTEL", hotel);
-                holder.context.startActivity(dialog);
-            }
-        });
+                    Intent dialog = new Intent(holder.context, DetalleHotelActivity.class);
+                    //dialog.putExtra("HOTEL", hotel);
+                    holder.context.startActivity(dialog);
+                }
+            });
+            Picasso.with(holder.context).load(hotel.getImagenPrincipal()).into(holder.imageViewHotel);
+        }
+
     }
 
     @Override

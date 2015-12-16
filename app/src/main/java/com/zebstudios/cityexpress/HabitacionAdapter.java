@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -20,11 +23,20 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
     ArrayList<Hotel> arrayHoteles;
     ArrayList<HabitacionBase> habitacionBaseArrayList;
     ArrayList<HabitacionBase> habitacionBaseArrayListCity;
+    ArrayList<RoomAvailableExtra> habitacionesArrayList;
 
     public HabitacionAdapter(ArrayList<Hotel> arrayHoteles, ArrayList<HabitacionBase> arrayHabitacion, ArrayList<HabitacionBase> habitacionesCity){
         this.arrayHoteles=arrayHoteles;
         this.habitacionBaseArrayList = arrayHabitacion;
         this.habitacionBaseArrayListCity = habitacionesCity;
+    }
+
+    public HabitacionAdapter(ArrayList<Hotel> arrayHoteles, ArrayList<HabitacionBase> arrayHabitacion, ArrayList<HabitacionBase> habitacionesCity,
+                             ArrayList<RoomAvailableExtra> habitacionesArrayList){
+        this.arrayHoteles=arrayHoteles;
+        this.habitacionBaseArrayList = arrayHabitacion;
+        this.habitacionBaseArrayListCity = habitacionesCity;
+        this.habitacionesArrayList = habitacionesArrayList;
     }
     @Override
     public HabitacionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -36,18 +48,24 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
 
     @Override
     public void onBindViewHolder(final HabitacionViewHolder holder, int position) {
-        final Hotel hotel = arrayHoteles.get(position);
+        final Hotel hotel = arrayHoteles.get(0);
+
         final HabitacionBase habitacionBase= habitacionBaseArrayList.get(position);
         double precioAux = 0;
         String precio = "";
         System.out.println("Tamaño dentro del adapter de Habitacion" + habitacionBaseArrayListCity.size());
         holder.txtPrecioPremioHabitacion.setText("-");
+        System.out.println("Habitacion Imagen" + habitacionesArrayList.get(position).getImagen());
+        System.out.println("Habitacion Imagen APP" + habitacionesArrayList.get(position).getImagenApp());
+        System.out.println("Habitacion Imagen APPHab" + habitacionesArrayList.get(position).getImgHabitacion());
+        System.out.println("Habitacion Imagen APPWEB" + habitacionesArrayList.get(position).getImgHabitacionWeb());
+        Picasso.with(holder.context).load(habitacionesArrayList.get(position).getImagenApp()).into(holder.imageViewHabitacion);
         for (int i = 0; i < habitacionBaseArrayListCity.size(); i++) {
                 if(habitacionBaseArrayList.get(position).getCodigoBase().equalsIgnoreCase(habitacionBaseArrayListCity.get(i).getCodigoBase())){
                         holder.txtPrecioPremioHabitacion.setText("" + habitacionBaseArrayListCity.get(i).getCosto());
                 }
         }
-        holder.txtDescripcionHabitacion.setText(habitacionBaseArrayList.get(position).getDescBase());
+        holder.txtDescripcionHabitacion.setText(habitacionesArrayList.get(position).getDescripcion());
 
         holder.txtPrecioDestinoHabitacion.setText(habitacionBaseArrayList.get(position).getCosto());
         holder.cardViewHotel.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +97,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         protected Context context;
         protected Button imgYPremios;
         protected Button imgYDestinos;
+        protected ImageView imageViewHabitacion;
         protected LinearLayout linearPremios;
         protected LinearLayout linearDestinos;
         public HabitacionViewHolder(View v) {
@@ -91,6 +110,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
             linearPremios = (LinearLayout) v.findViewById(R.id.linearPrecioPremio);
             linearDestinos = (LinearLayout)v.findViewById(R.id.linearPrecioDestino);
             cardViewHotel= (CardView) v.findViewById(R.id.cardViewHabitacion);
+            imageViewHabitacion = (ImageView) v.findViewById(R.id.imageViewHabitacion);
             btnReservar = (Button) v.findViewById(R.id.btnReservarAhora);
             context = v.getContext();
 
