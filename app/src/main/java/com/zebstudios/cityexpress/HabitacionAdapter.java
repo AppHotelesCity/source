@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
     public HabitacionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View tarjetaHotel= LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_habitaciones,parent,false);
+
         return new HabitacionViewHolder(tarjetaHotel);
     }
 
@@ -75,14 +77,51 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         protected CardView cardViewHotel;
         protected Button btnReservar;
         protected Context context;
+        protected Button imgYPremios;
+        protected Button imgYDestinos;
+        protected LinearLayout linearPremios;
+        protected LinearLayout linearDestinos;
         public HabitacionViewHolder(View v) {
             super(v);
             txtDescripcionHabitacion =  (TextView) v.findViewById(R.id.textViewDescripcionHabitacion);
             txtPrecioPremioHabitacion = (TextView)  v.findViewById(R.id.textViewPrecioPremioHabitacion);
             txtPrecioDestinoHabitacion = (TextView)  v.findViewById(R.id.textViewPrecioPagoDestinoHotel);
+            imgYPremios = (Button) v.findViewById(R.id.btnYPremios);
+            imgYDestinos = (Button) v.findViewById(R.id.btnYDestinos);
+            linearPremios = (LinearLayout) v.findViewById(R.id.linearPrecioPremio);
+            linearDestinos = (LinearLayout)v.findViewById(R.id.linearPrecioDestino);
             cardViewHotel= (CardView) v.findViewById(R.id.cardViewHabitacion);
             btnReservar = (Button) v.findViewById(R.id.btnReservarAhora);
             context = v.getContext();
+
+            imgYDestinos.setVisibility(View.GONE);
+            imgYPremios.setVisibility(View.VISIBLE);
+
+            linearDestinos.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    imgYDestinos.setVisibility(View.VISIBLE);
+                    imgYPremios.setVisibility(View.GONE);
+                }
+            });
+
+            linearPremios.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    imgYPremios.setVisibility(View.VISIBLE);
+                    imgYDestinos.setVisibility(View.GONE);
+                }
+            });
+
+
+            imgYPremios.setPivotX(imgYPremios.getWidth()/2);
+            imgYPremios.setPivotY(imgYPremios.getHeight()/2);
+            imgYPremios.setRotation(45);
+
+            imgYDestinos.setPivotX(imgYDestinos.getWidth()/2);
+            imgYDestinos.setPivotY(imgYDestinos.getHeight()/2);
+            imgYDestinos.setRotation(45);
+
         }
     }
 

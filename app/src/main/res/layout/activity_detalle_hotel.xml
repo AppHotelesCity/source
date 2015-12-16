@@ -85,6 +85,49 @@
                android:background="@color/com_facebook_button_background_color_disabled"
                android:text="Mapa"/>
 
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:background="@color/white"
+               android:layout_height="100dp">
+
+               <TextView
+                   android:layout_width="150dp"
+                   android:layout_height="wrap_content"
+                   android:textStyle="bold"
+                   android:gravity="center"
+                   android:textColor="@color/blue_letters_color"
+                   android:textSize="14sp"
+                   android:text="CITY EXPRESS PUEBLA ANGELÓPOLIS:"
+                   android:textAppearance="?android:attr/textAppearanceMedium"
+                   android:layout_gravity="center_horizontal"
+                   android:layout_centerVertical="true"
+                   android:layout_centerHorizontal="true"
+                   android:id="@+id/textView" />
+
+               <RelativeLayout
+                   android:layout_width="100dp"
+                   android:gravity="center"
+                   android:layout_marginLeft="18dp"
+                   android:background="@color/blue_letters_color"
+                   android:layout_height="1dp"
+                   android:layout_alignTop="@+id/relativeLayout"
+                   android:layout_alignParentLeft="true"
+                   android:layout_alignParentStart="true">
+               </RelativeLayout>
+
+               <RelativeLayout
+                   android:layout_width="100dp"
+                   android:gravity="center"
+                   android:background="@color/blue_letters_color"
+                   android:layout_height="1dp"
+                   android:layout_marginRight="18dp"
+                   android:id="@+id/relativeLayout"
+                   android:layout_centerVertical="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_alignParentEnd="true" />
+
+           </RelativeLayout>
+
            <LinearLayout
                android:id="@+id/linearDescripcion"
                android:layout_width="match_parent"
@@ -93,49 +136,10 @@
                android:layout_height="match_parent"
                android:orientation="vertical">
 
-               <RelativeLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="100dp">
-
-                   <TextView
-                       android:layout_width="150dp"
-                       android:layout_height="wrap_content"
-                       android:textStyle="bold"
-                       android:gravity="center"
-                       android:textColor="@color/blue_letters_color"
-                       android:textSize="14sp"
-                       android:text="CITY EXPRESS PUEBLA ANGELÓPOLIS:"
-                       android:textAppearance="?android:attr/textAppearanceMedium"
-                       android:layout_gravity="center_horizontal"
-                       android:layout_centerVertical="true"
-                       android:layout_centerHorizontal="true"
-                       android:id="@+id/textView" />
-
-                   <RelativeLayout
-                       android:layout_width="100dp"
-                       android:gravity="center"
-                       android:layout_marginLeft="18dp"
-                       android:background="@color/blue_letters_color"
-                       android:layout_height="1dp"
-                       android:layout_alignTop="@+id/relativeLayout"
-                       android:layout_alignParentLeft="true"
-                       android:layout_alignParentStart="true">
-                   </RelativeLayout>
-
-                   <RelativeLayout
-                       android:layout_width="100dp"
-                       android:gravity="center"
-                       android:background="@color/blue_letters_color"
-                       android:layout_height="1dp"
-                       android:layout_marginRight="18dp"
-                       android:id="@+id/relativeLayout"
-                       android:layout_centerVertical="true"
-                       android:layout_alignParentRight="true"
-                       android:layout_alignParentEnd="true" />
-
-               </RelativeLayout>
-
-
+              <LinearLayout
+                  android:layout_width="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_height="match_parent">
 
                <android.support.v7.widget.RecyclerView
                    android:id="@+id/cardListHabitaciones"
@@ -324,6 +328,8 @@
                    </LinearLayout>
 
                </ScrollView>
+
+              </LinearLayout>
                <!--Detalles de hotel-->
            </LinearLayout>
            <com.google.android.gms.maps.MapView
@@ -335,6 +341,7 @@
            <ListView
                android:id="@+id/listServicios"
                android:visibility="gone"
+               android:background="@color/white"
                android:layout_width="match_parent"
                android:layout_height="match_parent"/>
        </LinearLayout>

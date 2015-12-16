@@ -43,10 +43,8 @@
                 <LinearLayout
                     android:id="@+id/linearPrecioPremio"
                     android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_weight="1"
-                    android:layout_marginBottom="10dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="right"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="100dp"
@@ -67,12 +65,18 @@
                         android:gravity="center"
                         android:textColor="#fff"
                         android:textSize="26sp"/>
+
+
                 </LinearLayout>
+
+
+
+
 
                 <LinearLayout
                     android:id="@+id/linearPrecioDestino"
                     android:layout_width="100dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="75dp"
                     android:layout_gravity="right"
                     android:layout_weight="1"
                     android:orientation="vertical">
@@ -100,6 +104,27 @@
             </LinearLayout>
 
         </LinearLayout>
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="-35dp"
+        android:layout_marginLeft="40dp"
+        android:clickable="false"
+        android:id="@+id/btnYPremios"
+        android:background="@color/yellow_button"
+        android:layout_height="35dp" />
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_gravity="right"
+        android:clickable="false"
+        android:layout_marginBottom="-35dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/yellow_button"
+        android:layout_height="35dp"
+        android:id="@+id/btnYDestinos" />
+
     <Button
         android:id="@+id/btnReservarAhora"
         android:layout_width="match_parent"
@@ -107,6 +132,7 @@
         android:layout_margin="15dp"
         android:background="@color/yellow_button"
         android:text="RESERVAR AHORA"/>
+
 </LinearLayout>
     </FrameLayout>
 
