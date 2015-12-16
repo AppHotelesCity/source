@@ -39,13 +39,11 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         double precioAux = 0;
         String precio = "";
         System.out.println("Tamaño dentro del adapter de Habitacion" + habitacionBaseArrayListCity.size());
-
+        holder.txtPrecioPremioHabitacion.setText("-");
         for (int i = 0; i < habitacionBaseArrayListCity.size(); i++) {
-            for (int j = 0; j < habitacionBaseArrayList.size(); j++) {
-                if(habitacionBaseArrayList.get(j).getCodigoBase().equalsIgnoreCase(habitacionBaseArrayListCity.get(i).getCodigoBase())){
-                   // holder.txtPrecioPremioHabitacion.setText(habitacionBaseArrayListCity.get(position).getCosto());
+                if(habitacionBaseArrayList.get(position).getCodigoBase().equalsIgnoreCase(habitacionBaseArrayListCity.get(i).getCodigoBase())){
+                        holder.txtPrecioPremioHabitacion.setText("" + habitacionBaseArrayListCity.get(i).getCosto());
                 }
-            }
         }
         holder.txtDescripcionHabitacion.setText(habitacionBaseArrayList.get(position).getDescBase());
 
