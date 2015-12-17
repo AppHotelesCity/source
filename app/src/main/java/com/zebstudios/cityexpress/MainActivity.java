@@ -25,7 +25,6 @@ import com.google.ads.conversiontracking.AdWordsConversionReporter;
 import com.urbanairship.UAirship;
 import com.urbanairship.richpush.RichPushInbox;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import io.fabric.sdk.android.Fabric;
@@ -298,8 +297,10 @@ public class MainActivity extends ActionBarActivity
 		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "Promociones", R.drawable.icon_promociones ) );
 		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "Cerca de ti", R.drawable.icon_cerca ) );
 		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "Reservaciones", R.drawable.icon_reservaciones ) );
-		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "Noticias", R.drawable.icon_noticias ) );
 		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "Blog", R.drawable.icon_blog ) );
+		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "City Premios", R.drawable.icon_premios_puntos ) );
+		_navDrawerItems.add(new NavDrawerListAdapter.ListItem("Log Out", R.drawable.icon_blog));
+
 		//_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "City Premios", R.drawable.icon_premios ) );
 
 		NavDrawerListAdapter navDrawerListAdapter = new NavDrawerListAdapter( this, _navDrawerItems );
@@ -315,7 +316,8 @@ public class MainActivity extends ActionBarActivity
 			}
 		} );
 
-		ImageView imgPremios = (ImageView)findViewById( R.id.navDrawerPremiosImg );
+		//// **** AQUI SE CARGA PANTALLA PREMIOS CITY
+		/*ImageView imgPremios = (ImageView)findViewById( R.id.navDrawerPremiosImg );
 		imgPremios.setOnClickListener( new View.OnClickListener()
 		{
 			@Override
@@ -324,6 +326,7 @@ public class MainActivity extends ActionBarActivity
 				premiosImageClicked();
 			}
 		} );
+		*/
 	}
 
 	private static final int ACTIVITY_NEWS = 1111;
@@ -388,14 +391,15 @@ public class MainActivity extends ActionBarActivity
 		else if( index == 4 )
 		{
 			Intent dialog = new Intent( this, NewsActivity.class );
-			startActivityForResult( dialog, ACTIVITY_NEWS );
-			addEvent("MenuNoticias-Smartphone");
+			startActivityForResult( dialog, ACTIVITY_BLOG );
+			addEvent("MenuBlog-SmartPhone");
 		}
 		else if( index == 5 )
 		{
 			Intent dialog = new Intent( this, BlogActivity.class );
-			startActivityForResult( dialog, ACTIVITY_BLOG );
-			addEvent("MenuBlog-SmartPhone");
+			//startActivityForResult( dialog, ACTIVITY_BLOG );
+			premiosImageClicked();
+			//addEvent("MenuCityPremios-SmartPhone");
 		}
 	}
 
