@@ -340,6 +340,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         }else{
             hotelAdapter = new HotelAdapter(listaGeneralHotel);
             listaTarjetasHotel.setAdapter(hotelAdapter);
+            System.out.println("LISTA GENERAL DE HOTEL ENTRANDO EN ADAPTER 2" + listaGeneralHotel);
         }
     }
 

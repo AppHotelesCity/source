@@ -131,11 +131,13 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 }
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                txtLlegada.setText(dayOfMonth +" "+ mes +" "+ year);
-                System.out.println(dayOfMonth +" "+ mes +" "+ year);
 
-                if(dayOfMonth < Calendar.DAY_OF_MONTH){
-                    Toast.makeText(getActivity(), "adscacd", Toast.LENGTH_SHORT).show();
+                //System.out.println(dayOfMonth +" "+ mes +" "+ year);
+
+                if(Calendar.DAY_OF_MONTH < dayOfMonth){
+                    Toast.makeText(getActivity(), "No se puede", Toast.LENGTH_SHORT).show();
+                }else if(Calendar.DAY_OF_MONTH > dayOfMonth){
+                    txtLlegada.setText(dayOfMonth +" "+ mes +" "+ year);
                 }
                 fecha = formatoFechaJSON.format(newDate.getTime());
             }
@@ -188,6 +190,8 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
 
         txtSalida.setText(dia+" " + mes +" "+anio);
 
+
+
         txtSalida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,7 +243,13 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 }
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                txtSalida.setText(dayOfMonth +" " + mes + " " + year);
+
+                if(Calendar.DAY_OF_MONTH < dayOfMonth){
+                    Toast.makeText(getActivity(), "No se puede", Toast.LENGTH_SHORT).show();
+                }else if(Calendar.DAY_OF_MONTH > dayOfMonth){
+                    txtSalida.setText(dayOfMonth +" " + mes + " " + year);
+                }
+
                 fecha = formatoFechaJSON.format(newDate.getTime());
             }
 
