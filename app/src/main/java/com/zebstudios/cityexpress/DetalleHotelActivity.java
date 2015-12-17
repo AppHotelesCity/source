@@ -58,6 +58,10 @@ public class DetalleHotelActivity extends ActionBarActivity{
     private LinearLayout linearLayoutDescripcion;
     private String siglas;
     ArrayList<RoomAvailableExtra> _extras;
+    static RoomAvailable habitacion;
+    static ArrayList<RoomAvailable> roomAvailableArrayList;
+    static Hotel hotelActual;
+    int posicion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,21 +81,26 @@ public class DetalleHotelActivity extends ActionBarActivity{
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewHabitaciones.setLayoutManager(llm);
 
-        System.out.println("SIGLAS DETALLE -" + ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().get(0).getCodigoBase());
+        Bundle bundle = getIntent().getExtras();
+        posicion = bundle.getInt("posicion");
+        System.out.println("PosicionDetalleHote"+posicion);
+        System.out.println("SIGLAS DETALLE -" + ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().get(posicion).getCodigoBase());
 
-        txtTitulo.setText(ResultadosDisponibilidad.listaGeneralHotel.get(0).getNombre());
+        hotelActual = ResultadosDisponibilidad.listaGeneralHotel.get(posicion);
+        txtTitulo.setText(ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getNombre());
 
+        roomAvailableArrayList = new ArrayList<RoomAvailable>();
         _extras = new ArrayList<RoomAvailableExtra>();
         //Detalles
 
-        for (int i = 0; i < ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().size(); i++) {
+        for (int i = 0; i < ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size(); i++) {
             if(i==0){
-                siglas = ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().get(i).getCodigoBase();
+                siglas = ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().get(i).getCodigoBase();
             }else{
-                siglas += ","+ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().get(i).getCodigoBase();
+                siglas += ","+ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().get(i).getCodigoBase();
             }
         }
-        pedirDetalleHabitacion(ResultadosDisponibilidad.listaGeneralHotel.get(0).getSiglas(),siglas );
+        pedirDetalleHabitacion(ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getSiglas(),siglas );
 
 
         TextView lblAddress = (TextView) findViewById(R.id.lblAddress);
@@ -99,9 +108,9 @@ public class DetalleHotelActivity extends ActionBarActivity{
         lblAddress.setText( address );
 
         _imageCache = new ImageCache(this );
-        String[] images = new String[ResultadosDisponibilidad.listaGeneralHotel.get(0).get_imagenes().length];
-        for( int i = 0; i < ResultadosDisponibilidad.listaGeneralHotel.get(0).get_imagenes().length; i++ )
-            images[i] = ResultadosDisponibilidad.listaGeneralHotel.get(0).get_imagenes()[i];
+        String[] images = new String[ResultadosDisponibilidad.listaGeneralHotel.get(posicion).get_imagenes().length];
+        for( int i = 0; i < ResultadosDisponibilidad.listaGeneralHotel.get(posicion).get_imagenes().length; i++ )
+            images[i] = ResultadosDisponibilidad.listaGeneralHotel.get(posicion).get_imagenes()[i];
 
         ViewPager viewPager = (ViewPager)findViewById(R.id.view_pager);
         ImagePagerAdapter adapter = new ImagePagerAdapter( images );
@@ -118,17 +127,17 @@ public class DetalleHotelActivity extends ActionBarActivity{
         indicator.setStrokeColor(0xFF9daeca);
         indicator.setStrokeWidth(1 * density);
 
-        if( ResultadosDisponibilidad.listaGeneralHotel.get(0).getDescripcionMaps() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(0).getDescripcionMaps().equalsIgnoreCase( "null" ) )
+        if( ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getDescripcionMaps() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getDescripcionMaps().equalsIgnoreCase( "null" ) )
         {
             TextView lblDescription = (TextView) findViewById(R.id.lblDescription);
-            lblDescription.setText(ResultadosDisponibilidad.listaGeneralHotel.get(0).getDescripcionMaps());
+            lblDescription.setText(ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getDescripcionMaps());
         }
 
         ImageButton btnCall = (ImageButton) findViewById( R.id.btnCall );
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String uri = "tel:" + ResultadosDisponibilidad.listaGeneralHotel.get(0).getTelefono();
+                String uri = "tel:" + ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getTelefono();
                 Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse(uri));
                 startActivityForResult(intent, 0);
@@ -141,7 +150,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
         btnEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String to = ResultadosDisponibilidad.listaGeneralHotel.get(0).getEmail();
+                String to = ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getEmail();
                 Intent email = new Intent(Intent.ACTION_SEND);
                 email.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
                 email.setType("message/rfc822");
@@ -163,7 +172,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
         });
 
         //Servicios
-        _serviciosListAdapter = new ServicesListAdapter(this, ResultadosDisponibilidad.listaGeneralHotel.get(0).getServicios() );
+        _serviciosListAdapter = new ServicesListAdapter(this, ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios() );
 
         listView.setAdapter( _serviciosListAdapter );
 
@@ -190,10 +199,10 @@ public class DetalleHotelActivity extends ActionBarActivity{
         _map = _mapView.getMap();
         //_map = ((SupportMapFragment) getFragmentManager().findFragmentById( R.id.map )).getMap();
 
-        LatLng hotelPosition =  new LatLng( ResultadosDisponibilidad.listaGeneralHotel.get(0).getLatitude(), ResultadosDisponibilidad.listaGeneralHotel.get(0).getLongitude() );
-        Marker m = _map.addMarker( new MarkerOptions().position( hotelPosition ).title( ResultadosDisponibilidad.listaGeneralHotel.get(0).getNombre() ) );
+        LatLng hotelPosition =  new LatLng( ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getLatitude(), ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getLongitude() );
+        Marker m = _map.addMarker( new MarkerOptions().position( hotelPosition ).title( ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getNombre() ) );
         //_map.animateCamera( CameraUpdateFactory.newLatLngZoom( hotelPosition, 14 ) );
-        _map.moveCamera( CameraUpdateFactory.newLatLngZoom(hotelPosition, 14) );
+        _map.moveCamera(CameraUpdateFactory.newLatLngZoom(hotelPosition, 14));
         m.showInfoWindow();
 
 
@@ -236,6 +245,19 @@ public class DetalleHotelActivity extends ActionBarActivity{
             }
         });
 
+/*
+        habitacion = new RoomAvailable();
+        habitacion.setMaxAdultos(_extras.get(0).getNumPersonas());
+        habitacion.setCode(ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().get(0).getCodigoBase());
+        habitacion.setTitle(ResultadosDisponibilidad.listaGeneralHotel.get(0).getNombre());
+        habitacion.setMoneda("MXN");
+        habitacion.setDescription(_extras.get(0).getDescripcion());
+        habitacion.setImagen(_extras.get(0).getImagenApp());
+        habitacion.setPromoCode("");
+        habitacion.setTotal(Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().get(0).getCosto()));
+
+        roomAvailableArrayList.add(habitacion);*/
+
         new GetWeather().execute();
 
     }
@@ -250,29 +272,29 @@ public class DetalleHotelActivity extends ActionBarActivity{
     private String getAddressString()
     {
         String address = "";
-        if( ResultadosDisponibilidad.listaGeneralHotel.get(0).getDireccion() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(0).getDireccion().equalsIgnoreCase( "null" ) )
+        if( ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getDireccion() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getDireccion().equalsIgnoreCase( "null" ) )
         {
-            address += ResultadosDisponibilidad.listaGeneralHotel.get(0).getDireccion() + "\n";
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getDireccion() + "\n";
         }
-        if( ResultadosDisponibilidad.listaGeneralHotel.get(0).getColonia() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(0).getColonia().equalsIgnoreCase( "null" ) )
+        if( ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getColonia() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getColonia().equalsIgnoreCase( "null" ) )
         {
-            address += ResultadosDisponibilidad.listaGeneralHotel.get(0).getColonia() + "\n";
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getColonia() + "\n";
         }
-        if( ResultadosDisponibilidad.listaGeneralHotel.get(0).getCp() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(0).getCp().equalsIgnoreCase( "null" ) )
+        if( ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getCp() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getCp().equalsIgnoreCase( "null" ) )
         {
-            address += "CP: " + ResultadosDisponibilidad.listaGeneralHotel.get(0).getCp() + "\n";
+            address += "CP: " + ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getCp() + "\n";
         }
-        if( ResultadosDisponibilidad.listaGeneralHotel.get(0).getCiudad() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(0).getCiudad().equalsIgnoreCase( "null" ) && ResultadosDisponibilidad.listaGeneralHotel.get(0).getEstado() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(0).getEstado().equalsIgnoreCase( "null" ) )
+        if( ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getCiudad() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getCiudad().equalsIgnoreCase( "null" ) && ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getEstado() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getEstado().equalsIgnoreCase( "null" ) )
         {
-            address += ResultadosDisponibilidad.listaGeneralHotel.get(0).getCiudad() + ". " + ResultadosDisponibilidad.listaGeneralHotel.get(0).getEstado();
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getCiudad() + ". " + ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getEstado();
         }
-        else if( ResultadosDisponibilidad.listaGeneralHotel.get(0).getCiudad() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(0).getCiudad().equalsIgnoreCase( "null" ) )
+        else if( ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getCiudad() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getCiudad().equalsIgnoreCase( "null" ) )
         {
-            address += ResultadosDisponibilidad.listaGeneralHotel.get(0).getCiudad();
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getCiudad();
         }
-        else if( ResultadosDisponibilidad.listaGeneralHotel.get(0).getEstado() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(0).getEstado().equalsIgnoreCase( "null" ) )
+        else if( ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getEstado() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getEstado().equalsIgnoreCase( "null" ) )
         {
-            address += ResultadosDisponibilidad.listaGeneralHotel.get(0).getEstado();
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getEstado();
         }
         if( address.endsWith( "\n" ) )
         {
@@ -380,7 +402,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
         protected Integer doInBackground( Void... arg0 )
         {
             ServiceHandler sh = new ServiceHandler();
-            String jsonStr = sh.makeServiceCall( "http://api.openweathermap.org/data/2.5/weather?lat=" + ResultadosDisponibilidad.listaGeneralHotel.get(0).getLatitude() + "&lon=" + ResultadosDisponibilidad.listaGeneralHotel.get(0).getLongitude() + "&lang=ES&units=metric", ServiceHandler.GET );
+            String jsonStr = sh.makeServiceCall( "http://api.openweathermap.org/data/2.5/weather?lat=" + ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getLatitude() + "&lon=" + ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getLongitude() + "&lang=ES&units=metric", ServiceHandler.GET );
 
             if( jsonStr != null )
             {
@@ -445,7 +467,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
                 _extras.add(r);
             }
 
-            habitacionAdapter = new HabitacionAdapter(ResultadosDisponibilidad.listaGeneralHotel, ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones(),ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitacionesCity(),_extras);
+            habitacionAdapter = new HabitacionAdapter(ResultadosDisponibilidad.listaGeneralHotel, ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones(),ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitacionesCity(),_extras);
             recyclerViewHabitaciones.setAdapter(habitacionAdapter);
         }catch(Exception e){
 
