@@ -1,19 +1,17 @@
 package com.zebstudios.cityexpress;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.WebView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -27,9 +25,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -38,13 +33,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.appsee.Appsee.addEvent;
 
 public class ReservacionActivity extends Activity {
 
@@ -53,12 +44,28 @@ public class ReservacionActivity extends Activity {
     String cadena;
     String text;
 
+    RadioButton btnMisma;
+    EditText txtName;
+    EditText txtLast;
+    EditText txtEmail;
+    EditText txtSocio;
+    CheckBox cbAfiliate;
+    EditText txtPhone;
+    Spinner spinViaje;
+    Spinner spinAdultos;
+    Spinner spinNinos;
+
+    ListView listaHabitaciones;
+
+
+    ReservaNumeroHabitacionesAdapter adapter;
+    ArrayList<ItemListReserva> data = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservacion);
 
-        SimpleDateFormat sdf = new SimpleDateFormat( "dd MMM yyyy" );
         TextView lblHotelName = (TextView) findViewById(R.id.lblHotelName);
         TextView lblArrivalDate = (TextView) findViewById( R.id.dates_arrival_text );
         TextView lblDepartureDate = (TextView) findViewById( R.id.dates_departure_text );
@@ -67,6 +74,28 @@ public class ReservacionActivity extends Activity {
         TextView lblArrivalDate2 = (TextView) findViewById( R.id.dates_arrival_text2 );
         TextView lblDepartureDate2 = (TextView) findViewById( R.id.dates_departure_text2 );
         TextView lblTotal2 = (TextView) findViewById(R.id.lblTotal2);
+
+         btnMisma = (RadioButton) findViewById( R.id.btn_rad_misma );
+         txtName = (EditText) findViewById( R.id.txtName );
+         txtLast = (EditText) findViewById( R.id.txtLast );
+         txtEmail = (EditText) findViewById( R.id.txtEmail );
+         txtSocio = (EditText) findViewById( R.id.txtSocio );
+         cbAfiliate = (CheckBox) findViewById( R.id.cbAfiliate );
+         txtPhone = (EditText) findViewById( R.id.txtPhone );
+         spinViaje = (Spinner) findViewById( R.id.spinViaje );
+         spinAdultos = (Spinner) findViewById( R.id.spinAdultos );
+         spinNinos = (Spinner) findViewById( R.id.spinNinos );
+
+        listaHabitaciones = (ListView)findViewById(R.id.list_reservations);
+
+        ArrayList<String> viajes = new ArrayList<String>();
+        viajes.add( "Viaje de negocios" ); // 001
+        viajes.add( "Viaje de placer" ); // 015
+        SpinnerAdapter adapterViaje = new ArrayAdapter<String>( ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, viajes );
+        Spinner spinViaje = (Spinner) findViewById( R.id.spinViaje );
+        spinViaje.setAdapter( adapterViaje );
+
+
 
         _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(0);
         lblHotelName.setText( _hotel.getNombre() );
@@ -98,6 +127,105 @@ public class ReservacionActivity extends Activity {
         //list2.setAdapter(adapter);*/
 
 
+        btnReserva2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if("".equals(txtName.getText().toString())){
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("El campo Nombre no puede estar vacío")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }else if("".equals(txtLast.getText().toString())){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("El campo Apellido no puede estar vacío")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }else if("".equals(txtEmail.getText().toString())){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("El campo Correo Electrónico no puede estar vacío")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }else if(!cbAfiliate.isChecked()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("Hubo un problema al tratar de hacer tu reservación, vuelve a intentarlo")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }else if("".equals(txtPhone.getText().toString())){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
+                        builder.setTitle("Hoteles City")
+                                .setMessage("El campo Teléfono no puede estar vacío")
+                                .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }else{
+                    RecibirDatos();
+                }
+            }
+        });
+
+
+
+
+    }
+
+    public void RecibirDatos(){
+
+            txtName.getText();
+            txtLast.getText();
+            txtEmail.getText();
+            //txtSocio.getText();
+            cbAfiliate.isChecked();
+            txtPhone.getText();
+            spinViaje.getSelectedItemPosition();
+            spinAdultos.getSelectedItemPosition();
+            spinNinos.getSelectedItemPosition();
+
+        System.out.println(txtName.getText().toString());
+        System.out.println(txtLast.getText().toString());
+        System.out.println(txtPhone.getText().toString());
+       // System.out.println(spinAdultos.getSelectedItem().toString());
+       // System.out.println(spinViaje.getSelectedItem().toString());
+       // System.out.println(spinNinos.getSelectedItem().toString());
 
 
     }

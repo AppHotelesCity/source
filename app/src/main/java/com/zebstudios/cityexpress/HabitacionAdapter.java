@@ -92,6 +92,8 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         protected TextView txtDescripcionHabitacion;
         protected TextView txtPrecioPremioHabitacion;
         protected TextView txtPrecioDestinoHabitacion;
+        static String precioHabitacioin;
+        static String precioDestino;
         protected CardView cardViewHotel;
         protected Button btnReservar;
         protected Context context;
