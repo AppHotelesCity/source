@@ -3,19 +3,7 @@ package com.zebstudios.cityexpress;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.webkit.WebView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -27,9 +15,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.XML;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -40,11 +28,9 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.appsee.Appsee.addEvent;
 
 public class ReservacionActivity extends Activity {
 
@@ -99,6 +85,7 @@ public class ReservacionActivity extends Activity {
 
 
 
+        this.obtenerListadoTarjetas();
 
     }
 
@@ -302,6 +289,93 @@ public class ReservacionActivity extends Activity {
         }
 
         //return habitacionBaseList;
+    }
+
+
+    public void obtenerListadoTarjetas(){
+
+        Log.d("ReservacionActivity", "obtener listado tarjetas");
+        String sampleXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                + "<mobilegate>"
+                +"<timestamp>232423423423</timestamp>"
+                + "<txn>" + "Transaction" + "</txn>"
+                + "<amt>" + 0 + "</amt>"
+                + "</mobilegate>";
+
+
+        JSONObject jsonObj = null;
+        JSONObject mobilegate = null;
+
+        try {
+            jsonObj = XML.toJSONObject(sampleXml);
+            mobilegate = jsonObj.getJSONObject("mobilegate");
+
+            Log.d("XML", sampleXml);
+
+            Log.d("JSON", jsonObj.toString());
+
+
+            Log.d("Reservaion", "Valor :3 " + mobilegate.getString("txn") );
+
+
+        } catch (JSONException e) {
+            Log.e("JSON exception", e.getMessage());
+            e.printStackTrace();
+        }
+
+
+
+
+
+        /*
+
+
+        StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.CLIENTE_UNICO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                InputStream stream = null;
+                try {
+                    stream = new ByteArrayInputStream(response.getBytes("UTF-8"));
+                    parseXML(stream);
+
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                NetworkResponse response = error.networkResponse;
+                String datos = new String(response.data);
+                System.out.println("sout" + datos);
+            }
+        }) {
+
+            public String getBodyContentType() {
+                return "text/xml; charset=utf-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<String, String>();
+                //params.put("Content-Type", "application/xml; charset=utf-8");
+                params.put("SOAPAction", "http://tempuri.org/IReservationEngine/GetRoomsAvailablePromo");
+                Log.d("hsdhsdfhuidiuhsd", "clave");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return cadena.toString().getBytes();
+            }
+
+        };
+        System.out.println("registro->" + registro.toString());
+        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(registro);
+*/
+
     }
 
 }
