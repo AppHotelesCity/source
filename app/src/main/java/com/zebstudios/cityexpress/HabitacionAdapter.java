@@ -25,6 +25,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
     ArrayList<HabitacionBase> habitacionBaseArrayList;
     ArrayList<HabitacionBase> habitacionBaseArrayListCity;
     ArrayList<RoomAvailableExtra> habitacionesArrayList;
+    int posicion;
 
     public HabitacionAdapter(ArrayList<Hotel> arrayHoteles, ArrayList<HabitacionBase> arrayHabitacion, ArrayList<HabitacionBase> habitacionesCity){
         this.arrayHoteles=arrayHoteles;
@@ -33,11 +34,12 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
     }
 
     public HabitacionAdapter(ArrayList<Hotel> arrayHoteles, ArrayList<HabitacionBase> arrayHabitacion, ArrayList<HabitacionBase> habitacionesCity,
-                             ArrayList<RoomAvailableExtra> habitacionesArrayList){
+                             ArrayList<RoomAvailableExtra> habitacionesArrayList, int posicion){
         this.arrayHoteles=arrayHoteles;
         this.habitacionBaseArrayList = arrayHabitacion;
         this.habitacionBaseArrayListCity = habitacionesCity;
         this.habitacionesArrayList = habitacionesArrayList;
+        this.posicion = posicion;
     }
     @Override
     public HabitacionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,7 +50,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
     }
 
     @Override
-    public void onBindViewHolder(final HabitacionViewHolder holder, int position) {
+    public void onBindViewHolder(final HabitacionViewHolder holder, final int position) {
         final Hotel hotel = arrayHoteles.get(0);
 
         final HabitacionBase habitacionBase= habitacionBaseArrayList.get(position);
@@ -75,13 +77,23 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         holder.btnReservar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//sasdf
                 if(holder.imgpremiosdestinos){
                     Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
+                    intent.putExtra("city",false);
+                    intent.putExtra("posicionHotel",posicion);
+                    intent.putExtra("posicionHabitacion",position);
+                    intent.putExtra("precioDestino",habitacionBaseArrayList.get(position).getCosto());
+                    intent.putExtra("codigoBase",habitacionBaseArrayList.get(position).getCodigoBase());
                     v.getContext().startActivity(intent);
                     Toast.makeText(holder.context, "ENTRANDO A DESTINOS", Toast.LENGTH_SHORT).show();
                 }else{
                     Intent intent = new Intent(v.getContext(), ReservacionPremiosActivity.class);
+                    intent.putExtra("city",true);
+                    intent.putExtra("posicionHotel",posicion);
+                    intent.putExtra("posicionHabitacion",position);
+                    intent.putExtra("precioPremio", habitacionBaseArrayListCity.get(posicion).getCosto());
+                    intent.putExtra("codigoBase",habitacionBaseArrayList.get(position).getCodigoBase());
                     v.getContext().startActivity(intent);
                     Toast.makeText(holder.context, "ENTRANDO A premios", Toast.LENGTH_SHORT).show();
                 }

@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,6 +52,7 @@ public class ReservacionActivity extends Activity {
     String cadena;
     String text;
 
+    ArrayList<HabitacionBase> habitacionBaseArrayList;
     RadioButton btnMisma;
     EditText txtName;
     EditText txtLast;
@@ -77,6 +79,15 @@ public class ReservacionActivity extends Activity {
     ReservaNumeroHabitacionesAdapter adapter;
     ArrayList<ItemListReserva> data = new ArrayList<>();
 
+    int posicion;
+    int posicionHot;
+    int posicionHab;
+    String codigoBase;
+    Date arrival;
+    Date departure;
+    String precio;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +104,29 @@ public class ReservacionActivity extends Activity {
         TextView lblArrivalDate2 = (TextView) findViewById( R.id.dates_arrival_text2 );
         TextView lblDepartureDate2 = (TextView) findViewById( R.id.dates_departure_text2 );
         TextView lblTotal2 = (TextView) findViewById(R.id.lblTotal2);
+
+        //a<sdfg
+        Bundle bundle = getIntent().getExtras();
+        posicionHot = bundle.getInt("posicionHotel");
+        codigoBase = bundle.getString("codigoBase");
+        posicionHab= bundle.getInt("posicionHabitacion");
+        arrival = PrincipalFragment._arrivalDate;
+        departure = PrincipalFragment._departureDate;
+
+        _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot);
+        ResultadosDisponibilidad.habitacionBaseList.get(posicionHab);
+        if(bundle.getBoolean("city")){
+           precio = bundle.getString("precioPremio");
+        }else{
+           precio =  bundle.getString("precioDestino");
+        }
+
+        System.out.println("PsoicionHotel"+posicionHot);
+        System.out.println("PsoiconHabitacion"+posicionHab);
+        System.out.println("arrival"+arrival);
+        System.out.println("departure"+departure);
+        System.out.println("codigoBase"+codigoBase);
+
 
          btnMisma = (RadioButton) findViewById( R.id.btn_rad_misma );
          txtName = (EditText) findViewById( R.id.txtName );
@@ -140,13 +174,13 @@ public class ReservacionActivity extends Activity {
 
 
 
-        _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(0);
+
         lblHotelName.setText( _hotel.getNombre() );
-        lblArrivalDate.setText("12-12-2014");
-        lblDepartureDate.setText("13-06-2015");
+        lblArrivalDate.setText(arrival.toString());
+        lblDepartureDate.setText(departure.toString());
         lblHotelName2.setText( _hotel.getNombre() );
-        lblArrivalDate2.setText("12-12-2014");
-        lblDepartureDate2.setText("12-08-2014");
+        lblArrivalDate2.setText(arrival.toString());
+        lblDepartureDate2.setText(departure.toString());
 
 
         lblTotal.setText("Total: $678.9");//String.format( "Total: $%,.2f ",1123 ) );
