@@ -253,6 +253,8 @@
         </activity>
         <activity android:name=".ReservacionActivity" >
         </activity>
+        <activity android:name=".ReservacionPremiosActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -74,8 +75,16 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         holder.btnReservar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
-                v.getContext().startActivity(intent);
+
+                if(holder.imgpremiosdestinos){
+                    Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
+                    v.getContext().startActivity(intent);
+                    Toast.makeText(holder.context, "ENTRANDO A DESTINOS", Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
+                    v.getContext().startActivity(intent);
+                    Toast.makeText(holder.context, "ENTRANDO A premios", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -96,6 +105,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         protected Context context;
         protected Button imgYPremios;
         protected Button imgYDestinos;
+        protected boolean imgpremiosdestinos;
         protected ImageView imageViewHabitacion;
         protected LinearLayout linearPremios;
         protected LinearLayout linearDestinos;
@@ -121,6 +131,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                 public void onClick(View v) {
                     imgYDestinos.setVisibility(View.VISIBLE);
                     imgYPremios.setVisibility(View.GONE);
+                    imgpremiosdestinos = true;
                 }
             });
 
@@ -129,6 +140,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                 public void onClick(View v) {
                     imgYPremios.setVisibility(View.VISIBLE);
                     imgYDestinos.setVisibility(View.GONE);
+                    imgpremiosdestinos = false;
                 }
             });
 
