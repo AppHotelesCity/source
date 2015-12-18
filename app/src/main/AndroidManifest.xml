@@ -66,8 +66,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SearchResultsActivity"
             android:label="Resultados"
@@ -137,7 +137,7 @@
                 <category android:name="com.zebstudios.cityexpress" />
             </intent-filter>
         </receiver>
--->
+        -->
         <!-- REQUIRED for Landing Pages - For more customization details, see com.urbanairship.actions.LandingPageActivity -->
         <!--
         <activity
@@ -153,7 +153,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
--->
+        -->
         <!--
         <service
             android:name="com.urbanairship.push.PushService"
@@ -173,7 +173,7 @@
             android:exported="true"
             android:multiprocess="true"
             android:permission="com.zebstudios.cityexpress.permission.UA_DATA" />
--->
+        -->
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
         <activity
@@ -189,7 +189,7 @@
             android:exported="true"
             android:multiprocess="true"
             android:permission="com.zebstudios.cityexpress.permission.UA_DATA" />
-            -->
+        -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -217,7 +217,7 @@
                         <category android:name="com.zebstudios.cityexpress" />
                     </intent-filter>
                 </receiver>
-                -->
+        -->
         <receiver
             android:name="com.adform.adformtrackingsdk.services.ReferrerReceiver"
             android:exported="true" >
@@ -253,7 +253,7 @@
         </activity>
         <activity android:name=".ReservacionActivity" >
         </activity>
-        <activity android:name=".ReservacionPremiosActivity">
+        <activity android:name=".ReservacionPremiosActivity" >
         </activity>
     </application>
 

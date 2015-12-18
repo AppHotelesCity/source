@@ -1,6 +1,8 @@
 package com.zebstudios.cityexpress;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -349,7 +351,7 @@ public class MainActivity extends ActionBarActivity
 		else if( requestCode == ACTIVITY_PREMIOS_DETAIL && resultCode == RESULT_OK )
 		{
 			Intent dialog = new Intent( this, PremiosLoginActivity.class );
-			startActivityForResult( dialog, ACTIVITY_PREMIOS_LOGIN );
+			startActivityForResult(dialog, ACTIVITY_PREMIOS_LOGIN);
 		}
 	}
 
@@ -404,6 +406,14 @@ public class MainActivity extends ActionBarActivity
 			//startActivityForResult( dialog, ACTIVITY_BLOG );
 			premiosImageClicked();
 			//addEvent("MenuCityPremios-SmartPhone");
+		}
+		else if(index == 6){
+			SharedPreferences loginOut = getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
+			loginOut.edit().clear().commit();
+
+			PrincipalFragment fragment = new PrincipalFragment();
+			//MainFragment fragment = new MainFragment();
+			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment).commit();
 		}
 	}
 
