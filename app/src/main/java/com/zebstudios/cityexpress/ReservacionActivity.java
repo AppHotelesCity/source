@@ -28,6 +28,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.XML;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -80,6 +84,9 @@ public class ReservacionActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.obtenerListadoTarjetas();
+
         setContentView(R.layout.activity_reservacion);
 
         TextView lblHotelName = (TextView) findViewById(R.id.lblHotelName);
@@ -171,9 +178,9 @@ public class ReservacionActivity extends Activity {
         lblTotal2.setText("Total: $678.9");// String.format( "Total: $%,.2f ", 34345 )  );
 
 
-
       //  NestedListView list = (NestedListView) findViewById( R.id.list_summary );
        // NestedListView list2 = (NestedListView) findViewById( R.id.list_summary2 );
+
 
         Button btnReserva2 = (Button) findViewById(R.id.btnReserva);
 
@@ -489,6 +496,137 @@ public class ReservacionActivity extends Activity {
         }
 
         //return habitacionBaseList;
+    }
+
+
+    public void obtenerListadoTarjetas(){
+        Log.d("ReservacionActivity", "obtener listado tarjetas");
+
+/*
+        String sampleXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                + "<mobilegate>"
+                +"<timestamp>232423423423</timestamp>"
+                + "<txn>" + "Transaction" + "</txn>"
+                + "<amt>" + 0 + "</amt>"
+                + "</mobilegate>";
+
+
+        JSONObject jsonObj = null;
+        JSONObject mobilegate = null;
+
+        try {
+            jsonObj = XML.toJSONObject(sampleXml);
+            mobilegate = jsonObj.getJSONObject("mobilegate");
+
+            Log.d("XML", sampleXml);
+
+            Log.d("JSON", jsonObj.toString());
+
+
+            Log.d("Reservaion", "Valor :3 " + mobilegate.getString("txn") );
+
+
+        } catch (JSONException e) {
+            Log.e("JSON exception", e.getMessage());
+            e.printStackTrace();
+        }
+
+*/
+        String enviarxml = "<soapenv:Envelope\n" +
+                "    xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
+                "    xmlns:tem=\"http://tempuri.org/\"\n" +
+                "    xmlns:cit=\"http://schemas.datacontract.org/2004/07/CityHub\">\n" +
+                "    <soapenv:Header/>\n" +
+                "    <soapenv:Body>\n" +
+                "        <ListadoTarjetas \n" +
+                "            xmlns=\"http://tempuri.org/\">\n" +
+                "            <IdClienteF2G>{IDF2GO}</IdClienteF2G>\n" +
+                "        </ListadoTarjetas >\n" +
+                "    </soapenv:Body>\n" +
+                "</soapenv:Envelope>";
+
+        enviarxml = enviarxml.replace("{IDF2GO}","1977012");
+
+
+        Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
+
+        System.out.println("XML a enviar --> " + enviarxml);
+
+
+        final String finalEnviarxml = enviarxml;
+        StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.CLIENTE_UNICO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+
+
+                    try {
+
+                        JSONObject jsonObj = null;
+                        JSONObject body = null;
+                        JSONObject ListadoTarjetasResult = null;
+
+                        jsonObj = XML.toJSONObject(response);
+                        body = jsonObj.getJSONObject("soap:Envelope").getJSONObject("soap:Body");
+                        ListadoTarjetasResult = body.getJSONObject("ListadoTarjetasResponse").getJSONObject("ListadoTarjetasResult");
+
+                        Log.d("JSON", ListadoTarjetasResult.toString());
+
+                        JSONArray arreglo = ListadoTarjetasResult.getJSONArray("CardField");
+
+/*
+                        for (JSONObject tempsmartcard : arreglo ) {
+                            // do some work here on intValue
+                            System.out.println("Nombre de tarjeta " + tempsmartcard.getString("") );
+                        }
+*/
+
+                    } catch (JSONException e) {
+                        Log.e("JSON exception", e.getMessage());
+                        e.printStackTrace();
+                    }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                NetworkResponse response = error.networkResponse;
+                String datos = new String(response.data);
+                System.out.println("sout" + datos);
+            }
+        }) {
+
+            public String getBodyContentType() {
+                return "text/xml; charset=utf-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<String, String>();
+                //params.put("Content-Type", "application/xml; charset=utf-8");
+                params.put("SOAPAction", "http://tempuri.org/ListadoTarjetas");
+                Log.d("hsdhsdfhuidiuhsd", "clave");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                //return cadena.toString().getBytes();
+                final String temp = finalEnviarxml.toString();
+                return  temp.toString().getBytes();
+            }
+
+        };
+
+        System.out.println("registro->" + registro.toString());
+        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(registro);
+
+
+
     }
 
 }

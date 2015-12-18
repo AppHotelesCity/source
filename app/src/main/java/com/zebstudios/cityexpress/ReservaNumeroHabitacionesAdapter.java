@@ -48,8 +48,8 @@ public class ReservaNumeroHabitacionesAdapter extends BaseAdapter{
             LayoutInflater inflater = ((Activity) contextHab).getLayoutInflater();
             fila = inflater.inflate(R.layout.reserva_list_item, parent, false);
             holder = new HolderView();
-            holder.txtNumHab = (TextView) fila.findViewById(R.id.txtHabitacion);
-            holder.txtPrecio = (TextView) fila.findViewById(R.id.txtNochePrecio);
+            //holder.txtNumHab = (TextView) fila.findViewById(R.id.txtHabitacion);
+            //holder.txtPrecio = (TextView) fila.findViewById(R.id.txtNochePrecio);
             fila.setTag(holder);
         } else {
             holder = (HolderView) fila.getTag();
