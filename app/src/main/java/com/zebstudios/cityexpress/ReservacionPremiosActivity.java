@@ -17,7 +17,6 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -72,9 +71,12 @@ public class ReservacionPremiosActivity extends Activity {
 
 
     ListView listaHabitaciones;
-    LinearLayout linearpayTarjeta;
     LinearLayout linearaddTarjeta;
-    LinearLayout linearImagenes;
+    LinearLayout linearAgregarTarjeta;
+
+
+    Button btnaddTarjeta;
+    Button btnTarjetas;
 
 
 
@@ -110,7 +112,7 @@ public class ReservacionPremiosActivity extends Activity {
         spinNinos = (Spinner) findViewById( R.id.spinNinos );
 
         linearaddTarjeta = (LinearLayout) findViewById(R.id.pnlCCPayment);
-        linearaddTarjeta.setVisibility(View.VISIBLE);
+        linearAgregarTarjeta = (LinearLayout) findViewById(R.id.linearAddtarjeta);
 
         segmentswitch = (SegmentedGroup) findViewById(R.id.segmentedPaymentMethod);
         btnTarjeta = (RadioButton)findViewById(R.id.btn_method_card);
@@ -118,19 +120,35 @@ public class ReservacionPremiosActivity extends Activity {
 
         listaHabitaciones = (ListView)findViewById(R.id.list_reservations);
 
+        btnaddTarjeta = (Button) findViewById(R.id.btnAddTarjeta);
+        btnTarjetas = (Button) findViewById(R.id.verTarjetas);
+
         segmentswitch.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(btnTarjeta.isChecked()){
                     linearaddTarjeta.setVisibility(View.VISIBLE);
-                    Toast.makeText(ReservacionPremiosActivity.this, "lqwrnflqnrwflkqwnrflkqwmflqwkm", Toast.LENGTH_SHORT).show();
                 }else if(btnPaypal.isChecked()){
+                    linearAgregarTarjeta.setVisibility(View.GONE);
                     linearaddTarjeta.setVisibility(View.GONE);
-                    //linearpayTarjeta.setVisibility(View.GONE);
-                    //linearImagenes.setVisibility(View.GONE);
-                    Toast.makeText(ReservacionPremiosActivity.this, "z-z-zz-z-z-z-z-z-z-z-", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+
+        btnaddTarjeta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearAgregarTarjeta.setVisibility(View.VISIBLE);
+                linearaddTarjeta.setVisibility(View.GONE);
+            }
+        });
+
+        btnTarjetas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearaddTarjeta.setVisibility(View.VISIBLE);
+                linearAgregarTarjeta.setVisibility(View.GONE);
             }
         });
 

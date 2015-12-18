@@ -81,7 +81,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                     v.getContext().startActivity(intent);
                     Toast.makeText(holder.context, "ENTRANDO A DESTINOS", Toast.LENGTH_SHORT).show();
                 }else{
-                    Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
+                    Intent intent = new Intent(v.getContext(), ReservacionPremiosActivity.class);
                     v.getContext().startActivity(intent);
                     Toast.makeText(holder.context, "ENTRANDO A premios", Toast.LENGTH_SHORT).show();
                 }
