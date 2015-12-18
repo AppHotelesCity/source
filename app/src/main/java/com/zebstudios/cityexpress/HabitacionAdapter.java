@@ -53,12 +53,9 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         final HabitacionBase habitacionBase= habitacionBaseArrayList.get(position);
         double precioAux = 0;
         String precio = "";
-        System.out.println("Tamaño dentro del adapter de Habitacion" + habitacionBaseArrayListCity.size());
+        System.out.println("Tamaño City dentro del adapter de Habitacion" + habitacionBaseArrayListCity.size());
+        System.out.println("Tamaño Normal dentro del adapter de Habitacion" + habitacionBaseArrayList.size());
         holder.txtPrecioPremioHabitacion.setText("-");
-        System.out.println("Habitacion Imagen" + habitacionesArrayList.get(position).getImagen());
-        System.out.println("Habitacion Imagen APP" + habitacionesArrayList.get(position).getImagenApp());
-        System.out.println("Habitacion Imagen APPHab" + habitacionesArrayList.get(position).getImgHabitacion());
-        System.out.println("Habitacion Imagen APPWEB" + habitacionesArrayList.get(position).getImgHabitacionWeb());
         Picasso.with(holder.context).load(habitacionesArrayList.get(position).getImagenApp()).into(holder.imageViewHabitacion);
         for (int i = 0; i < habitacionBaseArrayListCity.size(); i++) {
                 if(habitacionBaseArrayList.get(position).getCodigoBase().equalsIgnoreCase(habitacionBaseArrayListCity.get(i).getCodigoBase())){

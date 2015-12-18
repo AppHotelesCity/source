@@ -293,7 +293,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    //System.out.println(contador + "->contador" + response);
+                    /*System.out.println(contador + "->contador" + response);
                     InputStream stream = null;
                     try {
                         stream = new ByteArrayInputStream(response.getBytes("UTF-8"));
@@ -301,7 +301,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
-                    }
+                    }*/
                     obtenerDescripcionHotel(response);
                     contador++;
                     pedirDescripcionHotel();
@@ -348,12 +348,12 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
         JSONObject jsonObj = null;
         JSONObject mobilegate = null;
-        habitacionBaseList = new ArrayList<>();
-        habitacionCityPremiosList = new ArrayList<>();
         habitacionBase = new HabitacionBase();
         habitacionCity = new HabitacionBase();
 
         try {
+            JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
+
             jsonObj = XML.toJSONObject(hotel);
 
             JSONObject envelope = new JSONObject(jsonObj.getString("s:Envelope"));
@@ -379,37 +379,37 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     //descripcion.getString("")
                     JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBase"));
                     JSONArray habitacionBase = new JSONArray(tarifaBase.getString("a:HabBase"));
+
                     for (int j = 0; j < habitacionBase.length(); j++) {
                         JSONObject habitacionBaseDisponibilidad = new JSONObject(habitacionBase.get(j).toString());
                         System.out.println("CUATRO1115P->"+habitacionBaseDisponibilidad.getString("a:CodBase"));
+                        habitacionCity.setCodigoBase(habitacionBaseDisponibilidad.getString("a:CodBase"));
                         System.out.println("CINCO115P->"+habitacionBaseDisponibilidad.getString("a:Noches"));
-                        JSONObject costoNoche = new JSONObject(habitacionBaseDisponibilidad.getString("a:Noches"));
-                        System.out.println("CostoTotal->"+costoNoche.getString("a:Costo"));
+                        JSONObject noche = new JSONObject(habitacionBaseDisponibilidad.getString("a:Noches"));
+                        JSONObject costoNoche = new JSONObject(noche.getString("a:Noche"));
+                        System.out.println("CostoTotal->"+costoNoche.get("a:Costo"));
+                        habitacionCity.setCosto(costoNoche.get("a:Costo").toString());
+                        habitacionCityPremiosList.add(habitacionCity);
                     }
                 }else if(descripcion.getString("a:CodigoTarifa").equalsIgnoreCase("1114")){
 
                     JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBase"));
-                    JSONArray habitacionBase = new JSONArray(tarifaBase.getString("a:HabBase"));
-                    for (int j = 0; j < habitacionBase.length(); j++) {
-                        JSONObject habitacionBaseDisponibilidad = new JSONObject(habitacionBase.get(j).toString());
+                    JSONArray habitacionBaseJSON = new JSONArray(tarifaBase.getString("a:HabBase"));
+                    for (int j = 0; j < habitacionBaseJSON.length(); j++) {
+                        JSONObject habitacionBaseDisponibilidad = new JSONObject(habitacionBaseJSON.get(j).toString());
                         System.out.println("CUATRO->"+habitacionBaseDisponibilidad.getString("a:CodBase"));
+                        habitacionBase.setCodigoBase(habitacionBaseDisponibilidad.getString("a:CodBase"));
                         System.out.println("CINCO->"+habitacionBaseDisponibilidad.getString("a:Noches"));
-                        JSONObject costoNoche = new JSONObject(habitacionBaseDisponibilidad.getString("a:Noches"));
-                        try{
-                            System.out.println("CostoTotal->"+costoNoche.getString("a:Costo"));
-                        }catch(JSONException e ){
-                            try{
-                                System.out.println("CostoTotal->"+costoNoche.getDouble("a:Costo"));
-                            }catch(JSONException f){
-
-                            }
-                        }
-
+                        JSONObject noche = new JSONObject(habitacionBaseDisponibilidad.getString("a:Noches"));
+                        JSONObject costoNoche = new JSONObject(noche.getString("a:Noche"));
+                        System.out.println("CostoTotal->"+costoNoche.get("a:Costo"));
+                        habitacionBase.setCosto(costoNoche.get("a:Costo").toString());
+                        habitacionBaseList.add(habitacionBase);
                     }
                 }
-                JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
-                listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList,habitacionCityPremiosList));
             }
+
+            listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList,habitacionCityPremiosList));
 
 
         } catch (JSONException e) {
