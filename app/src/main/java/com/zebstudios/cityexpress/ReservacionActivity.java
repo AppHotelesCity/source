@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -36,11 +37,12 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,6 +53,7 @@ public class ReservacionActivity extends Activity {
     String cadena;
     String text;
 
+    ArrayList<HabitacionBase> habitacionBaseArrayList;
     RadioButton btnMisma;
     EditText txtName;
     EditText txtLast;
@@ -77,6 +80,15 @@ public class ReservacionActivity extends Activity {
     ReservaNumeroHabitacionesAdapter adapter;
     ArrayList<ItemListReserva> data = new ArrayList<>();
 
+    int posicion;
+    int posicionHot;
+    int posicionHab;
+    String codigoBase;
+    Date arrival;
+    Date departure;
+    String precio;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +105,29 @@ public class ReservacionActivity extends Activity {
         TextView lblArrivalDate2 = (TextView) findViewById( R.id.dates_arrival_text2 );
         TextView lblDepartureDate2 = (TextView) findViewById( R.id.dates_departure_text2 );
         TextView lblTotal2 = (TextView) findViewById(R.id.lblTotal2);
+
+        //a<sdfg
+        Bundle bundle = getIntent().getExtras();
+        posicionHot = bundle.getInt("posicionHotel");
+        codigoBase = bundle.getString("codigoBase");
+        posicionHab= bundle.getInt("posicionHabitacion");
+        arrival = PrincipalFragment._arrivalDate;
+        departure = PrincipalFragment._departureDate;
+
+        _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot);
+        ResultadosDisponibilidad.habitacionBaseList.get(posicionHab);
+        if(bundle.getBoolean("city")){
+           precio = bundle.getString("precioPremio");
+        }else{
+           precio =  bundle.getString("precioDestino");
+        }
+
+        System.out.println("PsoicionHotel"+posicionHot);
+        System.out.println("PsoiconHabitacion"+posicionHab);
+        System.out.println("arrival"+arrival);
+        System.out.println("departure"+departure);
+        System.out.println("codigoBase"+codigoBase);
+
 
          btnMisma = (RadioButton) findViewById( R.id.btn_rad_misma );
          txtName = (EditText) findViewById( R.id.txtName );
@@ -139,14 +174,84 @@ public class ReservacionActivity extends Activity {
         spinViaje.setAdapter( adapterViaje );
 
 
+        ArrayList<String> months = new ArrayList<String>();
+        months.add( "Mes" );
+        for( int i = 1; i < 13; i++ )
+        {
+            if( i < 10 )
+            {
+                months.add( "0" + i );
+            }
+            else
+            {
+                months.add( "" + i );
+            }
+        }
 
-        _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(0);
+        SpinnerAdapter adapterMonths = new ArrayAdapter<String>( ReservacionActivity.this , R.layout.habitaciones_item, R.id.txtOption, months );
+        Spinner spinMonths = (Spinner) findViewById( R.id.spinExpMonth );
+        spinMonths.setAdapter(adapterMonths);
+
+
+        // TODO: Cuántos años en el select de años de la tarjeta?
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get( Calendar.YEAR );
+        ArrayList<String> years = new ArrayList<String>();
+        years.add( "Año" );
+        for( int i = 0; i < 15; i++ )
+        {
+            years.add( "" + ( year + i ) );
+        }
+        SpinnerAdapter adapterYears = new ArrayAdapter<String>(ReservacionActivity.this , R.layout.habitaciones_item, R.id.txtOption, years );
+        Spinner spinYears = (Spinner) findViewById(R.id.spinExpYear);
+        spinYears.setAdapter(adapterYears);
+
+
+        //Log.d( "TEST", "MAX: " + _room.getMaxAdultos() );
+
+        ArrayList<String> adultos = new ArrayList<String>();
+        ArrayList<String> ninos = new ArrayList<String>();
+/*
+        for( int i = 0; i <= _room.getMaxAdultos() - 1; i++ )
+        {
+            adultos.add( "" + i );
+        }
+        for( int i = 0; i <= _room.getMaxAdultos() - 1; i++ )
+        {
+            ninos.add( "" + i );
+        }
+*/
+        adultos.add("0");
+        adultos.add("1");
+        ninos.add("0");
+        ninos.add("1");
+
+        Spinner spinAdultos = (Spinner) findViewById( R.id.spinAdultos );
+        SpinnerAdapter adapterAdultos = new ArrayAdapter<String>( ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, adultos );
+        spinAdultos.setAdapter( adapterAdultos );
+        spinAdultos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //changeAdultos();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        Spinner spinNinos = (Spinner) findViewById( R.id.spinNinos );
+        SpinnerAdapter adapterNinos = new ArrayAdapter<String>( ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, ninos );
+        spinNinos.setAdapter( adapterNinos );
+
+
+
         lblHotelName.setText( _hotel.getNombre() );
-        lblArrivalDate.setText("12-12-2014");
-        lblDepartureDate.setText("13-06-2015");
+        lblArrivalDate.setText(arrival.toString());
+        lblDepartureDate.setText(departure.toString());
         lblHotelName2.setText( _hotel.getNombre() );
-        lblArrivalDate2.setText("12-12-2014");
-        lblDepartureDate2.setText("12-08-2014");
+        lblArrivalDate2.setText(arrival.toString());
+        lblDepartureDate2.setText(departure.toString());
 
 
         lblTotal.setText("Total: $678.9");//String.format( "Total: $%,.2f ",1123 ) );
@@ -268,145 +373,7 @@ public class ReservacionActivity extends Activity {
        // System.out.println(spinViaje.getSelectedItem().toString());
        // System.out.println(spinNinos.getSelectedItem().toString());
 
-
-    }
-
-    public void enviarReservacion(){
-
-            cadena = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
-                    "    <s:Body>\n" +
-                    "        <InsertBookingv3_01 xmlns=\"http://tempuri.org/\">\n" +
-                    "            <mdlReservation xmlns:d4p1=\"http://schemas.datacontract.org/2004/07/CityHub\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-                    "                <d4p1:AplicaSMART>\n" +
-                    "                    <d4p1:pAplicaSMART>false</d4p1:pAplicaSMART>\n" +
-                    "                </d4p1:AplicaSMART>\n" +
-                    "                <d4p1:Deposito>\n" +
-                    "                    <d4p1:Comprobante>SmartComprobante</d4p1:Comprobante>\n" +
-                    "                    <d4p1:Fecha>2015-12-18</d4p1:Fecha>\n" +
-                    "                    <d4p1:Monto>854.05</d4p1:Monto>\n" +
-                    "                    <d4p1:Notas></d4p1:Notas>\n" +
-                    "                    <d4p1:Notas2></d4p1:Notas2>\n" +
-                    "                    <d4p1:Tarifa_Fija>0</d4p1:Tarifa_Fija>\n" +
-                    "                    <d4p1:TipoMoneda>MXN</d4p1:TipoMoneda>\n" +
-                    "                </d4p1:Deposito>\n" +
-                    "                <d4p1:Empresa>\n" +
-                    "                    <d4p1:IataEmisor />\n" +
-                    "                    <d4p1:RfcEmisor>EMISAPP</d4p1:RfcEmisor>\n" +
-                    "                </d4p1:Empresa>\n" +
-                    "                <d4p1:Estancia>\n" +
-                    "                    <d4p1:ChannelRef />\n" +
-                    "                    <d4p1:CodigoOperador>APP_MOVIL</d4p1:CodigoOperador>\n" +
-                    "                    <d4p1:CodigoOrigen>007</d4p1:CodigoOrigen>\n" +
-                    "                    <d4p1:CodigoSegmento>001</d4p1:CodigoSegmento>\n" +
-                    "                    <d4p1:FechaEntrada>2015-12-19</d4p1:FechaEntrada>\n" +
-                    "                    <d4p1:FormaDePago>VISA</d4p1:FormaDePago>\n" +
-                    "                    <d4p1:Hotel>CEAGU</d4p1:Hotel>\n" +
-                    "                    <d4p1:NotasFormaPago />\n" +
-                    "                    <d4p1:NotasReservacion />\n" +
-                    "                    <d4p1:NumeroDeNoches>1</d4p1:NumeroDeNoches>\n" +
-                    "                    <d4p1:TipoReservacion>TCRED</d4p1:TipoReservacion>\n" +
-                    "                </d4p1:Estancia>\n" +
-                    "                <d4p1:Habitacion>\n" +
-                    "                    <d4p1:CodigoHabitacion>NSD</d4p1:CodigoHabitacion>\n" +
-                    "                    <d4p1:CodigoPromocion></d4p1:CodigoPromocion>\n" +
-                    "                    <d4p1:CodigoTarifa>1114</d4p1:CodigoTarifa>\n" +
-                    "                    <d4p1:HuespedTitular>\n" +
-                    "                        <d4p1:Apellidos>SANDOVAL</d4p1:Apellidos>\n" +
-                    "                        <d4p1:Edad>0</d4p1:Edad>\n" +
-                    "                        <d4p1:Nombre>FERNANDINHO</d4p1:Nombre>\n" +
-                    "                        <d4p1:Acompanantes_Ar></d4p1:Acompanantes_Ar>\n" +
-                    "                        <d4p1:CodigoPais>MX</d4p1:CodigoPais>\n" +
-                    "                        <d4p1:CorreoElectronico>lala@gegerg.com</d4p1:CorreoElectronico>\n" +
-                    "                        <d4p1:Indicaciones />\n" +
-                    "                        <d4p1:RwdNumber />\n" +
-                    "                        <d4p1:Telefono>12121212</d4p1:Telefono>\n" +
-                    "                        <d4p1:TotAcompAdult>0</d4p1:TotAcompAdult>\n" +
-                    "                        <d4p1:TotAcompMenor>0</d4p1:TotAcompMenor>\n" +
-                    "                    </d4p1:HuespedTitular>\n" +
-                    "                    <d4p1:NumeroHabitaciones>1</d4p1:NumeroHabitaciones>\n" +
-                    "                </d4p1:Habitacion>\n" +
-                    "                <d4p1:Reservante>\n" +
-                    "                    <d4p1:Apellidos>SANDOVAL</d4p1:Apellidos>\n" +
-                    "                    <d4p1:Edad>0</d4p1:Edad>\n" +
-                    "                    <d4p1:Nombre>FERNANDINHO</d4p1:Nombre>\n" +
-                    "                    <d4p1:CorreoElectronico>lala@gegerg.com</d4p1:CorreoElectronico>\n" +
-                    "                    <d4p1:RwdNumber />\n" +
-                    "                    <d4p1:TelefonoReservante>12121212</d4p1:TelefonoReservante>\n" +
-                    "                </d4p1:Reservante>\n" +
-                    "                <d4p1:SMART>\n" +
-                    "                    <d4p1:CVV/>\n" +
-                    "                    <d4p1:Clasificacion_Transaccion/>\n" +
-                    "                    <d4p1:CuentaId/>\n" +
-                    "                    <d4p1:Host/>\n" +
-                    "                    <d4p1:PuntoVenta/>\n" +
-                    "                    <d4p1:SMART_Moneda/>\n" +
-                    "                    <d4p1:SMART_Pais/>\n" +
-                    "                    <d4p1:Tipo_Cliente/>\n" +
-                    "                </d4p1:SMART>\n" +
-                    "                <d4p1:TarjetaCredito>\n" +
-                    "                    <d4p1:AnoVencimiento>2024</d4p1:AnoVencimiento>\n" +
-                    "                    <d4p1:CodigoSeguridad>123</d4p1:CodigoSeguridad>\n" +
-                    "                    <d4p1:MesVencimiento>01</d4p1:MesVencimiento>\n" +
-                    "                    <d4p1:NombreTarjeta>HACHAD HJBDJHB</d4p1:NombreTarjeta>\n" +
-                    "                    <d4p1:NumeroTarjeta>4111111111111111</d4p1:NumeroTarjeta>\n" +
-                    "                </d4p1:TarjetaCredito>\n" +
-                    "                <d4p1:TarjetaVirtual>\n" +
-                    "                    <d4p1:AnoVencimiento />\n" +
-                    "                    <d4p1:CodigoSeguridad />\n" +
-                    "                    <d4p1:MesVencimiento />\n" +
-                    "                    <d4p1:NombreTarjeta />\n" +
-                    "                    <d4p1:NumeroTarjeta />\n" +
-                    "                </d4p1:TarjetaVirtual>\n" +
-                    "            </mdlReservation>\n" +
-                    "        </InsertBookingv3_01>\n" +
-                    "    </s:Body>\n" +
-                    "</s:Envelope>";
-
-
-            StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    InputStream stream = null;
-                    try {
-                        stream = new ByteArrayInputStream(response.getBytes("UTF-8"));
-                        parseXML(stream);
-
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                    NetworkResponse response = error.networkResponse;
-                    String datos = new String(response.data);
-                    System.out.println("sout" + datos);
-                }
-            }) {
-
-                public String getBodyContentType() {
-                    return "text/xml; charset=utf-8";
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String, String> params = new HashMap<String, String>();
-                    //params.put("Content-Type", "application/xml; charset=utf-8");
-                    params.put("SOAPAction", "http://tempuri.org/IReservationEngine/GetRoomsAvailablePromo");
-                    Log.d("hsdhsdfhuidiuhsd", "clave");
-                    return params;
-                }
-
-                @Override
-                public byte[] getBody() throws AuthFailureError {
-                    return cadena.toString().getBytes();
-                }
-
-            };
-            System.out.println("registro->" + registro.toString());
-            registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            Volley.newRequestQueue(this).add(registro);
+        enviarReservacion();
 
     }
 
@@ -474,39 +441,19 @@ public class ReservacionActivity extends Activity {
     }
 
 
+
+
+    public void FinobtenerListadoTarjetas(ArrayList<SmartCard> listado){
+        System.out.println("Listado de tarjetas completo :3");
+    }
+
+    public void ErrorobtenerListadoTarjetas(String mensaje){
+
+    }
     public void obtenerListadoTarjetas(){
         Log.d("ReservacionActivity", "obtener listado tarjetas");
 
-/*
-        String sampleXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-                + "<mobilegate>"
-                +"<timestamp>232423423423</timestamp>"
-                + "<txn>" + "Transaction" + "</txn>"
-                + "<amt>" + 0 + "</amt>"
-                + "</mobilegate>";
 
-
-        JSONObject jsonObj = null;
-        JSONObject mobilegate = null;
-
-        try {
-            jsonObj = XML.toJSONObject(sampleXml);
-            mobilegate = jsonObj.getJSONObject("mobilegate");
-
-            Log.d("XML", sampleXml);
-
-            Log.d("JSON", jsonObj.toString());
-
-
-            Log.d("Reservaion", "Valor :3 " + mobilegate.getString("txn") );
-
-
-        } catch (JSONException e) {
-            Log.e("JSON exception", e.getMessage());
-            e.printStackTrace();
-        }
-
-*/
         String enviarxml = "<soapenv:Envelope\n" +
                 "    xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
                 "    xmlns:tem=\"http://tempuri.org/\"\n" +
@@ -534,34 +481,44 @@ public class ReservacionActivity extends Activity {
             public void onResponse(String response) {
 
 
+                ArrayList<SmartCard> tarjetas_list = new ArrayList<SmartCard>();
 
 
-                    try {
+                try {
 
-                        JSONObject jsonObj = null;
-                        JSONObject body = null;
-                        JSONObject ListadoTarjetasResult = null;
+                    JSONObject jsonObj = null;
+                    JSONObject body = null;
+                    JSONObject ListadoTarjetasResult = null;
 
-                        jsonObj = XML.toJSONObject(response);
-                        body = jsonObj.getJSONObject("soap:Envelope").getJSONObject("soap:Body");
-                        ListadoTarjetasResult = body.getJSONObject("ListadoTarjetasResponse").getJSONObject("ListadoTarjetasResult");
+                    jsonObj = XML.toJSONObject(response);
+                    body = jsonObj.getJSONObject("soap:Envelope").getJSONObject("soap:Body");
+                    ListadoTarjetasResult = body.getJSONObject("ListadoTarjetasResponse").getJSONObject("ListadoTarjetasResult");
 
-                        Log.d("JSON", ListadoTarjetasResult.toString());
+                    Log.d("JSON", ListadoTarjetasResult.toString());
 
-                        JSONArray arreglo = ListadoTarjetasResult.getJSONArray("CardField");
+                    JSONArray arreglo = ListadoTarjetasResult.getJSONArray("CardField");
 
-/*
-                        for (JSONObject tempsmartcard : arreglo ) {
-                            // do some work here on intValue
-                            System.out.println("Nombre de tarjeta " + tempsmartcard.getString("") );
-                        }
-*/
 
-                    } catch (JSONException e) {
-                        Log.e("JSON exception", e.getMessage());
-                        e.printStackTrace();
+                    for (int i = 0; i < arreglo.length(); i++) {
+                        // do some work here on intValue
+                        JSONObject tempsmartcard = arreglo.getJSONObject(i);
+                        //System.out.println("Nombre de tarjeta " + tempsmartcard.getString("OwnerName") + " - " + tempsmartcard.getString("Alias") );
+
+                        SmartCard temp = new SmartCard();
+                        temp.loadinfo(tempsmartcard);
+                        System.out.println("Nombre de tarjeta " + temp.Alias + " - " + temp.IdCard + " - " + temp.OwnerName);
+
+                        tarjetas_list.add(temp);
+
                     }
 
+
+                } catch (JSONException e) {
+                    Log.e("JSON exception", e.getMessage());
+                    e.printStackTrace();
+                }
+
+                FinobtenerListadoTarjetas(tarjetas_list);
 
             }
         }, new Response.ErrorListener() {
@@ -571,6 +528,8 @@ public class ReservacionActivity extends Activity {
                 NetworkResponse response = error.networkResponse;
                 String datos = new String(response.data);
                 System.out.println("sout" + datos);
+
+                ErrorobtenerListadoTarjetas("Error al cargar las tarjetas D=");
             }
         }) {
 
@@ -602,6 +561,399 @@ public class ReservacionActivity extends Activity {
 
 
 
+
     }
+
+
+    public void FinenviarTarjeta(){
+        System.out.println("Tarjeta enviada con exito :D");
+    }
+
+    public void ErrorenviarTarjeta(String mensaje){
+        System.out.println("ERROR AL AÑADIR TARJETA  " + mensaje );
+        AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
+        builder.setTitle("City Express")
+                .setMessage(mensaje)
+                .setNeutralButton(R.string.entendido, new  DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void enviarTarjeta(String tarjeta, String nombre, String fechaexpiracion, String alias, String idF2GO){
+        Log.d("ReservacionActivity", "Enviar Tarjeta ");
+
+
+        String enviarxml = "<soapenv:Envelope\n" +
+                "    xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
+                "    xmlns:tem=\"http://tempuri.org/\"\n" +
+                "    xmlns:cit=\"http://schemas.datacontract.org/2004/07/CityHub\">\n" +
+                "    <soapenv:Header/>\n" +
+                "    <soapenv:Body>\n" +
+                "        <AltaTarjeta\n" +
+                "            xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
+                "            xmlns=\"http://tempuri.org/\">\n" +
+                "            <NumeroCuenta>{NumeroCuenta}</NumeroCuenta>\n" +
+                "            <NombreCliente>{NombreCliente}</NombreCliente>\n" +
+                "            <FechaExpiracion>{FechaExpiracion}</FechaExpiracion>\n" +
+                "            <AliasCuenta>{AliasCuenta}</AliasCuenta>\n" +
+                "            <IDCliente>{IDCliente}</IDCliente>\n" +
+                "        </AltaTarjeta>\n" +
+                "    </soapenv:Body>\n" +
+                "</soapenv:Envelope>";
+
+        enviarxml = enviarxml.replace("{NumeroCuenta}",tarjeta);
+        enviarxml = enviarxml.replace("{NombreCliente}",nombre);
+        enviarxml = enviarxml.replace("{FechaExpiracion}",fechaexpiracion);
+        enviarxml = enviarxml.replace("{AliasCuenta}",alias);
+        enviarxml = enviarxml.replace("{IDCliente}",idF2GO);
+
+
+        Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
+
+        System.out.println("XML a enviar --> " + enviarxml);
+
+
+        final String finalEnviarxml = enviarxml;
+        StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.CLIENTE_UNICO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+
+
+                try {
+
+                    JSONObject jsonObj = null;
+                    JSONObject body = null;
+                    JSONObject AltaTarjetaResponse = null;
+
+                    jsonObj = XML.toJSONObject(response);
+
+
+                    body = jsonObj.getJSONObject("soap:Envelope").getJSONObject("soap:Body");
+                    AltaTarjetaResponse = body.getJSONObject("AltaTarjetaResponse");
+
+                    if ( AltaTarjetaResponse.has("AltaTarjetaResult") ){
+                        ErrorenviarTarjeta( AltaTarjetaResponse.getString("AltaTarjetaResult") );
+                        return;
+                    }
+
+
+                    Log.d("JSON alta tarjeta", jsonObj.toString());
+
+                    //AltaTarjetaResult
+
+                } catch (JSONException e) {
+                    Log.e("JSON exception", e.getMessage());
+                    e.printStackTrace();
+                }
+
+                FinenviarTarjeta();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                NetworkResponse response = error.networkResponse;
+                String datos = new String(response.data);
+                System.out.println("sout" + datos);
+                ErrorenviarTarjeta("error");
+            }
+        }) {
+
+            public String getBodyContentType() {
+                return "text/xml; charset=utf-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<String, String>();
+                //params.put("Content-Type", "application/xml; charset=utf-8");
+                params.put("SOAPAction", "http://tempuri.org/AltaTarjeta");
+                Log.d("hsdhsdfhuidiuhsd", "clave");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                //return cadena.toString().getBytes();
+                final String temp = finalEnviarxml.toString();
+                return  temp.toString().getBytes();
+            }
+
+        };
+
+        System.out.println("registro->" + registro.toString());
+        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(registro);
+
+
+
+
+    }
+
+
+    public void FinenviarReservacion(String reservacion){
+        System.out.println("Reservacion OK " + reservacion);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
+        builder.setTitle("Hoteles City")
+                .setMessage("El numero de reservacion es " +reservacion)
+                .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void ErrorenviarReservacion(){
+
+        System.out.println("Reservacion fallo D=");
+    }
+
+
+
+
+    public void enviarReservacion(){
+        Log.d("ReservacionActivity", "Enviar Tarjeta ");
+
+
+        String enviarxml = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
+                "    <s:Body>\n" +
+                "        <InsertBookingv3_01 xmlns=\"http://tempuri.org/\">\n" +
+                "            <mdlReservation xmlns:d4p1=\"http://schemas.datacontract.org/2004/07/CityHub\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
+                "                <d4p1:AplicaSMART>\n" +
+                "                    <d4p1:pAplicaSMART>false</d4p1:pAplicaSMART>\n" +
+                "                </d4p1:AplicaSMART>\n" +
+                "                <d4p1:Deposito>\n" +
+                "                    <d4p1:Comprobante>SmartComprobante</d4p1:Comprobante>\n" +
+                "                    <d4p1:Fecha>{depositofecha}</d4p1:Fecha>\n" +
+                "                    <d4p1:Monto>{depositomonto}</d4p1:Monto>\n" +
+                "                    <d4p1:Notas></d4p1:Notas>\n" +
+                "                    <d4p1:Notas2></d4p1:Notas2>\n" +
+                "                    <d4p1:Tarifa_Fija>0</d4p1:Tarifa_Fija>\n" +
+                "                    <d4p1:TipoMoneda>{depositotipomoneda}</d4p1:TipoMoneda>\n" +
+                "                </d4p1:Deposito>\n" +
+                "                <d4p1:Empresa>\n" +
+                "                    <d4p1:IataEmisor />\n" +
+                "                    <d4p1:RfcEmisor>EMISAPP</d4p1:RfcEmisor>\n" +
+                "                </d4p1:Empresa>\n" +
+                "                <d4p1:Estancia>\n" +
+                "                    <d4p1:ChannelRef />\n" +
+                "                    <d4p1:CodigoOperador>APP_MOVIL</d4p1:CodigoOperador>\n" +
+                "                    <d4p1:CodigoOrigen>007</d4p1:CodigoOrigen>\n" +
+                "                    <d4p1:CodigoSegmento>001</d4p1:CodigoSegmento>\n" +
+                "                    <d4p1:FechaEntrada>{estanciaentrada}</d4p1:FechaEntrada>\n" +
+                "                    <d4p1:FormaDePago>{formapago}</d4p1:FormaDePago>\n" +
+                "                    <d4p1:Hotel>{codigohotel}</d4p1:Hotel>\n" +
+                "                    <d4p1:NotasFormaPago />\n" +
+                "                    <d4p1:NotasReservacion />\n" +
+                "                    <d4p1:NumeroDeNoches>{numeronoches}</d4p1:NumeroDeNoches>\n" +
+                "                    <d4p1:TipoReservacion>TCRED</d4p1:TipoReservacion>\n" +
+                "                </d4p1:Estancia>\n" +
+                "                <d4p1:Habitacion>\n" +
+                "                    <d4p1:CodigoHabitacion>{codigohabitacion}</d4p1:CodigoHabitacion>\n" +
+                "                    <d4p1:CodigoPromocion>{codigopromocion}</d4p1:CodigoPromocion>\n" +
+                "                    <d4p1:CodigoTarifa>{codigotarifa}</d4p1:CodigoTarifa>\n" +
+                "                    <d4p1:HuespedTitular>\n" +
+                "                        <d4p1:Apellidos>{huespedapellidos}</d4p1:Apellidos>\n" +
+                "                        <d4p1:Edad>0</d4p1:Edad>\n" +
+                "                        <d4p1:Nombre>{huespednombre}</d4p1:Nombre>\n" +
+                "                        <d4p1:Acompanantes_Ar>{acompanantes}</d4p1:Acompanantes_Ar>\n" +
+                "                        <d4p1:CodigoPais>{codigopais}</d4p1:CodigoPais>\n" +
+                "                        <d4p1:CorreoElectronico>{correoelectronico}</d4p1:CorreoElectronico>\n" +
+                "                        <d4p1:Indicaciones />\n" +
+                "                        <d4p1:RwdNumber />\n" +
+                "                        <d4p1:Telefono>{telefono}</d4p1:Telefono>\n" +
+                "                        <d4p1:TotAcompAdult>{totalacompadultos}</d4p1:TotAcompAdult>\n" +
+                "                        <d4p1:TotAcompMenor>{totalacompmenores}</d4p1:TotAcompMenor>\n" +
+                "                    </d4p1:HuespedTitular>\n" +
+                "                    <d4p1:NumeroHabitaciones>1</d4p1:NumeroHabitaciones>\n" +
+                "                </d4p1:Habitacion>\n" +
+                "                <d4p1:Reservante>\n" +
+                "                    <d4p1:Apellidos>{reservanteapellidos}</d4p1:Apellidos>\n" +
+                "                    <d4p1:Edad>0</d4p1:Edad>\n" +
+                "                    <d4p1:Nombre>{reservantenombre}</d4p1:Nombre>\n" +
+                "                    <d4p1:CorreoElectronico>{reservantecorreoelectronico}</d4p1:CorreoElectronico>\n" +
+                "                    <d4p1:RwdNumber />\n" +
+                "                    <d4p1:TelefonoReservante>{reservantetelefono}</d4p1:TelefonoReservante>\n" +
+                "                </d4p1:Reservante>\n" +
+                "                <d4p1:SMART>\n" +
+                "                    <d4p1:CVV/>\n" +
+                "                    <d4p1:Clasificacion_Transaccion/>\n" +
+                "                    <d4p1:CuentaId/>\n" +
+                "                    <d4p1:Host/>\n" +
+                "                    <d4p1:PuntoVenta/>\n" +
+                "                    <d4p1:SMART_Moneda/>\n" +
+                "                    <d4p1:SMART_Pais/>\n" +
+                "                    <d4p1:Tipo_Cliente/>\n" +
+                "                </d4p1:SMART>\n" +
+                "                <d4p1:TarjetaCredito>\n" +
+                "                    <d4p1:AnoVencimiento>{tdc_anio}</d4p1:AnoVencimiento>\n" +
+                "                    <d4p1:CodigoSeguridad>{tdc_CVV}</d4p1:CodigoSeguridad>\n" +
+                "                    <d4p1:MesVencimiento>{tdc_mes}</d4p1:MesVencimiento>\n" +
+                "                    <d4p1:NombreTarjeta>{tdc_nombre}</d4p1:NombreTarjeta>\n" +
+                "                    <d4p1:NumeroTarjeta>{tdc_numero}</d4p1:NumeroTarjeta>\n" +
+                "                </d4p1:TarjetaCredito>\n" +
+                "                <d4p1:TarjetaVirtual>\n" +
+                "                    <d4p1:AnoVencimiento />\n" +
+                "                    <d4p1:CodigoSeguridad />\n" +
+                "                    <d4p1:MesVencimiento />\n" +
+                "                    <d4p1:NombreTarjeta />\n" +
+                "                    <d4p1:NumeroTarjeta />\n" +
+                "                </d4p1:TarjetaVirtual>\n" +
+                "            </mdlReservation>\n" +
+                "        </InsertBookingv3_01>\n" +
+                "    </s:Body>\n" +
+                "</s:Envelope>";
+
+
+        String llegada = new SimpleDateFormat("yyyy-MM-dd").format(arrival);
+
+        enviarxml = enviarxml.replace("{smart}","false");
+        enviarxml = enviarxml.replace("{codigohabitacion}",codigoBase);
+        enviarxml = enviarxml.replace("{codigotarifa}","1114");
+        enviarxml = enviarxml.replace("{codigopromocion}","");
+
+
+        enviarxml = enviarxml.replace("{correoelectronico}",txtEmail.getText());
+        enviarxml = enviarxml.replace("{telefono}",txtPhone.getText() );
+        enviarxml = enviarxml.replace("{totalacompadultos}", "1");
+        enviarxml = enviarxml.replace("{totalacompmenores}","0");
+        enviarxml = enviarxml.replace("{codigopais}","MEX");
+        enviarxml = enviarxml.replace("{acompanantes}","");
+        enviarxml = enviarxml.replace("{huespednombre}",txtName.getText() );
+        enviarxml = enviarxml.replace("{huespedapellidos}",txtLast.getText() );
+
+
+        enviarxml = enviarxml.replace("{codigohotel}",_hotel.getSiglas() );
+        enviarxml = enviarxml.replace("{estanciaentrada}",llegada );
+        enviarxml = enviarxml.replace("{numeronoches}","1");
+
+        enviarxml = enviarxml.replace("{reservantenombre}", txtName.getText() );
+        enviarxml = enviarxml.replace("{reservanteapellidos}", txtLast.getText() );
+        enviarxml = enviarxml.replace("{reservantecorreoelectronico}",txtEmail.getText());
+        enviarxml = enviarxml.replace("{reservantetelefono}",txtPhone.getText() );
+
+
+        enviarxml = enviarxml.replace("{depositomonto}", precio);
+        enviarxml = enviarxml.replace("{depositotipomoneda}","MX");
+        enviarxml = enviarxml.replace("{depositofecha}",llegada );
+        enviarxml = enviarxml.replace("{formapago}","TCRED" );
+
+
+        EditText txtCardName = (EditText) findViewById( R.id.txtCardName );
+        EditText txtCardNumber = (EditText) findViewById( R.id.txtCardNumber );
+        Spinner spinExpMonth = (Spinner) findViewById( R.id.spinExpMonth );
+        Spinner spinExpYear = (Spinner) findViewById( R.id.spinExpYear );
+        EditText txtCardCode = (EditText) findViewById( R.id.txtCardCode );
+
+        enviarxml = enviarxml.replace("{tdc_anio}",spinExpYear.getSelectedItem().toString() );
+        enviarxml = enviarxml.replace("{tdc_CVV}",txtCardCode.getText() );
+        enviarxml = enviarxml.replace("{tdc_mes}",spinExpMonth.getSelectedItem().toString()  );
+        enviarxml = enviarxml.replace("{tdc_nombre}",txtName.getText() + " " +txtLast.getText() );
+        enviarxml = enviarxml.replace("{tdc_numero}",txtCardNumber.getText() );
+
+
+        Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
+
+        System.out.println("XML a enviar --> " + enviarxml);
+
+
+        final String finalEnviarxml = enviarxml;
+        StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+
+
+                try {
+
+                    JSONObject jsonObj = null;
+                    JSONObject body = null;
+                    JSONObject InsertBookingv3_01Response = null;
+
+                    jsonObj = XML.toJSONObject(response);
+
+                    Log.d("JSON alta tarjeta", jsonObj.toString());
+
+
+                    body = jsonObj.getJSONObject("s:Envelope").getJSONObject("s:Body");
+                    InsertBookingv3_01Response = body.getJSONObject("InsertBookingv3_01Response").getJSONObject("InsertBookingv3_01Result");
+
+                    if ( InsertBookingv3_01Response.has("a:NumReservacion") ){
+
+                        FinenviarReservacion( "" +InsertBookingv3_01Response.getInt("a:NumReservacion") );
+                        return;
+
+                    }
+
+
+
+
+
+                    //AltaTarjetaResult
+
+                } catch (JSONException e) {
+                    Log.e("JSON exception", e.getMessage());
+                    e.printStackTrace();
+                }
+
+                FinenviarReservacion("");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                NetworkResponse response = error.networkResponse;
+                String datos = new String(response.data);
+                System.out.println("sout" + datos);
+                //ErrorenviarTarjeta("error");
+                ErrorenviarReservacion();
+            }
+        }) {
+
+            public String getBodyContentType() {
+                return "text/xml; charset=utf-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<String, String>();
+                //params.put("Content-Type", "application/xml; charset=utf-8");
+                params.put("SOAPAction", "http://tempuri.org/IReservationEngine/InsertBookingv3_01");
+                Log.d("hsdhsdfhuidiuhsd", "clave");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                //return cadena.toString().getBytes();
+                final String temp = finalEnviarxml.toString();
+                return  temp.toString().getBytes();
+            }
+
+        };
+
+        System.out.println("registro->" + registro.toString());
+        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(registro);
+
+
+
+
+    }
+
 
 }

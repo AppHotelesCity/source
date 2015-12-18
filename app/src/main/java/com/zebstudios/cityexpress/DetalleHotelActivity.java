@@ -467,7 +467,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
                 _extras.add(r);
             }
 
-            habitacionAdapter = new HabitacionAdapter(ResultadosDisponibilidad.listaGeneralHotel, ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones(),ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitacionesCity(),_extras);
+            habitacionAdapter = new HabitacionAdapter(ResultadosDisponibilidad.listaGeneralHotel, ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones(),ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitacionesCity(),_extras,posicion);
             recyclerViewHabitaciones.setAdapter(habitacionAdapter);
         }catch(Exception e){
 

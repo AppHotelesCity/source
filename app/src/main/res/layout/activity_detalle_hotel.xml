@@ -9,11 +9,6 @@
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:orientation="vertical">
-       <LinearLayout
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content">
-           <!--Pasos-->
-       </LinearLayout>
 
        <LinearLayout
            android:layout_width="wrap_content"
@@ -149,21 +144,27 @@
                   android:layout_width="wrap_content"
                   android:orientation="vertical"
                   android:layout_height="320dp">
+                  <android.support.v7.widget.RecyclerView
+                      android:id="@+id/cardListHabitaciones"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:isScrollContainer="true"/>
+                  <ScrollView
+                      android:id="@+id/mainScroll"
+                      android:layout_width="fill_parent"
+                      android:layout_height="400dp">
+                          <!-- <android.support.v7.widget.RecyclerView
+                               android:id="@+id/cardListHabitaciones"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:isScrollContainer="true"/>-->
 
-               <android.support.v7.widget.RecyclerView
-                   android:id="@+id/cardListHabitaciones"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"/>
 
-               <ScrollView
-                   android:id="@+id/mainScroll"
-                   android:layout_width="fill_parent"
-                   android:layout_height="400dp">
 
-                   <LinearLayout
-                       android:layout_width="fill_parent"
-                       android:layout_height="fill_parent"
-                       android:orientation="vertical">
+                               <LinearLayout
+                                   android:layout_width="fill_parent"
+                                   android:layout_height="fill_parent"
+                                   android:orientation="vertical">
 
                        <!--<android.support.v7.widget.RecyclerView
                            android:id="@+id/cardListHabitaciones"

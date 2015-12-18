@@ -38,7 +38,10 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
     Button btnDisponibilidad;
     TextView txtLlegada;
     TextView txtSalida;
-
+    TextView textNombreUsuario;
+    LinearLayout linearIngresaDatos;
+    LinearLayout linearLayoutSinLog;
+    LinearLayout linearUsuario;
     SimpleDateFormat formatoFecha;
     SimpleDateFormat formatoFechaJSON;
     DatePickerDialog fechaLlegada;
@@ -88,6 +91,12 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         btnDisponibilidad = (Button) view.findViewById(R.id.btnDisponibilidad);
         txtLlegada = (TextView)view.findViewById(R.id.txt_salida);
         txtSalida =(TextView)view.findViewById(R.id.txt_llegada);
+        textNombreUsuario = (TextView) view.findViewById(R.id.textNombreUsuario);
+
+        linearUsuario = (LinearLayout) view.findViewById(R.id.linearUsario);
+        linearIngresaDatos = (LinearLayout) view.findViewById(R.id.linearIngresaDatos);
+
+        linearLayoutSinLog = (LinearLayout) view.findViewById(R.id.linearRegistro);
 
         formatoFechaJSON = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
@@ -109,6 +118,9 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         if(usuarioActivo){
             btnIniciarSesion.setVisibility(View.GONE);
             btnRegistrarme.setVisibility(View.GONE);
+            linearLayoutSinLog.setVisibility(View.GONE);
+            linearUsuario.setVisibility(View.VISIBLE);
+            textNombreUsuario.setText(prefsUsuario.getString("nombre",null) +" "+ prefsUsuario.getString("apellido",null));
         }
 
 
@@ -211,7 +223,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 {
                     _arrivalCalendarFragment.setSelectedDates( _arrivalDate, _arrivalDate );
                 }
-                _arrivalCalendarFragment.setMinDate( d );
+                _arrivalCalendarFragment.setMinDate(d);
                 _arrivalCalendarFragment.show(getFragmentManager(), "FROM_CALENDAR_FRAGMENT");
             }
         });
