@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.XML;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -296,7 +297,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     InputStream stream = null;
                     try {
                         stream = new ByteArrayInputStream(response.getBytes("UTF-8"));
-                        parseXML(stream);
+                       // parseXML(stream);
 
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -346,6 +347,76 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
     public void obtenerDescripcionHotel(String hotel){
 
+        JSONObject jsonObj = null;
+        JSONObject mobilegate = null;
+        habitacionBaseList = new ArrayList<>();
+        habitacionCityPremiosList = new ArrayList<>();
+        habitacionBase = new HabitacionBase();
+        habitacionCity = new HabitacionBase();
+
+        try {
+            jsonObj = XML.toJSONObject(hotel);
+
+            JSONObject envelope = new JSONObject(jsonObj.getString("s:Envelope"));
+
+            JSONObject sbody = new JSONObject(envelope.getString("s:Body"));
+
+            JSONObject roomsAvaliables = new JSONObject(sbody.getString("GetRoomsAvailablePromoResponse"));
+
+            JSONObject resultRoomsAvailable = new JSONObject(roomsAvaliables.getString("GetRoomsAvailablePromoResult"));
+
+            JSONObject disponibilidad = new JSONObject(resultRoomsAvailable.getString("a:Disponibilidad"));
+
+            //System.out.println("Disponibilidad->"+disponibilidad.getString("a:Available"));
+            //mobilegate = jsonObj.getJSONObject("Costo");
+
+            JSONArray arreglodisponibilidad = new JSONArray(disponibilidad.getString("a:Available"));
+
+            for (int i = 0; i < arreglodisponibilidad.length(); i++) {
+                JSONObject descripcion = new JSONObject(arreglodisponibilidad.getString(i));
+
+                if(descripcion.getString("a:CodigoTarifa").equalsIgnoreCase("1115P")){
+
+                    //descripcion.getString("")
+                    JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBase"));
+                    JSONArray habitacionBase = new JSONArray(tarifaBase.getString("a:HabBase"));
+                    for (int j = 0; j < habitacionBase.length(); j++) {
+                        JSONObject habitacionBaseDisponibilidad = new JSONObject(habitacionBase.get(j).toString());
+                        System.out.println("CUATRO1115P->"+habitacionBaseDisponibilidad.getString("a:CodBase"));
+                        System.out.println("CINCO115P->"+habitacionBaseDisponibilidad.getString("a:Noches"));
+                        JSONObject costoNoche = new JSONObject(habitacionBaseDisponibilidad.getString("a:Noches"));
+                        System.out.println("CostoTotal->"+costoNoche.getString("a:Costo"));
+                    }
+                }else if(descripcion.getString("a:CodigoTarifa").equalsIgnoreCase("1114")){
+
+                    JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBase"));
+                    JSONArray habitacionBase = new JSONArray(tarifaBase.getString("a:HabBase"));
+                    for (int j = 0; j < habitacionBase.length(); j++) {
+                        JSONObject habitacionBaseDisponibilidad = new JSONObject(habitacionBase.get(j).toString());
+                        System.out.println("CUATRO->"+habitacionBaseDisponibilidad.getString("a:CodBase"));
+                        System.out.println("CINCO->"+habitacionBaseDisponibilidad.getString("a:Noches"));
+                        JSONObject costoNoche = new JSONObject(habitacionBaseDisponibilidad.getString("a:Noches"));
+                        try{
+                            System.out.println("CostoTotal->"+costoNoche.getString("a:Costo"));
+                        }catch(JSONException e ){
+                            try{
+                                System.out.println("CostoTotal->"+costoNoche.getDouble("a:Costo"));
+                            }catch(JSONException f){
+
+                            }
+                        }
+
+                    }
+                }
+                JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
+                listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList,habitacionCityPremiosList));
+            }
+
+
+        } catch (JSONException e) {
+            Log.e("JSON exception", e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void parseXML(InputStream is) {
