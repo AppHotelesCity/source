@@ -145,7 +145,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 if( _arrivalDate != null && _arrivalDate.compareTo( _departureDate ) >= 0 )
                 {
 
-                    txtSalida.setText(Calendar.DAY_OF_MONTH + Calendar.MONTH + Calendar.YEAR);
+                    //txtLlegada.setText(Calendar.DAY_OF_MONTH + Calendar.MONTH + Calendar.YEAR);
                     _arrivalDate = null;
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
@@ -191,7 +191,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 _arrivalDate = date;
                 if( _departureDate != null && _departureDate.compareTo( _arrivalDate ) <= 0 )
                 {
-                    txtSalida.setText(Calendar.DAY_OF_MONTH + Calendar.MONTH + Calendar.YEAR);
+                    //txtSalida.setText(Calendar.DAY_OF_MONTH + Calendar.MONTH + Calendar.YEAR);
                     _departureDate = null;
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
@@ -203,7 +203,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 c.add( Calendar.DATE, 1 );
 
                 _departureDate = c.getTime();
-                txtLlegada.setText(sdf.format(_departureDate));
+                txtSalida.setText(sdf.format(_departureDate));
 
             }
         };
