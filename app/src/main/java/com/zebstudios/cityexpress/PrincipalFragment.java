@@ -132,11 +132,12 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 _departureDate = date;
                 if( _arrivalDate != null && _arrivalDate.compareTo( _departureDate ) >= 0 )
                 {
-                    txtLlegada.setText("Elegir");
+
+                    txtLlegada.setText(Calendar.DAY_OF_MONTH + Calendar.MONTH + Calendar.YEAR);
                     _arrivalDate = null;
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
-                _btnDeparture.setText( sdf.format( date ) );
+                txtLlegada.setText( sdf.format( date ) );
                 _departureCalendarFragment.dismiss();
             }
         };
@@ -178,7 +179,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 _arrivalDate = date;
                 if( _departureDate != null && _departureDate.compareTo( _arrivalDate ) <= 0 )
                 {
-                    txtSalida.setText("Elegir");
+                    txtSalida.setText(Calendar.DAY_OF_MONTH + Calendar.MONTH + Calendar.YEAR);
                     _departureDate = null;
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
