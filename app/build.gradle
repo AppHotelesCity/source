@@ -46,7 +46,7 @@ dependencies {
         transitive = true;
     }
     compile files('libs/appsee.jar')
-    compile project(':urbanairship-lib-6.1.0')
+    //compile project(':urbanairship-lib-6.1.0')
     //for in-app messaging
     //for location services
     // Required for Android (GCM) push notifications

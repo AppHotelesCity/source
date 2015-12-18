@@ -1,3 +1,4 @@
+/*
 package com.zebstudios.cityexpress;
 
 import android.content.Context;
@@ -13,9 +14,7 @@ import com.urbanairship.richpush.RichPushMessage;
 
 import java.util.ArrayList;
 
-/**
- * Created by Denumeris Interactive on 23/10/2014.
- */
+
 public class MessagecenterListAdapter extends ArrayAdapter<RichPushMessage>
 {
     private final Context _context;
@@ -65,3 +64,4 @@ public class MessagecenterListAdapter extends ArrayAdapter<RichPushMessage>
         return rowView;
     }
 }
+*/

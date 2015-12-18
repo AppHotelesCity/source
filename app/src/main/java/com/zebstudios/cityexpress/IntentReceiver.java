@@ -1,4 +1,4 @@
-package com.zebstudios.cityexpress;
+/* package com.zebstudios.cityexpress;
 
 import android.content.Context;
 import android.util.Log;
@@ -50,4 +50,4 @@ public class IntentReceiver extends BaseIntentReceiver {
     protected void onNotificationDismissed(Context context, PushMessage message, int notificationId) {
         Log.i(TAG, "Notification dismissed. Alert: " + message.getAlert() + ". Notification ID: " + notificationId);
     }
-}
+} */

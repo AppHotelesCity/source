@@ -27,4 +27,6 @@ public class APIAddress
 
 	//SharedPrefereces
 	public static String LOGIN_USUARIO_PREFERENCES = "datosUsuarioPreferences";
+
+	public static String CLIENTE_UNICO = "http://wshc.hotelescity.com:9742/WS_Smart_Des/SmartAdmin.asmx?wsdl";
 }

@@ -1,4 +1,4 @@
-package com.zebstudios.cityexpress;
+/*package com.zebstudios.cityexpress;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -19,9 +19,7 @@ import com.urbanairship.richpush.RichPushMessage;
 import com.urbanairship.widget.RichPushMessageWebView;
 import com.urbanairship.widget.UAWebViewClient;
 
-/**
- * Fragment that displays a rich push message in a RichPushMessageView
- */
+
 @SuppressLint("NewApi")
 public class MessageFragment extends DialogFragment {
 
@@ -30,11 +28,6 @@ public class MessageFragment extends DialogFragment {
     private ProgressBar progressBar;
     private RichPushMessage message;
 
-    /**
-     * Creates a new MessageFragment
-     * @param messageId The message's id to display
-     * @return messageFragment new MessageFragment
-     */
     public static MessageFragment newInstance(String messageId) {
         MessageFragment message = new MessageFragment();
         Bundle arguments = new Bundle();
@@ -114,9 +107,7 @@ public class MessageFragment extends DialogFragment {
         }
     }
 
-    /**
-     * Reveals the message.
-     */
+
     private void showMessage() {
 
         if (Build.VERSION.SDK_INT < 12) {
@@ -146,3 +137,4 @@ public class MessageFragment extends DialogFragment {
     }
 
 }
+*/

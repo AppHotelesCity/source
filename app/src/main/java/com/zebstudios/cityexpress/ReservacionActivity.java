@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,6 +24,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
@@ -67,6 +68,9 @@ public class ReservacionActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.obtenerListadoTarjetas();
+
         setContentView(R.layout.activity_reservacion);
 
         TextView lblHotelName = (TextView) findViewById(R.id.lblHotelName);
@@ -116,8 +120,8 @@ public class ReservacionActivity extends Activity {
 
 
 
-        NestedListView list = (NestedListView) findViewById( R.id.list_summary );
-        NestedListView list2 = (NestedListView) findViewById( R.id.list_summary2 );
+        //NestedListView list = (NestedListView) findViewById( R.id.list_summary );
+        //NestedListView list2 = (NestedListView) findViewById( R.id.list_summary2 );
 
         Button btnReserva2 = (Button) findViewById(R.id.btnReserva);
 
@@ -230,7 +234,6 @@ public class ReservacionActivity extends Activity {
        // System.out.println(spinViaje.getSelectedItem().toString());
        // System.out.println(spinNinos.getSelectedItem().toString());
 
-        this.obtenerListadoTarjetas();
 
     }
 
@@ -438,8 +441,9 @@ public class ReservacionActivity extends Activity {
 
 
     public void obtenerListadoTarjetas(){
-
         Log.d("ReservacionActivity", "obtener listado tarjetas");
+
+/*
         String sampleXml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                 + "<mobilegate>"
                 +"<timestamp>232423423423</timestamp>"
@@ -468,24 +472,63 @@ public class ReservacionActivity extends Activity {
             e.printStackTrace();
         }
 
+*/
+        String enviarxml = "<soapenv:Envelope\n" +
+                "    xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
+                "    xmlns:tem=\"http://tempuri.org/\"\n" +
+                "    xmlns:cit=\"http://schemas.datacontract.org/2004/07/CityHub\">\n" +
+                "    <soapenv:Header/>\n" +
+                "    <soapenv:Body>\n" +
+                "        <ListadoTarjetas \n" +
+                "            xmlns=\"http://tempuri.org/\">\n" +
+                "            <IdClienteF2G>{IDF2GO}</IdClienteF2G>\n" +
+                "        </ListadoTarjetas >\n" +
+                "    </soapenv:Body>\n" +
+                "</soapenv:Envelope>";
+
+        enviarxml = enviarxml.replace("{IDF2GO}","1977012");
 
 
+        Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
+
+        System.out.println("XML a enviar --> " + enviarxml);
 
 
-        /*
-
-
+        final String finalEnviarxml = enviarxml;
         StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.CLIENTE_UNICO, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                InputStream stream = null;
-                try {
-                    stream = new ByteArrayInputStream(response.getBytes("UTF-8"));
-                    parseXML(stream);
 
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+
+
+
+                    try {
+
+                        JSONObject jsonObj = null;
+                        JSONObject body = null;
+                        JSONObject ListadoTarjetasResult = null;
+
+                        jsonObj = XML.toJSONObject(response);
+                        body = jsonObj.getJSONObject("soap:Envelope").getJSONObject("soap:Body");
+                        ListadoTarjetasResult = body.getJSONObject("ListadoTarjetasResponse").getJSONObject("ListadoTarjetasResult");
+
+                        Log.d("JSON", ListadoTarjetasResult.toString());
+
+                        JSONArray arreglo = ListadoTarjetasResult.getJSONArray("CardField");
+
+/*
+                        for (JSONObject tempsmartcard : arreglo ) {
+                            // do some work here on intValue
+                            System.out.println("Nombre de tarjeta " + tempsmartcard.getString("") );
+                        }
+*/
+
+                    } catch (JSONException e) {
+                        Log.e("JSON exception", e.getMessage());
+                        e.printStackTrace();
+                    }
+
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -505,21 +548,25 @@ public class ReservacionActivity extends Activity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<String, String>();
                 //params.put("Content-Type", "application/xml; charset=utf-8");
-                params.put("SOAPAction", "http://tempuri.org/IReservationEngine/GetRoomsAvailablePromo");
+                params.put("SOAPAction", "http://tempuri.org/ListadoTarjetas");
                 Log.d("hsdhsdfhuidiuhsd", "clave");
                 return params;
             }
 
             @Override
             public byte[] getBody() throws AuthFailureError {
-                return cadena.toString().getBytes();
+                //return cadena.toString().getBytes();
+                final String temp = finalEnviarxml.toString();
+                return  temp.toString().getBytes();
             }
 
         };
+
         System.out.println("registro->" + registro.toString());
         registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(this).add(registro);
-*/
+
+
 
     }
 

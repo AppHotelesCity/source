@@ -7,8 +7,8 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
-import com.urbanairship.AirshipConfigOptions;
-import com.urbanairship.UAirship;
+//import com.urbanairship.AirshipConfigOptions;
+//import com.urbanairship.UAirship;
 
 import java.util.HashMap;
 
@@ -30,7 +30,7 @@ public class Analytics extends Application
 
 		//Configuracion Urban Airship
 		//La clase que recibe y manipula las notificacione spush es IntentReceiver
-
+/*
 		AirshipConfigOptions options = new AirshipConfigOptions();
 		//options.developmentAppKey = "edLry_oVTlSBkX6O04Nzsg";
 		//options.developmentAppSecret = "yXBxRhAQQzqxXUp52Yh_lg";
@@ -45,7 +45,7 @@ public class Analytics extends Application
 		String channelId = UAirship.shared().getPushManager().getChannelId();
 		com.urbanairship.Logger.info("My Application Channel ID: " + channelId);
 
-
+*/
 		AdformTrackingSdk.startTracking(this,424115);
 
 	}

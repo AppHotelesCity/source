@@ -22,8 +22,8 @@ import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.ads.conversiontracking.AdWordsConversionReporter;
-import com.urbanairship.UAirship;
-import com.urbanairship.richpush.RichPushInbox;
+//import com.urbanairship.UAirship;
+//import com.urbanairship.richpush.RichPushInbox;
 
 import java.util.ArrayList;
 
@@ -75,10 +75,12 @@ public class MainActivity extends ActionBarActivity
 				}
 			});
 
+			/*
 			RichPushInbox mensaje = UAirship.shared().getRichPushManager().getRichPushInbox();
 
 			Log.d("Main activity", "Mensajes no leidos " + mensaje.getUnreadCount());
 			updateMessagesBadge(mensaje.getUnreadCount());
+			*/
 		}
 		//msgItem.setVisible(false);
 
@@ -96,7 +98,7 @@ public class MainActivity extends ActionBarActivity
 
 	public void onBackPressed() {
 		MostrarBagde();
-		final MessagecenterFragment fragment = (MessagecenterFragment) getSupportFragmentManager().findFragmentByTag("tag");
+		//final MessagecenterFragment fragment = (MessagecenterFragment) getSupportFragmentManager().findFragmentByTag("tag");
 
 		super.onBackPressed();
 	}
@@ -463,10 +465,10 @@ public class MainActivity extends ActionBarActivity
 }
 
 	public void openMessageCenter(){
-
+/*
 		MessagecenterFragment fragment = new MessagecenterFragment();
 		getSupportActionBar().setTitle("Inbox");
 		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, "tag").addToBackStack(null).commit();
-
+*/
 	}
 }
