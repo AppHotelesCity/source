@@ -13,19 +13,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.zebstudios.calendar.CalendarFragment;
+import com.zebstudios.calendar.CalendarListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 
 public class PrincipalFragment extends Fragment implements View.OnClickListener{
 
+    private View view;
     Button btnIniciarSesion;
     Button btnRegistrarme;
     EditText editTextHotelDestino;
@@ -43,6 +46,17 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
     String fecha;
     String mes;
     boolean usuarioActivo;
+
+
+    private Date _arrivalDate;
+    private Button _btnArrival;
+    private CalendarFragment _arrivalCalendarFragment;
+    private CalendarListener _arrivalCalendarListener;
+    private Date _departureDate;
+    private Button _btnDeparture;
+    private CalendarFragment _departureCalendarFragment;
+    private CalendarListener _departureCalendarListener;
+
 
     public static PrincipalFragment newInstance(String param1, String param2) {
         PrincipalFragment fragment = new PrincipalFragment();
@@ -63,7 +77,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_principal, container, false);
+         view = inflater.inflate(R.layout.fragment_principal, container, false);
 
         btnIniciarSesion = (Button) view.findViewById(R.id.btnIniciarSesion);
         btnRegistrarme = (Button) view.findViewById(R.id.btnRegistarme);
@@ -77,183 +91,17 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
 
         formatoFechaJSON = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
+        PrepareArrivalCalendar();
+        PrepareDepartureCalendar();
 
 
 
-        txtLlegada.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fechaLlegada.show();
-            }
-        });
-
-        Calendar CalendarLlegada = Calendar.getInstance();
-        fechaLlegada = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                switch (monthOfYear){
-                    case 0:
-                        mes = "ene";
-                        break;
-                    case 1:
-                        mes = "feb";
-                        break;
-                    case 2:
-                        mes = "mar";
-                        break;
-                    case 3:
-                        mes = "abr";
-                        break;
-                    case 4:
-                        mes = "may";
-                        break;
-                    case 5:
-                        mes = "jun";
-                        break;
-                    case 6:
-                        mes = "jul";
-                        break;
-                    case 7:
-                        mes = "ago";
-                        break;
-                    case 8:
-                        mes = "sep";
-                        break;
-                    case 9:
-                        mes = "oct";
-                        break;
-                    case 10:
-                        mes = "nov";
-                        break;
-                    case 11:
-                        mes = "dic";
-                        break;
-                }
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-
-                //System.out.println(dayOfMonth +" "+ mes +" "+ year);
-
-                if(Calendar.DAY_OF_MONTH < dayOfMonth){
-                    Toast.makeText(getActivity(), "No se puede", Toast.LENGTH_SHORT).show();
-                }else if(Calendar.DAY_OF_MONTH > dayOfMonth){
-                    txtLlegada.setText(dayOfMonth +" "+ mes +" "+ year);
-                }
-                fecha = formatoFechaJSON.format(newDate.getTime());
-            }
-
-        }, CalendarLlegada.get(Calendar.YEAR), CalendarLlegada.get(Calendar.MONTH), CalendarLlegada.get(Calendar.DAY_OF_MONTH));
-
-        final Calendar c = Calendar.getInstance();
-        int anio = c.get(Calendar.YEAR); //obtenemos el año
-        int mesT = c.get(Calendar.MONTH); //obtenemos el mes
-        int dia = c.get(Calendar.DAY_OF_MONTH); // obtemos el día.
-        switch (mesT){
-            case 0:
-                mes = "ene";
-                break;
-            case 1:
-                mes = "feb";
-                break;
-            case 2:
-                mes = "mar";
-                break;
-            case 3:
-                mes = "abr";
-                break;
-            case 4:
-                mes = "may";
-                break;
-            case 5:
-                mes = "jun";
-                break;
-            case 6:
-                mes = "jul";
-                break;
-            case 7:
-                mes = "ago";
-                break;
-            case 8:
-                mes = "sep";
-                break;
-            case 9:
-                mes = "oct";
-                break;
-            case 10:
-                mes = "nov";
-                break;
-            case 11:
-                mes = "dic";
-                break;
-        }
-        txtLlegada.setText(dia+" " + mes +" "+anio); //cambiamos el texto que tiene el TextView por la fecha actual.
-
-        txtSalida.setText(dia+" " + mes +" "+anio);
 
 
 
-        txtSalida.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fechaSalida.show();
-            }
-        });
 
-        Calendar CalendarSalida = Calendar.getInstance();
-        fechaSalida = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
 
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                switch (monthOfYear){
-                    case 0:
-                        mes = "ene";
-                        break;
-                    case 1:
-                        mes = "feb";
-                        break;
-                    case 2:
-                        mes = "mar";
-                        break;
-                    case 3:
-                        mes = "abr";
-                        break;
-                    case 4:
-                        mes = "may";
-                        break;
-                    case 5:
-                        mes = "jun";
-                        break;
-                    case 6:
-                        mes = "jul";
-                        break;
-                    case 7:
-                        mes = "ago";
-                        break;
-                    case 8:
-                        mes = "sep";
-                        break;
-                    case 9:
-                        mes = "oct";
-                        break;
-                    case 10:
-                        mes = "nov";
-                        break;
-                    case 11:
-                        mes = "dic";
-                        break;
-                }
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
 
-                if(Calendar.DAY_OF_MONTH < dayOfMonth){
-                    Toast.makeText(getActivity(), "No se puede", Toast.LENGTH_SHORT).show();
-                }else if(Calendar.DAY_OF_MONTH > dayOfMonth){
-                    txtSalida.setText(dayOfMonth +" " + mes + " " + year);
-                }
-
-                fecha = formatoFechaJSON.format(newDate.getTime());
-            }
-
-        }, CalendarSalida.get(Calendar.YEAR), CalendarSalida.get(Calendar.MONTH), CalendarSalida.get(Calendar.DAY_OF_MONTH));
 
 
         SharedPreferences prefsUsuario = getActivity().getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
@@ -270,6 +118,102 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         linearLlegada.setOnClickListener(this);
         btnDisponibilidad.setOnClickListener(this);
         return view;
+    }
+
+
+    private void PrepareDepartureCalendar()
+    {
+        _departureDate = null;
+        _departureCalendarListener = new CalendarListener()
+        {
+            @Override
+            public void onSelectDate( Date date, View view )
+            {
+                _departureDate = date;
+                if( _arrivalDate != null && _arrivalDate.compareTo( _departureDate ) >= 0 )
+                {
+                    txtLlegada.setText("Elegir");
+                    _arrivalDate = null;
+                }
+                SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
+                _btnDeparture.setText( sdf.format( date ) );
+                _departureCalendarFragment.dismiss();
+            }
+        };
+
+        Bundle bundle = new Bundle();
+        bundle.putString( CalendarFragment.DIALOG_TITLE, "Salida" );
+        _departureCalendarFragment = new CalendarFragment();
+        _departureCalendarFragment.setCalendarListener( _departureCalendarListener );
+        _departureCalendarFragment.setArguments( bundle );
+
+
+
+        txtLlegada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                //if( _arrivalDate != null )
+                //	cal.setTime( _arrivalDate );
+                cal.add( Calendar.DATE, 1 );
+                Date d = cal.getTime();
+                if( _departureDate != null )
+                {
+                    _departureCalendarFragment.setSelectedDates( _departureDate, _departureDate );
+                }
+                _departureCalendarFragment.setMinDate( d );
+                _departureCalendarFragment.show( getFragmentManager(), "TO_CALENDAR_FRAGMENT" );
+            }
+        });
+    }
+
+    private void PrepareArrivalCalendar()
+    {
+        _arrivalDate = null;
+        _arrivalCalendarListener = new CalendarListener()
+        {
+            @Override
+            public void onSelectDate( Date date, View view )
+            {
+                _arrivalDate = date;
+                if( _departureDate != null && _departureDate.compareTo( _arrivalDate ) <= 0 )
+                {
+                    txtSalida.setText("Elegir");
+                    _departureDate = null;
+                }
+                SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
+                txtSalida.setText(sdf.format(date));
+                _arrivalCalendarFragment.dismiss();
+
+                Calendar c = Calendar.getInstance();
+                c.setTime( date );
+                c.add( Calendar.DATE, 1 );
+
+                _departureDate = c.getTime();
+                txtSalida.setText(sdf.format(_departureDate));
+
+            }
+        };
+
+        Bundle bundle = new Bundle();
+        bundle.putString( CalendarFragment.DIALOG_TITLE, "Llegada" );
+        _arrivalCalendarFragment = new CalendarFragment();
+        _arrivalCalendarFragment.setCalendarListener( _arrivalCalendarListener );
+        _arrivalCalendarFragment.setArguments( bundle );
+
+        txtSalida.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                Date d = cal.getTime();
+                if( _arrivalDate != null )
+                {
+                    _arrivalCalendarFragment.setSelectedDates( _arrivalDate, _arrivalDate );
+                }
+                _arrivalCalendarFragment.setMinDate( d );
+                _arrivalCalendarFragment.show( getFragmentManager(), "FROM_CALENDAR_FRAGMENT" );
+            }
+        });
     }
 
 
