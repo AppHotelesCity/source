@@ -2,7 +2,6 @@ package com.zebstudios.cityexpress;
 
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,21 +41,15 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
     LinearLayout linearIngresaDatos;
     LinearLayout linearLayoutSinLog;
     LinearLayout linearUsuario;
-    SimpleDateFormat formatoFecha;
     SimpleDateFormat formatoFechaJSON;
-    DatePickerDialog fechaLlegada;
-    DatePickerDialog fechaSalida;
     String fecha;
-    String mes;
     boolean usuarioActivo;
 
 
     static Date _arrivalDate;
-    private Button _btnArrival;
     private CalendarFragment _arrivalCalendarFragment;
     private CalendarListener _arrivalCalendarListener;
     static Date _departureDate;
-    private Button _btnDeparture;
     private CalendarFragment _departureCalendarFragment;
     private CalendarListener _departureCalendarListener;
 
@@ -89,8 +82,8 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         linearLlegada = (LinearLayout) view.findViewById(R.id.linearLlegada);
         editTextPromoCode = (EditText) view.findViewById(R.id.editTextPromoCode);
         btnDisponibilidad = (Button) view.findViewById(R.id.btnDisponibilidad);
-        txtLlegada = (TextView)view.findViewById(R.id.txt_salida);
-        txtSalida =(TextView)view.findViewById(R.id.txt_llegada);
+        txtLlegada = (TextView)view.findViewById(R.id.txt_llegada);
+        txtSalida =(TextView)view.findViewById(R.id.txt_salida);
         textNombreUsuario = (TextView) view.findViewById(R.id.textNombreUsuario);
 
         linearUsuario = (LinearLayout) view.findViewById(R.id.linearUsario);
@@ -104,14 +97,52 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         PrepareDepartureCalendar();
 
 
+        final Calendar c = Calendar.getInstance();
+        int anio = c.get(Calendar.YEAR); //obtenemos el año
+        int mes = c.get(Calendar.MONTH); //obtenemos el mes
+        String mesT = Integer.toString(mes);
+        int dia = c.get(Calendar.DAY_OF_MONTH); // obtemos el día.
+        switch (mesT){
+            case "0":
+                mesT = "ene";
+                break;
+            case "1":
+                mesT = "feb";
+                break;
+            case "2":
+                mesT = "mar";
+                break;
+            case "3":
+                mesT = "abr";
+                break;
+            case "4":
+                mesT = "may";
+                break;
+            case "5":
+                mesT = "jun";
+                break;
+            case "6":
+                mesT = "jul";
+                break;
+            case "7":
+                mesT = "ago";
+                break;
+            case "8":
+                mesT = "sep";
+                break;
+            case "9":
+                mesT = "oct";
+                break;
+            case "10":
+                mesT = "nov";
+                break;
+            case "11":
+                mesT = "dic";
+                break;
+        }
 
-
-
-
-
-
-
-
+        txtSalida.setText(dia+" "+mesT+" "+anio);
+        txtLlegada.setText(dia+" "+mesT+" "+anio);
 
         SharedPreferences prefsUsuario = getActivity().getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
         usuarioActivo = Boolean.parseBoolean(prefsUsuario.getString("activo",null));
@@ -132,7 +163,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         return view;
     }
 
-
+                    /*********  AQUI SE LLENA CALENDARIO SALIDA ********/
     private void PrepareDepartureCalendar()
     {
         _departureDate = null;
@@ -145,12 +176,14 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 if( _arrivalDate != null && _arrivalDate.compareTo( _departureDate ) >= 0 )
                 {
 
-                    //txtLlegada.setText(Calendar.DAY_OF_MONTH + Calendar.MONTH + Calendar.YEAR);
+                    //txtSalida.setText("AKLDCMALKSMDCLSKMDSACKLS");
                     _arrivalDate = null;
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
-                txtLlegada.setText( sdf.format( date ) );
+                txtSalida.setText( sdf.format( date ) );
                 _departureCalendarFragment.dismiss();
+
+
             }
         };
 
@@ -162,7 +195,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
 
 
 
-        txtLlegada.setOnClickListener(new View.OnClickListener() {
+        txtSalida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar cal = Calendar.getInstance();
@@ -180,6 +213,8 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         });
     }
 
+    /****** AQUI SE LLENA CALENDARIO LLEGADA ******/
+
     private void PrepareArrivalCalendar()
     {
         _arrivalDate = null;
@@ -191,19 +226,19 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 _arrivalDate = date;
                 if( _departureDate != null && _departureDate.compareTo( _arrivalDate ) <= 0 )
                 {
-                    //txtSalida.setText(Calendar.DAY_OF_MONTH + Calendar.MONTH + Calendar.YEAR);
+                    //txtLlegada.setText("TXT LLEGADA");
                     _departureDate = null;
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
-                txtSalida.setText(sdf.format(date));
+                txtLlegada.setText(sdf.format(date));
                 _arrivalCalendarFragment.dismiss();
 
-                Calendar c = Calendar.getInstance();
+                /*Calendar c = Calendar.getInstance();
                 c.setTime( date );
                 c.add( Calendar.DATE, 1 );
 
                 _departureDate = c.getTime();
-                txtSalida.setText(sdf.format(_departureDate));
+                txtLlegada.setText(sdf.format(_departureDate));*/
 
             }
         };
@@ -214,7 +249,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         _arrivalCalendarFragment.setCalendarListener( _arrivalCalendarListener );
         _arrivalCalendarFragment.setArguments( bundle );
 
-        txtSalida.setOnClickListener(new View.OnClickListener() {
+        txtLlegada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar cal = Calendar.getInstance();
