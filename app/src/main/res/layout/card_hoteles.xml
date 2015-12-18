@@ -12,7 +12,6 @@
             <ImageView
                 android:id="@+id/imageViewHotel"
                 android:layout_width="match_parent"
-                android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher"
                 android:layout_height="match_parent" />
 

@@ -301,7 +301,7 @@ public class MainActivity extends ActionBarActivity
 		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "Reservaciones", R.drawable.icon_reservaciones ) );
 		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "Blog", R.drawable.icon_blog ) );
 		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "City Premios", R.drawable.icon_premios_puntos ) );
-		_navDrawerItems.add(new NavDrawerListAdapter.ListItem("Log Out", R.drawable.icon_blog));
+		_navDrawerItems.add(new NavDrawerListAdapter.ListItem("Log Out", R.drawable.logout));
 
 		//_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "City Premios", R.drawable.icon_premios ) );
 
@@ -360,14 +360,16 @@ public class MainActivity extends ActionBarActivity
 		{
 			if( CompatibilityUtil.isTablet( this ) )
 			{
-				MainTabletFragment fragment = new MainTabletFragment();
+				//MainTabletFragment fragment = new MainTabletFragment();
+				PrincipalFragment fragment = new PrincipalFragment();
 				getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
 				addEvent("ViewHotelesTablet");
 
 			}
 			else
 			{
-				MainFragment fragment = new MainFragment();
+				PrincipalFragment fragment = new PrincipalFragment();
+				//MainFragment fragment = new MainFragment();
 				getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment).commit();
 				addEvent("ViewHotelesSmartphone");
 			}
