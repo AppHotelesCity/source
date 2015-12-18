@@ -242,16 +242,18 @@ public class ReservacionActivity extends Activity {
 
         Spinner spinNinos = (Spinner) findViewById( R.id.spinNinos );
         SpinnerAdapter adapterNinos = new ArrayAdapter<String>( ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, ninos );
-        spinNinos.setAdapter( adapterNinos );
+        spinNinos.setAdapter(adapterNinos);
+        SimpleDateFormat sdfecha = new SimpleDateFormat( "yyyy-MM-dd" );
+        sdfecha.format(departure);
 
 
 
         lblHotelName.setText( _hotel.getNombre() );
-        lblArrivalDate.setText(arrival.toString());
-        lblDepartureDate.setText(departure.toString());
+        lblArrivalDate.setText(sdfecha.format(arrival));
+        lblDepartureDate.setText(sdfecha.format(departure));
         lblHotelName2.setText( _hotel.getNombre() );
-        lblArrivalDate2.setText(arrival.toString());
-        lblDepartureDate2.setText(departure.toString());
+        lblArrivalDate2.setText(sdfecha.format(arrival));
+        lblDepartureDate2.setText(sdfecha.format(departure));
 
 
         lblTotal.setText("Total: $678.9");//String.format( "Total: $%,.2f ",1123 ) );

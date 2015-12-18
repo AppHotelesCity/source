@@ -101,7 +101,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
 
     @Override
     public int getItemCount() {
-        return 3;//habitacionBaseArrayList.size();
+        return habitacionBaseArrayList.size();
     }
 
     public static class HabitacionViewHolder extends RecyclerView.ViewHolder{
