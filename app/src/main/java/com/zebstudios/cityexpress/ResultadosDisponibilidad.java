@@ -303,6 +303,12 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                         e.printStackTrace();
                     }*/
                     obtenerDescripcionHotel(response);
+                    try {
+                        JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
+                        listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList, habitacionCityPremiosList));
+                    }catch(JSONException e){
+                        
+                    }
                     contador++;
                     pedirDescripcionHotel();
                 }
@@ -352,7 +358,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         habitacionCity = new HabitacionBase();
 
         try {
-            JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
+
 
             jsonObj = XML.toJSONObject(hotel);
 
@@ -381,6 +387,8 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     JSONArray habitacionBase = new JSONArray(tarifaBase.getString("a:HabBase"));
 
                     for (int j = 0; j < habitacionBase.length(); j++) {
+
+                        habitacionCity = new HabitacionBase();
                         JSONObject habitacionBaseDisponibilidad = new JSONObject(habitacionBase.get(j).toString());
                         System.out.println("CUATRO1115P->"+habitacionBaseDisponibilidad.getString("a:CodBase"));
                         habitacionCity.setCodigoBase(habitacionBaseDisponibilidad.getString("a:CodBase"));
@@ -396,6 +404,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBase"));
                     JSONArray habitacionBaseJSON = new JSONArray(tarifaBase.getString("a:HabBase"));
                     for (int j = 0; j < habitacionBaseJSON.length(); j++) {
+                        habitacionBase = new HabitacionBase();
                         JSONObject habitacionBaseDisponibilidad = new JSONObject(habitacionBaseJSON.get(j).toString());
                         System.out.println("CUATRO->"+habitacionBaseDisponibilidad.getString("a:CodBase"));
                         habitacionBase.setCodigoBase(habitacionBaseDisponibilidad.getString("a:CodBase"));
@@ -408,8 +417,6 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     }
                 }
             }
-
-            listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList,habitacionCityPremiosList));
 
 
         } catch (JSONException e) {
