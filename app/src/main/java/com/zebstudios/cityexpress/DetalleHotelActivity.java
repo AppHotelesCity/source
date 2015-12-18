@@ -84,7 +84,6 @@ public class DetalleHotelActivity extends ActionBarActivity{
         Bundle bundle = getIntent().getExtras();
         posicion = bundle.getInt("posicion");
         System.out.println("PosicionDetalleHote"+posicion);
-        System.out.println("SIGLAS DETALLE -" + ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().get(posicion).getCodigoBase());
 
         hotelActual = ResultadosDisponibilidad.listaGeneralHotel.get(posicion);
         txtTitulo.setText(ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getNombre());

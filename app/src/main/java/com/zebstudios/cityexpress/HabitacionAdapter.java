@@ -1,6 +1,8 @@
 package com.zebstudios.cityexpress;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +27,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
     ArrayList<HabitacionBase> habitacionBaseArrayListCity;
     ArrayList<RoomAvailableExtra> habitacionesArrayList;
     int posicion;
+    int numHabitaciones;
 
     public HabitacionAdapter(ArrayList<Hotel> arrayHoteles, ArrayList<HabitacionBase> arrayHabitacion, ArrayList<HabitacionBase> habitacionesCity){
         this.arrayHoteles=arrayHoteles;
@@ -75,43 +78,56 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         });
         holder.btnReservar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(holder.context);
+                builder.setTitle("Selecciona el numero de habitaciones")
+                        .setItems(holder.num_habitacion, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                numHabitaciones = Integer.parseInt(holder.num_habitacion[which]);
 
-                if(holder.txtPrecioPremioHabitacion.getText().toString().equalsIgnoreCase("-")){
+                                if(holder.txtPrecioPremioHabitacion.getText().toString().equalsIgnoreCase("-")){
 
-                    if (holder.imgpremiosdestinos) {
-                        Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
-                        intent.putExtra("city", false);
-                        intent.putExtra("posicionHotel", posicion);
-                        intent.putExtra("posicionHabitacion", position);
-                        intent.putExtra("precioDestino", habitacionBaseArrayList.get(position).getCosto());
-                        intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
-                        v.getContext().startActivity(intent);
-                    } else {
+                                    if (holder.imgpremiosdestinos) {
+                                        Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
+                                        intent.putExtra("city", false);
+                                        intent.putExtra("posicionHotel", posicion);
+                                        intent.putExtra("posicionHabitacion", position);
+                                        intent.putExtra("precioDestino", habitacionBaseArrayList.get(position).getCosto());
+                                        intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
+                                        intent.putExtra("numHabitacion",Integer.parseInt(holder.num_habitacion[which]));
+                                        v.getContext().startActivity(intent);
+                                    } else {
 
-                    }
-                }else {
+                                    }
+                                }else {
 
 
-                    if (holder.imgpremiosdestinos) {
-                        Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
-                        intent.putExtra("city", false);
-                        intent.putExtra("posicionHotel", posicion);
-                        intent.putExtra("posicionHabitacion", position);
-                        intent.putExtra("precioDestino", habitacionBaseArrayList.get(position).getCosto());
-                        intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
-                        v.getContext().startActivity(intent);
-                    } else {
+                                    if (holder.imgpremiosdestinos) {
+                                        Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
+                                        intent.putExtra("city", false);
+                                        intent.putExtra("posicionHotel", posicion);
+                                        intent.putExtra("posicionHabitacion", position);
+                                        intent.putExtra("precioDestino", habitacionBaseArrayList.get(position).getCosto());
+                                        intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
+                                        intent.putExtra("numHabitacion",Integer.parseInt(holder.num_habitacion[which]));
+                                        v.getContext().startActivity(intent);
+                                    } else {
 
-                        Intent intent = new Intent(v.getContext(), ReservacionPremiosActivity.class);
-                        intent.putExtra("city", true);
-                        intent.putExtra("posicionHotel", posicion);
-                        intent.putExtra("posicionHabitacion", position);
-                        intent.putExtra("precioPremio", habitacionBaseArrayListCity.get(posicion).getCosto());
-                        intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
-                        v.getContext().startActivity(intent);
-                    }
-                }
+                                        Intent intent = new Intent(v.getContext(), ReservacionPremiosActivity.class);
+                                        intent.putExtra("city", true);
+                                        intent.putExtra("posicionHotel", posicion);
+                                        intent.putExtra("posicionHabitacion", position);
+                                        intent.putExtra("precioPremio", habitacionBaseArrayListCity.get(posicion).getCosto());
+                                        intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
+                                        intent.putExtra("numHabitacion",Integer.parseInt(holder.num_habitacion[which]));
+                                        v.getContext().startActivity(intent);
+                                    }
+                                }
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
             }
         });
     }
@@ -127,6 +143,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         protected TextView txtPrecioDestinoHabitacion;
         static String precioHabitacioin;
         static String precioDestino;
+        protected String[] num_habitacion;
         protected CardView cardViewHotel;
         protected Button btnReservar;
         protected Context context;
@@ -179,6 +196,8 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
             imgYDestinos.setPivotX(imgYDestinos.getWidth()/2);
             imgYDestinos.setPivotY(imgYDestinos.getHeight()/2);
             imgYDestinos.setRotation(45);
+
+            num_habitacion= v.getResources().getStringArray(R.array.num_habitaciones);
 
         }
     }

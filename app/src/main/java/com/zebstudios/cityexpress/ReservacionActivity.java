@@ -111,6 +111,7 @@ public class ReservacionActivity extends Activity {
         posicionHot = bundle.getInt("posicionHotel");
         codigoBase = bundle.getString("codigoBase");
         posicionHab= bundle.getInt("posicionHabitacion");
+        System.out.println("--NumHabitacion-->"+bundle.getInt("numHabitacion"));
         arrival = PrincipalFragment._arrivalDate;
         departure = PrincipalFragment._departureDate;
 
