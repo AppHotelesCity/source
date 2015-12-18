@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -38,6 +39,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +59,9 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     Button btnMapa;
     ImageView imageViewBack;
     ImageView imageBusqueda;
+    String fechaPartida;
+    TextView textViewFechaLlegada;
+    TextView textViewFechaSalida;
     private GoogleMap _map;
     private MapView _mapView;
     LatLng hotelPosition;
@@ -87,6 +92,16 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         imageBusqueda = (ImageView) findViewById(R.id.imgViewMostrarOcultarLinear);
         linearAzul = (RelativeLayout) findViewById(R.id.linearblue);
         linearBotones = (LinearLayout)findViewById(R.id.linearbtns);
+
+
+        textViewFechaLlegada = (TextView)findViewById(R.id.textViewFechaLlegada);
+        textViewFechaSalida = (TextView)findViewById(R.id.textViewFechaSalida);
+
+        SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
+        SimpleDateFormat sdfecha = new SimpleDateFormat( "yyyy-MM-dd" );
+        fechaPartida = sdfecha.format(PrincipalFragment._departureDate);
+        textViewFechaLlegada.setText("Entrada "+sdf.format(PrincipalFragment._arrivalDate));
+        textViewFechaSalida.setText("Salida "+sdf.format(PrincipalFragment._departureDate));
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -277,7 +292,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     "            <tem:promoRequestModelv3>\n" +
                     "                <cit:CodigoPromocion></cit:CodigoPromocion>\n" +
                     "                <cit:CodigoTarifa>1114</cit:CodigoTarifa>\n" +
-                    "                <cit:FechaInicial>2015-12-16</cit:FechaInicial>\n" +
+                    "                <cit:FechaInicial>"+fechaPartida+"</cit:FechaInicial>\n" +
                     "                <cit:Hotel>" + listaHotel.get(contador).getSiglas() + "</cit:Hotel>\n" +
                     "                <cit:NumeroAdultos>1</cit:NumeroAdultos>\n" +
                     "                <cit:NumeroDeNoches>1</cit:NumeroDeNoches>\n" +
@@ -293,24 +308,24 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    /*System.out.println(contador + "->contador" + response);
+                    System.out.println(contador + "->contador" + response);
                     InputStream stream = null;
                     try {
                         stream = new ByteArrayInputStream(response.getBytes("UTF-8"));
-                       // parseXML(stream);
+                        parseXML(stream);
 
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
-                    }*/
+                    }
                     obtenerDescripcionHotel(response);
-                    try {
+                   /* try {
                         JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
                         listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList, habitacionCityPremiosList));
                         System.out.println("TotalHabitaciones->"+listaGeneralHotel.get(0).getArrayHabitaciones().size());
 
                     }catch(JSONException e){
 
-                    }
+                    }*/
                     contador++;
                     pedirDescripcionHotel();
                 }
@@ -466,7 +481,11 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
                             }else{
                                 JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
-                                listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList,habitacionCityPremiosList));
+                                if(!(contador<listaGeneralHotel.size())){
+                                    listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList,habitacionCityPremiosList));
+
+                                }
+                                //listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList,habitacionCityPremiosList));
                                 //listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList));
                                 //System.out.println("TOTAL->" + listaGeneralHotel.size());
                                 habitacionBaseList = new ArrayList<>();

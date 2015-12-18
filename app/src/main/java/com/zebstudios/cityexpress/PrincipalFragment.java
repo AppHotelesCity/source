@@ -145,7 +145,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 if( _arrivalDate != null && _arrivalDate.compareTo( _departureDate ) >= 0 )
                 {
 
-                    txtLlegada.setText(Calendar.DAY_OF_MONTH + Calendar.MONTH + Calendar.YEAR);
+                    txtSalida.setText(Calendar.DAY_OF_MONTH + Calendar.MONTH + Calendar.YEAR);
                     _arrivalDate = null;
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
@@ -203,7 +203,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 c.add( Calendar.DATE, 1 );
 
                 _departureDate = c.getTime();
-                txtSalida.setText(sdf.format(_departureDate));
+                txtLlegada.setText(sdf.format(_departureDate));
 
             }
         };
@@ -243,16 +243,6 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.linearSalida:
-                Calendar cal = Calendar.getInstance();
-                Date d = cal.getTime();
-                if( _arrivalDate != null )
-                {
-                    _arrivalCalendarFragment.setSelectedDates( _arrivalDate, _arrivalDate );
-                }
-                _arrivalCalendarFragment.setMinDate( d );
-                _arrivalCalendarFragment.show( getFragmentManager(), "FROM_CALENDAR_FRAGMENT" );
-                break;
-            case R.id.linearLlegada:
                 Calendar cale = Calendar.getInstance();
                 //if( _arrivalDate != null )
                 //	cal.setTime( _arrivalDate );
@@ -264,6 +254,16 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 }
                 _departureCalendarFragment.setMinDate( da );
                 _departureCalendarFragment.show( getFragmentManager(), "TO_CALENDAR_FRAGMENT" );
+                break;
+            case R.id.linearLlegada:
+                Calendar cal = Calendar.getInstance();
+                Date d = cal.getTime();
+                if( _arrivalDate != null )
+                {
+                    _arrivalCalendarFragment.setSelectedDates( _arrivalDate, _arrivalDate );
+                }
+                _arrivalCalendarFragment.setMinDate( d );
+                _arrivalCalendarFragment.show( getFragmentManager(), "FROM_CALENDAR_FRAGMENT" );
                 break;
             case R.id.btnDisponibilidad:
                 if("".equals(editTextHotelDestino.getText().toString())){
