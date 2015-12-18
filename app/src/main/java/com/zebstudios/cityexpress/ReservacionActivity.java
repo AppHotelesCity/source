@@ -85,6 +85,7 @@ public class ReservacionActivity extends Activity {
 
         setContentView(R.layout.activity_reservacion);
 
+        System.out.println("RESERVACIONESFECHA"+PrincipalFragment._arrivalDate + "RESERVACIOENSFECHAFINAL"+PrincipalFragment._departureDate);
         TextView lblHotelName = (TextView) findViewById(R.id.lblHotelName);
         TextView lblArrivalDate = (TextView) findViewById( R.id.dates_arrival_text );
         TextView lblDepartureDate = (TextView) findViewById( R.id.dates_departure_text );

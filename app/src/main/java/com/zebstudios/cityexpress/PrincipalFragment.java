@@ -48,11 +48,11 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
     boolean usuarioActivo;
 
 
-    private Date _arrivalDate;
+    static Date _arrivalDate;
     private Button _btnArrival;
     private CalendarFragment _arrivalCalendarFragment;
     private CalendarListener _arrivalCalendarListener;
-    private Date _departureDate;
+    static Date _departureDate;
     private Button _btnDeparture;
     private CalendarFragment _departureCalendarFragment;
     private CalendarListener _departureCalendarListener;
@@ -86,8 +86,8 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         linearLlegada = (LinearLayout) view.findViewById(R.id.linearLlegada);
         editTextPromoCode = (EditText) view.findViewById(R.id.editTextPromoCode);
         btnDisponibilidad = (Button) view.findViewById(R.id.btnDisponibilidad);
-        txtLlegada = (TextView)view.findViewById(R.id.txt_llegada);
-        txtSalida =(TextView)view.findViewById(R.id.txt_salida);
+        txtLlegada = (TextView)view.findViewById(R.id.txt_salida);
+        txtSalida =(TextView)view.findViewById(R.id.txt_llegada);
 
         formatoFechaJSON = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
@@ -212,7 +212,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                     _arrivalCalendarFragment.setSelectedDates( _arrivalDate, _arrivalDate );
                 }
                 _arrivalCalendarFragment.setMinDate( d );
-                _arrivalCalendarFragment.show( getFragmentManager(), "FROM_CALENDAR_FRAGMENT" );
+                _arrivalCalendarFragment.show(getFragmentManager(), "FROM_CALENDAR_FRAGMENT");
             }
         });
     }
@@ -231,8 +231,27 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.linearSalida:
+                Calendar cal = Calendar.getInstance();
+                Date d = cal.getTime();
+                if( _arrivalDate != null )
+                {
+                    _arrivalCalendarFragment.setSelectedDates( _arrivalDate, _arrivalDate );
+                }
+                _arrivalCalendarFragment.setMinDate( d );
+                _arrivalCalendarFragment.show( getFragmentManager(), "FROM_CALENDAR_FRAGMENT" );
                 break;
             case R.id.linearLlegada:
+                Calendar cale = Calendar.getInstance();
+                //if( _arrivalDate != null )
+                //	cal.setTime( _arrivalDate );
+                cale.add( Calendar.DATE, 1 );
+                Date da = cale.getTime();
+                if( _departureDate != null )
+                {
+                    _departureCalendarFragment.setSelectedDates( _departureDate, _departureDate );
+                }
+                _departureCalendarFragment.setMinDate( da );
+                _departureCalendarFragment.show( getFragmentManager(), "TO_CALENDAR_FRAGMENT" );
                 break;
             case R.id.btnDisponibilidad:
                 if("".equals(editTextHotelDestino.getText().toString())){
