@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -64,6 +65,10 @@ public class ReservacionPremiosActivity extends Activity {
     Spinner spinAdultos;
     Spinner spinNinos;
 
+    EditText txtCardNumb;
+    EditText txtCardName;
+    EditText txtCvv;
+
     SegmentedGroup segmentswitch;
 
     RadioButton btnTarjeta;
@@ -77,6 +82,7 @@ public class ReservacionPremiosActivity extends Activity {
 
     Button btnaddTarjeta;
     Button btnTarjetas;
+    Button btnGuardarTarjeta;
 
 
 
@@ -100,6 +106,10 @@ public class ReservacionPremiosActivity extends Activity {
         TextView lblDepartureDate2 = (TextView) findViewById( R.id.dates_departure_text2 );
         TextView lblTotal2 = (TextView) findViewById(R.id.lblTotal2);
 
+        txtCardName = (EditText) findViewById(R.id.txtCardNumber);
+        txtCardNumb = (EditText) findViewById(R.id.txtCardName);
+        txtCvv = (EditText) findViewById(R.id.txtCardCode);
+
         btnMisma = (RadioButton) findViewById( R.id.btn_rad_misma );
         txtName = (EditText) findViewById( R.id.txtName );
         txtLast = (EditText) findViewById( R.id.txtLast );
@@ -113,6 +123,8 @@ public class ReservacionPremiosActivity extends Activity {
 
         linearaddTarjeta = (LinearLayout) findViewById(R.id.pnlCCPayment);
         linearAgregarTarjeta = (LinearLayout) findViewById(R.id.linearAddtarjeta);
+
+        btnGuardarTarjeta = (Button) findViewById(R.id.guardarTarjeta);
 
         segmentswitch = (SegmentedGroup) findViewById(R.id.segmentedPaymentMethod);
         btnTarjeta = (RadioButton)findViewById(R.id.btn_method_card);
@@ -149,6 +161,57 @@ public class ReservacionPremiosActivity extends Activity {
             public void onClick(View v) {
                 linearaddTarjeta.setVisibility(View.VISIBLE);
                 linearAgregarTarjeta.setVisibility(View.GONE);
+            }
+        });
+
+        btnGuardarTarjeta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if("".equals(txtCardName.getText().toString())){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("El campo Nombre no puede estar vacío")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }else if("".equals(txtCardNumb.getText().toString())){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("El campo Número de tarjeta no puede estar vacío")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }else if("".equals(txtCvv.getText().toString())){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("El campo CVV no puede estar vacío")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }else{
+                    txtCardName.getText();
+                    txtCardNumb.getText();
+                    txtCvv.getText();
+                    Toast.makeText(ReservacionPremiosActivity.this, "Tarjeta Guardada", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
