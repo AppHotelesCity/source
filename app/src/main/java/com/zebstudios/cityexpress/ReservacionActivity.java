@@ -106,8 +106,6 @@ public class ReservacionActivity extends Activity {
          spinNinos = (Spinner) findViewById( R.id.spinNinos );
 
         linearpayTarjeta = (LinearLayout) findViewById(R.id.linearAddtarjeta);
-        linearaddTarjeta = (LinearLayout) findViewById(R.id.pnlCCPayment);
-        linearImagenes = (LinearLayout) findViewById(R.id.linearImagePagos);
 
 
         segmentswitch = (SegmentedGroup) findViewById(R.id.segmentedPaymentMethod); 
@@ -120,12 +118,10 @@ public class ReservacionActivity extends Activity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(btnTarjeta.isChecked()){
-                    //linearaddTarjeta.setVisibility(View.VISIBLE);
+                    linearpayTarjeta.setVisibility(View.VISIBLE);
                     Toast.makeText(ReservacionActivity.this, "lqwrnflqnrwflkqwnrflkqwmflqwkm", Toast.LENGTH_SHORT).show();
                 }else if(btnPaypal.isChecked()){
-                    //linearaddTarjeta.setVisibility(View.GONE);
-                    //linearpayTarjeta.setVisibility(View.GONE);
-                    //linearImagenes.setVisibility(View.GONE);
+                    linearpayTarjeta.setVisibility(View.GONE);
                     Toast.makeText(ReservacionActivity.this, "z-z-zz-z-z-z-z-z-z-z-", Toast.LENGTH_SHORT).show();
                 }
 
