@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -79,11 +78,9 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                 if(holder.imgpremiosdestinos){
                     Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
                     v.getContext().startActivity(intent);
-                    Toast.makeText(holder.context, "ENTRANDO A DESTINOS", Toast.LENGTH_SHORT).show();
                 }else{
-                    Intent intent = new Intent(v.getContext(), ReservacionPremiosActivity.class);
-                    v.getContext().startActivity(intent);
-                    Toast.makeText(holder.context, "ENTRANDO A premios", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(v.getContext(), ReservacionPremiosActivity.class);
+                        v.getContext().startActivity(intent);
                 }
             }
         });
