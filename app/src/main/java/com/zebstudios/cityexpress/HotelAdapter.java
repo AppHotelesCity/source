@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHolder>{
     ArrayList<Hotel> arrayHoteles;
     ArrayList<HabitacionBase> habitacionBaseArrayList;
+    double precioAux = 0;
 
     public HotelAdapter(ArrayList<Hotel> arrayHoteles){
         this.arrayHoteles=arrayHoteles;
@@ -34,7 +35,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
     @Override
     public void onBindViewHolder(final HotelViewHolder holder, final int position) {
         final Hotel hotel = arrayHoteles.get(position);
-        double precioAux = 0;
+
 
         System.out.println("--->" + hotel.getImagenPrincipal());
         if(hotel.getImagenPrincipal().equalsIgnoreCase("")){
@@ -60,7 +61,6 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
 
                     }
                 }
-                System.out.println("habitacioneDescBase->" + habitacionBaseArrayList.get(i).getDescBase());
                 System.out.println("habitacionesCosto->" + habitacionBaseArrayList.get(i).getCosto());
             }
             holder.txtPrecioHotel.setText("$ "+precio);

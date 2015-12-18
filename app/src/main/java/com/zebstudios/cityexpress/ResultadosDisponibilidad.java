@@ -306,8 +306,10 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     try {
                         JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
                         listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList, habitacionCityPremiosList));
+                        System.out.println("TotalHabitaciones->"+listaGeneralHotel.get(0).getArrayHabitaciones().size());
+
                     }catch(JSONException e){
-                        
+
                     }
                     contador++;
                     pedirDescripcionHotel();
