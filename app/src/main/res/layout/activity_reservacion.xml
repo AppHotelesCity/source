@@ -332,44 +332,48 @@
                 </RelativeLayout>
 
                 <LinearLayout
-                    android:id="@+id/pnlCCPayment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/linearImagePagos"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/logo_amex"/>
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:src="@drawable/logo_mastercard"/>
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/logo_visa"/>
+
+                    <ImageButton android:id="@+id/escanear"
+                        android:layout_width="160dp"
+                        android:layout_height="40dp"
+                        android:onClick="onScanPress"
+                        android:text="SCAN"
+                        android:layout_gravity="right|center_vertical"
+                        android:src="@drawable/bttarjeta" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearAddtarjeta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center">
 
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/logo_amex"/>
-
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
-                            android:src="@drawable/logo_mastercard"/>
-
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/logo_visa"/>
-
-                        <ImageButton android:id="@+id/escanear"
-                            android:layout_width="160dp"
-                            android:layout_height="40dp"
-                            android:onClick="onScanPress"
-                            android:text="SCAN"
-                            android:layout_gravity="right|center_vertical"
-                            android:src="@drawable/bttarjeta" />
-
-                    </LinearLayout>
 
                     <EditText
                         android:id="@+id/txtCardName"
@@ -431,6 +435,77 @@
                             style="@style/RoundedControl"/>
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/verTarjetas"
+                            android:layout_width="140dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@color/yellow_button"
+                            android:textColor="@android:color/black"
+                            android:text="Ver tarjetas"/>
+
+                        <Button
+                            android:id="@+id/guardarTarjeta"
+                            android:layout_width="150dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginLeft="40dp"
+                            android:background="@color/yellow_button"
+                            android:textColor="@android:color/black"
+                            android:text="Guardar tarjeta"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/pnlCCPayment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Spinner
+                        android:id="@+id/spinTarjetas"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:background="@drawable/spinner_rounded_enabled"
+                        android:layout_marginTop="12dp"/>
+
+                    <EditText
+                        android:id="@+id/txtcvv"
+                        android:layout_width="100dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="12dp"
+                        android:inputType="phone"
+                        android:hint="CVV"
+                        android:gravity="center"
+                        style="@style/RoundedControl"/>
+
+                    <Button
+                        android:id="@+id/btnAddTarjeta"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@color/yellow_button"
+                        android:textColor="@android:color/black"
+                        android:drawableRight="@drawable/flecha_drop"
+                        android:paddingRight="15dp"
+                        android:drawableLeft="@drawable/add_tarjeta"
+                        android:paddingLeft="15dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Añadir tarjeta"/>
 
                 </LinearLayout>
 

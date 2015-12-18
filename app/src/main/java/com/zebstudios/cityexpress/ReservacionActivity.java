@@ -10,11 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -59,7 +62,20 @@ public class ReservacionActivity extends Activity {
     Spinner spinAdultos;
     Spinner spinNinos;
 
+    SegmentedGroup segmentswitch;
+
+    RadioButton btnTarjeta;
+    RadioButton btnPaypal;
+
+
     ListView listaHabitaciones;
+    LinearLayout linearpayTarjeta;
+    LinearLayout linearaddTarjeta;
+    LinearLayout linearImagenes;
+
+    Button btnAddTarj;
+
+    Button btnVerTarjetas;
 
 
     ReservaNumeroHabitacionesAdapter adapter;
@@ -93,7 +109,52 @@ public class ReservacionActivity extends Activity {
          spinAdultos = (Spinner) findViewById( R.id.spinAdultos );
          spinNinos = (Spinner) findViewById( R.id.spinNinos );
 
+        linearpayTarjeta = (LinearLayout) findViewById(R.id.linearAddtarjeta);
+        linearaddTarjeta = (LinearLayout) findViewById(R.id.pnlCCPayment);
+        linearImagenes = (LinearLayout) findViewById(R.id.linearImagePagos);
+
+        btnAddTarj = (Button) findViewById(R.id.btnAddTarjeta);
+        btnVerTarjetas = (Button) findViewById(R.id.verTarjetas);
+
+        segmentswitch = (SegmentedGroup) findViewById(R.id.segmentedPaymentMethod); 
+        btnTarjeta = (RadioButton)findViewById(R.id.btn_method_card);
+        btnPaypal = (RadioButton) findViewById(R.id.btn_method_paypal);
+
         listaHabitaciones = (ListView)findViewById(R.id.list_reservations);
+
+        segmentswitch.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(btnTarjeta.isChecked()){
+                    linearaddTarjeta.setVisibility(View.VISIBLE);
+                    Toast.makeText(ReservacionActivity.this, "lqwrnflqnrwflkqwnrflkqwmflqwkm", Toast.LENGTH_SHORT).show();
+                }else if(btnPaypal.isChecked()){
+                    linearaddTarjeta.setVisibility(View.GONE);
+                    linearpayTarjeta.setVisibility(View.GONE);
+                    linearImagenes.setVisibility(View.GONE);
+                    Toast.makeText(ReservacionActivity.this, "z-z-zz-z-z-z-z-z-z-z-", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        btnVerTarjetas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearaddTarjeta.setVisibility(View.VISIBLE);
+                linearpayTarjeta.setVisibility(View.GONE);
+            }
+        });
+
+
+        btnAddTarj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearaddTarjeta.setVisibility(View.GONE);
+                linearpayTarjeta.setVisibility(View.VISIBLE);
+            }
+        });
+
 
         ArrayList<String> viajes = new ArrayList<String>();
         viajes.add( "Viaje de negocios" ); // 001
@@ -117,11 +178,9 @@ public class ReservacionActivity extends Activity {
         lblTotal2.setText("Total: $678.9");// String.format( "Total: $%,.2f ", 34345 )  );
 
 
+      //  NestedListView list = (NestedListView) findViewById( R.id.list_summary );
+       // NestedListView list2 = (NestedListView) findViewById( R.id.list_summary2 );
 
-
-
-        //NestedListView list = (NestedListView) findViewById( R.id.list_summary );
-        //NestedListView list2 = (NestedListView) findViewById( R.id.list_summary2 );
 
         Button btnReserva2 = (Button) findViewById(R.id.btnReserva);
 
