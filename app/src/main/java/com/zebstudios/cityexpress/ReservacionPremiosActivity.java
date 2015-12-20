@@ -2,7 +2,9 @@ package com.zebstudios.cityexpress;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -56,6 +58,7 @@ public class ReservacionPremiosActivity extends Activity {
     Hotel _hotel;
     private ArrayList<HabitacionBase> _rooms;
     ArrayList<SmartCard> tarjetas_list;
+    ArrayList<String> numTarjeta;
     String cadena;
     String text;
 
@@ -90,6 +93,8 @@ public class ReservacionPremiosActivity extends Activity {
     Button btnGuardarTarjeta;
 
 
+    String fechaVencimiento;
+    String mesVencimiento;
 
     ReservaNumeroHabitacionesAdapter adapter;
     ArrayList<ItemListReserva> data = new ArrayList<>();
@@ -104,12 +109,18 @@ public class ReservacionPremiosActivity extends Activity {
     Date departure;
     String precio;
 
+    String personF2GO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        numTarjeta = new ArrayList<String>();
         this.obtenerListadoTarjetas();
 
+
+        SharedPreferences prefsUsuario = this.getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
+        personF2GO = prefsUsuario.getString("person_ID", null);
         setContentView(R.layout.activity_reservacion_city);
 
         TextView lblHotelName = (TextView) findViewById(R.id.lblHotelName);
@@ -203,7 +214,7 @@ public class ReservacionPremiosActivity extends Activity {
         spinViaje.setAdapter( adapterViaje );
 
 
-        ArrayList<String> months = new ArrayList<String>();
+        final ArrayList<String> months = new ArrayList<String>();
         months.add( "Mes" );
         for( int i = 1; i < 13; i++ )
         {
@@ -220,20 +231,48 @@ public class ReservacionPremiosActivity extends Activity {
         SpinnerAdapter adapterMonths = new ArrayAdapter<String>( ReservacionPremiosActivity.this , R.layout.habitaciones_item, R.id.txtOption, months );
         Spinner spinMonths = (Spinner) findViewById( R.id.spinExpMonth );
         spinMonths.setAdapter(adapterMonths);
+        spinMonths.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(fechaVencimiento==""){
+                    mesVencimiento = "";
+                }
+                mesVencimiento = months.get((position+1));
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         // TODO: Cuántos años en el select de años de la tarjeta?
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get( Calendar.YEAR );
-        ArrayList<String> years = new ArrayList<String>();
+        final ArrayList<String> years = new ArrayList<String>();
         years.add( "Año" );
         for( int i = 0; i < 15; i++ )
         {
             years.add( "" + ( year + i ) );
         }
         SpinnerAdapter adapterYears = new ArrayAdapter<String>(ReservacionPremiosActivity.this , R.layout.habitaciones_item, R.id.txtOption, years );
-        Spinner spinYears = (Spinner) findViewById(R.id.spinExpYear);
+        final Spinner spinYears = (Spinner) findViewById(R.id.spinExpYear);
         spinYears.setAdapter(adapterYears);
+        spinYears.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position==0){
+                    fechaVencimiento = "";
+                }else{
+                    fechaVencimiento=years.get((position+1));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
         //Log.d( "TEST", "MAX: " + _room.getMaxAdultos() );
@@ -331,10 +370,40 @@ public class ReservacionPremiosActivity extends Activity {
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }else{
+                }else if("".equalsIgnoreCase(fechaVencimiento)){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("El año no puede estar vacío")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }else if("".equalsIgnoreCase(mesVencimiento)){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("El mes no puede estar vacío")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+
+
+                else{
                     txtCardName.getText();
                     txtCardNumb.getText();
                     txtCvv.getText();
+                    enviarTarjeta(txtCardNumb.getText().toString(),txtCardName.getText().toString(),fechaVencimiento,"pruabs2",personF2GO);
                     Toast.makeText(ReservacionPremiosActivity.this, "Tarjeta Guardada", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -376,19 +445,7 @@ public class ReservacionPremiosActivity extends Activity {
         //list2.setAdapter(adapter);*/
 
 
-        SpinnerAdapter adapterTajetas = new ArrayAdapter<SmartCard>( this, R.layout.habitaciones_item, R.id.txtOption, tarjetas_list );
-        Spinner spinTarjetas = (Spinner) findViewById(R.id.spinHuespedes);
-        spinTarjetas.setAdapter( adapterTajetas );
-        spinTarjetas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // FATAL: No debería ocurrir
-            }
-        });
 
         btnReserva2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -835,9 +892,25 @@ public class ReservacionPremiosActivity extends Activity {
                         temp.loadinfo(tempsmartcard);
                         System.out.println("Nombre de tarjeta " + temp.Alias + " - " + temp.IdCard + " - " + temp.OwnerName);
 
+                        numTarjeta.add(temp.CardNumber);
                         tarjetas_list.add(temp);
 
                     }
+                    SpinnerAdapter adapterTajetas = new ArrayAdapter<String>( getBaseContext(), R.layout.habitaciones_item, R.id.txtOption, numTarjeta );
+                    Spinner spinTarjetas = (Spinner) findViewById(R.id.spinTarjetas);
+                    spinTarjetas.setAdapter( adapterTajetas );
+                    spinTarjetas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            // FATAL: No debería ocurrir
+                        }
+                    });
+
 /*
                         for (JSONObject tempsmartcard : arreglo ) {
                             // do some work here on intValue
@@ -901,5 +974,136 @@ public class ReservacionPremiosActivity extends Activity {
         }
 
         return (total*numHabitacion);
+    }
+
+
+    public void enviarTarjeta(String tarjeta, String nombre, String fechaexpiracion, String alias, String idF2GO){
+        Log.d("ReservacionActivity", "Enviar Tarjeta ");
+
+
+        String enviarxml = "<soapenv:Envelope\n" +
+                "    xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
+                "    xmlns:tem=\"http://tempuri.org/\"\n" +
+                "    xmlns:cit=\"http://schemas.datacontract.org/2004/07/CityHub\">\n" +
+                "    <soapenv:Header/>\n" +
+                "    <soapenv:Body>\n" +
+                "        <AltaTarjeta\n" +
+                "            xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
+                "            xmlns=\"http://tempuri.org/\">\n" +
+                "            <NumeroCuenta>{NumeroCuenta}</NumeroCuenta>\n" +
+                "            <NombreCliente>{NombreCliente}</NombreCliente>\n" +
+                "            <FechaExpiracion>{FechaExpiracion}</FechaExpiracion>\n" +
+                "            <AliasCuenta>{AliasCuenta}</AliasCuenta>\n" +
+                "            <IDCliente>{IDCliente}</IDCliente>\n" +
+                "        </AltaTarjeta>\n" +
+                "    </soapenv:Body>\n" +
+                "</soapenv:Envelope>";
+
+        enviarxml = enviarxml.replace("{NumeroCuenta}",tarjeta);
+        enviarxml = enviarxml.replace("{NombreCliente}",nombre);
+        enviarxml = enviarxml.replace("{FechaExpiracion}",fechaexpiracion);
+        enviarxml = enviarxml.replace("{AliasCuenta}",alias);
+        enviarxml = enviarxml.replace("{IDCliente}",idF2GO);
+
+
+        Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
+
+        System.out.println("XML a enviar --> " + enviarxml);
+
+
+        final String finalEnviarxml = enviarxml;
+        StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.CLIENTE_UNICO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+
+
+                try {
+
+                    JSONObject jsonObj = null;
+                    JSONObject body = null;
+                    JSONObject AltaTarjetaResponse = null;
+
+                    jsonObj = XML.toJSONObject(response);
+
+
+                    body = jsonObj.getJSONObject("soap:Envelope").getJSONObject("soap:Body");
+                    AltaTarjetaResponse = body.getJSONObject("AltaTarjetaResponse");
+
+                    if ( AltaTarjetaResponse.has("AltaTarjetaResult") ){
+                        ErrorenviarTarjeta( AltaTarjetaResponse.getString("AltaTarjetaResult") );
+                        return;
+                    }
+
+
+                    Log.d("JSON alta tarjeta", jsonObj.toString());
+
+                    //AltaTarjetaResult
+
+                } catch (JSONException e) {
+                    Log.e("JSON exception", e.getMessage());
+                    e.printStackTrace();
+                }
+
+                FinenviarTarjeta();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                NetworkResponse response = error.networkResponse;
+                String datos = new String(response.data);
+                System.out.println("sout" + datos);
+                ErrorenviarTarjeta("error");
+            }
+        }) {
+
+            public String getBodyContentType() {
+                return "text/xml; charset=utf-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<String, String>();
+                //params.put("Content-Type", "application/xml; charset=utf-8");
+                params.put("SOAPAction", "http://tempuri.org/AltaTarjeta");
+                Log.d("hsdhsdfhuidiuhsd", "clave");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                //return cadena.toString().getBytes();
+                final String temp = finalEnviarxml.toString();
+                return  temp.toString().getBytes();
+            }
+
+        };
+
+        System.out.println("registro->" + registro.toString());
+        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(registro);
+    }
+
+
+    public void FinenviarTarjeta(){
+        System.out.println("Tarjeta enviada con exito :D");
+    }
+
+    public void ErrorenviarTarjeta(String mensaje){
+        System.out.println("ERROR AL AÑADIR TARJETA  " + mensaje );
+        AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
+        builder.setTitle("City Express")
+                .setMessage(mensaje)
+                .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
