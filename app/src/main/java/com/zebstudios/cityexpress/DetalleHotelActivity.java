@@ -62,6 +62,8 @@ public class DetalleHotelActivity extends ActionBarActivity{
     static ArrayList<RoomAvailable> roomAvailableArrayList;
     static Hotel hotelActual;
     int posicion;
+    ImageView imageViewBack;
+    TextView txttitleActionbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +78,21 @@ public class DetalleHotelActivity extends ActionBarActivity{
         txtTitulo = (TextView) findViewById(R.id.textViewTituloDetalleHotel);
         linearLayoutDescripcion = (LinearLayout) findViewById(R.id.linearDescripcion);
         recyclerViewHabitaciones = (RecyclerView) findViewById(R.id.cardListHabitaciones);
+        imageViewBack = (ImageView) findViewById(R.id.back_button);
         recyclerViewHabitaciones.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getBaseContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewHabitaciones.setLayoutManager(llm);
+        txttitleActionbar = (TextView) findViewById(R.id.toolbarTitle);
+
+        txttitleActionbar.setText(ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getNombre());
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
 
         Bundle bundle = getIntent().getExtras();
         posicion = bundle.getInt("posicion");

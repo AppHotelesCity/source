@@ -5,6 +5,10 @@
     android:orientation="vertical"
     tools:context="com.zebstudios.cityexpress.DetalleHotelActivity">
 
+    <include
+        android:id="@+id/toolbarTitulo"
+        layout="@layout/toolbar_general"/>
+
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"

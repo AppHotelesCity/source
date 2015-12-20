@@ -1,11 +1,15 @@
 package com.zebstudios.cityexpress;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -26,6 +30,8 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.zebstudios.calendar.CalendarFragment;
+import com.zebstudios.calendar.CalendarListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +47,8 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,8 +69,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     ImageView imageViewBack;
     ImageView imageBusqueda;
     String fechaPartida;
-    TextView textViewFechaLlegada;
-    TextView textViewFechaSalida;
+
     private GoogleMap _map;
     private MapView _mapView;
     LatLng hotelPosition;
@@ -73,6 +80,21 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     static int totalNoches;
     JSONArray hotelJSON;
     LinearLayout lineaDisponibilidad;
+
+    EditText edtxtHotelDestino;
+    TextView txt_salida;
+    TextView txt_llegada;
+    Button btndisponibilidad;
+
+
+    static Date _arrivalDate;
+    private CalendarFragment _arrivalCalendarFragment;
+    private CalendarListener _arrivalCalendarListener;
+    static Date _departureDate;
+    private CalendarFragment _departureCalendarFragment;
+    private CalendarListener _departureCalendarListener;
+
+
     RelativeLayout linearAzul;
     LinearLayout linearBotones;
     boolean estadobton = false;
@@ -83,6 +105,11 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resultados_disponibilidad);
+
+        edtxtHotelDestino = (EditText) findViewById(R.id.edtxtHotelDestinoResultados);
+        txt_salida = (TextView) findViewById(R.id.txtSalida);
+        txt_llegada = (TextView) findViewById(R.id.txtLlegada);
+        btndisponibilidad = (Button) findViewById(R.id.btnDisponibilidadResultados);
         btnListas = (Button) findViewById(R.id.btnLista);
         btnMapa = (Button) findViewById(R.id.btnMapa);
         listaTarjetasHotel= (ExtensionRecyclerView)findViewById(R.id.cardListHoteles);
@@ -97,14 +124,90 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         linearBotones = (LinearLayout)findViewById(R.id.linearbtns);
 
 
-        textViewFechaLlegada = (TextView)findViewById(R.id.textViewFechaLlegada);
-        textViewFechaSalida = (TextView)findViewById(R.id.textViewFechaSalida);
+        PrepareArrivalCalendar();
+        PrepareDepartureCalendar();
+
+
+        final Calendar c = Calendar.getInstance();
+        int anio = c.get(Calendar.YEAR); //obtenemos el año
+        int mes = c.get(Calendar.MONTH); //obtenemos el mes
+        String mesT = Integer.toString(mes);
+        int dia = c.get(Calendar.DAY_OF_MONTH); // obtemos el día.
+        switch (mesT){
+            case "0":
+                mesT = "ene";
+                break;
+            case "1":
+                mesT = "feb";
+                break;
+            case "2":
+                mesT = "mar";
+                break;
+            case "3":
+                mesT = "abr";
+                break;
+            case "4":
+                mesT = "may";
+                break;
+            case "5":
+                mesT = "jun";
+                break;
+            case "6":
+                mesT = "jul";
+                break;
+            case "7":
+                mesT = "ago";
+                break;
+            case "8":
+                mesT = "sep";
+                break;
+            case "9":
+                mesT = "oct";
+                break;
+            case "10":
+                mesT = "nov";
+                break;
+            case "11":
+                mesT = "dic";
+                break;
+        }
+
+        txt_salida.setText(dia+" "+mesT+" "+anio);
+        txt_llegada.setText(dia+" "+mesT+" "+anio);
+
+
+        btndisponibilidad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if("".equals(edtxtHotelDestino.getText().toString())){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ResultadosDisponibilidad.this);
+                    builder.setTitle("City Express")
+                            .setMessage("El campo Destino es obligatorio")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }else{
+                 Intent intent = new Intent(ResultadosDisponibilidad.this, ResultadosDisponibilidad.class);
+                    intent.putExtra("busqueda",edtxtHotelDestino.getText().toString());
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+
+
+
 
         SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
         SimpleDateFormat sdfecha = new SimpleDateFormat( "yyyy-MM-dd" );
         fechaPartida = sdfecha.format(PrincipalFragment._departureDate);
-        textViewFechaLlegada.setText("Entrada "+sdf.format(PrincipalFragment._arrivalDate));
-        textViewFechaSalida.setText("Salida " + sdf.format(PrincipalFragment._departureDate));
+
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -214,6 +317,105 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
     }
 
+
+    private void PrepareArrivalCalendar()
+    {
+        _arrivalDate = null;
+        _arrivalCalendarListener = new CalendarListener()
+        {
+            @Override
+            public void onSelectDate(Date date, View view )
+            {
+                _arrivalDate = date;
+                if( _departureDate != null && _departureDate.compareTo( _arrivalDate ) <= 0 )
+                {
+                    //txtLlegada.setText("TXT LLEGADA");
+                    _departureDate = null;
+                }
+                SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
+                txt_llegada.setText(sdf.format(date));
+                _arrivalCalendarFragment.dismiss();
+
+                /*Calendar c = Calendar.getInstance();
+                c.setTime( date );
+                c.add( Calendar.DATE, 1 );
+
+                _departureDate = c.getTime();
+                txtLlegada.setText(sdf.format(_departureDate));*/
+
+            }
+        };
+
+        Bundle bundle = new Bundle();
+        bundle.putString( CalendarFragment.DIALOG_TITLE, "Llegada" );
+        _arrivalCalendarFragment = new CalendarFragment();
+        _arrivalCalendarFragment.setCalendarListener( _arrivalCalendarListener );
+        _arrivalCalendarFragment.setArguments( bundle );
+
+        txt_llegada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                Date d = cal.getTime();
+                if( _arrivalDate != null )
+                {
+                    _arrivalCalendarFragment.setSelectedDates( _arrivalDate, _arrivalDate );
+                }
+                _arrivalCalendarFragment.setMinDate(d);
+                _arrivalCalendarFragment.show(getSupportFragmentManager(), "TO_CALENDAR_FRAGMENT");
+            }
+        });
+    }
+
+
+    private void PrepareDepartureCalendar()
+    {
+        _departureDate = null;
+        _departureCalendarListener = new CalendarListener()
+        {
+            @Override
+            public void onSelectDate( Date date, View view )
+            {
+                _departureDate = date;
+                if( _arrivalDate != null && _arrivalDate.compareTo( _departureDate ) >= 0 )
+                {
+
+                    //txtSalida.setText("AKLDCMALKSMDCLSKMDSACKLS");
+                    _arrivalDate = null;
+                }
+                SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
+                txt_salida.setText( sdf.format( date ) );
+                _departureCalendarFragment.dismiss();
+
+
+            }
+        };
+
+        Bundle bundle = new Bundle();
+        bundle.putString( CalendarFragment.DIALOG_TITLE, "Salida" );
+        _departureCalendarFragment = new CalendarFragment();
+        _departureCalendarFragment.setCalendarListener( _departureCalendarListener );
+        _departureCalendarFragment.setArguments( bundle );
+
+
+
+        txt_salida.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                //if( _arrivalDate != null )
+                //	cal.setTime( _arrivalDate );
+                cal.add( Calendar.DATE, 1 );
+                Date d = cal.getTime();
+                if( _departureDate != null )
+                {
+                    _departureCalendarFragment.setSelectedDates( _departureDate, _departureDate );
+                }
+                _departureCalendarFragment.setMinDate( d );
+                _departureCalendarFragment.show( getSupportFragmentManager(), "TO_CALENDAR_FRAGMENT" );
+            }
+        });
+    }
 
 
 
