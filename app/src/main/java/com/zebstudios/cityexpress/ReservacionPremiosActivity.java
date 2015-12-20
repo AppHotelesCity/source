@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -40,7 +41,10 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,6 +55,7 @@ public class ReservacionPremiosActivity extends Activity {
 
     Hotel _hotel;
     private ArrayList<HabitacionBase> _rooms;
+    ArrayList<SmartCard> tarjetas_list;
     String cadena;
     String text;
 
@@ -69,13 +74,13 @@ public class ReservacionPremiosActivity extends Activity {
     EditText txtCardName;
     EditText txtCvv;
 
+    double precioHabitacion;
     SegmentedGroup segmentswitch;
 
     RadioButton btnTarjeta;
     RadioButton btnPaypal;
 
 
-    ListView listaHabitaciones;
     LinearLayout linearaddTarjeta;
     LinearLayout linearAgregarTarjeta;
 
@@ -88,6 +93,16 @@ public class ReservacionPremiosActivity extends Activity {
 
     ReservaNumeroHabitacionesAdapter adapter;
     ArrayList<ItemListReserva> data = new ArrayList<>();
+
+    int posicion;
+    int posicionHot;
+    int posicionHab;
+    int numHabitacion;
+    int numNoches;
+    String codigoBase;
+    Date arrival;
+    Date departure;
+    String precio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,10 +145,41 @@ public class ReservacionPremiosActivity extends Activity {
         btnTarjeta = (RadioButton)findViewById(R.id.btn_method_card);
         btnPaypal = (RadioButton) findViewById(R.id.btn_method_paypal);
 
-        listaHabitaciones = (ListView)findViewById(R.id.list_reservations);
 
         btnaddTarjeta = (Button) findViewById(R.id.btnAddTarjeta);
         btnTarjetas = (Button) findViewById(R.id.verTarjetas);
+
+
+
+        Bundle bundle = getIntent().getExtras();
+        posicionHot = bundle.getInt("posicionHotel");
+        codigoBase = bundle.getString("codigoBase");
+        posicionHab= bundle.getInt("posicionHabitacion");
+        numHabitacion = bundle.getInt("numHabitacion");
+        arrival = PrincipalFragment._arrivalDate;
+        departure = PrincipalFragment._departureDate;
+        numNoches = ResultadosDisponibilidad.totalNoches;
+        precioHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getCosto().replace(",", ""));
+
+        System.out.println("numNoches"+numNoches);
+        _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot);
+        ResultadosDisponibilidad.habitacionBaseList.get(posicionHab);
+
+        System.out.println("HotelPosicionPrecioListado->"+precioHabitacion);
+        if(bundle.getBoolean("city")){
+            precio = bundle.getString("precioPremio");
+        }else{
+            precio =  bundle.getString("precioDestino");
+        }
+
+        System.out.println("PsoicionHotel"+posicionHot);
+        System.out.println("PsoiconHabitacion"+posicionHab);
+        System.out.println("arrival"+arrival);
+        System.out.println("departure"+departure);
+        System.out.println("codigoBase"+codigoBase);
+
+
+        tarjetas_list = new ArrayList<>();
 
         segmentswitch.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -147,6 +193,85 @@ public class ReservacionPremiosActivity extends Activity {
 
             }
         });
+
+
+        ArrayList<String> viajes = new ArrayList<String>();
+        viajes.add( "Viaje de negocios" ); // 001
+        viajes.add( "Viaje de placer" ); // 015
+        SpinnerAdapter adapterViaje = new ArrayAdapter<String>( ReservacionPremiosActivity.this, R.layout.habitaciones_item, R.id.txtOption, viajes );
+        Spinner spinViaje = (Spinner) findViewById( R.id.spinViaje );
+        spinViaje.setAdapter( adapterViaje );
+
+
+        ArrayList<String> months = new ArrayList<String>();
+        months.add( "Mes" );
+        for( int i = 1; i < 13; i++ )
+        {
+            if( i < 10 )
+            {
+                months.add( "0" + i );
+            }
+            else
+            {
+                months.add( "" + i );
+            }
+        }
+
+        SpinnerAdapter adapterMonths = new ArrayAdapter<String>( ReservacionPremiosActivity.this , R.layout.habitaciones_item, R.id.txtOption, months );
+        Spinner spinMonths = (Spinner) findViewById( R.id.spinExpMonth );
+        spinMonths.setAdapter(adapterMonths);
+
+
+        // TODO: Cuántos años en el select de años de la tarjeta?
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get( Calendar.YEAR );
+        ArrayList<String> years = new ArrayList<String>();
+        years.add( "Año" );
+        for( int i = 0; i < 15; i++ )
+        {
+            years.add( "" + ( year + i ) );
+        }
+        SpinnerAdapter adapterYears = new ArrayAdapter<String>(ReservacionPremiosActivity.this , R.layout.habitaciones_item, R.id.txtOption, years );
+        Spinner spinYears = (Spinner) findViewById(R.id.spinExpYear);
+        spinYears.setAdapter(adapterYears);
+
+
+        //Log.d( "TEST", "MAX: " + _room.getMaxAdultos() );
+
+        ArrayList<String> adultos = new ArrayList<String>();
+        ArrayList<String> ninos = new ArrayList<String>();
+/*
+        for( int i = 0; i <= _room.getMaxAdultos() - 1; i++ )
+        {
+            adultos.add( "" + i );
+        }
+        for( int i = 0; i <= _room.getMaxAdultos() - 1; i++ )
+        {
+            ninos.add( "" + i );
+        }
+*/
+        adultos.add("0");
+        adultos.add("1");
+        ninos.add("0");
+        ninos.add("1");
+
+        Spinner spinAdultos = (Spinner) findViewById( R.id.spinAdultos );
+        SpinnerAdapter adapterAdultos = new ArrayAdapter<String>( ReservacionPremiosActivity.this, R.layout.habitaciones_item, R.id.txtOption, adultos );
+        spinAdultos.setAdapter( adapterAdultos );
+        spinAdultos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //changeAdultos();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        Spinner spinNinos = (Spinner) findViewById( R.id.spinNinos );
+        SpinnerAdapter adapterNinos = new ArrayAdapter<String>( ReservacionPremiosActivity.this, R.layout.habitaciones_item, R.id.txtOption, ninos );
+        spinNinos.setAdapter(adapterNinos);
 
         btnaddTarjeta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,26 +341,24 @@ public class ReservacionPremiosActivity extends Activity {
         });
 
 
-        ArrayList<String> viajes = new ArrayList<String>();
-        viajes.add( "Viaje de negocios" ); // 001
-        viajes.add( "Viaje de placer" ); // 015
-        SpinnerAdapter adapterViaje = new ArrayAdapter<String>( ReservacionPremiosActivity.this, R.layout.habitaciones_item, R.id.txtOption, viajes );
-        Spinner spinViaje = (Spinner) findViewById( R.id.spinViaje );
-        spinViaje.setAdapter( adapterViaje );
 
+        SimpleDateFormat sdfecha = new SimpleDateFormat( "dd-MM-yyyy" );
+        sdfecha.format(departure);
 
 
         _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(0);
         lblHotelName.setText( _hotel.getNombre() );
-        lblArrivalDate.setText("12-12-2014");
-        lblDepartureDate.setText("13-06-2015");
+        lblArrivalDate.setText(sdfecha.format(arrival));
+        lblDepartureDate.setText(sdfecha.format(departure));
         lblHotelName2.setText( _hotel.getNombre() );
-        lblArrivalDate2.setText("12-12-2014");
-        lblDepartureDate2.setText("12-08-2014");
+        lblArrivalDate2.setText(sdfecha.format(arrival));
+        lblDepartureDate2.setText(sdfecha.format(departure));
 
 
-        lblTotal.setText("Total: $678.9");//String.format( "Total: $%,.2f ",1123 ) );
-        lblTotal2.setText("Total: $678.9");// String.format( "Total: $%,.2f ", 34345 )  );
+
+        lblTotal.setText(String.format( "Total: $%,.2f ", getTotalCost() ) + "MXN");//String.format( "Total: $%,.2f ",1123 ) );
+        lblTotal2.setText(String.format( "Total: $%,.2f ", getTotalCost()) + "MXN" );// String.format( "Total: $%,.2f ", 34345 )  );
+
 
 
         //  NestedListView list = (NestedListView) findViewById( R.id.list_summary );
@@ -252,6 +375,20 @@ public class ReservacionPremiosActivity extends Activity {
         list.setAdapter(adapter);
         //list2.setAdapter(adapter);*/
 
+
+        SpinnerAdapter adapterTajetas = new ArrayAdapter<SmartCard>( this, R.layout.habitaciones_item, R.id.txtOption, tarjetas_list );
+        Spinner spinTarjetas = (Spinner) findViewById(R.id.spinHuespedes);
+        spinTarjetas.setAdapter( adapterTajetas );
+        spinTarjetas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // FATAL: No debería ocurrir
+            }
+        });
 
         btnReserva2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -328,6 +465,60 @@ public class ReservacionPremiosActivity extends Activity {
                 }
             }
         });
+
+
+        ArrayList<String> huespedes = new ArrayList<String>();
+        ArrayList<SummaryEntry> sumary = new ArrayList<SummaryEntry>();
+
+        for( int i = 0; i < numHabitacion; i++ )
+        {
+            huespedes.add( "Huesped titular - habitación " + ( i + 1 ) );
+            sumary.add( new SummaryEntry( 0, "Habitación " + ( i + 1 ) ) );
+            for( int j = 0; j < Math.abs(numNoches); j++ )
+            {
+                sumary.add( new SummaryEntry( 1, "Noche " + ( j + 1 ) + " $"+precioHabitacion));
+            }
+
+        }
+
+        NestedListView list = (NestedListView) findViewById(R.id.list_summary);
+        NestedListView list2 = (NestedListView) findViewById( R.id.list_summary2 );
+        SummaryListAdapter adapter = new SummaryListAdapter( this, sumary );
+        list.setAdapter( adapter );
+        list2.setAdapter( adapter );
+
+        SpinnerAdapter adapterHuespedes = new ArrayAdapter<String>( this, R.layout.habitaciones_item, R.id.txtOption, huespedes );
+        Spinner spinHuespedes = (Spinner) findViewById(R.id.spinHuespedes);
+        spinHuespedes.setAdapter( adapterHuespedes );
+        spinHuespedes.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected( AdapterView<?> parent, View view, int position, long id )
+            {
+
+            }
+
+            @Override
+            public void onNothingSelected( AdapterView<?> parent )
+            {
+                // FATAL: No debería ocurrir
+            }
+        } );
+
+        RadioButton btnMisma = (RadioButton) findViewById(R.id.btn_rad_misma);
+        RadioButton btnOtras = (RadioButton) findViewById(R.id.btn_rad_otros);
+        btnMisma.setChecked( true );
+        btnMisma.setEnabled( false );
+        btnOtras.setEnabled( false );
+        SegmentedGroup segmentedGroup = (SegmentedGroup) findViewById(R.id.segmented);
+        segmentedGroup.setOnCheckedChangeListener( new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged( RadioGroup group, int checkedId )
+            {
+
+            }
+        } );
 
 
 
@@ -635,6 +826,18 @@ public class ReservacionPremiosActivity extends Activity {
 
                     JSONArray arreglo = ListadoTarjetasResult.getJSONArray("CardField");
 
+                    for (int i = 0; i < arreglo.length(); i++) {
+                        // do some work here on intValue
+                        JSONObject tempsmartcard = arreglo.getJSONObject(i);
+                        //System.out.println("Nombre de tarjeta " + tempsmartcard.getString("OwnerName") + " - " + tempsmartcard.getString("Alias") );
+
+                        SmartCard temp = new SmartCard();
+                        temp.loadinfo(tempsmartcard);
+                        System.out.println("Nombre de tarjeta " + temp.Alias + " - " + temp.IdCard + " - " + temp.OwnerName);
+
+                        tarjetas_list.add(temp);
+
+                    }
 /*
                         for (JSONObject tempsmartcard : arreglo ) {
                             // do some work here on intValue
@@ -689,4 +892,14 @@ public class ReservacionPremiosActivity extends Activity {
 
     }
 
+    private double getTotalCost()
+    {
+        double total = 0;
+        for( int i = 0; i < Math.abs(numNoches) ; i++ )
+        {
+            total += precioHabitacion;
+        }
+
+        return (total*numHabitacion);
+    }
 }
