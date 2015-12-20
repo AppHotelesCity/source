@@ -15,10 +15,25 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.XML;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class IniciarSesionActivity extends Activity {
 
@@ -31,6 +46,7 @@ public class IniciarSesionActivity extends Activity {
     Button btnRegistro;
     ProgressDialog progressDialog;
     SoapObject resultString;
+    String xmlF2GO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +186,7 @@ public class IniciarSesionActivity extends Activity {
                editor.putString("genero",test.getPropertySafelyAsString("Gender"));
                editor.putString("cityPremios",test.getPropertySafelyAsString("IsValidCityPremios"));
                editor.putString("person_ID",test.getPropertySafelyAsString("Pers_Id_F2G"));
+               loginF2GOUsuario(test.getPropertySafelyAsString("Pers_Id_F2G"));
                editor.putString("phone",test.getPropertySafelyAsString("Phone"));
                editor.putString("UserType_ID",test.getPropertySafelyAsString("UserType_ID"));
                editor.putString("User_Changed",test.getPropertySafelyAsString("User_Changed"));
@@ -222,5 +239,96 @@ public class IniciarSesionActivity extends Activity {
         } catch (Exception ex) {
             Log.e("Error", "Error: " + ex.getMessage());
         }
+    }
+
+
+    public void loginF2GOUsuario(String socio) {
+
+        xmlF2GO= "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://tempuri.org/\">\n" +
+                "    <SOAP-ENV:Body>\n" +
+                "        <ns1:CityPremiosUsrPwd>\n" +
+                "            <ns1:UserWS>UserWS</ns1:UserWS>\n" +
+                "            <ns1:PasswordWS>PasswordWS</ns1:PasswordWS>\n" +
+                "            <ns1:Pers_Id_F2G>{IDF2GO}</ns1:Pers_Id_F2G>\n" +
+                "        </ns1:CityPremiosUsrPwd>\n" +
+                "    </SOAP-ENV:Body>\n" +
+                "</SOAP-ENV:Envelope>";
+        xmlF2GO = xmlF2GO.replace("{IDF2GO}","2702348");//socio); //cambiar por cadena socio.
+
+        StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wcfMiCityExpress_WCF_Prod/ClienteUnico.svc", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+
+                    JSONObject jsonObj = null;
+                    JSONObject body = null;
+                    JSONObject content;
+                    JSONObject cityPremiosResult;
+                    JSONObject cityPreciosUsuario;
+
+                    jsonObj = XML.toJSONObject(response);
+
+                    Log.d("JSON Probando", jsonObj.toString());
+
+                    body = new JSONObject(jsonObj.getString("s:Envelope"));
+
+                    content = new JSONObject(body.getString("s:Body"));
+
+                    cityPremiosResult = new JSONObject(content.getString("CityPremiosUsrPwdResponse"));
+
+                    cityPreciosUsuario = new JSONObject(cityPremiosResult.getString("CityPremiosUsrPwdResult"));
+
+
+                    System.out.println("Usuario->"+  cityPreciosUsuario.getString("a:User")  );
+                    System.out.println("Password->"+ cityPreciosUsuario.getString("a:Password")  );
+                    SharedPreferences prefs =
+                            getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES,getBaseContext().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("userP2GO", cityPreciosUsuario.getString("a:User"));
+                    editor.putString("passP2GO", cityPreciosUsuario.getString("a:Password"));
+
+                    editor.commit();
+
+
+
+
+
+                } catch (JSONException e) {
+                    Log.e("JSON exception", e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                NetworkResponse response = error.networkResponse;
+                String datos = new String(response.data);
+                System.out.println("sout" + datos);
+            }
+        }) {
+
+            public String getBodyContentType() {
+                return "text/xml; charset=utf-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<String, String>();
+                //params.put("Content-Type", "application/xml; charset=utf-8");
+                params.put("SOAPAction", "http://tempuri.org/IClienteUnico/CityPremiosUsrPwd");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return  xmlF2GO.toString().getBytes();
+            }
+
+        };
+        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(registro);
+
     }
 }
