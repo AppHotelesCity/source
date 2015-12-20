@@ -3,19 +3,20 @@ package com.zebstudios.cityexpress;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.appsee.Appsee.addEvent;
 import static com.appsee.Appsee.startScreen;
 
 /**
@@ -29,6 +30,7 @@ public class PremiosDetailPuntosFragment extends Fragment
 	@Override
 	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
 	{
+
 		if( CompatibilityUtil.isTablet( getActivity() ) ){
 			_view = inflater.inflate( R.layout.fragment_premios_puntos_tablet, container, false );
 			startScreen("ViewCityPremios-MisPuntos-Tablet");
@@ -37,9 +39,9 @@ public class PremiosDetailPuntosFragment extends Fragment
 			_view = inflater.inflate( R.layout.fragment_premios_puntos, container, false );
 			startScreen("ViewCityPremios-MisPuntos-Smartphone");
 		}
-
-		Button btnLogout = (Button)_view.findViewById( R.id.btnLogout );
-		btnLogout.setOnClickListener( new View.OnClickListener()
+		ImageView btnCall = (ImageView) _view.findViewById(R.id.btnCall);
+		//Button btnLogout = (Button)_view.findViewById( R.id.btnLogout );
+		/*btnLogout.setOnClickListener( new View.OnClickListener()
 		{
 			@Override
 			public void onClick( View v )
@@ -47,7 +49,18 @@ public class PremiosDetailPuntosFragment extends Fragment
 				initiateLogout();
 				addEvent("CityPremiosLogout");
 			}
-		} );
+		} ); */
+
+
+		btnCall.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String uri = "tel:" + "018002489773";
+				Intent intent = new Intent(Intent.ACTION_CALL);
+				intent.setData(Uri.parse(uri));
+				startActivityForResult(intent, 0);
+			}
+		});
 
 		PremiosUserLoggedDS db = new PremiosUserLoggedDS( getActivity() );
 		db.open();

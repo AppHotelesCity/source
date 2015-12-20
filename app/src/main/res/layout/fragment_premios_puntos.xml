@@ -193,7 +193,27 @@
 
 			</TableLayout>
 
-			<Button
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Centro de Atención City Premios"
+				android:textSize="16sp"
+				android:textColor="@color/blue_letters_color"
+				android:id="@+id/textView"
+				android:layout_marginBottom="10dp"
+				android:layout_below="@+id/tblContent"
+				android:layout_centerHorizontal="true" />
+
+			<ImageView
+				android:layout_width="50dp"
+				android:layout_height="50dp"
+				android:id="@+id/btnCall"
+				android:layout_marginBottom="10dp"
+				android:background="@drawable/boton_call"
+				android:layout_alignParentBottom="true"
+				android:layout_centerHorizontal="true" />
+
+			<!--<Button
 				android:id="@+id/btnLogout"
 				android:layout_width="match_parent"
 				android:layout_height="60dp"
@@ -203,7 +223,9 @@
 				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:layout_margin="12dp"
 				android:layout_below="@id/tblContent"
-				android:text="Cerrar sesión"/>
+				android:text="Cerrar sesión"/> -->
+
+
 		</RelativeLayout>
 
 	</ScrollView>
