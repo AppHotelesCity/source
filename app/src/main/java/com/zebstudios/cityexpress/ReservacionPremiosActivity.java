@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -121,6 +122,12 @@ public class ReservacionPremiosActivity extends Activity {
 
         SharedPreferences prefsUsuario = this.getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
         personF2GO = prefsUsuario.getString("person_ID", null);
+
+        if(personF2GO==null){
+            Intent i = new Intent(this, IniciarSesionActivity.class);
+            startActivityForResult(i, 1);
+        }
+
         setContentView(R.layout.activity_reservacion_city);
 
         TextView lblHotelName = (TextView) findViewById(R.id.lblHotelName);
@@ -581,6 +588,15 @@ public class ReservacionPremiosActivity extends Activity {
 
 
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if(resultCode == Activity.RESULT_OK){
+                personF2GO=data.getStringExtra("result");
+            }
+    }
+
 
     public void RecibirDatos(){
 

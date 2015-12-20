@@ -264,7 +264,6 @@ public class DetalleHotelActivity extends ActionBarActivity{
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
     }
 
 

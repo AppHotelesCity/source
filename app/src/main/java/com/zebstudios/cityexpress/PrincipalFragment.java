@@ -70,6 +70,21 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         super.onCreate(savedInstanceState);
     }
 
+   @Override
+    public void onResume(){
+        super.onResume();
+       SharedPreferences prefsUsuario = getActivity().getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
+       usuarioActivo = Boolean.parseBoolean(prefsUsuario.getString("activo",null));
+       if(usuarioActivo){
+           btnIniciarSesion.setVisibility(View.GONE);
+           btnRegistrarme.setVisibility(View.GONE);
+           linearLayoutSinLog.setVisibility(View.GONE);
+           linearUsuario.setVisibility(View.VISIBLE);
+           textNombreUsuario.setText(prefsUsuario.getString("nombre",null) +" "+ prefsUsuario.getString("apellido",null));
+       }
+
+   }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -271,6 +286,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         switch(view.getId()){
             case R.id.btnIniciarSesion:
                 intent = new Intent(getActivity(),IniciarSesionActivity.class);
+                intent.putExtra("menu",true);
                 startActivity(intent);
                 break;
             case R.id.btnRegistarme:

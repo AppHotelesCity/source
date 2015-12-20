@@ -48,10 +48,19 @@ public class IniciarSesionActivity extends Activity {
     SoapObject resultString;
     String xmlF2GO;
 
+    boolean menu = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iniciar_sesion);
+
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+        menu = bundle.getBoolean("menu");
+        }
+
         tituloToolbar = (TextView) findViewById(R.id.toolbarTitle);
         imageViewBack = (ImageView) findViewById(R.id.back_button);
         edtUsuario = (EditText) findViewById(R.id.edtxtUsuarioLogIn);
@@ -183,20 +192,29 @@ public class IniciarSesionActivity extends Activity {
                editor.putString("apellido",test.getPropertySafelyAsString("LastName"));
                editor.putString("usuario",test.getPropertySafelyAsString("Username"));
                editor.putString("pais",test.getPropertySafelyAsString("Country"));
-               editor.putString("genero",test.getPropertySafelyAsString("Gender"));
+               editor.putString("genero", test.getPropertySafelyAsString("Gender"));
                editor.putString("cityPremios",test.getPropertySafelyAsString("IsValidCityPremios"));
                editor.putString("person_ID",test.getPropertySafelyAsString("Pers_Id_F2G"));
                loginF2GOUsuario(test.getPropertySafelyAsString("Pers_Id_F2G"));
                editor.putString("phone",test.getPropertySafelyAsString("Phone"));
                editor.putString("UserType_ID",test.getPropertySafelyAsString("UserType_ID"));
-               editor.putString("User_Changed",test.getPropertySafelyAsString("User_Changed"));
-               editor.putString("User_Created",test.getPropertySafelyAsString("User_Created"));
+               editor.putString("User_Changed", test.getPropertySafelyAsString("User_Changed"));
+               editor.putString("User_Created", test.getPropertySafelyAsString("User_Created"));
                editor.putString("User_ID", test.getPropertySafelyAsString("User_ID"));
                editor.commit();
 
-               Intent intent = new Intent(this,MainActivity.class);
-               startActivity(intent);
-               finish();
+
+               if(menu){
+                   Intent intent = new Intent(this,MainActivity.class);
+                   startActivity(intent);
+                   finish();
+               }else{
+                   Intent returnIntent = new Intent();
+                   returnIntent.putExtra("result", test.getPropertySafelyAsString("Pers_Id_F2G"));
+                   setResult(Activity.RESULT_OK, returnIntent);
+                   finish();
+               }
+
 
            }else{
                AlertDialog.Builder builder = new AlertDialog.Builder(IniciarSesionActivity.this);
