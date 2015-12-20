@@ -156,8 +156,20 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 break;
         }
 
-        txtSalida.setText(dia+" "+mesT+" "+anio);
-        txtLlegada.setText(dia+" "+mesT+" "+anio);
+        SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
+        _arrivalDate = c.getTime();
+        txtLlegada.setText(sdf.format(_arrivalDate));
+
+        _arrivalDate.getTime();
+        System.out.println("Arrival->"+ _arrivalDate.getTime());
+        Calendar cs = Calendar.getInstance();
+        cs.setTime(_arrivalDate);
+        cs.add(Calendar.DATE, 1);
+
+        _departureDate = cs.getTime();
+
+        System.out.println("Salida->"+sdf.format(_departureDate));;
+        txtSalida.setText(sdf.format(_departureDate));
 
         SharedPreferences prefsUsuario = getActivity().getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
         usuarioActivo = Boolean.parseBoolean(prefsUsuario.getString("activo",null));
@@ -248,12 +260,12 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 txtLlegada.setText(sdf.format(date));
                 _arrivalCalendarFragment.dismiss();
 
-                /*Calendar c = Calendar.getInstance();
+                Calendar c = Calendar.getInstance();
                 c.setTime( date );
                 c.add( Calendar.DATE, 1 );
 
                 _departureDate = c.getTime();
-                txtLlegada.setText(sdf.format(_departureDate));*/
+                txtSalida.setText(sdf.format(_departureDate));
 
             }
         };
