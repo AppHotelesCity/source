@@ -54,6 +54,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     static ArrayList<Hotel> listaGeneralHotel;
     static ArrayList<HabitacionBase> habitacionBaseList;
     static ArrayList<HabitacionBase> habitacionCityPremiosList;
+    static int numeroNoches;
     HotelAdapter hotelAdapter;
     Button btnListas;
     Button btnMapa;
@@ -69,12 +70,14 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     String cadena;
     String text;
     int contador = 0;
+    static int totalNoches;
     JSONArray hotelJSON;
     LinearLayout lineaDisponibilidad;
     RelativeLayout linearAzul;
     LinearLayout linearBotones;
     boolean estadobton = false;
     boolean cityPremios =false;
+    final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,13 +104,16 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         SimpleDateFormat sdfecha = new SimpleDateFormat( "yyyy-MM-dd" );
         fechaPartida = sdfecha.format(PrincipalFragment._departureDate);
         textViewFechaLlegada.setText("Entrada "+sdf.format(PrincipalFragment._arrivalDate));
-        textViewFechaSalida.setText("Salida "+sdf.format(PrincipalFragment._departureDate));
+        textViewFechaSalida.setText("Salida " + sdf.format(PrincipalFragment._departureDate));
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
+
+        totalNoches =Integer.parseInt(""+(PrincipalFragment._arrivalDate.getTime() - PrincipalFragment._departureDate.getTime())/MILLSECS_PER_DAY);
+
 
         Bundle bundle = getIntent().getExtras();
 
@@ -335,7 +341,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     error.printStackTrace();
                     NetworkResponse response = error.networkResponse;
                     String datos = new String(response.data);
-                    //System.out.println("sout" + datos);
+                    System.out.println("sout" + datos);
                 }
             }) {
 

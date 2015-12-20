@@ -78,26 +78,32 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         });
         holder.btnReservar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(holder.context);
-                builder.setTitle("Selecciona el numero de habitaciones")
-                        .setItems(holder.num_habitacion, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                numHabitaciones = Integer.parseInt(holder.num_habitacion[which]);
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+            public void onClick(final View v) {
+
                 if(holder.txtPrecioPremioHabitacion.getText().toString().equalsIgnoreCase("-")){
 
                     if (holder.imgpremiosdestinos) {
-                        Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
-                        intent.putExtra("city", false);
-                        intent.putExtra("posicionHotel", posicion);
-                        intent.putExtra("posicionHabitacion", position);
-                        intent.putExtra("precioDestino", habitacionBaseArrayList.get(position).getCosto());
-                        intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
-                        v.getContext().startActivity(intent);
+
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(holder.context);
+                        builder.setTitle("Selecciona el numero de habitaciones")
+                                .setItems(holder.num_habitacion, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        numHabitaciones = Integer.parseInt(holder.num_habitacion[which]);
+                                        
+                                        Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
+                                        intent.putExtra("city", false);
+                                        intent.putExtra("posicionHotel", posicion);
+                                        intent.putExtra("posicionHabitacion", position);
+                                        intent.putExtra("numHabitacion", (which+1));
+                                        intent.putExtra("precioDestino", habitacionBaseArrayList.get(position).getCosto());
+                                        intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
+                                        v.getContext().startActivity(intent);
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
                     } else {
 
                     }
@@ -105,22 +111,46 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
 
 
                     if (holder.imgpremiosdestinos) {
-                        Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
-                        intent.putExtra("city", false);
-                        intent.putExtra("posicionHotel", posicion);
-                        intent.putExtra("posicionHabitacion", position);
-                        intent.putExtra("precioDestino", habitacionBaseArrayList.get(position).getCosto());
-                        intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
-                        v.getContext().startActivity(intent);
-                    } else {
 
-                        Intent intent = new Intent(v.getContext(), ReservacionPremiosActivity.class);
-                        intent.putExtra("city", true);
-                        intent.putExtra("posicionHotel", posicion);
-                        intent.putExtra("posicionHabitacion", position);
-                        intent.putExtra("precioPremio", habitacionBaseArrayListCity.get(posicion).getCosto());
-                        intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
-                        v.getContext().startActivity(intent);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(holder.context);
+                        builder.setTitle("Selecciona el numero de habitaciones")
+                                .setItems(holder.num_habitacion, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        numHabitaciones = Integer.parseInt(holder.num_habitacion[which]);
+
+
+                                        Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
+                                        intent.putExtra("city", false);
+                                        intent.putExtra("posicionHotel", posicion);
+                                        intent.putExtra("posicionHabitacion", position);
+                                        intent.putExtra("numHabitacion", (which+1));
+                                        intent.putExtra("precioDestino", habitacionBaseArrayList.get(position).getCosto());
+                                        intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
+                                        v.getContext().startActivity(intent);
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(holder.context);
+                        builder.setTitle("Selecciona el numero de habitaciones")
+                                .setItems(holder.num_habitacion, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        numHabitaciones = Integer.parseInt(holder.num_habitacion[which]);
+                                        Intent intent = new Intent(v.getContext(), ReservacionPremiosActivity.class);
+                                        intent.putExtra("city", true);
+                                        intent.putExtra("posicionHotel", posicion);
+                                        intent.putExtra("posicionHabitacion", position);
+                                        intent.putExtra("numHabitacion", (which+1));
+                                        intent.putExtra("precioPremio", habitacionBaseArrayListCity.get(posicion).getCosto());
+                                        intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
+                                        v.getContext().startActivity(intent);
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
                     }
                 }
             }

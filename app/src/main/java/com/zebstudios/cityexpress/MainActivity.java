@@ -370,8 +370,8 @@ public class MainActivity extends ActionBarActivity
 			}
 			else
 			{
-				PrincipalFragment fragment = new PrincipalFragment();
-				//MainFragment fragment = new MainFragment();
+				//PrincipalFragment fragment = new PrincipalFragment();
+				MainFragment fragment = new MainFragment();
 				getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment).commit();
 				addEvent("ViewHotelesSmartphone");
 			}

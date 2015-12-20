@@ -39,6 +39,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,6 +66,8 @@ public class ReservacionActivity extends Activity {
     Spinner spinAdultos;
     Spinner spinNinos;
 
+    double precioHabitacion;
+    private ArrayList<GuestData> _guests;
     SegmentedGroup segmentswitch;
 
     RadioButton btnTarjeta;
@@ -83,6 +86,8 @@ public class ReservacionActivity extends Activity {
     int posicion;
     int posicionHot;
     int posicionHab;
+    int numHabitacion;
+    int numNoches;
     String codigoBase;
     Date arrival;
     Date departure;
@@ -111,12 +116,17 @@ public class ReservacionActivity extends Activity {
         posicionHot = bundle.getInt("posicionHotel");
         codigoBase = bundle.getString("codigoBase");
         posicionHab= bundle.getInt("posicionHabitacion");
-        System.out.println("--NumHabitacion-->"+bundle.getInt("numHabitacion"));
+        numHabitacion = bundle.getInt("numHabitacion");
         arrival = PrincipalFragment._arrivalDate;
         departure = PrincipalFragment._departureDate;
+        numNoches = ResultadosDisponibilidad.totalNoches;
+        precioHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getCosto().replace(",", ""));
 
+        System.out.println("numNoches"+numNoches);
         _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot);
         ResultadosDisponibilidad.habitacionBaseList.get(posicionHab);
+
+        System.out.println("HotelPosicionPrecioListado->"+precioHabitacion);
         if(bundle.getBoolean("city")){
            precio = bundle.getString("precioPremio");
         }else{
@@ -244,7 +254,7 @@ public class ReservacionActivity extends Activity {
         Spinner spinNinos = (Spinner) findViewById( R.id.spinNinos );
         SpinnerAdapter adapterNinos = new ArrayAdapter<String>( ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, ninos );
         spinNinos.setAdapter(adapterNinos);
-        SimpleDateFormat sdfecha = new SimpleDateFormat( "yyyy-MM-dd" );
+        SimpleDateFormat sdfecha = new SimpleDateFormat( "dd-MM-yyyy" );
         sdfecha.format(departure);
 
 
@@ -257,8 +267,8 @@ public class ReservacionActivity extends Activity {
         lblDepartureDate2.setText(sdfecha.format(departure));
 
 
-        lblTotal.setText("Total: $678.9");//String.format( "Total: $%,.2f ",1123 ) );
-        lblTotal2.setText("Total: $678.9");// String.format( "Total: $%,.2f ", 34345 )  );
+        lblTotal.setText(String.format( "Total: $%,.2f ", getTotalCost() ) + "MXN");//String.format( "Total: $%,.2f ",1123 ) );
+        lblTotal2.setText(String.format( "Total: $%,.2f ", getTotalCost()) + "MXN" );// String.format( "Total: $%,.2f ", 34345 )  );
 
 
       //  NestedListView list = (NestedListView) findViewById( R.id.list_summary );
@@ -351,6 +361,85 @@ public class ReservacionActivity extends Activity {
                 }
             }
         });
+////---->
+        //_guests = new ArrayList<GuestData>();
+       /* ArrayList<String> huespedes = new ArrayList<String>();
+        ArrayList<SummaryEntry> sumary = new ArrayList<SummaryEntry>();
+
+        ArrayList<ItemListReserva> itemListReservas  =  new ArrayList<>();
+        for( int i = 0; i < numHabitacion; i++ )
+        {
+            System.out.println("" + i);
+            huespedes.add( "Huesped titular - habitación " + ( i + 1 ) );
+            itemListReservas.add( new ItemListReserva( "Habitacion "+ i ,"$ " +  ResultadosDisponibilidad.habitacionBaseList.get(posicionHab).getCosto()));
+          //  _guests.add( new GuestData() );
+        }
+        System.out.println("Total-de-habitaciones->"+itemListReservas.size());
+        ReservaNumeroHabitacionesAdapter adapterNumHabitaciones = new ReservaNumeroHabitacionesAdapter( this, itemListReservas );
+        ListView list = (ListView) findViewById(R.id.list_summary);
+        list.setAdapter( adapterNumHabitaciones );*/
+
+       // NestedListView list2 = (NestedListView) findViewById(R.id.list_summary2);
+
+
+       // list2.setAdapter( adapter );
+
+        ArrayList<String> huespedes = new ArrayList<String>();
+        ArrayList<SummaryEntry> sumary = new ArrayList<SummaryEntry>();
+
+        for( int i = 0; i < numHabitacion; i++ )
+        {
+            huespedes.add( "Huesped titular - habitación " + ( i + 1 ) );
+            sumary.add( new SummaryEntry( 0, "Habitación " + ( i + 1 ) ) );
+            for( int j = 0; j < Math.abs(numNoches); j++ )
+            {
+                sumary.add( new SummaryEntry( 1, "Noche " + ( j + 1 ) + " $"+precioHabitacion));
+            }
+
+        }
+
+        NestedListView list = (NestedListView) findViewById(R.id.list_summary);
+        NestedListView list2 = (NestedListView) findViewById( R.id.list_summary2 );
+        SummaryListAdapter adapter = new SummaryListAdapter( this, sumary );
+        list.setAdapter( adapter );
+        list2.setAdapter( adapter );
+
+        SpinnerAdapter adapterHuespedes = new ArrayAdapter<String>( this, R.layout.habitaciones_item, R.id.txtOption, huespedes );
+        Spinner spinHuespedes = (Spinner) findViewById(R.id.spinHuespedes);
+        spinHuespedes.setAdapter( adapterHuespedes );
+        spinHuespedes.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected( AdapterView<?> parent, View view, int position, long id )
+            {
+                changeHuesped( position );
+            }
+
+            @Override
+            public void onNothingSelected( AdapterView<?> parent )
+            {
+                // FATAL: No debería ocurrir
+            }
+        } );
+
+        RadioButton btnMisma = (RadioButton) findViewById(R.id.btn_rad_misma);
+        RadioButton btnOtras = (RadioButton) findViewById(R.id.btn_rad_otros);
+        btnMisma.setChecked( true );
+        btnMisma.setEnabled( false );
+        btnOtras.setEnabled( false );
+        SegmentedGroup segmentedGroup = (SegmentedGroup) findViewById(R.id.segmented);
+        segmentedGroup.setOnCheckedChangeListener( new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged( RadioGroup group, int checkedId )
+            {
+
+            }
+        } );
+
+
+
+
 
 
 
@@ -577,7 +666,7 @@ public class ReservacionActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
         builder.setTitle("City Express")
                 .setMessage(mensaje)
-                .setNeutralButton(R.string.entendido, new  DialogInterface.OnClickListener() {
+                .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -958,5 +1047,376 @@ public class ReservacionActivity extends Activity {
 
     }
 
+
+
+    private void clearCaptureFocus()
+    {
+        RadioButton btnMisma = (RadioButton) findViewById( R.id.btn_rad_misma );
+        RadioButton btnOtras = (RadioButton) findViewById(R.id.btn_rad_otros);
+        EditText txtName = (EditText) findViewById(R.id.txtName);
+        EditText txtLast = (EditText) findViewById(R.id.txtLast);
+        EditText txtEmail = (EditText) findViewById(R.id.txtEmail);
+        EditText txtSocio = (EditText) findViewById( R.id.txtSocio );
+        CheckBox cbAfiliate = (CheckBox) findViewById(R.id.cbAfiliate);
+        EditText txtPhone = (EditText)  findViewById(R.id.txtPhone);
+        Spinner spinViaje = (Spinner)  findViewById(R.id.spinViaje);
+        Spinner spinAdultos = (Spinner) findViewById( R.id.spinAdultos );
+        Spinner spinNinos = (Spinner) findViewById( R.id.spinNinos );
+
+        btnMisma.clearFocus();
+        btnOtras.clearFocus();
+        txtName.clearFocus();
+        txtLast.clearFocus();
+        txtEmail.clearFocus();
+        txtSocio.clearFocus();
+        cbAfiliate.clearFocus();
+        txtPhone.clearFocus();
+        spinViaje.clearFocus();
+        spinAdultos.clearFocus();
+        spinNinos.clearFocus();
+    }
+
+    private void changeHuesped( int index )
+    {
+        clearCaptureFocus();
+        saveCurrentGuest();
+      //  _lastGuestIndex = index;
+        setGuestData();
+
+        if( index == 0 )
+        {
+            setEnableSegmentedGroup( false );
+        }
+        else
+        {
+            setEnableSegmentedGroup( true );
+        }
+    }
+
+    private void setEnableSegmentedGroup( boolean enabled )
+    {
+        RadioButton btnMisma = (RadioButton) findViewById(R.id.btn_rad_misma);
+        RadioButton btnOtras = (RadioButton) findViewById(R.id.btn_rad_otros);
+        btnMisma.setEnabled( enabled );
+        btnOtras.setEnabled(enabled);
+    }
+
+    private boolean validateGuest( int index )
+    {
+        GuestData g = _guests.get( index );
+        if( index != 0 && g.getDataOption() == 0 )
+        {
+            return true;
+        }
+
+        String title = "Huesped titular - habitación " + ( index + 1 );
+
+        if( g.getName().trim().length() == 0 )
+        {
+            alert( "Por favor ingresa el nombre del " + title + "." );
+            return false;
+        }
+        if( g.getLastName().trim().length() == 0 )
+        {
+            alert( "Por favor ingresa el apellido del " + title + "." );
+            return false;
+        }
+        if( g.getEmail().trim().length() == 0 )
+        {
+            alert( "Por favor ingresa el correo electrónico del " + title + "." );
+            return false;
+        }
+        if( !isEmailValid( g.getEmail() ) )
+        {
+            alert( "El correo electrónico del " + title + " es incorrecto." );
+            return false;
+        }
+        if( g.getSocio().trim().length() != 0 && ( g.getSocio().trim().length() != 10 || !isAlphaNumeric( g.getSocio().trim() ) ) )
+        {
+            alert( "El número de socio City Premios del " + title + " es incorrecto." );
+            return false;
+        }
+        if( g.getPhone().trim().length() == 0 )
+        {
+            // TODO: Validar más adecuadamente el teléfono
+            alert("Por favor ingresa el teléfono del " + title + ".");
+            return false;
+        }
+
+
+        return true;
+    }
+
+    private boolean isAlphaNumeric( String s )
+    {
+        String pattern = "^[a-zA-Z0-9]*$";
+        return s.matches(pattern);
+    }
+
+    private boolean isNumeric( String s )
+    {
+        String pattern = "^[0-9]*$";
+        return s.matches(pattern);
+    }
+
+    private boolean isEmailValid( CharSequence email )
+    {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher( email ).matches();
+    }
+
+    private void alert( String message )
+    {
+        AlertDialog alert = new AlertDialog.Builder(this ).create();
+        alert.setTitle( "Atención" );
+        alert.setMessage( message );
+        alert.setIcon( R.drawable.notification_warning_small );
+        alert.setCancelable( false );
+        alert.setButton( DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick( DialogInterface dialog, int which )
+            {
+            }
+        } );
+        alert.show();
+    }
+
+    private double getTotalCost()
+    {
+        double total = 0;
+        for( int i = 0; i < Math.abs(numNoches) ; i++ )
+        {
+            total += precioHabitacion;
+        }
+
+        return (total*numHabitacion);
+    }
+
+    private void saveCurrentGuest()
+    {
+        RadioButton btnMisma = (RadioButton) findViewById(R.id.btn_rad_misma);
+        EditText txtName = (EditText) findViewById(R.id.txtName);
+        EditText txtLast = (EditText) findViewById(R.id.txtLast);
+        EditText txtEmail = (EditText) findViewById(R.id.txtEmail);
+        EditText txtSocio = (EditText) findViewById(R.id.txtSocio);
+        CheckBox cbAfiliate = (CheckBox) findViewById(R.id.cbAfiliate);
+        EditText txtPhone = (EditText) findViewById(R.id.txtPhone);
+        Spinner spinViaje = (Spinner) findViewById(R.id.spinViaje);
+        Spinner spinAdultos = (Spinner) findViewById(R.id.spinAdultos);
+        Spinner spinNinos = (Spinner) findViewById(R.id.spinNinos);
+
+       /* GuestData d = _guests.get( _lastGuestIndex );
+        d.setDataOption(btnMisma.isChecked() ? 0 : 1);
+        if( _lastGuestIndex == 0 || ( _lastGuestIndex != 0 && !btnMisma.isChecked() ) )
+        {
+            d.setName( txtName.getText().toString() );
+            d.setLastName( txtLast.getText().toString() );
+            d.setEmail( txtEmail.getText().toString() );
+            d.setSocio( txtSocio.getText().toString() );
+            d.setAfiliate( cbAfiliate.isChecked() );
+            d.setPhone( txtPhone.getText().toString() );
+            d.setViaje( spinViaje.getSelectedItemPosition() );
+        }
+        d.setAdultos( spinAdultos.getSelectedItemPosition() );
+        d.setNinos(spinNinos.getSelectedItemPosition());*/
+    }
+
+    private void setGuestData()
+    {
+        /*Log.d( "TEST", "Setting Guest Data" );
+        RadioButton btnMisma = (RadioButton) _view.findViewById( R.id.btn_rad_misma );
+        RadioButton btnOtras = (RadioButton) _view.findViewById( R.id.btn_rad_otros );
+        EditText txtName = (EditText) _view.findViewById( R.id.txtName );
+        EditText txtLast = (EditText) _view.findViewById( R.id.txtLast );
+        EditText txtEmail = (EditText) _view.findViewById( R.id.txtEmail );
+        EditText txtSocio = (EditText) _view.findViewById( R.id.txtSocio );
+        CheckBox cbAfiliate = (CheckBox) _view.findViewById( R.id.cbAfiliate );
+        EditText txtPhone = (EditText) _view.findViewById( R.id.txtPhone );
+        Spinner spinViaje = (Spinner) _view.findViewById( R.id.spinViaje );
+        Spinner spinAdultos = (Spinner) _view.findViewById( R.id.spinAdultos );
+        Spinner spinNinos = (Spinner) _view.findViewById( R.id.spinNinos );
+
+        GuestData d;
+
+        d = _guests.get( _lastGuestIndex );
+
+        _isAutomaticAdultChange = true;
+        prepareNinosSpinner( d.getAdultos() + 1 ); // Acompañantes + Titular
+        spinAdultos.setSelection( d.getAdultos() );
+        spinNinos.setSelection( d.getNinos() );
+
+        if( _lastGuestIndex == 0 )
+        {
+            d = _guests.get( 0 );
+            txtName.setEnabled( true );
+            txtLast.setEnabled( true );
+            txtEmail.setEnabled( true );
+            txtSocio.setEnabled( true );
+            cbAfiliate.setEnabled( true );
+            txtPhone.setEnabled( true );
+            spinViaje.setEnabled( true );
+        }
+        else
+        {
+            d = _guests.get( _lastGuestIndex );
+            if( d.getDataOption() == 0 )
+            {
+                btnMisma.setChecked( true );
+            }
+            else
+            {
+                btnOtras.setChecked( true );
+            }
+
+            if( d.getDataOption() == 0 )
+            {
+                d = _guests.get( 0 );
+                txtName.setEnabled( false );
+                txtLast.setEnabled( false );
+                txtEmail.setEnabled( false );
+                txtSocio.setEnabled( false );
+                cbAfiliate.setEnabled( false );
+                txtPhone.setEnabled( false );
+                spinViaje.setEnabled( false );
+            }
+            else
+            {
+                txtName.setEnabled( true );
+                txtLast.setEnabled( true );
+                txtEmail.setEnabled( true );
+                txtSocio.setEnabled( true );
+                cbAfiliate.setEnabled( true );
+                txtPhone.setEnabled( true );
+                spinViaje.setEnabled( true );
+            }
+        }
+
+        txtName.setText( d.getName() );
+        txtLast.setText( d.getLastName() );
+        txtEmail.setText( d.getEmail() );
+        txtSocio.setText( d.getSocio() );
+        cbAfiliate.setChecked( d.isAfiliate() );
+        txtPhone.setText( d.getPhone() );
+        spinViaje.setSelection( d.getViaje() ); */
+    }
+
+
+    private class GuestData
+    {
+        private int _dataOption;
+        private String _name;
+        private String _lastName;
+        private String _email;
+        private String _socio;
+        private boolean _afiliate;
+        private String _phone;
+        private int _viaje;
+        private int _adultos;
+        private int _ninos;
+
+        public GuestData()
+        {
+        }
+
+        public int getDataOption()
+        {
+            return _dataOption;
+        }
+
+        public void setDataOption( int dataOption )
+        {
+            _dataOption = dataOption;
+        }
+
+        public String getName()
+        {
+            return _name;
+        }
+
+        public void setName( String name )
+        {
+            _name = name;
+        }
+
+        public String getLastName()
+        {
+            return _lastName;
+        }
+
+        public void setLastName( String lastName )
+        {
+            _lastName = lastName;
+        }
+
+        public String getEmail()
+        {
+            return _email;
+        }
+
+        public void setEmail( String email )
+        {
+            _email = email;
+        }
+
+        public String getSocio()
+        {
+            return _socio;
+        }
+
+        public void setSocio( String socio )
+        {
+            _socio = socio;
+        }
+
+        public boolean isAfiliate()
+        {
+            return _afiliate;
+        }
+
+        public void setAfiliate( boolean afiliate )
+        {
+            _afiliate = afiliate;
+        }
+
+        public String getPhone()
+        {
+            return _phone;
+        }
+
+        public void setPhone( String phone )
+        {
+            _phone = phone;
+        }
+
+        public int getViaje()
+        {
+            return _viaje;
+        }
+
+        public void setViaje( int viaje )
+        {
+            _viaje = viaje;
+        }
+
+        public int getAdultos()
+        {
+            return _adultos;
+        }
+
+        public void setAdultos( int adultos )
+        {
+            _adultos = adultos;
+        }
+
+        public int getNinos()
+        {
+            return _ninos;
+        }
+
+        public void setNinos( int ninos )
+        {
+            _ninos = ninos;
+        }
+    }
 
 }
