@@ -67,7 +67,7 @@ public class ReservacionActivity extends Activity {
     Spinner spinNinos;
 
     double precioHabitacion;
-    private ArrayList<GuestData> _guests;
+    ArrayList<GuestData> titulares;
     SegmentedGroup segmentswitch;
 
     RadioButton btnTarjeta;
@@ -92,7 +92,7 @@ public class ReservacionActivity extends Activity {
     Date arrival;
     Date departure;
     String precio;
-
+    private int _lastGuestIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,13 +115,13 @@ public class ReservacionActivity extends Activity {
         Bundle bundle = getIntent().getExtras();
         posicionHot = bundle.getInt("posicionHotel");
         codigoBase = bundle.getString("codigoBase");
-        posicionHab= bundle.getInt("posicionHabitacion");
+        posicionHab = bundle.getInt("posicionHabitacion");
         numHabitacion = bundle.getInt("numHabitacion");
         arrival = PrincipalFragment._arrivalDate;
         departure = PrincipalFragment._departureDate;
         numNoches = ResultadosDisponibilidad.totalNoches;
         precioHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getCosto().replace(",", ""));
-
+        _lastGuestIndex = 0;
         System.out.println("numNoches"+numNoches);
         _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot);
         ResultadosDisponibilidad.habitacionBaseList.get(posicionHab);
@@ -165,16 +165,15 @@ public class ReservacionActivity extends Activity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(btnTarjeta.isChecked()){
                     linearpayTarjeta.setVisibility(View.VISIBLE);
-                    Toast.makeText(ReservacionActivity.this, "lqwrnflqnrwflkqwnrflkqwmflqwkm", Toast.LENGTH_SHORT).show();
                 }else if(btnPaypal.isChecked()){
                     linearpayTarjeta.setVisibility(View.GONE);
-                    Toast.makeText(ReservacionActivity.this, "z-z-zz-z-z-z-z-z-z-z-", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
 
+        titulares = new ArrayList<>();
 
 
         ArrayList<String> viajes = new ArrayList<String>();
@@ -356,10 +355,20 @@ public class ReservacionActivity extends Activity {
 
                         AlertDialog dialog = builder.create();
                         dialog.show();
-                    }else{
-                    Intent intent = new Intent(ReservacionActivity.this, HotelReservaResultActivity.class);
-                    startActivity(intent);
-                    RecibirDatos();
+                    }else {
+                    // Intent intent = new Intent(ReservacionActivity.this, HotelReservaResultActivity.class);
+                    // startActivity(intent);
+                    //RecibirDatos();
+                    for (int i = 0; i < titulares.size(); i++) {
+                        changeHuesped(i);
+                        System.out.println("Titular " + i + "---->Nombre" + titulares.get(i).getName());
+                    }
+                    if (validateCapture()) {
+                        for (int i = 0; i < titulares.size(); i++) {
+                            changeHuesped(i);
+                            System.out.println("Titular " + 1 + "---->Nombre" + titulares.get(i).getName());
+                        }
+                    }
                 }
             }
         });
@@ -397,6 +406,7 @@ public class ReservacionActivity extends Activity {
             {
                 sumary.add( new SummaryEntry( 1, "Noche " + ( j + 1 ) + " $"+precioHabitacion));
             }
+            titulares.add( new GuestData() );
 
         }
 
@@ -435,7 +445,7 @@ public class ReservacionActivity extends Activity {
             @Override
             public void onCheckedChanged( RadioGroup group, int checkedId )
             {
-
+                handleCaptureOptionHandle();
             }
         } );
 
@@ -463,9 +473,9 @@ public class ReservacionActivity extends Activity {
         System.out.println(txtName.getText().toString());
         System.out.println(txtLast.getText().toString());
         System.out.println(txtPhone.getText().toString());
-       // System.out.println(spinAdultos.getSelectedItem().toString());
-       // System.out.println(spinViaje.getSelectedItem().toString());
-       // System.out.println(spinNinos.getSelectedItem().toString());
+        System.out.println(spinAdultos.getSelectedItem().toString());
+        System.out.println(spinViaje.getSelectedItem().toString());
+        System.out.println(spinNinos.getSelectedItem().toString());
 
         enviarReservacion();
 
@@ -952,7 +962,7 @@ public class ReservacionActivity extends Activity {
     {
         clearCaptureFocus();
         saveCurrentGuest();
-      //  _lastGuestIndex = index;
+        _lastGuestIndex = index;
         setGuestData();
 
         if( index == 0 )
@@ -975,7 +985,7 @@ public class ReservacionActivity extends Activity {
 
     private boolean validateGuest( int index )
     {
-        GuestData g = _guests.get( index );
+        GuestData g = titulares.get( index );
         if( index != 0 && g.getDataOption() == 0 )
         {
             return true;
@@ -1015,6 +1025,54 @@ public class ReservacionActivity extends Activity {
             return false;
         }
 
+
+        return true;
+    }
+
+    private boolean validateCapture()
+    {
+        for( int i = 0; i < titulares.size(); i++ )
+        {
+            if( !validateGuest( i ) )
+            {
+                return false;
+            }
+        }
+
+            EditText txtCardName = (EditText) findViewById( R.id.txtCardName );
+            if( txtCardName.getText().toString().trim().length() == 0 )
+            {
+                alert( "Por favor ingresa el nombre del titular de la tarjeta de crédito." );
+                return false;
+            }
+
+            EditText txtCardNumber = (EditText) findViewById( R.id.txtCardNumber );
+            if( !CCUtils.validCC( txtCardNumber.getText().toString() ) )
+            {
+                alert( "El número de tarjeta es inválido." );
+                return false;
+            }
+
+            Spinner spinExpMonth = (Spinner) findViewById( R.id.spinExpMonth );
+            if( spinExpMonth.getSelectedItemPosition() == 0 )
+            {
+                alert( "Selecciona el mes de expiración de la tarjeta de crédito." );
+                return false;
+            }
+
+            Spinner spinExpYear = (Spinner) findViewById( R.id.spinExpYear );
+            if( spinExpYear.getSelectedItemPosition() == 0 )
+            {
+                alert( "Selecciona el año de expiración de la tarjeta de crédito." );
+                return false;
+            }
+
+            EditText txtCardCode = (EditText) findViewById( R.id.txtCardCode );
+            if( txtCardCode.getText().toString().trim().length() != 3 || !isNumeric( txtCardCode.getText().toString().trim() ) )
+            {
+                alert( "El código de validación de la tarjeta es incorrecto. Ingresa los últimos tres dígitos del número que se encuentra en la parte posterior de la tarjeta." );
+                return false;
+            }
 
         return true;
     }
@@ -1069,7 +1127,7 @@ public class ReservacionActivity extends Activity {
         RadioButton btnMisma = (RadioButton) findViewById(R.id.btn_rad_misma);
         EditText txtName = (EditText) findViewById(R.id.txtName);
         EditText txtLast = (EditText) findViewById(R.id.txtLast);
-        EditText txtEmail = (EditText) findViewById(R.id.txtEmail);
+        EditText txtEmail = (EditText) findViewById( R.id.txtEmail );
         EditText txtSocio = (EditText) findViewById(R.id.txtSocio);
         CheckBox cbAfiliate = (CheckBox) findViewById(R.id.cbAfiliate);
         EditText txtPhone = (EditText) findViewById(R.id.txtPhone);
@@ -1077,7 +1135,7 @@ public class ReservacionActivity extends Activity {
         Spinner spinAdultos = (Spinner) findViewById(R.id.spinAdultos);
         Spinner spinNinos = (Spinner) findViewById(R.id.spinNinos);
 
-       /* GuestData d = _guests.get( _lastGuestIndex );
+        GuestData d = titulares.get( _lastGuestIndex );
         d.setDataOption(btnMisma.isChecked() ? 0 : 1);
         if( _lastGuestIndex == 0 || ( _lastGuestIndex != 0 && !btnMisma.isChecked() ) )
         {
@@ -1090,36 +1148,36 @@ public class ReservacionActivity extends Activity {
             d.setViaje( spinViaje.getSelectedItemPosition() );
         }
         d.setAdultos( spinAdultos.getSelectedItemPosition() );
-        d.setNinos(spinNinos.getSelectedItemPosition());*/
+        d.setNinos(spinNinos.getSelectedItemPosition());
     }
 
     private void setGuestData()
     {
-        /*Log.d( "TEST", "Setting Guest Data" );
-        RadioButton btnMisma = (RadioButton) _view.findViewById( R.id.btn_rad_misma );
-        RadioButton btnOtras = (RadioButton) _view.findViewById( R.id.btn_rad_otros );
-        EditText txtName = (EditText) _view.findViewById( R.id.txtName );
-        EditText txtLast = (EditText) _view.findViewById( R.id.txtLast );
-        EditText txtEmail = (EditText) _view.findViewById( R.id.txtEmail );
-        EditText txtSocio = (EditText) _view.findViewById( R.id.txtSocio );
-        CheckBox cbAfiliate = (CheckBox) _view.findViewById( R.id.cbAfiliate );
-        EditText txtPhone = (EditText) _view.findViewById( R.id.txtPhone );
-        Spinner spinViaje = (Spinner) _view.findViewById( R.id.spinViaje );
-        Spinner spinAdultos = (Spinner) _view.findViewById( R.id.spinAdultos );
-        Spinner spinNinos = (Spinner) _view.findViewById( R.id.spinNinos );
+        Log.d( "TEST", "Setting Guest Data" );
+        RadioButton btnMisma = (RadioButton) findViewById( R.id.btn_rad_misma );
+        RadioButton btnOtras = (RadioButton) findViewById( R.id.btn_rad_otros );
+        EditText txtName = (EditText) findViewById( R.id.txtName );
+        EditText txtLast = (EditText) findViewById( R.id.txtLast );
+        EditText txtEmail = (EditText) findViewById( R.id.txtEmail );
+        EditText txtSocio = (EditText) findViewById( R.id.txtSocio );
+        CheckBox cbAfiliate = (CheckBox) findViewById( R.id.cbAfiliate );
+        EditText txtPhone = (EditText) findViewById( R.id.txtPhone );
+        Spinner spinViaje = (Spinner) findViewById( R.id.spinViaje );
+        Spinner spinAdultos = (Spinner) findViewById(R.id.spinAdultos);
+        Spinner spinNinos = (Spinner) findViewById(R.id.spinNinos);
 
         GuestData d;
 
-        d = _guests.get( _lastGuestIndex );
+        d = titulares.get( _lastGuestIndex );
 
-        _isAutomaticAdultChange = true;
+
         prepareNinosSpinner( d.getAdultos() + 1 ); // Acompañantes + Titular
         spinAdultos.setSelection( d.getAdultos() );
         spinNinos.setSelection( d.getNinos() );
 
         if( _lastGuestIndex == 0 )
         {
-            d = _guests.get( 0 );
+            d = titulares.get( 0 );
             txtName.setEnabled( true );
             txtLast.setEnabled( true );
             txtEmail.setEnabled( true );
@@ -1130,7 +1188,7 @@ public class ReservacionActivity extends Activity {
         }
         else
         {
-            d = _guests.get( _lastGuestIndex );
+            d = titulares.get( _lastGuestIndex );
             if( d.getDataOption() == 0 )
             {
                 btnMisma.setChecked( true );
@@ -1142,7 +1200,7 @@ public class ReservacionActivity extends Activity {
 
             if( d.getDataOption() == 0 )
             {
-                d = _guests.get( 0 );
+                d = titulares.get( 0 );
                 txtName.setEnabled( false );
                 txtLast.setEnabled( false );
                 txtEmail.setEnabled( false );
@@ -1167,11 +1225,38 @@ public class ReservacionActivity extends Activity {
         txtLast.setText( d.getLastName() );
         txtEmail.setText( d.getEmail() );
         txtSocio.setText( d.getSocio() );
-        cbAfiliate.setChecked( d.isAfiliate() );
-        txtPhone.setText( d.getPhone() );
-        spinViaje.setSelection( d.getViaje() ); */
+        cbAfiliate.setChecked(d.isAfiliate());
+        txtPhone.setText(d.getPhone());
+        spinViaje.setSelection(d.getViaje());
     }
 
+    private void handleCaptureOptionHandle()
+    {
+        if( _lastGuestIndex != 0 )
+        {
+            RadioButton btnMisma = (RadioButton) findViewById( R.id.btn_rad_misma );
+            GuestData d = titulares.get( _lastGuestIndex );
+            d.setDataOption(btnMisma.isChecked() ? 0 : 1);
+            setGuestData();
+        }
+    }
+
+    private void prepareNinosSpinner( int totalAdultos )
+    {
+        // Actualizamos el combo de niños, porque no pueden haber más personas
+        // que el máximo de adultos.
+        Spinner spinNinos = (Spinner) findViewById( R.id.spinNinos );
+        int maxNinos = 2 - totalAdultos; //Macximo de adultos - total de adultos
+
+        ArrayList<String> ninos = new ArrayList<String>();
+        for( int i = 0; i <= maxNinos; i++ )
+        {
+            ninos.add( "" + i );
+        }
+
+        SpinnerAdapter adapterNinos = new ArrayAdapter<String>(this, R.layout.habitaciones_item, R.id.txtOption, ninos );
+        spinNinos.setAdapter( adapterNinos );
+    }
 
     private class GuestData
     {
@@ -1188,6 +1273,31 @@ public class ReservacionActivity extends Activity {
 
         public GuestData()
         {
+        }
+
+        public GuestData(int _dataOption, String _name, String _lastName, String _email, String _socio, boolean _afiliate, String _phone, int _viaje, int _adultos, int _ninos) {
+            this._dataOption = _dataOption;
+            this._name = _name;
+            this._lastName = _lastName;
+            this._email = _email;
+            this._socio = _socio;
+            this._afiliate = _afiliate;
+            this._phone = _phone;
+            this._viaje = _viaje;
+            this._adultos = _adultos;
+            this._ninos = _ninos;
+        }
+
+        public GuestData(String _name, String _lastName, String _email, String _socio, boolean _afiliate, String _phone, int _viaje, int _adultos, int _ninos) {
+            this._name = _name;
+            this._lastName = _lastName;
+            this._email = _email;
+            this._socio = _socio;
+            this._afiliate = _afiliate;
+            this._phone = _phone;
+            this._viaje = _viaje;
+            this._adultos = _adultos;
+            this._ninos = _ninos;
         }
 
         public int getDataOption()
