@@ -62,6 +62,8 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     static ArrayList<Hotel> listaGeneralHotel;
     static ArrayList<HabitacionBase> habitacionBaseList;
     static ArrayList<HabitacionBase> habitacionCityPremiosList;
+    TextView textViewFechaLlegada;
+    TextView textViewFechaSalida;
     static int numeroNoches;
     HotelAdapter hotelAdapter;
     Button btnListas;
@@ -122,6 +124,8 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         imageBusqueda = (ImageView) findViewById(R.id.imgViewMostrarOcultarLinear);
         linearAzul = (RelativeLayout) findViewById(R.id.linearblue);
         linearBotones = (LinearLayout)findViewById(R.id.linearbtns);
+        textViewFechaLlegada = (TextView)findViewById(R.id.textViewFechaLlegada);
+        textViewFechaSalida = (TextView)findViewById(R.id.textViewFechaSalida);
 
 
         PrepareArrivalCalendar();
@@ -172,8 +176,24 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                 break;
         }
 
-        txt_salida.setText(dia+" "+mesT+" "+anio);
-        txt_llegada.setText(dia+" "+mesT+" "+anio);
+        SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
+        _arrivalDate = c.getTime();
+        txt_salida.setText(sdf.format(_arrivalDate));
+
+        _arrivalDate.getTime();
+        System.out.println("Arrival->"+ _arrivalDate.getTime());
+        Calendar cs = Calendar.getInstance();
+        cs.setTime(_arrivalDate);
+        cs.add(Calendar.DATE, 1);
+
+        _departureDate = cs.getTime();
+
+        System.out.println("Salida->" + sdf.format(_departureDate));;
+        txt_llegada.setText(sdf.format(_departureDate));
+
+
+        /*txt_salida.setText(dia+" "+mesT+" "+anio);
+        txt_llegada.setText(dia+" "+mesT+" "+anio);*/
 
 
         btndisponibilidad.setOnClickListener(new View.OnClickListener() {
@@ -204,10 +224,10 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
 
 
-        SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
         SimpleDateFormat sdfecha = new SimpleDateFormat( "yyyy-MM-dd" );
         fechaPartida = sdfecha.format(PrincipalFragment._departureDate);
-
+        textViewFechaLlegada.setText("Entrada "+sdf.format(PrincipalFragment._arrivalDate));
+        textViewFechaSalida.setText("Salida " + sdf.format(PrincipalFragment._departureDate));
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -336,12 +356,12 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                 txt_llegada.setText(sdf.format(date));
                 _arrivalCalendarFragment.dismiss();
 
-                /*Calendar c = Calendar.getInstance();
+                Calendar c = Calendar.getInstance();
                 c.setTime( date );
                 c.add( Calendar.DATE, 1 );
 
                 _departureDate = c.getTime();
-                txtLlegada.setText(sdf.format(_departureDate));*/
+                txt_salida.setText(sdf.format(_departureDate));
 
             }
         };
@@ -352,7 +372,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         _arrivalCalendarFragment.setCalendarListener( _arrivalCalendarListener );
         _arrivalCalendarFragment.setArguments( bundle );
 
-        txt_llegada.setOnClickListener(new View.OnClickListener() {
+    txt_llegada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar cal = Calendar.getInstance();
@@ -399,7 +419,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
 
 
-        txt_salida.setOnClickListener(new View.OnClickListener() {
+     txt_salida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar cal = Calendar.getInstance();
