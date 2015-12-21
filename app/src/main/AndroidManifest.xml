@@ -178,6 +178,7 @@
 
         <activity
             android:name="io.card.payment.CardIOActivity"
+            android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation" />
         <activity android:name="io.card.payment.DataEntryActivity" />
         <!-- Urban Airship -->
@@ -232,12 +233,15 @@
 
         <activity
             android:name=".IniciarSesionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ToolbarColor" />
         <activity
             android:name=".RegistroActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ToolbarColor" />
         <activity
             android:name=".ResultadosDisponibilidad"
+            android:screenOrientation="portrait"
             android:theme="@style/ToolbarColor" />
         <activity
             android:name=".OlvidePassActivity"
@@ -249,13 +253,20 @@
             android:screenOrientation="portrait"
             android:theme="@style/ToolbarColor" >
         </activity>
-        <activity android:name=".Reservacion" >
+        <activity android:name=".Reservacion"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ReservacionActivity" >
+        <activity android:name=".ReservacionActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ReservacionPremiosActivity" >
+        <activity android:name=".ReservacionPremiosActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".HotelReservaResultActivity">
+        <activity android:name=".HotelReservaResultActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".MiReservacionDetailActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

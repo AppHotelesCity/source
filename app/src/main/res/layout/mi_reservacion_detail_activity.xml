@@ -3,4 +3,455 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/calendar_gray"
+        android:layout_gravity="center_horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Detalle de su reservación:"
+            android:textSize="16sp"
+            android:layout_marginLeft="15dp"
+            android:textColor="#000"
+            android:layout_marginTop="20dp"
+            android:id="@+id/textView3" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:background="@color/calendar_gray"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="004442"
+                android:textSize="18sp"
+                android:layout_marginLeft="15dp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:id="@+id/txt_num_reservacion" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#000"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Oscar pruebas test"
+                android:textSize="16sp"
+                android:id="@+id/txt_nombre_usuario"
+                android:textColor="#000"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=","
+                android:textSize="16sp"
+                android:textColor="#000"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Habitación 102"
+                android:textSize="16sp"
+                android:id="@+id/txt_habitacion_reservacion"
+                android:layout_marginLeft="10dp"
+                android:textColor="#000"/>
+
+            </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="City Express Aguacalientes Sur"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:textSize="18sp"
+        android:textColor="@color/suites_color1"
+        android:id="@+id/textView2" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Llegada: "
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="21 Dec 2015"
+            android:layout_marginTop="15dp"
+            android:id="@+id/txt_fecha_llegada"
+            android:layout_marginLeft="5dp"
+            android:textStyle="bold"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Salida: "
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="50dp"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="22 Dec 2015"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:textStyle="bold"
+            android:id="@+id/txt_fecha_salida"
+            android:textSize="14sp"/>
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Habitación Doble"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/txt_tipo_habitacion"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$828.42 M.N"
+            android:id="@+id/txt_precio_habitacion"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adultos: "
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:id="@+id/numero_adultos_reserva"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Niños: "
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:id="@+id/numero_niños_reserva"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total: $828.42 M.N"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:textStyle="bold"
+            android:textColor="@color/blue_letters_color"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No se aceptan cambios ni cancelaciones al reservar con tarifa City Premios."
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:textSize="14sp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/calendar_gray"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_gravity="center_horizontal">
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blvd. José María Chávez No. 1919 Col. San Pedro 20280 Aguascalientes Aguascalientes"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="left"
+        android:layout_marginRight="50dp"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Frente a Plaza Vestir, a 10 minutos del Centro."
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="left"
+        android:textSize="16sp"/>
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="15dp"
+            android:text="Check in"
+            android:drawableLeft="@drawable/check_in"
+            android:paddingLeft="10dp"
+            android:paddingRight="15dp"
+            android:textSize="16sp"
+            android:background="@drawable/button_rounded_background_yellow"
+            android:id="@+id/btn_Check_in" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_marginRight="15dp"
+                android:layout_height="60dp"
+                android:text="Check out"
+                android:drawableLeft="@drawable/check_out"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:textSize="16sp"
+                android:background="@drawable/button_rounded_background_yellow"
+                android:id="@+id/btn_Check_out" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="15dp"
+                android:drawableLeft="@drawable/enviar_mail"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:textSize="14sp"
+                android:text="Enviar por correo electrónico"
+                android:background="@drawable/button_rounded_background_yellow"
+                android:id="@+id/btn_enviar_correo" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_gravity="center_horizontal">
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="60dp"
+                    android:text="Consultar saldos"
+                    android:textSize="16sp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/button_rounded_background_yellow"
+                    android:id="@+id/btn_consultar_saldos" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="15dp"
+                android:text="Compartir"
+                android:drawableLeft="@drawable/compartir"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:textSize="16sp"
+                android:background="@drawable/button_rounded_background_yellow"
+                android:id="@+id/btn_compartir" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="15dp"
+                android:text="Como llegar al hotel"
+                android:drawableLeft="@drawable/como_llegar"
+                android:textSize="14sp"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:background="@drawable/button_rounded_background_yellow"
+                android:id="@+id/btn_como_llegar" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_gravity="center_horizontal">
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="60dp"
+                    android:text="Facturación"
+                    android:drawableLeft="@drawable/facturacion"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="15dp"
+                    android:textSize="14sp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/button_rounded_background_yellow"
+                    android:id="@+id/btn_facturacion" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+       <com.google.android.gms.maps.MapView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mapView"
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/btnCall"
+            android:background="@drawable/boton_call"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/btnMail"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/boton_mail"/>
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/btnChat"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/boton_chat"/>
+
+    </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
