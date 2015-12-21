@@ -255,6 +255,8 @@
         </activity>
         <activity android:name=".ReservacionPremiosActivity" >
         </activity>
+        <activity android:name=".HotelReservaResultActivity">
+        </activity>
     </application>
 
 </manifest>

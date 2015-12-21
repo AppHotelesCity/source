@@ -3,6 +3,7 @@ package com.zebstudios.cityexpress;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,7 +40,6 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -357,6 +357,8 @@ public class ReservacionActivity extends Activity {
                         AlertDialog dialog = builder.create();
                         dialog.show();
                     }else{
+                    Intent intent = new Intent(ReservacionActivity.this, HotelReservaResultActivity.class);
+                    startActivity(intent);
                     RecibirDatos();
                 }
             }
