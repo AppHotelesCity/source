@@ -59,14 +59,33 @@
 						android:layout_height="wrap_content"
 						android:text="Detalles de su reservación:"/>
 
-
-				<ListView
-					android:id="@+id/list_reservations"
+				<LinearLayout
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="12dp"/>
+					android:orientation="horizontal"
+					android:layout_marginTop="10dp"
+					android:layout_height="wrap_content">
 
-					</LinearLayout>
+					<TextView
+						android:layout_width="wrap_content"
+						android:textStyle="bold"
+						android:textColor="#000"
+						android:id="@+id/txt_numero_reservacion"
+						android:textSize="18sp"
+						android:layout_marginRight="10dp"
+						android:layout_height="wrap_content"
+						android:text="812341"/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textSize="16sp"
+						android:id="@+id/txt_nombre_usuario"
+						android:text="Oscar Test"/>
+
+
+				</LinearLayout>
+			</LinearLayout>
+
 
 			<LinearLayout
 					android:layout_width="match_parent"
@@ -118,12 +137,18 @@
 
 				</RelativeLayout>
 
-
 				<ListView
+					android:id="@+id/list_reservations"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="12dp"/>
+
+
+				<!--  <ListView
 					android:id="@+id/list_summary"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="4dp"/>
+					android:layout_marginTop="4dp"/> -->
 
 
 				<TextView
@@ -160,15 +185,6 @@
 						android:textAppearance="?android:attr/textAppearanceMedium"
 						android:text="Notas del hotel"/>
 
-				<Button
-						android:id="@+id/btnDelete"
-						android:layout_width="match_parent"
-						android:layout_height="60dp"
-						android:layout_marginTop="24dp"
-						android:background="@drawable/button_rounded_background"
-						android:textColor="@android:color/white"
-						android:textAppearance="?android:attr/textAppearanceMedium"
-						android:text="Eliminar reservación"/>
 
 				<Button
 						android:id="@+id/btnSendEmail"
@@ -206,43 +222,6 @@
 						android:layout_marginTop="24dp"
 						android:layout_width="match_parent"
 						android:layout_height="250dp" />
-
-				<LinearLayout
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:orientation="horizontal"
-						android:layout_marginTop="20dp"
-						android:layout_marginBottom="20dp"
-						android:layout_gravity="center_horizontal">
-
-					<ImageButton
-							android:id="@+id/btnCall"
-							android:layout_width="64dp"
-							android:layout_height="64dp"
-							android:scaleType="fitXY"
-							android:padding="0dp"
-							android:background="@android:color/transparent"
-							android:layout_marginRight="20dp"
-							android:src="@drawable/boton_call"/>
-					<ImageButton
-							android:id="@+id/btnMail"
-							android:layout_width="64dp"
-							android:layout_height="64dp"
-							android:scaleType="fitXY"
-							android:padding="0dp"
-							android:background="@android:color/transparent"
-							android:src="@drawable/boton_mail"/>
-					<ImageButton
-							android:id="@+id/btnChat"
-							android:layout_width="64dp"
-							android:layout_height="64dp"
-							android:scaleType="fitXY"
-							android:padding="0dp"
-							android:background="@android:color/transparent"
-							android:layout_marginLeft="20dp"
-							android:src="@drawable/boton_chat"/>
-
-				</LinearLayout>
 
 					</LinearLayout>
 

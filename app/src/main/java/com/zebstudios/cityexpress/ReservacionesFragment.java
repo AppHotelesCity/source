@@ -1,6 +1,7 @@
 package com.zebstudios.cityexpress;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class ReservacionesFragment extends Fragment
 {
 	View _view;
 	ArrayList<Reservation> _reservations;
+	Button btnreservacion;
 
 	public ReservacionesFragment()
 	{
@@ -32,7 +35,15 @@ public class ReservacionesFragment extends Fragment
 	{
 		_view = inflater.inflate( R.layout.fragment_reservaciones, container, false );
 
+		btnreservacion = (Button) _view.findViewById(R.id.btnreservacion);
 
+		btnreservacion.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity(), MiReservacionDetailActivity.class);
+				startActivity(intent);
+			}
+		});
 		ReservationDS ds = new ReservationDS( getActivity() );
 		ds.open();
 		_reservations = ds.getReservations();
