@@ -56,6 +56,7 @@ public class ReservacionActivity extends Activity {
 
     ArrayList<HabitacionBase> habitacionBaseArrayList;
     RadioButton btnMisma;
+    RadioButton btnOtros;
     EditText txtName;
     EditText txtLast;
     EditText txtEmail;
@@ -94,6 +95,8 @@ public class ReservacionActivity extends Activity {
     String precio;
     private int _lastGuestIndex;
 
+    int contador;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,12 +106,12 @@ public class ReservacionActivity extends Activity {
         setContentView(R.layout.activity_reservacion);
 
         TextView lblHotelName = (TextView) findViewById(R.id.lblHotelName);
-        TextView lblArrivalDate = (TextView) findViewById( R.id.dates_arrival_text );
-        TextView lblDepartureDate = (TextView) findViewById( R.id.dates_departure_text );
+        TextView lblArrivalDate = (TextView) findViewById(R.id.dates_arrival_text);
+        TextView lblDepartureDate = (TextView) findViewById(R.id.dates_departure_text);
         TextView lblTotal = (TextView) findViewById(R.id.lblTotal);
-        TextView lblHotelName2 = (TextView) findViewById( R.id.lblHotelName2 );
-        TextView lblArrivalDate2 = (TextView) findViewById( R.id.dates_arrival_text2 );
-        TextView lblDepartureDate2 = (TextView) findViewById( R.id.dates_departure_text2 );
+        TextView lblHotelName2 = (TextView) findViewById(R.id.lblHotelName2);
+        TextView lblArrivalDate2 = (TextView) findViewById(R.id.dates_arrival_text2);
+        TextView lblDepartureDate2 = (TextView) findViewById(R.id.dates_departure_text2);
         TextView lblTotal2 = (TextView) findViewById(R.id.lblTotal2);
 
         //a<sdfg
@@ -122,50 +125,53 @@ public class ReservacionActivity extends Activity {
         numNoches = ResultadosDisponibilidad.totalNoches;
         precioHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getCosto().replace(",", ""));
         _lastGuestIndex = 0;
-        System.out.println("numNoches"+numNoches);
+        System.out.println("numNoches" + numNoches);
         _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot);
         ResultadosDisponibilidad.habitacionBaseList.get(posicionHab);
 
-        System.out.println("HotelPosicionPrecioListado->"+precioHabitacion);
-        if(bundle.getBoolean("city")){
-           precio = bundle.getString("precioPremio");
-        }else{
-           precio =  bundle.getString("precioDestino");
+        System.out.println("HotelPosicionPrecioListado->" + precioHabitacion);
+        if (bundle.getBoolean("city")) {
+            precio = bundle.getString("precioPremio");
+        } else {
+            precio = bundle.getString("precioDestino");
         }
 
-        System.out.println("PsoicionHotel"+posicionHot);
-        System.out.println("PsoiconHabitacion"+posicionHab);
-        System.out.println("arrival"+arrival);
-        System.out.println("departure"+departure);
-        System.out.println("codigoBase"+codigoBase);
+        System.out.println("PsoicionHotel" + posicionHot);
+        System.out.println("PsoiconHabitacion" + posicionHab);
+        System.out.println("arrival" + arrival);
+        System.out.println("departure" + departure);
+        System.out.println("codigoBase" + codigoBase);
 
 
-         btnMisma = (RadioButton) findViewById( R.id.btn_rad_misma );
-         txtName = (EditText) findViewById( R.id.txtName );
-         txtLast = (EditText) findViewById( R.id.txtLast );
-         txtEmail = (EditText) findViewById( R.id.txtEmail );
-         txtSocio = (EditText) findViewById( R.id.txtSocio );
-         cbAfiliate = (CheckBox) findViewById( R.id.cbAfiliate );
-         txtPhone = (EditText) findViewById( R.id.txtPhone );
-         spinViaje = (Spinner) findViewById( R.id.spinViaje );
-         spinAdultos = (Spinner) findViewById( R.id.spinAdultos );
-         spinNinos = (Spinner) findViewById( R.id.spinNinos );
+        contador = 0;
+
+        btnMisma = (RadioButton) findViewById(R.id.btn_rad_misma);
+        btnOtros = (RadioButton) findViewById(R.id.btn_rad_otros);
+        txtName = (EditText) findViewById(R.id.txtName);
+        txtLast = (EditText) findViewById(R.id.txtLast);
+        txtEmail = (EditText) findViewById(R.id.txtEmail);
+        txtSocio = (EditText) findViewById(R.id.txtSocio);
+        cbAfiliate = (CheckBox) findViewById(R.id.cbAfiliate);
+        txtPhone = (EditText) findViewById(R.id.txtPhone);
+        spinViaje = (Spinner) findViewById(R.id.spinViaje);
+        spinAdultos = (Spinner) findViewById(R.id.spinAdultos);
+        spinNinos = (Spinner) findViewById(R.id.spinNinos);
 
         linearpayTarjeta = (LinearLayout) findViewById(R.id.linearAddtarjeta);
 
 
-        segmentswitch = (SegmentedGroup) findViewById(R.id.segmentedPaymentMethod); 
-        btnTarjeta = (RadioButton)findViewById(R.id.btn_method_card);
+        segmentswitch = (SegmentedGroup) findViewById(R.id.segmentedPaymentMethod);
+        btnTarjeta = (RadioButton) findViewById(R.id.btn_method_card);
         btnPaypal = (RadioButton) findViewById(R.id.btn_method_paypal);
 
-        listaHabitaciones = (ListView)findViewById(R.id.list_reservations);
+        listaHabitaciones = (ListView) findViewById(R.id.list_reservations);
 
         segmentswitch.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(btnTarjeta.isChecked()){
+                if (btnTarjeta.isChecked()) {
                     linearpayTarjeta.setVisibility(View.VISIBLE);
-                }else if(btnPaypal.isChecked()){
+                } else if (btnPaypal.isChecked()) {
                     linearpayTarjeta.setVisibility(View.GONE);
                 }
 
@@ -177,42 +183,37 @@ public class ReservacionActivity extends Activity {
 
 
         ArrayList<String> viajes = new ArrayList<String>();
-        viajes.add( "Viaje de negocios" ); // 001
-        viajes.add( "Viaje de placer" ); // 015
-        SpinnerAdapter adapterViaje = new ArrayAdapter<String>( ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, viajes );
-        Spinner spinViaje = (Spinner) findViewById( R.id.spinViaje );
-        spinViaje.setAdapter( adapterViaje );
+        viajes.add("Viaje de negocios"); // 001
+        viajes.add("Viaje de placer"); // 015
+        SpinnerAdapter adapterViaje = new ArrayAdapter<String>(ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, viajes);
+        Spinner spinViaje = (Spinner) findViewById(R.id.spinViaje);
+        spinViaje.setAdapter(adapterViaje);
 
 
         ArrayList<String> months = new ArrayList<String>();
-        months.add( "Mes" );
-        for( int i = 1; i < 13; i++ )
-        {
-            if( i < 10 )
-            {
-                months.add( "0" + i );
-            }
-            else
-            {
-                months.add( "" + i );
+        months.add("Mes");
+        for (int i = 1; i < 13; i++) {
+            if (i < 10) {
+                months.add("0" + i);
+            } else {
+                months.add("" + i);
             }
         }
 
-        SpinnerAdapter adapterMonths = new ArrayAdapter<String>( ReservacionActivity.this , R.layout.habitaciones_item, R.id.txtOption, months );
-        Spinner spinMonths = (Spinner) findViewById( R.id.spinExpMonth );
+        SpinnerAdapter adapterMonths = new ArrayAdapter<String>(ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, months);
+        Spinner spinMonths = (Spinner) findViewById(R.id.spinExpMonth);
         spinMonths.setAdapter(adapterMonths);
 
 
         // TODO: Cuántos años en el select de años de la tarjeta?
         Calendar calendar = Calendar.getInstance();
-        int year = calendar.get( Calendar.YEAR );
+        int year = calendar.get(Calendar.YEAR);
         ArrayList<String> years = new ArrayList<String>();
-        years.add( "Año" );
-        for( int i = 0; i < 15; i++ )
-        {
-            years.add( "" + ( year + i ) );
+        years.add("Año");
+        for (int i = 0; i < 15; i++) {
+            years.add("" + (year + i));
         }
-        SpinnerAdapter adapterYears = new ArrayAdapter<String>(ReservacionActivity.this , R.layout.habitaciones_item, R.id.txtOption, years );
+        SpinnerAdapter adapterYears = new ArrayAdapter<String>(ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, years);
         Spinner spinYears = (Spinner) findViewById(R.id.spinExpYear);
         spinYears.setAdapter(adapterYears);
 
@@ -236,9 +237,9 @@ public class ReservacionActivity extends Activity {
         ninos.add("0");
         ninos.add("1");
 
-        Spinner spinAdultos = (Spinner) findViewById( R.id.spinAdultos );
-        SpinnerAdapter adapterAdultos = new ArrayAdapter<String>( ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, adultos );
-        spinAdultos.setAdapter( adapterAdultos );
+        Spinner spinAdultos = (Spinner) findViewById(R.id.spinAdultos);
+        SpinnerAdapter adapterAdultos = new ArrayAdapter<String>(ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, adultos);
+        spinAdultos.setAdapter(adapterAdultos);
         spinAdultos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -250,28 +251,27 @@ public class ReservacionActivity extends Activity {
             }
         });
 
-        Spinner spinNinos = (Spinner) findViewById( R.id.spinNinos );
-        SpinnerAdapter adapterNinos = new ArrayAdapter<String>( ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, ninos );
+        Spinner spinNinos = (Spinner) findViewById(R.id.spinNinos);
+        SpinnerAdapter adapterNinos = new ArrayAdapter<String>(ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, ninos);
         spinNinos.setAdapter(adapterNinos);
-        SimpleDateFormat sdfecha = new SimpleDateFormat( "dd-MM-yyyy" );
+        SimpleDateFormat sdfecha = new SimpleDateFormat("dd-MM-yyyy");
         sdfecha.format(departure);
 
 
-
-        lblHotelName.setText( _hotel.getNombre() );
+        lblHotelName.setText(_hotel.getNombre());
         lblArrivalDate.setText(sdfecha.format(arrival));
         lblDepartureDate.setText(sdfecha.format(departure));
-        lblHotelName2.setText( _hotel.getNombre() );
+        lblHotelName2.setText(_hotel.getNombre());
         lblArrivalDate2.setText(sdfecha.format(arrival));
         lblDepartureDate2.setText(sdfecha.format(departure));
 
 
-        lblTotal.setText(String.format( "Total: $%,.2f ", getTotalCost() ) + "MXN");//String.format( "Total: $%,.2f ",1123 ) );
-        lblTotal2.setText(String.format( "Total: $%,.2f ", getTotalCost()) + "MXN" );// String.format( "Total: $%,.2f ", 34345 )  );
+        lblTotal.setText(String.format("Total: $%,.2f ", getTotalCost()) + "MXN");//String.format( "Total: $%,.2f ",1123 ) );
+        lblTotal2.setText(String.format("Total: $%,.2f ", getTotalCost()) + "MXN");// String.format( "Total: $%,.2f ", 34345 )  );
 
 
-      //  NestedListView list = (NestedListView) findViewById( R.id.list_summary );
-       // NestedListView list2 = (NestedListView) findViewById( R.id.list_summary2 );
+        //  NestedListView list = (NestedListView) findViewById( R.id.list_summary );
+        // NestedListView list2 = (NestedListView) findViewById( R.id.list_summary2 );
 
 
         Button btnReserva2 = (Button) findViewById(R.id.btnReserva);
@@ -289,7 +289,7 @@ public class ReservacionActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                if("".equals(txtName.getText().toString())){
+                if ("".equals(txtName.getText().toString())) {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
                     builder.setTitle("Hoteles City")
@@ -303,7 +303,7 @@ public class ReservacionActivity extends Activity {
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }else if("".equals(txtLast.getText().toString())){
+                } else if ("".equals(txtLast.getText().toString())) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
                     builder.setTitle("Hoteles City")
                             .setMessage("El campo Apellido no puede estar vacío")
@@ -316,7 +316,7 @@ public class ReservacionActivity extends Activity {
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }else if("".equals(txtEmail.getText().toString())){
+                } else if ("".equals(txtEmail.getText().toString())) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
                     builder.setTitle("Hoteles City")
                             .setMessage("El campo Correo Electrónico no puede estar vacío")
@@ -329,7 +329,7 @@ public class ReservacionActivity extends Activity {
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }else if(!cbAfiliate.isChecked()) {
+                } else if (!cbAfiliate.isChecked()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
                     builder.setTitle("Hoteles City")
                             .setMessage("Hubo un problema al tratar de hacer tu reservación, vuelve a intentarlo")
@@ -342,32 +342,30 @@ public class ReservacionActivity extends Activity {
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }else if("".equals(txtPhone.getText().toString())){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
-                        builder.setTitle("Hoteles City")
-                                .setMessage("El campo Teléfono no puede estar vacío")
-                                .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                } else if ("".equals(txtPhone.getText().toString())) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("El campo Teléfono no puede estar vacío")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                                    }
-                                });
+                                }
+                            });
 
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }else {
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                } else {
                     // Intent intent = new Intent(ReservacionActivity.this, HotelReservaResultActivity.class);
                     // startActivity(intent);
-                    //RecibirDatos();
-                    for (int i = 0; i < titulares.size(); i++) {
-                        changeHuesped(i);
-                        System.out.println("Titular " + i + "---->Nombre" + titulares.get(i).getName());
-                    }
+                    //
+
                     if (validateCapture()) {
                         for (int i = 0; i < titulares.size(); i++) {
                             changeHuesped(i);
-                            System.out.println("Titular " + 1 + "---->Nombre" + titulares.get(i).getName());
+                            System.out.println("Titular " + i + "---->Nombre" + titulares.get(i).getName() + "TAmaño ZisE->"+ titulares.size());
                         }
+                        RecibirDatos();
                     }
                 }
             }
@@ -390,85 +388,72 @@ public class ReservacionActivity extends Activity {
         ListView list = (ListView) findViewById(R.id.list_summary);
         list.setAdapter( adapterNumHabitaciones );*/
 
-       // NestedListView list2 = (NestedListView) findViewById(R.id.list_summary2);
+        // NestedListView list2 = (NestedListView) findViewById(R.id.list_summary2);
 
 
-       // list2.setAdapter( adapter );
+        // list2.setAdapter( adapter );
 
         ArrayList<String> huespedes = new ArrayList<String>();
         ArrayList<SummaryEntry> sumary = new ArrayList<SummaryEntry>();
 
-        for( int i = 0; i < numHabitacion; i++ )
-        {
-            huespedes.add( "Huesped titular - habitación " + ( i + 1 ) );
-            sumary.add( new SummaryEntry( 0, "Habitación " + ( i + 1 ) ) );
-            for( int j = 0; j < Math.abs(numNoches); j++ )
-            {
-                sumary.add( new SummaryEntry( 1, "Noche " + ( j + 1 ) + " $"+precioHabitacion));
+        for (int i = 0; i < numHabitacion; i++) {
+            huespedes.add("Huesped titular - habitación " + (i + 1));
+            sumary.add(new SummaryEntry(0, "Habitación " + (i + 1)));
+            for (int j = 0; j < Math.abs(numNoches); j++) {
+                sumary.add(new SummaryEntry(1, "Noche " + (j + 1) + " $" + precioHabitacion));
             }
-            titulares.add( new GuestData() );
+            titulares.add(new GuestData());
 
         }
 
         NestedListView list = (NestedListView) findViewById(R.id.list_summary);
-        NestedListView list2 = (NestedListView) findViewById( R.id.list_summary2 );
-        SummaryListAdapter adapter = new SummaryListAdapter( this, sumary );
-        list.setAdapter( adapter );
-        list2.setAdapter( adapter );
+        NestedListView list2 = (NestedListView) findViewById(R.id.list_summary2);
+        SummaryListAdapter adapter = new SummaryListAdapter(this, sumary);
+        list.setAdapter(adapter);
+        list2.setAdapter(adapter);
 
-        SpinnerAdapter adapterHuespedes = new ArrayAdapter<String>( this, R.layout.habitaciones_item, R.id.txtOption, huespedes );
+        SpinnerAdapter adapterHuespedes = new ArrayAdapter<String>(this, R.layout.habitaciones_item, R.id.txtOption, huespedes);
         Spinner spinHuespedes = (Spinner) findViewById(R.id.spinHuespedes);
-        spinHuespedes.setAdapter( adapterHuespedes );
-        spinHuespedes.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener()
-        {
+        spinHuespedes.setAdapter(adapterHuespedes);
+        spinHuespedes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected( AdapterView<?> parent, View view, int position, long id )
-            {
-                changeHuesped( position );
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                changeHuesped(position);
             }
 
             @Override
-            public void onNothingSelected( AdapterView<?> parent )
-            {
+            public void onNothingSelected(AdapterView<?> parent) {
                 // FATAL: No debería ocurrir
             }
-        } );
+        });
 
         RadioButton btnMisma = (RadioButton) findViewById(R.id.btn_rad_misma);
         RadioButton btnOtras = (RadioButton) findViewById(R.id.btn_rad_otros);
-        btnMisma.setChecked( true );
-        btnMisma.setEnabled( false );
-        btnOtras.setEnabled( false );
+        btnMisma.setChecked(true);
+        btnMisma.setEnabled(false);
+        btnOtras.setEnabled(false);
         SegmentedGroup segmentedGroup = (SegmentedGroup) findViewById(R.id.segmented);
-        segmentedGroup.setOnCheckedChangeListener( new RadioGroup.OnCheckedChangeListener()
-        {
+        segmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged( RadioGroup group, int checkedId )
-            {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
                 handleCaptureOptionHandle();
             }
-        } );
-
-
-
-
-
-
+        });
 
 
     }
 
-    public void RecibirDatos(){
+    public void RecibirDatos() {
 
-            txtName.getText();
-            txtLast.getText();
-            txtEmail.getText();
-            //txtSocio.getText();
-            cbAfiliate.isChecked();
-            txtPhone.getText();
-            spinViaje.getSelectedItemPosition();
-            spinAdultos.getSelectedItemPosition();
-            spinNinos.getSelectedItemPosition();
+        txtName.getText();
+        txtLast.getText();
+        txtEmail.getText();
+        txtSocio.getText();
+        cbAfiliate.isChecked();
+        txtPhone.getText();
+        spinViaje.getSelectedItemPosition();
+        spinAdultos.getSelectedItemPosition();
+        spinNinos.getSelectedItemPosition();
 
         System.out.println(txtName.getText().toString());
         System.out.println(txtLast.getText().toString());
@@ -511,11 +496,11 @@ public class ReservacionActivity extends Activity {
                     case XmlPullParser.END_TAG:
                         if (tagname.equalsIgnoreCase("CodigoError")) {
 
-                        }else if(tagname.equalsIgnoreCase("DescError")){
+                        } else if (tagname.equalsIgnoreCase("DescError")) {
 
-                        } else if(tagname.equalsIgnoreCase("ErrorMessage")){
+                        } else if (tagname.equalsIgnoreCase("ErrorMessage")) {
 
-                        }else if (tagname.equalsIgnoreCase("NumReservacion")) {
+                        } else if (tagname.equalsIgnoreCase("NumReservacion")) {
                             // employee.setName(text);
                         } else if (tagname.equalsIgnoreCase("SMART_AutCode")) {
                             //employee.setId(text);
@@ -545,16 +530,15 @@ public class ReservacionActivity extends Activity {
     }
 
 
-
-
-    public void FinobtenerListadoTarjetas(ArrayList<SmartCard> listado){
+    public void FinobtenerListadoTarjetas(ArrayList<SmartCard> listado) {
         System.out.println("Listado de tarjetas completo :3");
     }
 
-    public void ErrorobtenerListadoTarjetas(String mensaje){
+    public void ErrorobtenerListadoTarjetas(String mensaje) {
 
     }
-    public void obtenerListadoTarjetas(){
+
+    public void obtenerListadoTarjetas() {
         Log.d("ReservacionActivity", "obtener listado tarjetas");
 
 
@@ -571,7 +555,7 @@ public class ReservacionActivity extends Activity {
                 "    </soapenv:Body>\n" +
                 "</soapenv:Envelope>";
 
-        enviarxml = enviarxml.replace("{IDF2GO}","1977012");
+        enviarxml = enviarxml.replace("{IDF2GO}", "1977012");
 
 
         Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
@@ -654,7 +638,7 @@ public class ReservacionActivity extends Activity {
             public byte[] getBody() throws AuthFailureError {
                 //return cadena.toString().getBytes();
                 final String temp = finalEnviarxml.toString();
-                return  temp.toString().getBytes();
+                return temp.toString().getBytes();
             }
 
         };
@@ -664,270 +648,272 @@ public class ReservacionActivity extends Activity {
         Volley.newRequestQueue(this).add(registro);
 
 
-
-
     }
 
 
+    public void FinenviarReservacion(String reservacion) {
 
+        contador++;
 
-
-
-    public void FinenviarReservacion(String reservacion){
+        if(contador==titulares.size()){
+            Intent intent = new Intent(ReservacionActivity.this, HotelReservaResultActivity.class);
+            startActivity(intent);
+        }
         System.out.println("Reservacion OK " + reservacion);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
         builder.setTitle("Hoteles City")
-                .setMessage("El numero de reservacion es " +reservacion)
+                .setMessage("El numero de reservacion es " + reservacion)
                 .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
 
                     }
                 });
 
         AlertDialog dialog = builder.create();
-        dialog.show();
+        dialog.show();*/
+
+
     }
 
-    public void ErrorenviarReservacion(){
+    public void ErrorenviarReservacion() {
 
         System.out.println("Reservacion fallo D=");
     }
 
 
-
-
-    public void enviarReservacion(){
+    public void enviarReservacion() {
         Log.d("ReservacionActivity", "Enviar Tarjeta ");
 
-
-        String enviarxml = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
-                "    <s:Body>\n" +
-                "        <InsertBookingv3_01 xmlns=\"http://tempuri.org/\">\n" +
-                "            <mdlReservation xmlns:d4p1=\"http://schemas.datacontract.org/2004/07/CityHub\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-                "                <d4p1:AplicaSMART>\n" +
-                "                    <d4p1:pAplicaSMART>false</d4p1:pAplicaSMART>\n" +
-                "                </d4p1:AplicaSMART>\n" +
-                "                <d4p1:Deposito>\n" +
-                "                    <d4p1:Comprobante>SmartComprobante</d4p1:Comprobante>\n" +
-                "                    <d4p1:Fecha>{depositofecha}</d4p1:Fecha>\n" +
-                "                    <d4p1:Monto>{depositomonto}</d4p1:Monto>\n" +
-                "                    <d4p1:Notas></d4p1:Notas>\n" +
-                "                    <d4p1:Notas2></d4p1:Notas2>\n" +
-                "                    <d4p1:Tarifa_Fija>0</d4p1:Tarifa_Fija>\n" +
-                "                    <d4p1:TipoMoneda>{depositotipomoneda}</d4p1:TipoMoneda>\n" +
-                "                </d4p1:Deposito>\n" +
-                "                <d4p1:Empresa>\n" +
-                "                    <d4p1:IataEmisor />\n" +
-                "                    <d4p1:RfcEmisor>EMISAPP</d4p1:RfcEmisor>\n" +
-                "                </d4p1:Empresa>\n" +
-                "                <d4p1:Estancia>\n" +
-                "                    <d4p1:ChannelRef />\n" +
-                "                    <d4p1:CodigoOperador>APP_MOVIL</d4p1:CodigoOperador>\n" +
-                "                    <d4p1:CodigoOrigen>007</d4p1:CodigoOrigen>\n" +
-                "                    <d4p1:CodigoSegmento>001</d4p1:CodigoSegmento>\n" +
-                "                    <d4p1:FechaEntrada>{estanciaentrada}</d4p1:FechaEntrada>\n" +
-                "                    <d4p1:FormaDePago>{formapago}</d4p1:FormaDePago>\n" +
-                "                    <d4p1:Hotel>{codigohotel}</d4p1:Hotel>\n" +
-                "                    <d4p1:NotasFormaPago />\n" +
-                "                    <d4p1:NotasReservacion />\n" +
-                "                    <d4p1:NumeroDeNoches>{numeronoches}</d4p1:NumeroDeNoches>\n" +
-                "                    <d4p1:TipoReservacion>TCRED</d4p1:TipoReservacion>\n" +
-                "                </d4p1:Estancia>\n" +
-                "                <d4p1:Habitacion>\n" +
-                "                    <d4p1:CodigoHabitacion>{codigohabitacion}</d4p1:CodigoHabitacion>\n" +
-                "                    <d4p1:CodigoPromocion>{codigopromocion}</d4p1:CodigoPromocion>\n" +
-                "                    <d4p1:CodigoTarifa>{codigotarifa}</d4p1:CodigoTarifa>\n" +
-                "                    <d4p1:HuespedTitular>\n" +
-                "                        <d4p1:Apellidos>{huespedapellidos}</d4p1:Apellidos>\n" +
-                "                        <d4p1:Edad>0</d4p1:Edad>\n" +
-                "                        <d4p1:Nombre>{huespednombre}</d4p1:Nombre>\n" +
-                "                        <d4p1:Acompanantes_Ar>{acompanantes}</d4p1:Acompanantes_Ar>\n" +
-                "                        <d4p1:CodigoPais>{codigopais}</d4p1:CodigoPais>\n" +
-                "                        <d4p1:CorreoElectronico>{correoelectronico}</d4p1:CorreoElectronico>\n" +
-                "                        <d4p1:Indicaciones />\n" +
-                "                        <d4p1:RwdNumber />\n" +
-                "                        <d4p1:Telefono>{telefono}</d4p1:Telefono>\n" +
-                "                        <d4p1:TotAcompAdult>{totalacompadultos}</d4p1:TotAcompAdult>\n" +
-                "                        <d4p1:TotAcompMenor>{totalacompmenores}</d4p1:TotAcompMenor>\n" +
-                "                    </d4p1:HuespedTitular>\n" +
-                "                    <d4p1:NumeroHabitaciones>1</d4p1:NumeroHabitaciones>\n" +
-                "                </d4p1:Habitacion>\n" +
-                "                <d4p1:Reservante>\n" +
-                "                    <d4p1:Apellidos>{reservanteapellidos}</d4p1:Apellidos>\n" +
-                "                    <d4p1:Edad>0</d4p1:Edad>\n" +
-                "                    <d4p1:Nombre>{reservantenombre}</d4p1:Nombre>\n" +
-                "                    <d4p1:CorreoElectronico>{reservantecorreoelectronico}</d4p1:CorreoElectronico>\n" +
-                "                    <d4p1:RwdNumber />\n" +
-                "                    <d4p1:TelefonoReservante>{reservantetelefono}</d4p1:TelefonoReservante>\n" +
-                "                </d4p1:Reservante>\n" +
-                "                <d4p1:SMART>\n" +
-                "                    <d4p1:CVV/>\n" +
-                "                    <d4p1:Clasificacion_Transaccion/>\n" +
-                "                    <d4p1:CuentaId/>\n" +
-                "                    <d4p1:Host/>\n" +
-                "                    <d4p1:PuntoVenta/>\n" +
-                "                    <d4p1:SMART_Moneda/>\n" +
-                "                    <d4p1:SMART_Pais/>\n" +
-                "                    <d4p1:Tipo_Cliente/>\n" +
-                "                </d4p1:SMART>\n" +
-                "                <d4p1:TarjetaCredito>\n" +
-                "                    <d4p1:AnoVencimiento>{tdc_anio}</d4p1:AnoVencimiento>\n" +
-                "                    <d4p1:CodigoSeguridad>{tdc_CVV}</d4p1:CodigoSeguridad>\n" +
-                "                    <d4p1:MesVencimiento>{tdc_mes}</d4p1:MesVencimiento>\n" +
-                "                    <d4p1:NombreTarjeta>{tdc_nombre}</d4p1:NombreTarjeta>\n" +
-                "                    <d4p1:NumeroTarjeta>{tdc_numero}</d4p1:NumeroTarjeta>\n" +
-                "                </d4p1:TarjetaCredito>\n" +
-                "                <d4p1:TarjetaVirtual>\n" +
-                "                    <d4p1:AnoVencimiento />\n" +
-                "                    <d4p1:CodigoSeguridad />\n" +
-                "                    <d4p1:MesVencimiento />\n" +
-                "                    <d4p1:NombreTarjeta />\n" +
-                "                    <d4p1:NumeroTarjeta />\n" +
-                "                </d4p1:TarjetaVirtual>\n" +
-                "            </mdlReservation>\n" +
-                "        </InsertBookingv3_01>\n" +
-                "    </s:Body>\n" +
-                "</s:Envelope>";
+        for (int i = 0; i < titulares.size(); i++) {
 
 
-        String llegada = new SimpleDateFormat("yyyy-MM-dd").format(arrival);
+            String enviarxml = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
+                    "    <s:Body>\n" +
+                    "        <InsertBookingv3_01 xmlns=\"http://tempuri.org/\">\n" +
+                    "            <mdlReservation xmlns:d4p1=\"http://schemas.datacontract.org/2004/07/CityHub\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
+                    "                <d4p1:AplicaSMART>\n" +
+                    "                    <d4p1:pAplicaSMART>false</d4p1:pAplicaSMART>\n" +
+                    "                </d4p1:AplicaSMART>\n" +
+                    "                <d4p1:Deposito>\n" +
+                    "                    <d4p1:Comprobante>SmartComprobante</d4p1:Comprobante>\n" +
+                    "                    <d4p1:Fecha>{depositofecha}</d4p1:Fecha>\n" +
+                    "                    <d4p1:Monto>{depositomonto}</d4p1:Monto>\n" +
+                    "                    <d4p1:Notas></d4p1:Notas>\n" +
+                    "                    <d4p1:Notas2></d4p1:Notas2>\n" +
+                    "                    <d4p1:Tarifa_Fija>0</d4p1:Tarifa_Fija>\n" +
+                    "                    <d4p1:TipoMoneda>{depositotipomoneda}</d4p1:TipoMoneda>\n" +
+                    "                </d4p1:Deposito>\n" +
+                    "                <d4p1:Empresa>\n" +
+                    "                    <d4p1:IataEmisor />\n" +
+                    "                    <d4p1:RfcEmisor>EMISAPP</d4p1:RfcEmisor>\n" +
+                    "                </d4p1:Empresa>\n" +
+                    "                <d4p1:Estancia>\n" +
+                    "                    <d4p1:ChannelRef />\n" +
+                    "                    <d4p1:CodigoOperador>APP_MOVIL</d4p1:CodigoOperador>\n" +
+                    "                    <d4p1:CodigoOrigen>007</d4p1:CodigoOrigen>\n" +
+                    "                    <d4p1:CodigoSegmento>001</d4p1:CodigoSegmento>\n" +
+                    "                    <d4p1:FechaEntrada>{estanciaentrada}</d4p1:FechaEntrada>\n" +
+                    "                    <d4p1:FormaDePago>{formapago}</d4p1:FormaDePago>\n" +
+                    "                    <d4p1:Hotel>{codigohotel}</d4p1:Hotel>\n" +
+                    "                    <d4p1:NotasFormaPago />\n" +
+                    "                    <d4p1:NotasReservacion />\n" +
+                    "                    <d4p1:NumeroDeNoches>{numeronoches}</d4p1:NumeroDeNoches>\n" +
+                    "                    <d4p1:TipoReservacion>TCRED</d4p1:TipoReservacion>\n" +
+                    "                </d4p1:Estancia>\n" +
+                    "                <d4p1:Habitacion>\n" +
+                    "                    <d4p1:CodigoHabitacion>{codigohabitacion}</d4p1:CodigoHabitacion>\n" +
+                    "                    <d4p1:CodigoPromocion>{codigopromocion}</d4p1:CodigoPromocion>\n" +
+                    "                    <d4p1:CodigoTarifa>{codigotarifa}</d4p1:CodigoTarifa>\n" +
+                    "                    <d4p1:HuespedTitular>\n" +
+                    "                        <d4p1:Apellidos>{huespedapellidos}</d4p1:Apellidos>\n" +
+                    "                        <d4p1:Edad>0</d4p1:Edad>\n" +
+                    "                        <d4p1:Nombre>{huespednombre}</d4p1:Nombre>\n" +
+                    "                        <d4p1:Acompanantes_Ar>{acompanantes}</d4p1:Acompanantes_Ar>\n" +
+                    "                        <d4p1:CodigoPais>{codigopais}</d4p1:CodigoPais>\n" +
+                    "                        <d4p1:CorreoElectronico>{correoelectronico}</d4p1:CorreoElectronico>\n" +
+                    "                        <d4p1:Indicaciones />\n" +
+                    "                        <d4p1:RwdNumber />\n" +
+                    "                        <d4p1:Telefono>{telefono}</d4p1:Telefono>\n" +
+                    "                        <d4p1:TotAcompAdult>{totalacompadultos}</d4p1:TotAcompAdult>\n" +
+                    "                        <d4p1:TotAcompMenor>{totalacompmenores}</d4p1:TotAcompMenor>\n" +
+                    "                    </d4p1:HuespedTitular>\n" +
+                    "                    <d4p1:NumeroHabitaciones>1</d4p1:NumeroHabitaciones>\n" +
+                    "                </d4p1:Habitacion>\n" +
+                    "                <d4p1:Reservante>\n" +
+                    "                    <d4p1:Apellidos>{reservanteapellidos}</d4p1:Apellidos>\n" +
+                    "                    <d4p1:Edad>0</d4p1:Edad>\n" +
+                    "                    <d4p1:Nombre>{reservantenombre}</d4p1:Nombre>\n" +
+                    "                    <d4p1:CorreoElectronico>{reservantecorreoelectronico}</d4p1:CorreoElectronico>\n" +
+                    "                    <d4p1:RwdNumber />\n" +
+                    "                    <d4p1:TelefonoReservante>{reservantetelefono}</d4p1:TelefonoReservante>\n" +
+                    "                </d4p1:Reservante>\n" +
+                    "                <d4p1:SMART>\n" +
+                    "                    <d4p1:CVV/>\n" +
+                    "                    <d4p1:Clasificacion_Transaccion/>\n" +
+                    "                    <d4p1:CuentaId/>\n" +
+                    "                    <d4p1:Host/>\n" +
+                    "                    <d4p1:PuntoVenta/>\n" +
+                    "                    <d4p1:SMART_Moneda/>\n" +
+                    "                    <d4p1:SMART_Pais/>\n" +
+                    "                    <d4p1:Tipo_Cliente/>\n" +
+                    "                </d4p1:SMART>\n" +
+                    "                <d4p1:TarjetaCredito>\n" +
+                    "                    <d4p1:AnoVencimiento>{tdc_anio}</d4p1:AnoVencimiento>\n" +
+                    "                    <d4p1:CodigoSeguridad>{tdc_CVV}</d4p1:CodigoSeguridad>\n" +
+                    "                    <d4p1:MesVencimiento>{tdc_mes}</d4p1:MesVencimiento>\n" +
+                    "                    <d4p1:NombreTarjeta>{tdc_nombre}</d4p1:NombreTarjeta>\n" +
+                    "                    <d4p1:NumeroTarjeta>{tdc_numero}</d4p1:NumeroTarjeta>\n" +
+                    "                </d4p1:TarjetaCredito>\n" +
+                    "                <d4p1:TarjetaVirtual>\n" +
+                    "                    <d4p1:AnoVencimiento />\n" +
+                    "                    <d4p1:CodigoSeguridad />\n" +
+                    "                    <d4p1:MesVencimiento />\n" +
+                    "                    <d4p1:NombreTarjeta />\n" +
+                    "                    <d4p1:NumeroTarjeta />\n" +
+                    "                </d4p1:TarjetaVirtual>\n" +
+                    "            </mdlReservation>\n" +
+                    "        </InsertBookingv3_01>\n" +
+                    "    </s:Body>\n" +
+                    "</s:Envelope>";
 
-        enviarxml = enviarxml.replace("{smart}","false");
-        enviarxml = enviarxml.replace("{codigohabitacion}",codigoBase);
-        enviarxml = enviarxml.replace("{codigotarifa}","1114");
-        enviarxml = enviarxml.replace("{codigopromocion}","");
+
+            String llegada = new SimpleDateFormat("yyyy-MM-dd").format(arrival);
+
+            enviarxml = enviarxml.replace("{smart}", "false");
+            enviarxml = enviarxml.replace("{codigohabitacion}", codigoBase);
+            enviarxml = enviarxml.replace("{codigotarifa}", "1114");
+            enviarxml = enviarxml.replace("{codigopromocion}", "");
 
 
-        enviarxml = enviarxml.replace("{correoelectronico}",txtEmail.getText());
-        enviarxml = enviarxml.replace("{telefono}",txtPhone.getText() );
-        enviarxml = enviarxml.replace("{totalacompadultos}", "1");
-        enviarxml = enviarxml.replace("{totalacompmenores}","0");
-        enviarxml = enviarxml.replace("{codigopais}","MEX");
-        enviarxml = enviarxml.replace("{acompanantes}","");
-        enviarxml = enviarxml.replace("{huespednombre}",txtName.getText() );
-        enviarxml = enviarxml.replace("{huespedapellidos}",txtLast.getText() );
+            enviarxml = enviarxml.replace("{correoelectronico}", titulares.get(0).getEmail());
+            enviarxml = enviarxml.replace("{telefono}", titulares.get(0).getPhone());
+            enviarxml = enviarxml.replace("{totalacompadultos}", "1");
+            enviarxml = enviarxml.replace("{totalacompmenores}", "0");
+            enviarxml = enviarxml.replace("{codigopais}", "MEX");
+            enviarxml = enviarxml.replace("{acompanantes}", "");
+            enviarxml = enviarxml.replace("{huespednombre}", titulares.get(0).getName());
+            enviarxml = enviarxml.replace("{huespedapellidos}", titulares.get(0).getLastName());
 
 
-        enviarxml = enviarxml.replace("{codigohotel}",_hotel.getSiglas() );
-        enviarxml = enviarxml.replace("{estanciaentrada}",llegada );
-        enviarxml = enviarxml.replace("{numeronoches}","1");
+            enviarxml = enviarxml.replace("{codigohotel}", _hotel.getSiglas());
+            enviarxml = enviarxml.replace("{estanciaentrada}", llegada);
+            enviarxml = enviarxml.replace("{numeronoches}", "1");
 
-        enviarxml = enviarxml.replace("{reservantenombre}", txtName.getText() );
-        enviarxml = enviarxml.replace("{reservanteapellidos}", txtLast.getText() );
-        enviarxml = enviarxml.replace("{reservantecorreoelectronico}",txtEmail.getText());
-        enviarxml = enviarxml.replace("{reservantetelefono}",txtPhone.getText() );
-
-
-        enviarxml = enviarxml.replace("{depositomonto}", precio);
-        enviarxml = enviarxml.replace("{depositotipomoneda}","MX");
-        enviarxml = enviarxml.replace("{depositofecha}",llegada );
-        enviarxml = enviarxml.replace("{formapago}","TCRED" );
+            enviarxml = enviarxml.replace("{reservantenombre}", titulares.get(0).getName());
+            enviarxml = enviarxml.replace("{reservanteapellidos}", titulares.get(0).getLastName());
+            enviarxml = enviarxml.replace("{reservantecorreoelectronico}", titulares.get(0).getEmail());
+            enviarxml = enviarxml.replace("{reservantetelefono}", titulares.get(0).getPhone());
 
 
-        EditText txtCardName = (EditText) findViewById( R.id.txtCardName );
-        EditText txtCardNumber = (EditText) findViewById( R.id.txtCardNumber );
-        Spinner spinExpMonth = (Spinner) findViewById( R.id.spinExpMonth );
-        Spinner spinExpYear = (Spinner) findViewById( R.id.spinExpYear );
-        EditText txtCardCode = (EditText) findViewById( R.id.txtCardCode );
-
-        enviarxml = enviarxml.replace("{tdc_anio}",spinExpYear.getSelectedItem().toString() );
-        enviarxml = enviarxml.replace("{tdc_CVV}",txtCardCode.getText() );
-        enviarxml = enviarxml.replace("{tdc_mes}",spinExpMonth.getSelectedItem().toString()  );
-        enviarxml = enviarxml.replace("{tdc_nombre}",txtName.getText() + " " +txtLast.getText() );
-        enviarxml = enviarxml.replace("{tdc_numero}",txtCardNumber.getText() );
+            enviarxml = enviarxml.replace("{depositomonto}", precio);
+            enviarxml = enviarxml.replace("{depositotipomoneda}", "MX");
+            enviarxml = enviarxml.replace("{depositofecha}", llegada);
+            enviarxml = enviarxml.replace("{formapago}", "TCRED");
 
 
-        Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
+            EditText txtCardName = (EditText) findViewById(R.id.txtCardName);
+            EditText txtCardNumber = (EditText) findViewById(R.id.txtCardNumber);
+            Spinner spinExpMonth = (Spinner) findViewById(R.id.spinExpMonth);
+            Spinner spinExpYear = (Spinner) findViewById(R.id.spinExpYear);
+            EditText txtCardCode = (EditText) findViewById(R.id.txtCardCode);
 
-        System.out.println("XML a enviar --> " + enviarxml);
-
-
-        final String finalEnviarxml = enviarxml;
-        StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-
-
-
-                try {
-
-                    JSONObject jsonObj = null;
-                    JSONObject body = null;
-                    JSONObject InsertBookingv3_01Response = null;
-
-                    jsonObj = XML.toJSONObject(response);
-
-                    Log.d("JSON alta tarjeta", jsonObj.toString());
+            enviarxml = enviarxml.replace("{tdc_anio}", spinExpYear.getSelectedItem().toString());
+            enviarxml = enviarxml.replace("{tdc_CVV}", txtCardCode.getText());
+            enviarxml = enviarxml.replace("{tdc_mes}", spinExpMonth.getSelectedItem().toString());
+            enviarxml = enviarxml.replace("{tdc_nombre}", txtCardNumber.getText());
+            enviarxml = enviarxml.replace("{tdc_numero}", txtCardNumber.getText());
 
 
-                    body = jsonObj.getJSONObject("s:Envelope").getJSONObject("s:Body");
-                    InsertBookingv3_01Response = body.getJSONObject("InsertBookingv3_01Response").getJSONObject("InsertBookingv3_01Result");
+            Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
 
-                    if ( InsertBookingv3_01Response.has("a:NumReservacion") ){
-
-                        FinenviarReservacion( "" +InsertBookingv3_01Response.getInt("a:NumReservacion") );
-                        return;
-
-                    }
+            System.out.println("XML a enviar --> " + enviarxml);
 
 
+            final String finalEnviarxml = enviarxml;
+
+            StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    System.out.println("RESERACIONCCCCCCCC->" + response);
+
+                    try {
+
+                            JSONObject jsonObj = null;
+                            JSONObject body = null;
+                            JSONObject InsertBookingv3_01Response = null;
+
+                            jsonObj = XML.toJSONObject(response);
+
+                            Log.d("JSON alta tarjeta", jsonObj.toString());
+
+
+                            body = jsonObj.getJSONObject("s:Envelope").getJSONObject("s:Body");
+                            InsertBookingv3_01Response = body.getJSONObject("InsertBookingv3_01Response").getJSONObject("InsertBookingv3_01Result");
+
+                            if (InsertBookingv3_01Response.has("a:NumReservacion")) {
+
+                                FinenviarReservacion("" + InsertBookingv3_01Response.getInt("a:NumReservacion"));
+                                return;
+
+                            }
+
+                        } catch (JSONException e) {
+                            Log.e("JSON exception", e.getMessage());
+                            e.printStackTrace();
+                        }
+
+
+                        //AltaTarjetaResult
 
 
 
-                    //AltaTarjetaResult
+                    FinenviarReservacion("");
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                    NetworkResponse response = error.networkResponse;
+                    String datos = new String(response.data);
+                    System.out.println("sout" + datos);
+                    //ErrorenviarTarjeta("error");
+                    ErrorenviarReservacion();
+                }
+            }) {
 
-                } catch (JSONException e) {
-                    Log.e("JSON exception", e.getMessage());
-                    e.printStackTrace();
+                public String getBodyContentType() {
+                    return "text/xml; charset=utf-8";
                 }
 
-                FinenviarReservacion("");
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                NetworkResponse response = error.networkResponse;
-                String datos = new String(response.data);
-                System.out.println("sout" + datos);
-                //ErrorenviarTarjeta("error");
-                ErrorenviarReservacion();
-            }
-        }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> params = new HashMap<String, String>();
+                    //params.put("Content-Type", "application/xml; charset=utf-8");
+                    params.put("SOAPAction", "http://tempuri.org/IReservationEngine/InsertBookingv3_01");
+                    Log.d("hsdhsdfhuidiuhsd", "clave");
+                    return params;
+                }
 
-            public String getBodyContentType() {
-                return "text/xml; charset=utf-8";
-            }
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    //return cadena.toString().getBytes();
+                    final String temp = finalEnviarxml.toString();
+                    return temp.toString().getBytes();
+                }
 
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> params = new HashMap<String, String>();
-                //params.put("Content-Type", "application/xml; charset=utf-8");
-                params.put("SOAPAction", "http://tempuri.org/IReservationEngine/InsertBookingv3_01");
-                Log.d("hsdhsdfhuidiuhsd", "clave");
-                return params;
-            }
+            };
 
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                //return cadena.toString().getBytes();
-                final String temp = finalEnviarxml.toString();
-                return  temp.toString().getBytes();
-            }
-
-        };
-
-        System.out.println("registro->" + registro.toString());
-        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Volley.newRequestQueue(this).add(registro);
-
-
-
+            System.out.println("registro->" + registro.toString());
+            registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            Volley.newRequestQueue(this).add(registro);
+        }
 
     }
+
 
 
 
