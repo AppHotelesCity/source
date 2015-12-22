@@ -590,6 +590,13 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             Volley.newRequestQueue(this).add(registro);
         }else{
+            for (int i = 0; i <listaGeneralHotel.size() ; i++) {
+                for (int j = 0; j < listaGeneralHotel.get(i).getArrayHabitaciones().size() ; j++) {
+                    if(listaGeneralHotel.get(i).getArrayHabitaciones().get(j).getCodigoBase().equalsIgnoreCase("HCP")){
+                        listaGeneralHotel.get(i).getArrayHabitaciones().remove(j);
+                    }
+                }
+            }
             hotelAdapter = new HotelAdapter(listaGeneralHotel);
             listaTarjetasHotel.setAdapter(hotelAdapter);
         }

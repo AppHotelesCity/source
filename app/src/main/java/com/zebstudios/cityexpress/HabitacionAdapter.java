@@ -53,7 +53,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
 
     @Override
     public void onBindViewHolder(final HabitacionViewHolder holder, final int position) {
-        final Hotel hotel = arrayHoteles.get(0);
+        final Hotel hotel = arrayHoteles.get(position);
 
         final HabitacionBase habitacionBase= habitacionBaseArrayList.get(position);
         double precioAux = 0;
@@ -160,7 +160,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
 
     @Override
     public int getItemCount() {
-        return habitacionBaseArrayList.size();
+        return habitacionesArrayList.size();
     }
 
     public static class HabitacionViewHolder extends RecyclerView.ViewHolder{
