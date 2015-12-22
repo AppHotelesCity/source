@@ -96,6 +96,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                                         intent.putExtra("posicionHotel", posicion);
                                         intent.putExtra("posicionHabitacion", position);
                                         intent.putExtra("numHabitacion", (which+1));
+                                        intent.putExtra("descipcionHabitacionJSON",habitacionesArrayList.get(position).getDescripcion());
                                         intent.putExtra("precioDestino", habitacionBaseArrayList.get(position).getCosto());
                                         intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
                                         v.getContext().startActivity(intent);

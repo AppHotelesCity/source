@@ -92,6 +92,7 @@ public class ReservacionActivity extends Activity {
     int numHabitacion;
     int numNoches;
     String codigoBase;
+    String descripcionHabitacionJSON;
     Date arrival;
     Date departure;
     String precio;
@@ -104,7 +105,7 @@ public class ReservacionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.obtenerListadoTarjetas();
+       // this.obtenerListadoTarjetas();
 
         setContentView(R.layout.activity_reservacion);
 
@@ -123,6 +124,8 @@ public class ReservacionActivity extends Activity {
         codigoBase = bundle.getString("codigoBase");
         posicionHab = bundle.getInt("posicionHabitacion");
         numHabitacion = bundle.getInt("numHabitacion");
+        descripcionHabitacionJSON = bundle.getString("descipcionHabitacionJSON");
+
         arrival = PrincipalFragment._arrivalDate;
         departure = PrincipalFragment._departureDate;
         numNoches = ResultadosDisponibilidad.totalNoches;
@@ -665,10 +668,10 @@ public class ReservacionActivity extends Activity {
         reservacionBD.setFechaSalida(departure);
         reservacionBD.setDescripcionLugarHotel(_hotel.getLugaresCercanos());
         reservacionBD.setSiglasHotel(_hotel.getSiglas());
-        reservacionBD.setDeschabitacion(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());
+        reservacionBD.setDeschabitacion(descripcionHabitacionJSON);
         reservacionBD.setLatitudHotel(_hotel.getLatitude());
         reservacionBD.setLongitudHotel(_hotel.getLongitude());
-        reservacionBD.setHabCosto(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getCosto().replace(",", ""));
+        reservacionBD.setHabCosto(""+precioHabitacion);
         reservacionBD.setNumReservacion(Integer.parseInt(reservacion));
         reservacionBD.setAdultos(1);
         reservacionBD.setInfantes(1);
@@ -687,7 +690,11 @@ public class ReservacionActivity extends Activity {
 
         if(contador==titulares.size()){
             Intent intent = new Intent(ReservacionActivity.this, HotelReservaResultActivity.class);
-            intent.putExtra("numReservacion",reservacion);
+            intent.putExtra("numReservacion", reservacion);
+            intent.putExtra("numHabitaciones", numHabitacion);
+            intent.putExtra("precioHabitacion", precioHabitacion);
+            intent.putExtra("numNoches",numNoches);
+            intent.putExtra("total",getTotalCost());
             startActivity(intent);
         }
         System.out.println("Reservacion OK " + reservacion);

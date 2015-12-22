@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 
 /**
@@ -48,7 +49,7 @@ public class ReservacionesFragment extends Fragment
 		Realm realm = Realm.getInstance(getActivity());
 
 		reservacionesBD = realm.where(ReservacionBD.class).findAll();
-        reservacionesBD.sort("numReservacion");
+        reservacionesBD.sort("numReservacion", Sort.DESCENDING);
 
 		for (int i = 0; i < reservacionesBD.size(); i++) {
 			System.out.println("->" + reservacionesBD.get(i).getNombreUsuario() + reservacionesBD.get(i).getNombreHotel() + "RESERVACIONES->" + reservacionesBD.get(i).getNumReservacion());
@@ -127,7 +128,7 @@ public class ReservacionesFragment extends Fragment
 	private void reservationSelected( int index )
 	{
         Intent intent = new Intent(getActivity(), MiReservacionDetailActivity.class);
-        _reservations.get(index);
+        intent.putExtra("numReservacion",reservacionesBD.get(index).getNumReservacion());
         startActivity(intent);
 		/*Bundle parameters = new Bundle();
 		parameters.putSerializable( "RESERVATION", .get( index ) );

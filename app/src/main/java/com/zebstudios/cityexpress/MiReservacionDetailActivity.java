@@ -9,6 +9,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.text.SimpleDateFormat;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 /**
  * Created by edwinhernandez on 21/12/15.
  */
@@ -29,6 +42,8 @@ public class MiReservacionDetailActivity extends Activity {
     TextView txtDireccionHotel;
     TextView txtReferenciaHotel;
 
+    GoogleMap _map;
+    MapView _mapView;
     Button btnCheckIn;
     Button btnCheckOut;
     Button btnEnviarCorreo;
@@ -42,7 +57,9 @@ public class MiReservacionDetailActivity extends Activity {
     ImageView imageChat;
     ImageView imageBack;
 
-
+    RealmResults<ReservacionBD> datosReservacion;
+    Realm realm;
+    int numReservacion;
     @Override
 
     public void onCreate(Bundle savedInstanceState){
@@ -51,7 +68,7 @@ public class MiReservacionDetailActivity extends Activity {
 
          txtNumeroReservacion = (TextView) findViewById(R.id.txt_num_reservacion);
          txtNombreUsuario = (TextView) findViewById(R.id.txt_nombre_usuario);
-         txtHabitacion = (TextView) findViewById(R.id.txt_habitacion_reservacion);
+         txtHabitacion = (TextView) findViewById(R.id.txt_habitacion_reservacion); //numero de habitacion
          txtNombreHotel = (TextView) findViewById(R.id.txt_nombre_hotel);
          txtLlegada = (TextView) findViewById(R.id.txt_fecha_llegada);
          txtSalida = (TextView) findViewById(R.id.txt_fecha_salida);
@@ -63,6 +80,7 @@ public class MiReservacionDetailActivity extends Activity {
          txtLeyendaCambios = (TextView) findViewById(R.id.txt_leyenda_cambios);
          txtDireccionHotel = (TextView) findViewById(R.id.txt_direccion_hotel);
          txtReferenciaHotel = (TextView) findViewById(R.id.txt_referencia_hotel);
+        _mapView = (MapView) findViewById( R.id.mapViewReservacion);
 
          btnCheckIn = (Button) findViewById(R.id.btn_Check_in);
          btnCheckOut = (Button) findViewById(R.id.btn_Check_out);
@@ -77,11 +95,22 @@ public class MiReservacionDetailActivity extends Activity {
          imageChat = (ImageView) findViewById(R.id.btnChat);
          imageBack = (ImageView) findViewById(R.id.back_button);
 
+        _mapView.onCreate(savedInstanceState);
         btnCheckIn.setEnabled(false);
         btnCheckOut.setEnabled(false);
         btnConsultarSaldos.setEnabled(false);
         btnFacturacion.setEnabled(false);
 
+        Bundle bundle =  getIntent().getExtras();
+        numReservacion = bundle.getInt("numReservacion");
+
+        realm = Realm.getInstance(getBaseContext());
+
+        datosReservacion = realm.where(ReservacionBD.class).equalTo("numReservacion",numReservacion).findAll();
+
+        System.out.println("NombreHotel"+datosReservacion.get(0).getNombreHotel() + "TOTAL->" +datosReservacion.get(0).getHabCosto());
+
+        llenarInformacion();
         btnCheckIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,6 +197,44 @@ public class MiReservacionDetailActivity extends Activity {
                 onBackPressed();
             }
         });
+
+    }
+
+    public void llenarInformacion(){
+        SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
+        txtNumeroReservacion.setText(""+datosReservacion.get(0).getNumReservacion());
+        txtNombreUsuario.setText(datosReservacion.get(0).getNombreUsuario());
+        txtHabitacion .setText("");
+        txtNombreHotel .setText(datosReservacion.get(0).getNombreHotel());
+        txtLlegada .setText(sdf.format(datosReservacion.get(0).getFechaLlegada()));
+        txtSalida.setText(sdf.format(datosReservacion.get(0).getFechaSalida()));
+        txtTipoHabitacion .setText(datosReservacion.get(0).getDeschabitacion());
+        txtPrecioHabitacion.setText("$" + datosReservacion.get(0).getHabCosto() + "M.N");
+        txtNumAdultos.setText("" + datosReservacion.get(0).getAdultos());
+        txtNumNiños .setText("" + datosReservacion.get(0).getInfantes());
+        txtPrecioTotal .setText("Total: $ " + datosReservacion.get(0).getHabCosto() + " M.N");
+        txtDireccionHotel .setText("" + datosReservacion.get(0).getDireccionHotel());
+        txtReferenciaHotel.setText("" + datosReservacion.get(0).getDescripcionLugarHotel());
+        _mapView.onResume();
+
+        try
+        {
+            MapsInitializer.initialize(getApplicationContext());
+        }
+        catch( Exception e )
+        {
+            e.printStackTrace();
+        }
+
+
+        _map = _mapView.getMap();
+        //_map = ((SupportMapFragment) getFragmentManager().findFragmentById( R.id.map )).getMap();
+
+        LatLng hotelPosition =  new LatLng( datosReservacion.get(0).getLatitudHotel(), datosReservacion.get(0).getLongitudHotel() );
+        Marker m = _map.addMarker( new MarkerOptions().position( hotelPosition ).title(datosReservacion.get(0).getNombreHotel()) );
+        //_map.animateCamera( CameraUpdateFactory.newLatLngZoom( hotelPosition, 14 ) );
+        _map.moveCamera(CameraUpdateFactory.newLatLngZoom(hotelPosition, 14));
+        m.showInfoWindow();
 
     }
 }
