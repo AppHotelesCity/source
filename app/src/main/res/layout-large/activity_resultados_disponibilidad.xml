@@ -69,7 +69,6 @@
         android:id="@+id/linearBuscarDisponibilidad"
         android:layout_width="match_parent"
         android:layout_height="240dp"
-        android:visibility="gone"
         android:padding="5dp"
         android:layout_marginBottom="10dp"
         android:layout_alignParentBottom="true"
@@ -82,20 +81,21 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:alpha="1"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin">
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:inputType="textPersonName"
                 android:textColor="@color/blue_letters_color"
+                android:layout_weight="2"
                 android:hint="@string/hotel_destino_ciudad"
                 android:id="@+id/edtxtHotelDestinoResultados"/>
             <ImageView
                 android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/icn_buscar"
                 android:id="@+id/imageView3" />
@@ -161,11 +161,12 @@
                     android:src="@drawable/icn_out"/>
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin">
             <EditText
@@ -173,17 +174,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:textColor="@color/blue_letters_color"
                 android:inputType="textPersonName"
+                android:textColor="@color/blue_letters_color"
                 android:hint="@string/selecciona_promocode"/>
             <ImageView
-                android:id="@+id/imgPromocodeResultados"
                 android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_weight="3"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/icn_promo"/>
         </LinearLayout>
+
+
+
         <Button
             android:id="@+id/btnDisponibilidadResultados"
             android:layout_marginLeft="16dp"
