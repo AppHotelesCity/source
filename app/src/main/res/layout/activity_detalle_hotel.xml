@@ -136,26 +136,18 @@
 
            </RelativeLayout>
 
-           <ScrollView
-               android:layout_width="match_parent"
-               android:layout_height="400dp">
-
            <LinearLayout
                android:id="@+id/linearDescripcion"
                android:layout_width="match_parent"
                android:visibility="visible"
                android:background="@color/white"
-               android:layout_height="wrap_content"
+               android:layout_height="280dp"
                android:orientation="vertical">
 
-              <LinearLayout
-                  android:layout_width="wrap_content"
-                  android:orientation="vertical"
-                  android:layout_height="320dp">
                   <android.support.v7.widget.RecyclerView
                       android:id="@+id/cardListHabitaciones"
                       android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
+                      android:layout_height="280dp"
                       android:isScrollContainer="true"/>
 
                                <LinearLayout
@@ -328,12 +320,8 @@
                            android:visibility="gone"/>
 
                    </LinearLayout>
-                </LinearLayout>
-             </LinearLayout>
-           </ScrollView>
 
-
-           <!--Detalles de hotel-->
+               <!--Detalles de hotel-->
            </LinearLayout>
            <com.google.android.gms.maps.MapView
                xmlns:android="http://schemas.android.com/apk/res/android"
@@ -348,5 +336,11 @@
                android:layout_width="match_parent"
                android:layout_height="match_parent"/>
        </LinearLayout>
+
+             </LinearLayout>
+
+
+
+
 
    </LinearLayout>
