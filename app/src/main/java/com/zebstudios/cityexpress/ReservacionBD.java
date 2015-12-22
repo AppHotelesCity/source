@@ -1,5 +1,7 @@
 package com.zebstudios.cityexpress;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -13,8 +15,8 @@ public class ReservacionBD  extends RealmObject{
     private String nombreUsuario;
     private String nombreHotel;
     private String siglasHotel;
-    private String fechaLlegada;
-    private String fechaSalida;
+    private Date fechaLlegada;
+    private Date fechaSalida;
     private String deschabitacion;
     private String descHotel;
     private String habCosto;
@@ -32,7 +34,7 @@ public class ReservacionBD  extends RealmObject{
     public ReservacionBD() {
     }
 
-    public ReservacionBD(int numReservacion, String nombreUsuario, String nombreHotel, String fechaLlegada, String fechaSalida, String deschabitacion, String descHotel, String habCosto, String total, String direccionHotel, String descripcionLugarHotel, int adultos, int infantes, int numHabitaciones, int numNoches, double longitudHotel, double latitudHotel) {
+    public ReservacionBD(int numReservacion, String nombreUsuario, String nombreHotel, Date fechaLlegada, Date fechaSalida, String deschabitacion, String descHotel, String habCosto, String total, String direccionHotel, String descripcionLugarHotel, int adultos, int infantes, int numHabitaciones, int numNoches, double longitudHotel, double latitudHotel) {
         this.numReservacion = numReservacion;
         this.nombreUsuario = nombreUsuario;
         this.nombreHotel = nombreHotel;
@@ -76,19 +78,19 @@ public class ReservacionBD  extends RealmObject{
         this.nombreHotel = nombreHotel;
     }
 
-    public String getFechaLlegada() {
+    public Date getFechaLlegada() {
         return fechaLlegada;
     }
 
-    public void setFechaLlegada(String fechaLlegada) {
+    public void setFechaLlegada(Date fechaLlegada) {
         this.fechaLlegada = fechaLlegada;
     }
 
-    public String getFechaSalida() {
+    public Date getFechaSalida() {
         return fechaSalida;
     }
 
-    public void setFechaSalida(String fechaSalida) {
+    public void setFechaSalida(Date fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
 

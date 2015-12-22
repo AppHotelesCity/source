@@ -18,9 +18,9 @@ import static com.appsee.Appsee.startScreen;
 public class ReservationsListAdapter extends BaseAdapter
 {
 	private final Context _context;
-	private final ArrayList<Reservation> _items;
+	private final ArrayList<ReservacionBD> _items;
 
-	public ReservationsListAdapter( Context context, ArrayList<Reservation> items )
+	public ReservationsListAdapter( Context context, ArrayList<ReservacionBD> items )
 	{
 		_context = context;
 		_items = items;
@@ -39,15 +39,15 @@ public class ReservationsListAdapter extends BaseAdapter
 			v = inflater.inflate( R.layout.reservation_list_item, parent, false );
 		}
 
-		Reservation item = _items.get( position );
+		ReservacionBD item = _items.get( position );
 
 		SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
 		TextView txtNumber = (TextView) v.findViewById( R.id.txtNumber );
-		txtNumber.setText( item.getRooms().get( 0 ).getReservationNumber() );
+		txtNumber.setText( ""+ item.getNumReservacion() );
 		TextView txtName = (TextView) v.findViewById( R.id.txtName );
-		txtName.setText( item.getHotelName() );
+		txtName.setText( item.getNombreHotel());
 		TextView txtDates = (TextView) v.findViewById( R.id.txtDates );
-		txtDates.setText(sdf.format(item.getArrivalDate()) + " / " + sdf.format(item.getDepartureDate()));
+		txtDates.setText(sdf.format(item.getFechaSalida()) + " / " + sdf.format(item.getFechaLlegada()));
 
 		return v;
 	}
