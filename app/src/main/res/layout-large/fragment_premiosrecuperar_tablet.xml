@@ -3,15 +3,16 @@
 			  android:orientation="vertical"
 			  android:layout_width="match_parent"
 			  android:layout_height="match_parent"
-			  android:padding="150dp"
 			  android:background="@android:color/white">
 
 	<EditText
 		android:id="@+id/txtSocio"
 		android:layout_width="match_parent"
 		android:layout_height="60dp"
-		android:layout_marginTop="12dp"
+		android:layout_marginTop="120dp"
 		android:hint="No. de socio"
+		android:layout_marginLeft="30dp"
+		android:layout_marginRight="30dp"
 		android:maxLength="10"
 		style="@style/RoundedControl"/>
 
@@ -19,7 +20,9 @@
 		android:id="@+id/btnRecuperar"
 		android:layout_width="match_parent"
 		android:layout_height="60dp"
-		android:layout_marginTop="12dp"
+		android:layout_marginLeft="30dp"
+		android:layout_marginRight="30dp"
+		android:layout_marginTop="20dp"
 		android:background="@drawable/button_rounded_background"
 		android:textColor="@android:color/white"
 		android:textAppearance="?android:attr/textAppearanceMedium"

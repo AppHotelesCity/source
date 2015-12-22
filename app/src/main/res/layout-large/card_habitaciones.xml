@@ -38,6 +38,7 @@
                     android:text="Sencilla, 1 cama queen"
                     android:layout_gravity="center"
                     android:textColor="#FFF"
+                    android:layout_marginLeft="15dp"
                     android:gravity="left"
                     android:textSize="20sp"/>
                 <LinearLayout
@@ -109,7 +110,7 @@
         android:layout_width="30dp"
         android:layout_gravity="center"
         android:layout_marginBottom="-35dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="50dp"
         android:clickable="false"
         android:id="@+id/btnYPremios"
         android:background="@color/yellow_button"
@@ -120,7 +121,7 @@
         android:layout_gravity="right"
         android:clickable="false"
         android:layout_marginBottom="-35dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="55dp"
         android:background="@color/yellow_button"
         android:layout_height="35dp"
         android:id="@+id/btnYDestinos" />
