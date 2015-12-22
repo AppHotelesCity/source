@@ -47,6 +47,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.realm.Realm;
+
 public class ReservacionActivity extends Activity {
 
     Hotel _hotel;
@@ -97,6 +99,7 @@ public class ReservacionActivity extends Activity {
 
     int contador;
 
+    Realm realm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -655,8 +658,36 @@ public class ReservacionActivity extends Activity {
 
         contador++;
 
+        ReservacionBD reservacionBD = new ReservacionBD();
+        reservacionBD.setNombreUsuario(titulares.get(0).getName());
+        reservacionBD.setNombreHotel(_hotel.getNombre());
+        reservacionBD.setFechaLlegada("" + arrival);
+        reservacionBD.setFechaSalida("" + departure);
+        reservacionBD.setDescripcionLugarHotel(_hotel.getLugaresCercanos());
+        reservacionBD.setSiglasHotel(_hotel.getSiglas());
+        reservacionBD.setDeschabitacion(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());
+        reservacionBD.setLatitudHotel(_hotel.getLatitude());
+        reservacionBD.setLongitudHotel(_hotel.getLongitude());
+        reservacionBD.setHabCosto(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getCosto().replace(",", ""));
+        reservacionBD.setNumReservacion(Integer.parseInt(reservacion));
+        reservacionBD.setAdultos(1);
+        reservacionBD.setInfantes(1);
+        reservacionBD.setCodigoHabitacion(codigoBase);
+        reservacionBD.setNumNoches(numNoches);
+        reservacionBD.setNumHabitaciones(numHabitacion);
+        reservacionBD.setDireccionHotel(getAddressString());
+        System.out.println("DIreccionHotel" + getAddressString());
+        System.out.println("numNohe" + numNoches);
+        System.out.println("descHabitacion"+ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());
+
+        realm= Realm.getInstance(this);
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(reservacionBD);
+        realm.commitTransaction();
+
         if(contador==titulares.size()){
             Intent intent = new Intent(ReservacionActivity.this, HotelReservaResultActivity.class);
+            intent.putExtra("numReservacion",reservacion);
             startActivity(intent);
         }
         System.out.println("Reservacion OK " + reservacion);
@@ -1386,5 +1417,41 @@ public class ReservacionActivity extends Activity {
             _ninos = ninos;
         }
     }
+
+    private String getAddressString()
+    {
+        String address = "";
+        if( ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getDireccion() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getDireccion().equalsIgnoreCase( "null" ) )
+        {
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getDireccion() + "\n";
+        }
+        if( ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getColonia() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getColonia().equalsIgnoreCase( "null" ) )
+        {
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getColonia() + "\n";
+        }
+        if( ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCp() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCp().equalsIgnoreCase( "null" ) )
+        {
+            address += "CP: " + ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCp() + "\n";
+        }
+        if( ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCiudad() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCiudad().equalsIgnoreCase( "null" ) && ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getEstado() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getEstado().equalsIgnoreCase( "null" ) )
+        {
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCiudad() + ". " + ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getEstado();
+        }
+        else if( ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCiudad() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCiudad().equalsIgnoreCase( "null" ) )
+        {
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCiudad();
+        }
+        else if( ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getEstado() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getEstado().equalsIgnoreCase( "null" ) )
+        {
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getEstado();
+        }
+        if( address.endsWith( "\n" ) )
+        {
+            address = address.substring( 0, address.length() - 1 );
+        }
+        return address;
+    }
+
+
 
 }
