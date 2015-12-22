@@ -181,18 +181,11 @@ public class MainActivity extends ActionBarActivity
 		PrepareNavDrawerItems();
 
 		android.util.Log.d( "TEST", "DPI: " + getResources().getConfiguration().screenWidthDp + "x" + getResources().getConfiguration().screenHeightDp );
-		if( CompatibilityUtil.isTablet( this ) )
-		{
-			android.util.Log.d( "TEST", "TABLET" );
-			MainTabletFragment fragment = new MainTabletFragment();
-			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
-		}
-		else
-		{
+
 			android.util.Log.d( "TEST", "PHONE" );
 			PrincipalFragment fragment = new PrincipalFragment();
 			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
-		}
+
 
 		Analytics analytics = (Analytics)getApplication();
 		analytics.sendAppScreenTrack("MAIN ANDROID");
@@ -396,7 +389,7 @@ public class MainActivity extends ActionBarActivity
 		}
 		else if( index == 4 )
 		{
-			Intent dialog = new Intent( this, NewsActivity.class );
+			Intent dialog = new Intent( this, BlogActivity.class );
 			startActivityForResult( dialog, ACTIVITY_BLOG );
 			addEvent("MenuBlog-SmartPhone");
 		}

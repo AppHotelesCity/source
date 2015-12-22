@@ -101,12 +101,6 @@ public class StatesFragment extends DialogFragment
 			parent.setSelectedState( state );
 			getFragmentManager().popBackStackImmediate();
 		}
-		else if( fragmentObject instanceof MainTabletFragment )
-		{
-			MainTabletFragment parent = (MainTabletFragment) getTargetFragment();
-			parent.setSelectedState( state );
-			this.dismiss();
-		}
 	}
 
 	private class GetStates extends AsyncTask<Void, Void, Integer>

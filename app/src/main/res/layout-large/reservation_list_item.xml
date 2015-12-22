@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical"
+			  android:background="@color/main_search"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent">
+
+	<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="16dp">
+
+		<LinearLayout
+				android:orientation="vertical"
+				android:layout_alignParentLeft="true"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+			<TextView
+					android:id="@+id/txtNumber"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textStyle="bold"
+					android:textSize="20sp"
+					android:textColor="@color/main_color1"
+					android:text="Reservation Number"/>
+
+			<TextView
+					android:id="@+id/txtName"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textSize="18sp"
+					android:text="Hotel Nombre"/>
+
+			<TextView
+					android:id="@+id/txtDates"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textSize="18sp"
+					android:textStyle="bold"
+					android:text="Arrival / Departure"/>
+
+		</LinearLayout>
+
+		<ImageView
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:padding="5dp"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true"
+				android:layout_gravity="center_vertical"
+				android:src="@drawable/boton_list_next"/>
+
+			</RelativeLayout>
+
+</LinearLayout>

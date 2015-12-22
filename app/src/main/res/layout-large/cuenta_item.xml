@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="horizontal"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+	android:padding="8dp">
+
+	<TextView
+		android:id="@+id/lblDate"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:textAppearance="?android:attr/textAppearanceSmall"
+		android:layout_weight=".35"
+		android:text="20-04-78"/>
+
+	<TextView
+		android:id="@+id/lblDescription"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:textAppearance="?android:attr/textAppearanceSmall"
+		android:layout_weight="1"
+		android:text="Monedero electrónico con un valor de $100, CANT 1"/>
+
+	<TextView
+		android:id="@+id/lblTotal"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:textAppearance="?android:attr/textAppearanceSmall"
+		android:layout_weight=".35"
+		android:gravity="right"
+		android:text="100,000"/>
+
+</LinearLayout>

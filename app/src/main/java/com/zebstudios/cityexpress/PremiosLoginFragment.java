@@ -46,14 +46,9 @@ public class PremiosLoginFragment extends Fragment
 
         }
         else{
-            if (CompatibilityUtil.isTablet(getActivity())) {
-                _view = inflater.inflate(R.layout.fragment_premioslogin_tablet, container, false);
-                startScreen("ViewCityPremios-Tablet");
-            } else {
+
                 _view = inflater.inflate(R.layout.fragment_premioslogin, container, false);
                 startScreen("ViewCityPremios-Smartphone");
-            }
-
             Button btnLogin = (Button) _view.findViewById(R.id.btnLogin);
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
