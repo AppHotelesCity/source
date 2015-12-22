@@ -70,6 +70,12 @@ public class HotelReservaResultActivity extends Activity {
         btnCompartir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, "Ya tengo mi reserva en...");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(Intent.createChooser(intent,  "Compartir en: " ));
 
             }
         });
@@ -78,11 +84,6 @@ public class HotelReservaResultActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, "Ya tengo mi reserva en...");
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(Intent.createChooser(intent,  "Compartir en: " ));
 
             }
         });
