@@ -52,10 +52,11 @@ public class ReservacionesFragment extends Fragment
         reservacionesBD.sort("numReservacion", Sort.DESCENDING);
 
 		for (int i = 0; i < reservacionesBD.size(); i++) {
-			System.out.println("->" + reservacionesBD.get(i).getNombreUsuario() + reservacionesBD.get(i).getNombreHotel() + "RESERVACIONES->" + reservacionesBD.get(i).getNumReservacion());
+			System.out.println("->" + reservacionesBD.get(i).getNombreUsuario() + "Apellidos->"+ reservacionesBD.get(i).getApellidoUsuario() +"NombreHOtel"+ reservacionesBD.get(i).getNombreHotel() + "RESERVACIONES->" + reservacionesBD.get(i).getNumReservacion());
             _reservations.add(
                     new ReservacionBD(reservacionesBD.get(i).getNumReservacion(),
                             reservacionesBD.get(i).getNombreUsuario(),
+                            reservacionesBD.get(i).getApellidoUsuario(),
                             reservacionesBD.get(i).getNombreHotel(),
                             reservacionesBD.get(i).getFechaLlegada(),
                             reservacionesBD.get(i).getFechaSalida(),

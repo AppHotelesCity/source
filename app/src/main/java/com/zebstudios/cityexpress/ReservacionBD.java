@@ -13,6 +13,7 @@ public class ReservacionBD  extends RealmObject{
     @PrimaryKey
     private int numReservacion;
     private String nombreUsuario;
+    private String apellidoUsuario;
     private String nombreHotel;
     private String siglasHotel;
     private Date fechaLlegada;
@@ -34,9 +35,10 @@ public class ReservacionBD  extends RealmObject{
     public ReservacionBD() {
     }
 
-    public ReservacionBD(int numReservacion, String nombreUsuario, String nombreHotel, Date fechaLlegada, Date fechaSalida, String deschabitacion, String descHotel, String habCosto, String total, String direccionHotel, String descripcionLugarHotel, int adultos, int infantes, int numHabitaciones, int numNoches, double longitudHotel, double latitudHotel) {
+    public ReservacionBD(int numReservacion, String nombreUsuario, String apellidoUsuario, String nombreHotel, Date fechaLlegada, Date fechaSalida, String deschabitacion, String descHotel, String habCosto, String total, String direccionHotel, String descripcionLugarHotel, int adultos, int infantes, int numHabitaciones, int numNoches, double longitudHotel, double latitudHotel) {
         this.numReservacion = numReservacion;
         this.nombreUsuario = nombreUsuario;
+        this.apellidoUsuario = apellidoUsuario;
         this.nombreHotel = nombreHotel;
         this.fechaLlegada = fechaLlegada;
         this.fechaSalida = fechaSalida;
@@ -68,6 +70,14 @@ public class ReservacionBD  extends RealmObject{
 
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getApellidoUsuario() {
+        return apellidoUsuario;
+    }
+
+    public void setApellidoUsuario(String apellidoUsuario) {
+        this.apellidoUsuario = apellidoUsuario;
     }
 
     public String getNombreHotel() {

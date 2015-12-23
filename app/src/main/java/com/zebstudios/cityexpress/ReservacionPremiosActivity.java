@@ -884,6 +884,46 @@ public class ReservacionPremiosActivity extends Activity {
     public void FinenviarReservacion(String reservacion){
         System.out.println("Reservacion OK " + reservacion);
 
+        ReservacionBD reservacionBD = new ReservacionBD();
+        reservacionBD.setNombreUsuario(titulares.get(contador).getName());
+        reservacionBD.setApellidoUsuario(titulares.get(contador).getLastName());
+        reservacionBD.setNombreHotel(_hotel.getNombre());
+        reservacionBD.setFechaLlegada(arrival);
+        reservacionBD.setFechaSalida(departure);
+        reservacionBD.setDescripcionLugarHotel(_hotel.getLugaresCercanos());
+        reservacionBD.setSiglasHotel(_hotel.getSiglas());
+        reservacionBD.setDeschabitacion(descripcionHabitacionJSON);
+        reservacionBD.setLatitudHotel(_hotel.getLatitude());
+        reservacionBD.setLongitudHotel(_hotel.getLongitude());
+        reservacionBD.setHabCosto(""+precioHabitacion);
+        reservacionBD.setNumReservacion(Integer.parseInt(reservacion));
+        reservacionBD.setAdultos(1);
+        reservacionBD.setInfantes(1);
+        reservacionBD.setCodigoHabitacion(codigoBase);
+        reservacionBD.setNumNoches(numNoches);
+        reservacionBD.setNumHabitaciones(numHabitacion);
+        reservacionBD.setDireccionHotel(getAddressString());
+        System.out.println("DIreccionHotel" + getAddressString());
+        System.out.println("numNohe" + numNoches);
+        System.out.println("descHabitacion"+ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());
+
+        realm= Realm.getInstance(this);
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(reservacionBD);
+        realm.commitTransaction();
+        contador++;
+        if(contador==titulares.size()){
+            Intent intent = new Intent(ReservacionPremiosActivity.this, HotelReservaResultActivity.class);
+            intent.putExtra("numReservacion", reservacion);
+            intent.putExtra("numHabitaciones", numHabitacion);
+            intent.putExtra("precioHabitacion", precioHabitacion);
+            intent.putExtra("numNoches",numNoches);
+            intent.putExtra("total",getTotalCost());
+            startActivity(intent);
+        }
+        System.out.println("Reservacion OK " + reservacion);
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
         builder.setTitle("Hoteles City")
                 .setMessage("El numero de reservacion es " +reservacion)
