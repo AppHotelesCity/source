@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -19,7 +20,6 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -69,6 +69,8 @@ public class ReservacionActivity extends Activity {
     Spinner spinAdultos;
     Spinner spinNinos;
 
+    ImageView imageBack;
+
     double precioHabitacion;
     ArrayList<GuestData> titulares;
     SegmentedGroup segmentswitch;
@@ -117,6 +119,15 @@ public class ReservacionActivity extends Activity {
         TextView lblArrivalDate2 = (TextView) findViewById(R.id.dates_arrival_text2);
         TextView lblDepartureDate2 = (TextView) findViewById(R.id.dates_departure_text2);
         TextView lblTotal2 = (TextView) findViewById(R.id.lblTotal2);
+
+        imageBack = (ImageView) findViewById(R.id.back_button);
+
+        imageBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         //a<sdfg
         Bundle bundle = getIntent().getExtras();
