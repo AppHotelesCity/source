@@ -404,7 +404,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     _arrivalDate = null;
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
-                txt_salida.setText( sdf.format( date ) );
+                txt_llegada.setText( sdf.format( date ) );
                 _departureCalendarFragment.dismiss();
 
 

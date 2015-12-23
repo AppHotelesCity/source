@@ -70,7 +70,7 @@ public class ReservacionPremiosActivity extends Activity {
     Button btnTarjetas;
     Button btnGuardarTarjeta;
     String fechaVencimiento;
-    String yearVencimiento;
+    int yearVencimiento;
     String mesVencimiento;
     String personF2GO;
     String hostUsuario;
@@ -290,9 +290,8 @@ public class ReservacionPremiosActivity extends Activity {
                 if(position==0){
                     fechaVencimiento = "";
                 }else{
-                    fechaVencimiento=years.get((position+1));
-                    String[] parts = fechaVencimiento.split("20");
-                    yearVencimiento = parts[0];
+                    fechaVencimiento=years.get((position + 1));
+                    yearVencimiento = (Integer.parseInt(fechaVencimiento)-2000);
 
                 }
             }
@@ -410,10 +409,11 @@ public class ReservacionPremiosActivity extends Activity {
 
 
                 else{
+                    System.out.println("AÑO/MES" + yearVencimiento+mesVencimiento);
                     txtCardName.getText();
                     txtCardNumb.getText();
                     txtCvv.getText();
-                    enviarTarjeta(txtCardNumb.getText().toString(),txtCardName.getText().toString(),"2003",txtAlias.getText().toString(),personF2GO);
+                    enviarTarjeta(txtCardNumb.getText().toString(), txtCardName.getText().toString(), yearVencimiento + mesVencimiento, txtAlias.getText().toString(), personF2GO);
                     Toast.makeText(ReservacionPremiosActivity.this, "Tarjeta Guardada", Toast.LENGTH_SHORT).show();
                 }
             }
