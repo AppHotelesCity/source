@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -51,70 +52,74 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.realm.Realm;
+
 /**
  * Created by edwinhernandez on 17/12/15.
  */
 public class ReservacionPremiosActivity extends Activity {
 
-    Hotel _hotel;
-    private ArrayList<HabitacionBase> _rooms;
     ArrayList<SmartCard> tarjetas_list;
     ArrayList<String> numTarjeta;
+    EditText txtCardNumb;
+    EditText txtCardName;
+    EditText txtCvv;
+    EditText txtCvvTarjetaLista;
+    LinearLayout linearAgregarTarjeta;
+    Button btnaddTarjeta;
+    Button btnTarjetas;
+    Button btnGuardarTarjeta;
+    String fechaVencimiento;
+    String yearVencimiento;
+    String mesVencimiento;
+    String personF2GO;
+    String hostUsuario;
+    String tarjetaID;
+    String cvvTarjetaLista;
+    Hotel _hotel;
+    private ArrayList<HabitacionBase> _rooms;
     String cadena;
     String text;
-
+    ArrayList<HabitacionBase> habitacionBaseArrayList;
     RadioButton btnMisma;
+    RadioButton btnOtros;
     EditText txtName;
     EditText txtLast;
     EditText txtEmail;
     EditText txtSocio;
+    EditText txtAlias;
     CheckBox cbAfiliate;
     EditText txtPhone;
     Spinner spinViaje;
     Spinner spinAdultos;
     Spinner spinNinos;
-
-    EditText txtCardNumb;
-    EditText txtCardName;
-    EditText txtCvv;
-
-    EditText txtCvvTarjetaLista;
+    ImageView imageBack;
     double precioHabitacion;
+    ArrayList<GuestData> titulares;
     SegmentedGroup segmentswitch;
-
     RadioButton btnTarjeta;
     RadioButton btnPaypal;
-
-
+    ListView listaHabitaciones;
+    LinearLayout linearpayTarjeta;
     LinearLayout linearaddTarjeta;
-    LinearLayout linearAgregarTarjeta;
-
-
-    Button btnaddTarjeta;
-    Button btnTarjetas;
-    Button btnGuardarTarjeta;
-
-
-    String fechaVencimiento;
-    String mesVencimiento;
-
+    LinearLayout linearImagenes;
     ReservaNumeroHabitacionesAdapter adapter;
     ArrayList<ItemListReserva> data = new ArrayList<>();
-
     int posicion;
     int posicionHot;
     int posicionHab;
     int numHabitacion;
     int numNoches;
     String codigoBase;
+    String descripcionHabitacionJSON;
     Date arrival;
     Date departure;
     String precio;
+    private int _lastGuestIndex;
 
-    String personF2GO;
-    String hostUsuario;
-    String tarjetaID;
-    String cvvTarjetaLista;
+    int contador;
+
+    Realm realm;
 
 
     @Override
@@ -144,8 +149,10 @@ public class ReservacionPremiosActivity extends Activity {
         TextView lblDepartureDate2 = (TextView) findViewById( R.id.dates_departure_text2 );
         TextView lblTotal2 = (TextView) findViewById(R.id.lblTotal2);
 
-        txtCardName = (EditText) findViewById(R.id.txtCardNumber);
-        txtCardNumb = (EditText) findViewById(R.id.txtCardName);
+
+        txtCardName = (EditText) findViewById(R.id.txtCardName);
+        txtCardNumb = (EditText) findViewById(R.id.txtCardNumber);
+        txtAlias = (EditText) findViewById(R.id.txtAlias);
         txtCvv = (EditText) findViewById(R.id.txtCardCode);
         txtCvvTarjetaLista = (EditText) findViewById(R.id.txtcvv);
         btnMisma = (RadioButton) findViewById( R.id.btn_rad_misma );
@@ -177,29 +184,36 @@ public class ReservacionPremiosActivity extends Activity {
         Bundle bundle = getIntent().getExtras();
         posicionHot = bundle.getInt("posicionHotel");
         codigoBase = bundle.getString("codigoBase");
-        posicionHab= bundle.getInt("posicionHabitacion");
+        posicionHab = bundle.getInt("posicionHabitacion");
         numHabitacion = bundle.getInt("numHabitacion");
+        descripcionHabitacionJSON = bundle.getString("descipcionHabitacionJSON");
+
         arrival = PrincipalFragment._arrivalDate;
         departure = PrincipalFragment._departureDate;
         numNoches = ResultadosDisponibilidad.totalNoches;
+        numNoches = Math.abs(numNoches);
         precioHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getCosto().replace(",", ""));
-
-        System.out.println("numNoches"+numNoches);
+        _lastGuestIndex = 0;
+        System.out.println("numNoches" + numNoches);
         _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot);
         ResultadosDisponibilidad.habitacionBaseList.get(posicionHab);
 
-        System.out.println("HotelPosicionPrecioListado->"+precioHabitacion);
-        if(bundle.getBoolean("city")){
-            precio = bundle.getString("precioPremio");
-        }else{
-            precio =  bundle.getString("precioDestino");
-        }
 
-        System.out.println("PsoicionHotel"+posicionHot);
-        System.out.println("PsoiconHabitacion"+posicionHab);
-        System.out.println("arrival"+arrival);
-        System.out.println("departure"+departure);
-        System.out.println("codigoBase"+codigoBase);
+        if (bundle.getBoolean("city")) {
+            precio = bundle.getString("precioPremio");
+            precioHabitacion = Double.parseDouble(precio);
+        } else {
+            precio = bundle.getString("precioDestino");
+        }
+        System.out.println("HotelPosicionPrecioListado->" + precioHabitacion);
+        System.out.println("PsoicionHotel" + posicionHot);
+        System.out.println("PsoiconHabitacion" + posicionHab);
+        System.out.println("arrival" + arrival);
+        System.out.println("departure" + departure);
+        System.out.println("codigoBase" + codigoBase);
+
+
+        contador = 0;
 
 
         tarjetas_list = new ArrayList<>();
@@ -216,7 +230,7 @@ public class ReservacionPremiosActivity extends Activity {
 
             }
         });
-
+        titulares = new ArrayList<>();
 
         ArrayList<String> viajes = new ArrayList<String>();
         viajes.add( "Viaje de negocios" ); // 001
@@ -277,6 +291,9 @@ public class ReservacionPremiosActivity extends Activity {
                     fechaVencimiento = "";
                 }else{
                     fechaVencimiento=years.get((position+1));
+                    String[] parts = fechaVencimiento.split("20");
+                    yearVencimiento = parts[0];
+
                 }
             }
 
@@ -346,7 +363,7 @@ public class ReservacionPremiosActivity extends Activity {
                 if("".equals(txtCardName.getText().toString())){
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
                     builder.setTitle("Hoteles City")
-                            .setMessage("El campo Nombre no puede estar vacío")
+                            .setMessage("Por favor ingresa el nombre del titular de la tarjeta de crédito.")
                             .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -356,36 +373,17 @@ public class ReservacionPremiosActivity extends Activity {
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }else if("".equals(txtCardNumb.getText().toString())){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
-                    builder.setTitle("Hoteles City")
-                            .setMessage("El campo Número de tarjeta no puede estar vacío")
-                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            });
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }else if("".equals(txtCvv.getText().toString())){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
-                    builder.setTitle("Hoteles City")
-                            .setMessage("El campo CVV no puede estar vacío")
-                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            });
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                }else if( !CCUtils.validCC( txtCardNumb.getText().toString() ) )
+                {
+                    alert("El número de tarjeta es inválido.");
+                }EditText txtCardCode = (EditText) findViewById( R.id.txtCardCode );
+                if( txtCardCode.getText().toString().trim().length() != 3 || !isNumeric( txtCardCode.getText().toString().trim() ) )
+                {
+                    alert("El código de validación de la tarjeta es incorrecto. Ingresa los últimos tres dígitos del número que se encuentra en la parte posterior de la tarjeta.");
                 }else if("".equalsIgnoreCase(fechaVencimiento)){
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
                     builder.setTitle("Hoteles City")
-                            .setMessage("El año no puede estar vacío")
+                            .setMessage("Selecciona el año de expiración de la tarjeta de crédito.")
                             .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -398,7 +396,7 @@ public class ReservacionPremiosActivity extends Activity {
                 }else if("".equalsIgnoreCase(mesVencimiento)){
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
                     builder.setTitle("Hoteles City")
-                            .setMessage("El mes no puede estar vacío")
+                            .setMessage("Selecciona el mes de expiración de la tarjeta de crédito.")
                             .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -415,7 +413,7 @@ public class ReservacionPremiosActivity extends Activity {
                     txtCardName.getText();
                     txtCardNumb.getText();
                     txtCvv.getText();
-                    enviarTarjeta(txtCardNumb.getText().toString(),txtCardName.getText().toString(),fechaVencimiento,"pruabs2",personF2GO);
+                    enviarTarjeta(txtCardNumb.getText().toString(),txtCardName.getText().toString(),"2003",txtAlias.getText().toString(),personF2GO);
                     Toast.makeText(ReservacionPremiosActivity.this, "Tarjeta Guardada", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -462,6 +460,7 @@ public class ReservacionPremiosActivity extends Activity {
         btnReserva2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveCurrentGuest();
                 System.out.println("Codigo CVV->" + txtCvvTarjetaLista.getText().toString());
                 if("".equals(txtName.getText().toString())){
 
@@ -545,7 +544,15 @@ public class ReservacionPremiosActivity extends Activity {
                 }
 
                 else{
-                    RecibirDatos();
+                    if (validateCapture()) {
+                        for (int i = 0; i < titulares.size(); i++) {
+                            changeHuesped(i);
+                            System.out.println("Titular " + i + "---->Nombre" + titulares.get(i).getName() + "TAmaño ZisE->"+ titulares.size());
+                        }
+
+                        System.out.println("Lo Logre!!!!!");
+                        //RecibirDatos();
+                    }
                 }
             }
         });
@@ -562,7 +569,7 @@ public class ReservacionPremiosActivity extends Activity {
             {
                 sumary.add( new SummaryEntry( 1, "Noche " + ( j + 1 ) + " $"+precioHabitacion));
             }
-
+            titulares.add(new GuestData());
         }
 
         NestedListView list = (NestedListView) findViewById(R.id.list_summary);
@@ -577,14 +584,12 @@ public class ReservacionPremiosActivity extends Activity {
         spinHuespedes.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener()
         {
             @Override
-            public void onItemSelected( AdapterView<?> parent, View view, int position, long id )
-            {
-
+            public void onItemSelected( AdapterView<?> parent, View view, int position, long id ) {
+                changeHuesped(position);
             }
 
             @Override
-            public void onNothingSelected( AdapterView<?> parent )
-            {
+            public void onNothingSelected( AdapterView<?> parent ) {
                 // FATAL: No debería ocurrir
             }
         } );
@@ -1189,7 +1194,7 @@ public class ReservacionPremiosActivity extends Activity {
                     AltaTarjetaResponse = body.getJSONObject("AltaTarjetaResponse");
 
                     if ( AltaTarjetaResponse.has("AltaTarjetaResult") ){
-                        ErrorenviarTarjeta( AltaTarjetaResponse.getString("AltaTarjetaResult") );
+                        FinenviarTarjeta( AltaTarjetaResponse.getString("AltaTarjetaResult") );
                         return;
                     }
 
@@ -1203,7 +1208,7 @@ public class ReservacionPremiosActivity extends Activity {
                     e.printStackTrace();
                 }
 
-                FinenviarTarjeta();
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -1244,7 +1249,12 @@ public class ReservacionPremiosActivity extends Activity {
     }
 
 
-    public void FinenviarTarjeta(){
+    public void FinenviarTarjeta( String mensaje){
+        alert("Tarjeta agregada con éxito");
+        obtenerListadoTarjetas();
+        linearaddTarjeta.setVisibility(View.VISIBLE);
+        linearAgregarTarjeta.setVisibility(View.GONE);
+        linearaddTarjeta.setVisibility(View.GONE);
         System.out.println("Tarjeta enviada con exito :D");
     }
 
@@ -1292,4 +1302,503 @@ public class ReservacionPremiosActivity extends Activity {
         registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(this).add(registro);
     }
+
+    private void clearCaptureFocus()
+    {
+        RadioButton btnMisma = (RadioButton) findViewById( R.id.btn_rad_misma );
+        RadioButton btnOtras = (RadioButton) findViewById(R.id.btn_rad_otros);
+        EditText txtName = (EditText) findViewById(R.id.txtName);
+        EditText txtLast = (EditText) findViewById(R.id.txtLast);
+        EditText txtEmail = (EditText) findViewById(R.id.txtEmail);
+        EditText txtSocio = (EditText) findViewById( R.id.txtSocio );
+        CheckBox cbAfiliate = (CheckBox) findViewById(R.id.cbAfiliate);
+        EditText txtPhone = (EditText)  findViewById(R.id.txtPhone);
+        Spinner spinViaje = (Spinner)  findViewById(R.id.spinViaje);
+        Spinner spinAdultos = (Spinner) findViewById( R.id.spinAdultos );
+        Spinner spinNinos = (Spinner) findViewById( R.id.spinNinos );
+
+        btnMisma.clearFocus();
+        btnOtras.clearFocus();
+        txtName.clearFocus();
+        txtLast.clearFocus();
+        txtEmail.clearFocus();
+        txtSocio.clearFocus();
+        cbAfiliate.clearFocus();
+        txtPhone.clearFocus();
+        spinViaje.clearFocus();
+        spinAdultos.clearFocus();
+        spinNinos.clearFocus();
+    }
+
+    private void changeHuesped( int index )
+    {
+        clearCaptureFocus();
+        saveCurrentGuest();
+        _lastGuestIndex = index;
+        setGuestData();
+
+        if( index == 0 )
+        {
+            setEnableSegmentedGroup( false );
+        }
+        else
+        {
+            setEnableSegmentedGroup( true );
+        }
+    }
+
+    private void setEnableSegmentedGroup( boolean enabled )
+    {
+        RadioButton btnMisma = (RadioButton) findViewById(R.id.btn_rad_misma);
+        RadioButton btnOtras = (RadioButton) findViewById(R.id.btn_rad_otros);
+        btnMisma.setEnabled( enabled );
+        btnOtras.setEnabled(enabled);
+    }
+
+    private boolean validateGuest( int index )
+    {
+        try {
+            GuestData g = titulares.get(index);
+
+            String title = "Huesped titular - habitación " + (index + 1);
+
+            if (g.getName().trim().length() == 0 || g.getName().isEmpty()) {
+                alert("Por favor ingresa el nombre del " + title + ".");
+                return false;
+            }
+            if (g.getLastName().trim().length() == 0) {
+                alert("Por favor ingresa el apellido del " + title + ".");
+                return false;
+            }
+            if (g.getEmail().trim().length() == 0) {
+                alert("Por favor ingresa el correo electrónico del " + title + ".");
+                return false;
+            }
+            if (!isEmailValid(g.getEmail())) {
+                alert("El correo electrónico del " + title + " es incorrecto.");
+                return false;
+            }
+            if (g.getSocio().trim().length() != 0 && (g.getSocio().trim().length() != 10 || !isAlphaNumeric(g.getSocio().trim()))) {
+                alert("El número de socio City Premios del " + title + " es incorrecto.");
+                return false;
+            }
+            if (g.getPhone().trim().length() == 0) {
+                // TODO: Validar más adecuadamente el teléfono
+                alert("Por favor ingresa el teléfono del " + title + ".");
+                return false;
+            }
+        }catch(Exception e){
+            alert("Falta registrar al Huesped titular - Habitación " + (index+1));
+            return false;
+        }
+
+
+        return true;
+    }
+
+    private boolean validateCapture()
+    {
+        for( int i = 0; i < titulares.size(); i++ )
+        {
+            if( !validateGuest( i ) )
+            {
+                return false;
+            }
+        }
+
+      /*  EditText txtCardName = (EditText) findViewById( R.id.txtCardName );
+        if( txtCardName.getText().toString().trim().length() == 0 )
+        {
+            alert( "Por favor ingresa el nombre del titular de la tarjeta de crédito." );
+            return false;
+        }
+
+        EditText txtCardNumber = (EditText) findViewById( R.id.txtCardNumber );
+        if( !CCUtils.validCC( txtCardNumber.getText().toString() ) )
+        {
+            alert( "El número de tarjeta es inválido." );
+            return false;
+        }
+
+        Spinner spinExpMonth = (Spinner) findViewById( R.id.spinExpMonth );
+        if( spinExpMonth.getSelectedItemPosition() == 0 )
+        {
+            alert( "Selecciona el mes de expiración de la tarjeta de crédito." );
+            return false;
+        }
+
+        Spinner spinExpYear = (Spinner) findViewById( R.id.spinExpYear );
+        if( spinExpYear.getSelectedItemPosition() == 0 )
+        {
+            alert( "Selecciona el año de expiración de la tarjeta de crédito." );
+            return false;
+        }
+
+        EditText txtCardCode = (EditText) findViewById( R.id.txtCardCode );
+        if( txtCardCode.getText().toString().trim().length() != 3 || !isNumeric( txtCardCode.getText().toString().trim() ) )
+        {
+            alert( "El código de validación de la tarjeta es incorrecto. Ingresa los últimos tres dígitos del número que se encuentra en la parte posterior de la tarjeta." );
+            return false;
+        }*/
+
+        return true;
+    }
+
+    private boolean isAlphaNumeric( String s )
+    {
+        String pattern = "^[a-zA-Z0-9]*$";
+        return s.matches(pattern);
+    }
+
+    private boolean isNumeric( String s )
+    {
+        String pattern = "^[0-9]*$";
+        return s.matches(pattern);
+    }
+
+    private boolean isEmailValid( CharSequence email )
+    {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher( email ).matches();
+    }
+
+    private void alert( String message )
+    {
+        AlertDialog alert = new AlertDialog.Builder(this ).create();
+        alert.setTitle( "Atención" );
+        alert.setMessage( message );
+        alert.setIcon( R.drawable.notification_warning_small );
+        alert.setCancelable( false );
+        alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.show();
+    }
+
+
+    private void saveCurrentGuest()
+    {
+        RadioButton btnMisma = (RadioButton) findViewById(R.id.btn_rad_misma);
+        EditText txtName = (EditText) findViewById(R.id.txtName);
+        EditText txtLast = (EditText) findViewById(R.id.txtLast);
+        EditText txtEmail = (EditText) findViewById( R.id.txtEmail );
+        EditText txtSocio = (EditText) findViewById(R.id.txtSocio);
+        CheckBox cbAfiliate = (CheckBox) findViewById(R.id.cbAfiliate);
+        EditText txtPhone = (EditText) findViewById(R.id.txtPhone);
+        Spinner spinViaje = (Spinner) findViewById(R.id.spinViaje);
+        Spinner spinAdultos = (Spinner) findViewById(R.id.spinAdultos);
+        Spinner spinNinos = (Spinner) findViewById(R.id.spinNinos);
+
+        GuestData d = titulares.get( _lastGuestIndex );
+        d.setDataOption(btnMisma.isChecked() ? 0 : 1);
+        if( _lastGuestIndex == 0 || ( _lastGuestIndex != 0 && !btnMisma.isChecked() ) )
+        {
+            d.setName( txtName.getText().toString() );
+            d.setLastName( txtLast.getText().toString() );
+            d.setEmail( txtEmail.getText().toString() );
+            d.setSocio( txtSocio.getText().toString() );
+            d.setAfiliate( cbAfiliate.isChecked() );
+            d.setPhone( txtPhone.getText().toString() );
+            d.setViaje( spinViaje.getSelectedItemPosition() );
+        }
+        if(_lastGuestIndex>0 && btnMisma.isChecked()){
+            System.out.println("ENTREACA");
+            d.setName( txtName.getText().toString() );
+            d.setLastName( txtLast.getText().toString() );
+            d.setEmail( txtEmail.getText().toString() );
+            d.setSocio( txtSocio.getText().toString() );
+            d.setAfiliate( cbAfiliate.isChecked() );
+            d.setPhone( txtPhone.getText().toString() );
+            d.setViaje( spinViaje.getSelectedItemPosition() );
+        }
+        d.setAdultos( spinAdultos.getSelectedItemPosition() );
+        d.setNinos(spinNinos.getSelectedItemPosition());
+    }
+
+    private void setGuestData()
+    {
+        Log.d( "TEST", "Setting Guest Data" );
+        RadioButton btnMisma = (RadioButton) findViewById( R.id.btn_rad_misma );
+        RadioButton btnOtras = (RadioButton) findViewById( R.id.btn_rad_otros );
+        EditText txtName = (EditText) findViewById( R.id.txtName );
+        EditText txtLast = (EditText) findViewById( R.id.txtLast );
+        EditText txtEmail = (EditText) findViewById( R.id.txtEmail );
+        EditText txtSocio = (EditText) findViewById( R.id.txtSocio );
+        CheckBox cbAfiliate = (CheckBox) findViewById( R.id.cbAfiliate );
+        EditText txtPhone = (EditText) findViewById( R.id.txtPhone );
+        Spinner spinViaje = (Spinner) findViewById( R.id.spinViaje );
+        Spinner spinAdultos = (Spinner) findViewById(R.id.spinAdultos);
+        Spinner spinNinos = (Spinner) findViewById(R.id.spinNinos);
+
+        GuestData d;
+
+        d = titulares.get( _lastGuestIndex );
+
+
+        prepareNinosSpinner( d.getAdultos() + 1 ); // Acompañantes + Titular
+        spinAdultos.setSelection( d.getAdultos() );
+        spinNinos.setSelection( d.getNinos() );
+
+        if( _lastGuestIndex == 0 )
+        {
+            d = titulares.get( 0 );
+            txtName.setEnabled( true );
+            txtLast.setEnabled( true );
+            txtEmail.setEnabled( true );
+            txtSocio.setEnabled( true );
+            cbAfiliate.setEnabled( true );
+            txtPhone.setEnabled( true );
+            spinViaje.setEnabled( true );
+        }
+        else
+        {
+            d = titulares.get( _lastGuestIndex );
+            if( d.getDataOption() == 0 )
+            {
+                btnMisma.setChecked( true );
+            }
+            else
+            {
+                btnOtras.setChecked( true );
+            }
+
+            if( d.getDataOption() == 0 )
+            {
+                d = titulares.get( 0 );
+                txtName.setEnabled( false );
+                txtLast.setEnabled( false );
+                txtEmail.setEnabled( false );
+                txtSocio.setEnabled( false );
+                cbAfiliate.setEnabled( false );
+                txtPhone.setEnabled( false );
+                spinViaje.setEnabled( false );
+            }
+            else
+            {
+                txtName.setEnabled( true );
+                txtLast.setEnabled( true );
+                txtEmail.setEnabled( true );
+                txtSocio.setEnabled( true );
+                cbAfiliate.setEnabled( true );
+                txtPhone.setEnabled( true );
+                spinViaje.setEnabled( true );
+            }
+        }
+
+        txtName.setText( d.getName() );
+        txtLast.setText( d.getLastName() );
+        txtEmail.setText( d.getEmail() );
+        txtSocio.setText( d.getSocio() );
+        cbAfiliate.setChecked(d.isAfiliate());
+        txtPhone.setText(d.getPhone());
+        spinViaje.setSelection(d.getViaje());
+    }
+
+    private void handleCaptureOptionHandle()
+    {
+        if( _lastGuestIndex != 0 )
+        {
+            RadioButton btnMisma = (RadioButton) findViewById( R.id.btn_rad_misma );
+            GuestData d = titulares.get( _lastGuestIndex );
+            d.setDataOption(btnMisma.isChecked() ? 0 : 1);
+            setGuestData();
+        }
+    }
+
+    private void prepareNinosSpinner( int totalAdultos )
+    {
+        // Actualizamos el combo de niños, porque no pueden haber más personas
+        // que el máximo de adultos.
+        Spinner spinNinos = (Spinner) findViewById( R.id.spinNinos );
+        int maxNinos = 2 - totalAdultos; //Macximo de adultos - total de adultos
+
+        ArrayList<String> ninos = new ArrayList<String>();
+        for( int i = 0; i <= maxNinos; i++ )
+        {
+            ninos.add( "" + i );
+        }
+
+        SpinnerAdapter adapterNinos = new ArrayAdapter<String>(this, R.layout.habitaciones_item, R.id.txtOption, ninos );
+        spinNinos.setAdapter(adapterNinos);
+    }
+
+    private class GuestData
+    {
+        private int _dataOption;
+        private String _name;
+        private String _lastName;
+        private String _email;
+        private String _socio;
+        private boolean _afiliate;
+        private String _phone;
+        private int _viaje;
+        private int _adultos;
+        private int _ninos;
+
+        public GuestData()
+        {
+        }
+
+        public GuestData(int _dataOption, String _name, String _lastName, String _email, String _socio, boolean _afiliate, String _phone, int _viaje, int _adultos, int _ninos) {
+            this._dataOption = _dataOption;
+            this._name = _name;
+            this._lastName = _lastName;
+            this._email = _email;
+            this._socio = _socio;
+            this._afiliate = _afiliate;
+            this._phone = _phone;
+            this._viaje = _viaje;
+            this._adultos = _adultos;
+            this._ninos = _ninos;
+        }
+
+        public GuestData(String _name, String _lastName, String _email, String _socio, boolean _afiliate, String _phone, int _viaje, int _adultos, int _ninos) {
+            this._name = _name;
+            this._lastName = _lastName;
+            this._email = _email;
+            this._socio = _socio;
+            this._afiliate = _afiliate;
+            this._phone = _phone;
+            this._viaje = _viaje;
+            this._adultos = _adultos;
+            this._ninos = _ninos;
+        }
+
+        public int getDataOption()
+        {
+            return _dataOption;
+        }
+
+        public void setDataOption( int dataOption )
+        {
+            _dataOption = dataOption;
+        }
+
+        public String getName()
+        {
+            return _name;
+        }
+
+        public void setName( String name )
+        {
+            _name = name;
+        }
+
+        public String getLastName()
+        {
+            return _lastName;
+        }
+
+        public void setLastName( String lastName )
+        {
+            _lastName = lastName;
+        }
+
+        public String getEmail()
+        {
+            return _email;
+        }
+
+        public void setEmail( String email )
+        {
+            _email = email;
+        }
+
+        public String getSocio()
+        {
+            return _socio;
+        }
+
+        public void setSocio( String socio )
+        {
+            _socio = socio;
+        }
+
+        public boolean isAfiliate()
+        {
+            return _afiliate;
+        }
+
+        public void setAfiliate( boolean afiliate )
+        {
+            _afiliate = afiliate;
+        }
+
+        public String getPhone()
+        {
+            return _phone;
+        }
+
+        public void setPhone( String phone )
+        {
+            _phone = phone;
+        }
+
+        public int getViaje()
+        {
+            return _viaje;
+        }
+
+        public void setViaje( int viaje )
+        {
+            _viaje = viaje;
+        }
+
+        public int getAdultos()
+        {
+            return _adultos;
+        }
+
+        public void setAdultos( int adultos )
+        {
+            _adultos = adultos;
+        }
+
+        public int getNinos()
+        {
+            return _ninos;
+        }
+
+        public void setNinos( int ninos )
+        {
+            _ninos = ninos;
+        }
+    }
+
+    private String getAddressString()
+    {
+        String address = "";
+        if( ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getDireccion() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getDireccion().equalsIgnoreCase( "null" ) )
+        {
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getDireccion() + "\n";
+        }
+        if( ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getColonia() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getColonia().equalsIgnoreCase( "null" ) )
+        {
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getColonia() + "\n";
+        }
+        if( ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCp() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCp().equalsIgnoreCase( "null" ) )
+        {
+            address += "CP: " + ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCp() + "\n";
+        }
+        if( ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCiudad() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCiudad().equalsIgnoreCase( "null" ) && ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getEstado() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getEstado().equalsIgnoreCase( "null" ) )
+        {
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCiudad() + ". " + ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getEstado();
+        }
+        else if( ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCiudad() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCiudad().equalsIgnoreCase( "null" ) )
+        {
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getCiudad();
+        }
+        else if( ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getEstado() != null && !ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getEstado().equalsIgnoreCase( "null" ) )
+        {
+            address += ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getEstado();
+        }
+        if( address.endsWith( "\n" ) )
+        {
+            address = address.substring( 0, address.length() - 1 );
+        }
+        return address;
+    }
+
+
 }

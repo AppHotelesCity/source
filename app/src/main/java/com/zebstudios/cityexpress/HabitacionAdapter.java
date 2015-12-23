@@ -173,8 +173,8 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         protected CardView cardViewHotel;
         protected Button btnReservar;
         protected Context context;
-        protected Button imgYPremios;
-        protected Button imgYDestinos;
+        protected View imgYPremios;
+        protected View imgYDestinos;
         protected boolean imgpremiosdestinos;
         protected ImageView imageViewHabitacion;
         protected LinearLayout linearPremios;
@@ -184,8 +184,8 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
             txtDescripcionHabitacion =  (TextView) v.findViewById(R.id.textViewDescripcionHabitacion);
             txtPrecioPremioHabitacion = (TextView)  v.findViewById(R.id.textViewPrecioPremioHabitacion);
             txtPrecioDestinoHabitacion = (TextView)  v.findViewById(R.id.textViewPrecioPagoDestinoHotel);
-            imgYPremios = (Button) v.findViewById(R.id.btnYPremios);
-            imgYDestinos = (Button) v.findViewById(R.id.btnYDestinos);
+            imgYPremios = (View) v.findViewById(R.id.btnYPremios);
+            imgYDestinos = (View) v.findViewById(R.id.btnYDestinos);
             linearPremios = (LinearLayout) v.findViewById(R.id.linearPrecioPremio);
             linearDestinos = (LinearLayout)v.findViewById(R.id.linearPrecioDestino);
             cardViewHotel= (CardView) v.findViewById(R.id.cardViewHabitacion);

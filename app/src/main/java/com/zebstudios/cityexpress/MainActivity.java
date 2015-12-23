@@ -1,5 +1,6 @@
 package com.zebstudios.cityexpress;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -102,7 +103,7 @@ public class MainActivity extends ActionBarActivity
 		MostrarBagde();
 		//final MessagecenterFragment fragment = (MessagecenterFragment) getSupportFragmentManager().findFragmentByTag("tag");
 
-		super.onBackPressed();
+		//super.onBackPressed();
 	}
 
 
@@ -403,7 +404,10 @@ public class MainActivity extends ActionBarActivity
 		else if(index == 6){
 			SharedPreferences loginOut = getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
 			loginOut.edit().clear().commit();
-
+            PremiosUserLoggedDS db = new PremiosUserLoggedDS( this );
+            db.open();
+            db.clearUser();
+            db.close();
 			PrincipalFragment fragment = new PrincipalFragment();
 			//MainFragment fragment = new MainFragment();
 			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment).commit();

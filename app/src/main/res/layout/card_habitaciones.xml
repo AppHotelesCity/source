@@ -105,7 +105,7 @@
 
         </LinearLayout>
 
-    <Button
+    <View
         android:layout_width="30dp"
         android:layout_gravity="center"
         android:layout_marginBottom="-35dp"
@@ -115,7 +115,7 @@
         android:background="@color/yellow_button"
         android:layout_height="35dp" />
 
-    <Button
+    <View
         android:layout_width="30dp"
         android:layout_gravity="right"
         android:clickable="false"

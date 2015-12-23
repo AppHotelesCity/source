@@ -385,7 +385,7 @@ public class ReservacionActivity extends Activity {
                         }
 
                         System.out.println("Lo Logre!!!!!");
-                        //RecibirDatos();
+                        RecibirDatos();
                     }
                 }
             }
@@ -673,10 +673,8 @@ public class ReservacionActivity extends Activity {
 
     public void FinenviarReservacion(String reservacion) {
 
-        contador++;
-
         ReservacionBD reservacionBD = new ReservacionBD();
-        reservacionBD.setNombreUsuario(titulares.get(0).getName());
+        reservacionBD.setNombreUsuario(titulares.get(contador).getName());
         reservacionBD.setNombreHotel(_hotel.getNombre());
         reservacionBD.setFechaLlegada(arrival);
         reservacionBD.setFechaSalida(departure);
@@ -701,7 +699,7 @@ public class ReservacionActivity extends Activity {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(reservacionBD);
         realm.commitTransaction();
-
+        contador++;
         if(contador==titulares.size()){
             Intent intent = new Intent(ReservacionActivity.this, HotelReservaResultActivity.class);
             intent.putExtra("numReservacion", reservacion);
@@ -840,24 +838,24 @@ public class ReservacionActivity extends Activity {
             enviarxml = enviarxml.replace("{codigopromocion}", "");
 
 
-            enviarxml = enviarxml.replace("{correoelectronico}", titulares.get(0).getEmail());
-            enviarxml = enviarxml.replace("{telefono}", titulares.get(0).getPhone());
+            enviarxml = enviarxml.replace("{correoelectronico}", titulares.get(i).getEmail());
+            enviarxml = enviarxml.replace("{telefono}", titulares.get(i).getPhone());
             enviarxml = enviarxml.replace("{totalacompadultos}", "1");
             enviarxml = enviarxml.replace("{totalacompmenores}", "0");
             enviarxml = enviarxml.replace("{codigopais}", "MEX");
             enviarxml = enviarxml.replace("{acompanantes}", "");
-            enviarxml = enviarxml.replace("{huespednombre}", titulares.get(0).getName());
-            enviarxml = enviarxml.replace("{huespedapellidos}", titulares.get(0).getLastName());
+            enviarxml = enviarxml.replace("{huespednombre}", titulares.get(i).getName());
+            enviarxml = enviarxml.replace("{huespedapellidos}", titulares.get(i).getLastName());
 
 
             enviarxml = enviarxml.replace("{codigohotel}", _hotel.getSiglas());
             enviarxml = enviarxml.replace("{estanciaentrada}", llegada);
             enviarxml = enviarxml.replace("{numeronoches}", "1");
 
-            enviarxml = enviarxml.replace("{reservantenombre}", titulares.get(0).getName());
-            enviarxml = enviarxml.replace("{reservanteapellidos}", titulares.get(0).getLastName());
-            enviarxml = enviarxml.replace("{reservantecorreoelectronico}", titulares.get(0).getEmail());
-            enviarxml = enviarxml.replace("{reservantetelefono}", titulares.get(0).getPhone());
+            enviarxml = enviarxml.replace("{reservantenombre}", titulares.get(i).getName());
+            enviarxml = enviarxml.replace("{reservanteapellidos}", titulares.get(i).getLastName());
+            enviarxml = enviarxml.replace("{reservantecorreoelectronico}", titulares.get(i).getEmail());
+            enviarxml = enviarxml.replace("{reservantetelefono}", titulares.get(i).getPhone());
 
 
             enviarxml = enviarxml.replace("{depositomonto}", precio);
