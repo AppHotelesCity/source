@@ -2,6 +2,7 @@ package com.zebstudios.cityexpress;
 
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,6 +45,8 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
     SimpleDateFormat formatoFechaJSON;
     String fecha;
     boolean usuarioActivo;
+
+    static ProgressDialog progress;
 
 
     static Date _arrivalDate;
@@ -329,6 +332,8 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 _arrivalCalendarFragment.show( getFragmentManager(), "FROM_CALENDAR_FRAGMENT" );
                 break;
             case R.id.btnDisponibilidad:
+
+
                 if("".equals(editTextHotelDestino.getText().toString())){
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("City Express")
@@ -336,18 +341,19 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                             .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
                                 }
                             });
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
+
                 }else{
+
                     intent = new Intent(getActivity(),ResultadosDisponibilidad.class);
                     intent.putExtra("busqueda",editTextHotelDestino.getText().toString());
                     startActivity(intent);
-                }
 
+                }
                 break;
         }
     }

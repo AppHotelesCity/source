@@ -1,6 +1,7 @@
 package com.zebstudios.cityexpress;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -71,6 +72,8 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     ImageView imageViewBack;
     ImageView imageBusqueda;
     String fechaPartida;
+
+    static ProgressDialog progress;
 
     private GoogleMap _map;
     private MapView _mapView;
@@ -245,6 +248,8 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             habitacionBaseList = new ArrayList<>();
             listaGeneralHotel = new ArrayList<>();
             habitacionCityPremiosList = new ArrayList<>();
+            progress = ProgressDialog.show(ResultadosDisponibilidad.this, "Cargando...",
+                    "Espere por favor", true);
             buscarDisponibilidad(bundle.getString("busqueda"));
         }else{
             hotelAdapter = new HotelAdapter(listaGeneralHotel);
@@ -441,12 +446,14 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
     public void buscarDisponibilidad(String busqueda){
         //System.out.println("->"+busqueda);
+
         contador=0;
         StringRequest registro = new StringRequest(Request.Method.GET,"https://www.cityexpress.com/umbraco/api/MobileAppServices/GetHotelsWithServices?SearchTerms="+busqueda, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     obtenerHoteles(new JSONArray(response));
+                    progress.dismiss();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -455,6 +462,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                progress.dismiss();
             }
         });
         registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
@@ -462,6 +470,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     }
 
     public void obtenerHoteles(JSONArray hoteles){
+
         try{
             hotelJSON = hoteles;
             Hotel hotel;
@@ -475,6 +484,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
                 }else{
                     listaHotel.add(hotel);
+
                 }
             }
 
@@ -503,6 +513,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             }*/
         } catch (JSONException e) {
             e.printStackTrace();
+
         }
     }
 

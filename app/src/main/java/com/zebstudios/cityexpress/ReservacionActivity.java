@@ -2,6 +2,7 @@ package com.zebstudios.cityexpress;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -70,6 +71,7 @@ public class ReservacionActivity extends Activity {
     Spinner spinNinos;
 
     ImageView imageBack;
+    static ProgressDialog progress;
 
     double precioHabitacion;
     ArrayList<GuestData> titulares;
@@ -386,6 +388,7 @@ public class ReservacionActivity extends Activity {
 
                         System.out.println("Lo Logre!!!!!");
                         RecibirDatos();
+
                     }
                 }
             }
@@ -737,7 +740,8 @@ public class ReservacionActivity extends Activity {
 
     public void enviarReservacion() {
         Log.d("ReservacionActivity", "Enviar Tarjeta ");
-
+        progress = ProgressDialog.show(ReservacionActivity.this, "Cargando...",
+                "Espere por favor", true);
         for (int i = 0; i < titulares.size(); i++) {
 
 
@@ -912,6 +916,8 @@ public class ReservacionActivity extends Activity {
 
                             }
 
+                        progress.dismiss();
+
                         } catch (JSONException e) {
                             Log.e("JSON exception", e.getMessage());
                             e.printStackTrace();
@@ -933,6 +939,7 @@ public class ReservacionActivity extends Activity {
                     System.out.println("sout" + datos);
                     //ErrorenviarTarjeta("error");
                     ErrorenviarReservacion();
+                    progress.dismiss();
                 }
             }) {
 
