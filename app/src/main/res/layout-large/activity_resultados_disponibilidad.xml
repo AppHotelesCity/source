@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text="Entrada 07 dic 2015"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="50dp"
             android:textColor="#000"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
@@ -57,7 +57,7 @@
             android:id="@+id/imgViewMostrarOcultarLinear"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="50dp"
             android:src="@drawable/mostrar_buscador"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -70,6 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="240dp"
         android:padding="5dp"
+        android:visibility="gone"
         android:layout_marginBottom="10dp"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
@@ -123,14 +124,15 @@
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="05 nov 2015"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="40dp"
                     android:textColor="@color/blue_letters_color"
                     android:layout_gravity="center"
                     android:textAlignment="center"/>
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="60dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/icn_in"/>
             </LinearLayout>
@@ -149,14 +151,15 @@
                     android:layout_height="wrap_content"
                     android:text="05 nov 2015"
                     android:textColor="@color/blue_letters_color"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="40dp"
                     android:id="@+id/txtLlegada"
                     android:layout_gravity="center"
                     android:textAlignment="center"/>
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="60dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/icn_out"/>
             </LinearLayout>
