@@ -129,6 +129,7 @@ public class ReservacionActivity extends Activity {
         arrival = PrincipalFragment._arrivalDate;
         departure = PrincipalFragment._departureDate;
         numNoches = ResultadosDisponibilidad.totalNoches;
+        numNoches = Math.abs(numNoches);
         precioHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getCosto().replace(",", ""));
         _lastGuestIndex = 0;
         System.out.println("numNoches" + numNoches);
@@ -294,7 +295,7 @@ public class ReservacionActivity extends Activity {
         btnReserva2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                saveCurrentGuest();
                 if ("".equals(txtName.getText().toString())) {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
@@ -371,7 +372,9 @@ public class ReservacionActivity extends Activity {
                             changeHuesped(i);
                             System.out.println("Titular " + i + "---->Nombre" + titulares.get(i).getName() + "TAmaño ZisE->"+ titulares.size());
                         }
-                        RecibirDatos();
+
+                        System.out.println("Lo Logre!!!!!");
+                        //RecibirDatos();
                     }
                 }
             }
@@ -1009,43 +1012,38 @@ public class ReservacionActivity extends Activity {
 
     private boolean validateGuest( int index )
     {
-        GuestData g = titulares.get( index );
-        if( index != 0 && g.getDataOption() == 0 )
-        {
-            return true;
-        }
+        try {
+            GuestData g = titulares.get(index);
 
-        String title = "Huesped titular - habitación " + ( index + 1 );
+            String title = "Huesped titular - habitación " + (index + 1);
 
-        if( g.getName().trim().length() == 0 )
-        {
-            alert( "Por favor ingresa el nombre del " + title + "." );
-            return false;
-        }
-        if( g.getLastName().trim().length() == 0 )
-        {
-            alert( "Por favor ingresa el apellido del " + title + "." );
-            return false;
-        }
-        if( g.getEmail().trim().length() == 0 )
-        {
-            alert( "Por favor ingresa el correo electrónico del " + title + "." );
-            return false;
-        }
-        if( !isEmailValid( g.getEmail() ) )
-        {
-            alert( "El correo electrónico del " + title + " es incorrecto." );
-            return false;
-        }
-        if( g.getSocio().trim().length() != 0 && ( g.getSocio().trim().length() != 10 || !isAlphaNumeric( g.getSocio().trim() ) ) )
-        {
-            alert( "El número de socio City Premios del " + title + " es incorrecto." );
-            return false;
-        }
-        if( g.getPhone().trim().length() == 0 )
-        {
-            // TODO: Validar más adecuadamente el teléfono
-            alert("Por favor ingresa el teléfono del " + title + ".");
+            if (g.getName().trim().length() == 0 || g.getName().isEmpty()) {
+                alert("Por favor ingresa el nombre del " + title + ".");
+                return false;
+            }
+            if (g.getLastName().trim().length() == 0) {
+                alert("Por favor ingresa el apellido del " + title + ".");
+                return false;
+            }
+            if (g.getEmail().trim().length() == 0) {
+                alert("Por favor ingresa el correo electrónico del " + title + ".");
+                return false;
+            }
+            if (!isEmailValid(g.getEmail())) {
+                alert("El correo electrónico del " + title + " es incorrecto.");
+                return false;
+            }
+            if (g.getSocio().trim().length() != 0 && (g.getSocio().trim().length() != 10 || !isAlphaNumeric(g.getSocio().trim()))) {
+                alert("El número de socio City Premios del " + title + " es incorrecto.");
+                return false;
+            }
+            if (g.getPhone().trim().length() == 0) {
+                // TODO: Validar más adecuadamente el teléfono
+                alert("Por favor ingresa el teléfono del " + title + ".");
+                return false;
+            }
+        }catch(Exception e){
+            alert("Falta registrar al Huesped titular - Habitación " + (index+1));
             return false;
         }
 
@@ -1163,6 +1161,16 @@ public class ReservacionActivity extends Activity {
         d.setDataOption(btnMisma.isChecked() ? 0 : 1);
         if( _lastGuestIndex == 0 || ( _lastGuestIndex != 0 && !btnMisma.isChecked() ) )
         {
+            d.setName( txtName.getText().toString() );
+            d.setLastName( txtLast.getText().toString() );
+            d.setEmail( txtEmail.getText().toString() );
+            d.setSocio( txtSocio.getText().toString() );
+            d.setAfiliate( cbAfiliate.isChecked() );
+            d.setPhone( txtPhone.getText().toString() );
+            d.setViaje( spinViaje.getSelectedItemPosition() );
+        }
+        if(_lastGuestIndex>0 && btnMisma.isChecked()){
+            System.out.println("ENTREACA");
             d.setName( txtName.getText().toString() );
             d.setLastName( txtLast.getText().toString() );
             d.setEmail( txtEmail.getText().toString() );
