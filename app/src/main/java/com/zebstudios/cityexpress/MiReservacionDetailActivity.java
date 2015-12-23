@@ -1,14 +1,25 @@
 package com.zebstudios.cityexpress;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -17,7 +28,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.XML;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -108,13 +127,13 @@ public class MiReservacionDetailActivity extends Activity {
 
         datosReservacion = realm.where(ReservacionBD.class).equalTo("numReservacion",numReservacion).findAll();
 
-        System.out.println("NombreHotel"+datosReservacion.get(0).getNombreHotel() + "TOTAL->" +datosReservacion.get(0).getHabCosto());
+        System.out.println("NombreHotel"+datosReservacion.get(0).getNombreHotel() + "TOTAL->" +datosReservacion.get(0).getHabCosto() + "SiglasHotel->" + datosReservacion.get(0).getSiglasHotel());
 
         llenarInformacion();
         btnCheckIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                checkIn();
             }
         });
 
@@ -236,5 +255,205 @@ public class MiReservacionDetailActivity extends Activity {
         _map.moveCamera(CameraUpdateFactory.newLatLngZoom(hotelPosition, 14));
         m.showInfoWindow();
 
+    }
+
+    public void checkIn(){
+        String enviarxml = "<soap:Envelope\n" +
+                "    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
+                "    xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\n" +
+                "    xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
+                "    <soap:Body>\n" +
+                "        <Ws_CheckIn xmlns=\"http://tempuri.org/\">\n" +
+                "            <hotel>{hotel}</hotel>\n" +
+                "            <rsrv_code>{codigoreserva}</rsrv_code>\n" +
+                "            <sRef>{ref}</sRef>\n" +
+                "        </Ws_CheckIn>\n" +
+                "    </soap:Body>\n" +
+                "</soap:Envelope>";
+
+        enviarxml = enviarxml.replace("{hotel}", datosReservacion.get(0).getSiglasHotel());
+        enviarxml = enviarxml.replace("{codigoreserva}", ""+datosReservacion.get(0).getNumReservacion());
+        enviarxml = enviarxml.replace("{ref}", "");
+
+
+        Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
+
+        System.out.println("XML a enviar --> " + enviarxml);
+
+
+        final String finalEnviarxml = enviarxml;
+        StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.CLIENTE_UNICO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+                try {
+
+                    JSONObject jsonObj = null;
+                    JSONObject body = null;
+                    JSONObject checkInResult = null;
+
+                    jsonObj = XML.toJSONObject(response);
+                    body = jsonObj.getJSONObject("soap:Envelope").getJSONObject("soap:Body");
+                    checkInResult = body.getJSONObject("Ws_CheckInResponse").getJSONObject("Ws_CheckInResult");
+
+                    Log.d("JSON", checkInResult.toString());
+                    finObtenerCheckIn(checkInResult);
+
+                } catch (JSONException e) {
+                    Log.e("JSON exception", e.getMessage());
+                    e.printStackTrace();
+                }
+
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                NetworkResponse response = error.networkResponse;
+                String datos = new String(response.data);
+                System.out.println("sout" + datos);
+
+                //errorObtenerCheckIn("Error al cargar las tarjetas D=");
+            }
+        }) {
+
+            public String getBodyContentType() {
+                return "text/xml; charset=utf-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<String, String>();
+                //params.put("Content-Type", "application/xml; charset=utf-8");
+                params.put("SOAPAction", "http://tempuri.org/ListadoTarjetas");
+                Log.d("hsdhsdfhuidiuhsd", "clave");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                //return cadena.toString().getBytes();
+                final String temp = finalEnviarxml.toString();
+                return temp.toString().getBytes();
+            }
+
+        };
+
+        System.out.println("registro->" + registro.toString());
+        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(registro);
+    }
+
+    public void finObtenerCheckIn(JSONObject checkInResult) throws JSONException{
+
+        alert(checkInResult.getString("a:DescError"));
+
+    }
+    public void errorObtenerCheckIn(){
+
+    }
+
+    public void checkOut(){
+        String enviarxml = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://tempuri.org/\">\n" +
+                "    <SOAP-ENV:Body>\n" +
+                "        <ns1:WS_CheckOUT>\n" +
+                "            <ns1:guest_code>{guestcode}</ns1:guest_code>\n" +
+                "            <ns1:prop_code>{propcode}</ns1:prop_code>\n" +
+                "            <ns1:last_name>{lastname}</ns1:last_name>\n" +
+                "        </ns1:WS_CheckOUT>\n" +
+                "    </SOAP-ENV:Body>\n" +
+                "</SOAP-ENV:Envelope>";
+
+        enviarxml = enviarxml.replace("{guestcode}","" + datosReservacion.get(0).getNumReservacion());
+        enviarxml = enviarxml.replace("{propcode}", "" + datosReservacion.get(0).getSiglasHotel());
+        enviarxml = enviarxml.replace("{lastname}", "" + datosReservacion.get(0).getApellidoUsuario());
+
+
+        Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
+
+        System.out.println("XML a enviar --> " + enviarxml);
+
+
+        final String finalEnviarxml = enviarxml;
+        StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.CLIENTE_UNICO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+
+                    JSONObject jsonObj = null;
+                    JSONObject body = null;
+                    JSONObject ListadoTarjetasResult = null;
+
+                    jsonObj = XML.toJSONObject(response);
+                    body = jsonObj.getJSONObject("soap:Envelope").getJSONObject("soap:Body");
+                    ListadoTarjetasResult = body.getJSONObject("ListadoTarjetasResponse").getJSONObject("ListadoTarjetasResult");
+
+                    Log.d("JSON", ListadoTarjetasResult.toString());
+
+
+                } catch (JSONException e) {
+                    Log.e("JSON exception", e.getMessage());
+                    e.printStackTrace();
+                }
+
+                //finObtenerCheckIn(tarjetas_list);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                NetworkResponse response = error.networkResponse;
+                String datos = new String(response.data);
+                System.out.println("sout" + datos);
+
+                //errorObtenerCheckIn("Error al cargar las tarjetas D=");
+            }
+        }) {
+
+            public String getBodyContentType() {
+                return "text/xml; charset=utf-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<String, String>();
+                //params.put("Content-Type", "application/xml; charset=utf-8");
+                params.put("SOAPAction", "http://tempuri.org/ListadoTarjetas");
+                Log.d("hsdhsdfhuidiuhsd", "clave");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                //return cadena.toString().getBytes();
+                final String temp = finalEnviarxml.toString();
+                return temp.toString().getBytes();
+            }
+
+        };
+
+        System.out.println("registro->" + registro.toString());
+        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(registro);
+    }
+
+    private void alert( String message )
+    {
+        AlertDialog alert = new AlertDialog.Builder(this ).create();
+        alert.setTitle( "Atención" );
+        alert.setMessage( message );
+        alert.setIcon( R.drawable.notification_warning_small );
+        alert.setCancelable(false);
+        alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.show();
     }
 }

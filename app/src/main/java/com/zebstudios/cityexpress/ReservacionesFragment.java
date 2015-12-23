@@ -1,6 +1,8 @@
 package com.zebstudios.cityexpress;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -72,7 +74,7 @@ public class ReservacionesFragment extends Fragment
                             reservacionesBD.get(i).getNumNoches(),
                             reservacionesBD.get(i).getLongitudHotel(),
                             reservacionesBD.get(i).getLatitudHotel()
-            ));
+                    ));
 		}
 
 		/*Bundle args = getArguments();
@@ -89,9 +91,50 @@ public class ReservacionesFragment extends Fragment
 			}
 		}*/
 
-		ReservationsListAdapter reservationsListAdapter = new ReservationsListAdapter( getActivity(), _reservations );
+		final ReservationsListAdapter reservationsListAdapter = new ReservationsListAdapter( getActivity(), _reservations );
 		ListView list = (ListView)_view.findViewById( R.id.list_reservations );
 		list.setAdapter( reservationsListAdapter );
+
+        SwipeDismissListViewTouchListener touchListener =
+                new SwipeDismissListViewTouchListener(
+                        list,
+                        new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                            @Override
+                            public boolean canDismiss(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                                for (final int position : reverseSortedPositions) {
+                                    System.out.println("->" + reservationsListAdapter.getItem(position));
+                                    new AlertDialog.Builder(getActivity())
+                                            .setTitle("Eliminar")
+                                            .setMessage("Deseas Eliminar esta encuesta?")
+                                            .setCancelable(false)
+                                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    _reservations.remove(position);
+                                                }
+
+                                            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    }).create().show();
+
+                                }
+                                reservationsListAdapter.notifyDataSetChanged();
+                            }
+                        });
+        list.setOnTouchListener(touchListener);
+        list.setOnScrollListener(touchListener.makeScrollListener());
+
+
+
 		list.setOnItemClickListener( new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick( AdapterView<?> parent, View view, int position, long id )
