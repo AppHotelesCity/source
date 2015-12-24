@@ -94,6 +94,10 @@ public class DetalleHotelActivity extends ActionBarActivity{
         });
 
 
+
+
+
+
         Bundle bundle = getIntent().getExtras();
         posicion = bundle.getInt("posicion");
         System.out.println("PosicionDetalleHote"+posicion);
@@ -480,9 +484,15 @@ public class DetalleHotelActivity extends ActionBarActivity{
 
             habitacionAdapter = new HabitacionAdapter(ResultadosDisponibilidad.listaGeneralHotel, ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones(),ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitacionesCity(),_extras,posicion);
             recyclerViewHabitaciones.setAdapter(habitacionAdapter);
+
+            int viewHeight = 450 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size();
+            recyclerViewHabitaciones.getLayoutParams().height = viewHeight;
+
         }catch(Exception e){
 
         }
     }
+
+
 
 }
