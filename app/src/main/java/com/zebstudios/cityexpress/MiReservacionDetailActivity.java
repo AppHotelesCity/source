@@ -145,7 +145,12 @@ public class MiReservacionDetailActivity extends Activity {
         btnEnviarCorreo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String to = datosReservacion.get(0).getEmailHotel();
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
+                email.setType("message/rfc822");
+                startActivityForResult(Intent.createChooser(email, "Send Email"), 1);
+                addEvent("HotelDetails-SendEmail-Smartphone");
             }
         });
 
@@ -213,7 +218,11 @@ public class MiReservacionDetailActivity extends Activity {
         imageChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.e("btnChat", "Web View Chat");
+                Uri chatwv = Uri.parse("http://chat.hotelescity.com/WebAPISamples76/Chat/HtmlChatFrameSet.jsp");
+                Intent intent = new Intent(Intent.ACTION_VIEW, chatwv);
+                startActivity(intent);
+                addEvent("HotelDetails-Chat-Smartphone");
             }
         });
 
@@ -244,8 +253,8 @@ public class MiReservacionDetailActivity extends Activity {
         btnCheckIn.setEnabled(datosReservacion.get(0).isCheckIn());
         btnCheckOut.setEnabled(datosReservacion.get(0).isCheckOut());
         if(datosReservacion.get(0).isCheckIn()){
-            btnCheckIn.setEnabled(false);
-            btnCheckOut.setEnabled(true);
+            btnCheckIn.setEnabled(true);
+            btnCheckOut.setEnabled(false);
         }
         if(datosReservacion.get(0).isCheckOut()){
             btnCheckOut.setEnabled(false);
@@ -300,11 +309,11 @@ public class MiReservacionDetailActivity extends Activity {
 
 
         final String finalEnviarxml = enviarxml;
-        StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.CLIENTE_UNICO, new Response.Listener<String>() {
+        StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.URL_CHECKS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-
+                System.out.println("RESPUESTACHECKIN"+ response);
                 try {
 
                     JSONObject jsonObj = null;
@@ -312,7 +321,7 @@ public class MiReservacionDetailActivity extends Activity {
                     JSONObject checkInResult = null;
 
                     jsonObj = XML.toJSONObject(response);
-                    body = jsonObj.getJSONObject("soap:Envelope").getJSONObject("soap:Body");
+                    body = jsonObj.getJSONObject("s:Envelope").getJSONObject("s:Body");
                     checkInResult = body.getJSONObject("Ws_CheckInResponse").getJSONObject("Ws_CheckInResult");
 
                     Log.d("JSON", checkInResult.toString());
@@ -346,7 +355,7 @@ public class MiReservacionDetailActivity extends Activity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<String, String>();
                 //params.put("Content-Type", "application/xml; charset=utf-8");
-                params.put("SOAPAction", "http://tempuri.org/ListadoTarjetas");
+                params.put("SOAPAction", "http://tempuri.org/IWHSReservationEngine/Ws_CheckIn");
                 Log.d("hsdhsdfhuidiuhsd", "clave");
                 return params;
             }
@@ -427,7 +436,7 @@ public class MiReservacionDetailActivity extends Activity {
 
 
         final String finalEnviarxml = enviarxml;
-        StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.CLIENTE_UNICO, new Response.Listener<String>() {
+        StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.URL_CHECKS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -472,7 +481,7 @@ public class MiReservacionDetailActivity extends Activity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<String, String>();
                 //params.put("Content-Type", "application/xml; charset=utf-8");
-                params.put("SOAPAction", "http://tempuri.org/ListadoTarjetas");
+                params.put("SOAPAction", "http://tempuri.org/IWHSReservationEngine/WS_CheckOUT");
                 Log.d("hsdhsdfhuidiuhsd", "clave");
                 return params;
             }

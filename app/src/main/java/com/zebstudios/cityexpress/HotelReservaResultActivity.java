@@ -144,7 +144,7 @@ public class HotelReservaResultActivity extends Activity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("http://maps.google.com/maps?saddr=" +datosReservacion.get(0).getLatitudHotel()+ "&daddr="+datosReservacion.get(0).getLongitudHotel()));
+                        Uri.parse("http://maps.google.com/maps?saddr=" +datosReservacion.get(0).getLongitudHotel()+ "&daddr="+datosReservacion.get(0).getLatitudHotel()));
                 startActivity(intent);
                 
             }

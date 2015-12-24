@@ -29,4 +29,8 @@ public class APIAddress
 	public static String LOGIN_USUARIO_PREFERENCES = "datosUsuarioPreferences";
 
 	public static String CLIENTE_UNICO = "http://wshc.hotelescity.com:9742/WS_Smart_Des/SmartAdmin.asmx?wsdl";
+
+	public static String URL_RESERVACIONES = "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc";
+
+	public static String URL_CHECKS = "http://wshc.hotelescity.com:9742/WHS_Reservations_Des/WHSReservationEngine.svc?wsdl";
 }

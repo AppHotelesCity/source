@@ -793,7 +793,7 @@ public class ReservacionPremiosActivity extends Activity {
 
 
             enviarxml = enviarxml.replace("{smartcvv}", cvvTarjetaLista);
-            enviarxml = enviarxml.replace("{smartclasificacion}", "16|||||||189.210.219.25|OSCAR TEST|2015-12-23|1|1||3||BLVD. JOSE MARIA CHAVEZ |NO. 1919|COL. SAN PEDRO|AGUASCALIENTES|MX|20280|014491492900|0|||||||||||||||"+nombreUsuarioCity+"|"+apellidoUsuarioCity+"|||||||||||"+correoUsuarioCity+"|||");
+            enviarxml = enviarxml.replace("{smartclasificacion}", "16|||||||"+hostUsuario+"|"+nombreUsuarioCity+"|"+llegada+"|"+numNoches+"|1||3||BLVD. JOSE MARIA CHAVEZ |NO. 1919|COL. SAN PEDRO|AGUASCALIENTES|MX|20280|014491492900|0|||||||||||||||"+nombreUsuarioCity+"|"+apellidoUsuarioCity+"|||||||||||"+correoUsuarioCity+"|||");
             enviarxml = enviarxml.replace("{smartcuentaid}", tarjetaID);
             enviarxml = enviarxml.replace("{smarthost}", hostUsuario);
             enviarxml = enviarxml.replace("{smartmoneda}", "484");
@@ -805,7 +805,7 @@ public class ReservacionPremiosActivity extends Activity {
 
 
             final String finalEnviarxml = enviarxml;
-            StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
+            StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.URL_RESERVACIONES, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
 
