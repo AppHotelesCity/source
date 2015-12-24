@@ -692,6 +692,9 @@ public class ReservacionActivity extends Activity {
         reservacionBD.setNumNoches(numNoches);
         reservacionBD.setNumHabitaciones(numHabitacion);
         reservacionBD.setDireccionHotel(getAddressString());
+        reservacionBD.setCheckIn(true);
+        reservacionBD.setCheckOut(false);
+        reservacionBD.setConsultarSaldos(false);
         System.out.println("DIreccionHotel" + getAddressString());
         System.out.println("numNohe" + numNoches);
         System.out.println("descHabitacion"+ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());

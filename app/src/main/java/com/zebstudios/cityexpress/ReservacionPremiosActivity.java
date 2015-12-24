@@ -121,6 +121,12 @@ public class ReservacionPremiosActivity extends Activity {
 
     Realm realm;
 
+    //DAtosUsuario City;
+    String nombreUsuarioCity;
+    String apellidoUsuarioCity;
+    String correoUsuarioCity;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +138,11 @@ public class ReservacionPremiosActivity extends Activity {
         obtenerHostUsuario();
         SharedPreferences prefsUsuario = this.getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
         personF2GO = prefsUsuario.getString("person_ID", null);
+        nombreUsuarioCity = prefsUsuario.getString("nombre", null);
+        apellidoUsuarioCity = prefsUsuario.getString("apellido", null);
+        correoUsuarioCity = prefsUsuario.getString("usuario", null);
 
+        System.out.println("NOMBREUSUARIO"+ nombreUsuarioCity + "apellidoUsuario "+ apellidoUsuarioCity + "CorreoUsuario" + correoUsuarioCity);
         if(personF2GO==null){
             Intent i = new Intent(this, IniciarSesionActivity.class);
             startActivityForResult(i, 1);
@@ -551,7 +561,7 @@ public class ReservacionPremiosActivity extends Activity {
                         }
 
                         System.out.println("Lo Logre!!!!!");
-                        //RecibirDatos();
+                        RecibirDatos();
                     }
                 }
             }
@@ -605,7 +615,7 @@ public class ReservacionPremiosActivity extends Activity {
             @Override
             public void onCheckedChanged( RadioGroup group, int checkedId )
             {
-
+                handleCaptureOptionHandle();
             }
         } );
 
@@ -642,6 +652,7 @@ public class ReservacionPremiosActivity extends Activity {
         // System.out.println(spinAdultos.getSelectedItem().toString());
         // System.out.println(spinViaje.getSelectedItem().toString());
         // System.out.println(spinNinos.getSelectedItem().toString());
+        enviarReservacion();
 
 
     }
@@ -649,129 +660,129 @@ public class ReservacionPremiosActivity extends Activity {
     public void enviarReservacion(){
         Log.d("ReservacionActivity", "Enviar Tarjeta ");
 
-
-        String enviarxml = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
-                "    <s:Body>\n" +
-                "        <InsertBookingv3_01 xmlns=\"http://tempuri.org/\">\n" +
-                "            <mdlReservation xmlns:d4p1=\"http://schemas.datacontract.org/2004/07/CityHub\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-                "                <d4p1:AplicaSMART>\n" +
-                "                    <d4p1:pAplicaSMART>{smart}</d4p1:pAplicaSMART>\n" +
-                "                </d4p1:AplicaSMART>\n" +
-                "                <d4p1:Deposito>\n" +
-                "                    <d4p1:Comprobante>SmartComprobante</d4p1:Comprobante>\n" +
-                "                    <d4p1:Fecha>{depositofecha}</d4p1:Fecha>\n" +
-                "                    <d4p1:Monto>{depositomonto}</d4p1:Monto>\n" +
-                "                    <d4p1:Notas></d4p1:Notas>\n" +
-                "                    <d4p1:Notas2></d4p1:Notas2>\n" +
-                "                    <d4p1:Tarifa_Fija>0</d4p1:Tarifa_Fija>\n" +
-                "                    <d4p1:TipoMoneda>{depositotipomoneda}</d4p1:TipoMoneda>\n" +
-                "                </d4p1:Deposito>\n" +
-                "                <d4p1:Empresa>\n" +
-                "                    <d4p1:IataEmisor />\n" +
-                "                    <d4p1:RfcEmisor>EMISAPP</d4p1:RfcEmisor>\n" +
-                "                </d4p1:Empresa>\n" +
-                "                <d4p1:Estancia>\n" +
-                "                    <d4p1:ChannelRef />\n" +
-                "                    <d4p1:CodigoOperador>APP_MOVIL</d4p1:CodigoOperador>\n" +
-                "                    <d4p1:CodigoOrigen>007</d4p1:CodigoOrigen>\n" +
-                "                    <d4p1:CodigoSegmento>001</d4p1:CodigoSegmento>\n" +
-                "                    <d4p1:FechaEntrada>{estanciaentrada}</d4p1:FechaEntrada>\n" +
-                "                    <d4p1:FormaDePago>{formapago}</d4p1:FormaDePago>\n" +
-                "                    <d4p1:Hotel>{codigohotel}</d4p1:Hotel>\n" +
-                "                    <d4p1:NotasFormaPago />\n" +
-                "                    <d4p1:NotasReservacion />\n" +
-                "                    <d4p1:NumeroDeNoches>{numeronoches}</d4p1:NumeroDeNoches>\n" +
-                "                    <d4p1:TipoReservacion>TCRED</d4p1:TipoReservacion>\n" +
-                "                </d4p1:Estancia>\n" +
-                "                <d4p1:Habitacion>\n" +
-                "                    <d4p1:CodigoHabitacion>{codigohabitacion}</d4p1:CodigoHabitacion>\n" +
-                "                    <d4p1:CodigoPromocion>{codigopromocion}</d4p1:CodigoPromocion>\n" +
-                "                    <d4p1:CodigoTarifa>{codigotarifa}</d4p1:CodigoTarifa>\n" +
-                "                    <d4p1:HuespedTitular>\n" +
-                "                        <d4p1:Apellidos>{huespedapellidos}</d4p1:Apellidos>\n" +
-                "                        <d4p1:Edad>0</d4p1:Edad>\n" +
-                "                        <d4p1:Nombre>{huespednombre}</d4p1:Nombre>\n" +
-                "                        <d4p1:Acompanantes_Ar>{acompanantes}</d4p1:Acompanantes_Ar>\n" +
-                "                        <d4p1:CodigoPais>{codigopais}</d4p1:CodigoPais>\n" +
-                "                        <d4p1:CorreoElectronico>{correoelectronico}</d4p1:CorreoElectronico>\n" +
-                "                        <d4p1:Indicaciones />\n" +
-                "                        <d4p1:RwdNumber />\n" +
-                "                        <d4p1:Telefono>{telefono}</d4p1:Telefono>\n" +
-                "                        <d4p1:TotAcompAdult>{totalacompadultos}</d4p1:TotAcompAdult>\n" +
-                "                        <d4p1:TotAcompMenor>{totalacompmenores}</d4p1:TotAcompMenor>\n" +
-                "                    </d4p1:HuespedTitular>\n" +
-                "                    <d4p1:NumeroHabitaciones>1</d4p1:NumeroHabitaciones>\n" +
-                "                </d4p1:Habitacion>\n" +
-                "                <d4p1:Reservante>\n" +
-                "                    <d4p1:Apellidos>{reservanteapellidos}</d4p1:Apellidos>\n" +
-                "                    <d4p1:Edad>0</d4p1:Edad>\n" +
-                "                    <d4p1:Nombre>{reservantenombre}</d4p1:Nombre>\n" +
-                "                    <d4p1:CorreoElectronico>{reservantecorreoelectronico}</d4p1:CorreoElectronico>\n" +
-                "                    <d4p1:RwdNumber />\n" +
-                "                    <d4p1:TelefonoReservante>{reservantetelefono}</d4p1:TelefonoReservante>\n" +
-                "                </d4p1:Reservante>\n" +
-                "                <d4p1:SMART>\n" +
-                "                    <d4p1:CVV>{smartcvv}</d4p1:CVV>\n" +
-                "                    <d4p1:Clasificacion_Transaccion>{smartclasificacion}</d4p1:Clasificacion_Transaccion>\n" +
-                "                    <d4p1:CuentaId>{smartcuentaid}</d4p1:CuentaId>\n" +
-                "                    <d4p1:Host>{smarthost}</d4p1:Host>\n" +
-                "                    <d4p1:PuntoVenta>2</d4p1:PuntoVenta>\n" +
-                "                    <d4p1:SMART_Moneda>{smartmoneda}</d4p1:SMART_Moneda>\n" +
-                "                    <d4p1:SMART_Pais>{smartpais}</d4p1:SMART_Pais>\n" +
-                "                    <d4p1:Tipo_Cliente>C</d4p1:Tipo_Cliente>\n" +
-                "                </d4p1:SMART>" +
-                "                <d4p1:TarjetaCredito>\n" +
-                "                    <d4p1:AnoVencimiento />\n" +
-                "                    <d4p1:CodigoSeguridad />\n" +
-                "                    <d4p1:MesVencimiento />\n" +
-                "                    <d4p1:NombreTarjeta />\n" +
-                "                    <d4p1:NumeroTarjeta />\n" +
-                "                </d4p1:TarjetaCredito>" +
-                "                <d4p1:TarjetaVirtual>\n" +
-                "                    <d4p1:AnoVencimiento />\n" +
-                "                    <d4p1:CodigoSeguridad />\n" +
-                "                    <d4p1:MesVencimiento />\n" +
-                "                    <d4p1:NombreTarjeta />\n" +
-                "                    <d4p1:NumeroTarjeta />\n" +
-                "                </d4p1:TarjetaVirtual>\n" +
-                "            </mdlReservation>\n" +
-                "        </InsertBookingv3_01>\n" +
-                "    </s:Body>\n" +
-                "</s:Envelope>";
-
-
-        String llegada = new SimpleDateFormat("yyyy-MM-dd").format(arrival);
-
-        enviarxml = enviarxml.replace("{smart}","true");
-        enviarxml = enviarxml.replace("{codigohabitacion}",codigoBase);
-        enviarxml = enviarxml.replace("{codigotarifa}","1114");
-        enviarxml = enviarxml.replace("{codigopromocion}","");
+        for (int i = 0; i < titulares.size(); i++) {
+            String enviarxml = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
+                    "    <s:Body>\n" +
+                    "        <InsertBookingv3_01 xmlns=\"http://tempuri.org/\">\n" +
+                    "            <mdlReservation xmlns:d4p1=\"http://schemas.datacontract.org/2004/07/CityHub\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
+                    "                <d4p1:AplicaSMART>\n" +
+                    "                    <d4p1:pAplicaSMART>{smart}</d4p1:pAplicaSMART>\n" +
+                    "                </d4p1:AplicaSMART>\n" +
+                    "                <d4p1:Deposito>\n" +
+                    "                    <d4p1:Comprobante>SmartComprobante</d4p1:Comprobante>\n" +
+                    "                    <d4p1:Fecha>{depositofecha}</d4p1:Fecha>\n" +
+                    "                    <d4p1:Monto>{depositomonto}</d4p1:Monto>\n" +
+                    "                    <d4p1:Notas>Nota1</d4p1:Notas>\n" +
+                    "                    <d4p1:Notas2>Nota2</d4p1:Notas2>\n" +
+                    "                    <d4p1:Tarifa_Fija>0</d4p1:Tarifa_Fija>\n" +
+                    "                    <d4p1:TipoMoneda>{depositotipomoneda}</d4p1:TipoMoneda>\n" +
+                    "                </d4p1:Deposito>\n" +
+                    "                <d4p1:Empresa>\n" +
+                    "                    <d4p1:IataEmisor />\n" +
+                    "                    <d4p1:RfcEmisor>EMISAPP</d4p1:RfcEmisor>\n" +
+                    "                </d4p1:Empresa>\n" +
+                    "                <d4p1:Estancia>\n" +
+                    "                    <d4p1:ChannelRef />\n" +
+                    "                    <d4p1:CodigoOperador>APP_MOVIL</d4p1:CodigoOperador>\n" +
+                    "                    <d4p1:CodigoOrigen>007</d4p1:CodigoOrigen>\n" +
+                    "                    <d4p1:CodigoSegmento>001</d4p1:CodigoSegmento>\n" +
+                    "                    <d4p1:FechaEntrada>{estanciaentrada}</d4p1:FechaEntrada>\n" +
+                    "                    <d4p1:FormaDePago>{formapago}</d4p1:FormaDePago>\n" +
+                    "                    <d4p1:Hotel>{codigohotel}</d4p1:Hotel>\n" +
+                    "                    <d4p1:NotasFormaPago />\n" +
+                    "                    <d4p1:NotasReservacion />\n" +
+                    "                    <d4p1:NumeroDeNoches>{numeronoches}</d4p1:NumeroDeNoches>\n" +
+                    "                    <d4p1:TipoReservacion>DEPO</d4p1:TipoReservacion>\n" +
+                    "                </d4p1:Estancia>\n" +
+                    "                <d4p1:Habitacion>\n" +
+                    "                    <d4p1:CodigoHabitacion>{codigohabitacion}</d4p1:CodigoHabitacion>\n" +
+                    "                    <d4p1:CodigoPromocion>{codigopromocion}</d4p1:CodigoPromocion>\n" +
+                    "                    <d4p1:CodigoTarifa>{codigotarifa}</d4p1:CodigoTarifa>\n" +
+                    "                    <d4p1:HuespedTitular>\n" +
+                    "                        <d4p1:Apellidos>{huespedapellidos}</d4p1:Apellidos>\n" +
+                    "                        <d4p1:Edad>32</d4p1:Edad>\n" +
+                    "                        <d4p1:Nombre>{huespednombre}</d4p1:Nombre>\n" +
+                    "                        <d4p1:Acompanantes_Ar>{acompanantes}</d4p1:Acompanantes_Ar>\n" +
+                    "                        <d4p1:CodigoPais>{codigopais}</d4p1:CodigoPais>\n" +
+                    "                        <d4p1:CorreoElectronico>{correoelectronico}</d4p1:CorreoElectronico>\n" +
+                    "                        <d4p1:Indicaciones />\n" +
+                    "                        <d4p1:RwdNumber />\n" +
+                    "                        <d4p1:Telefono>{telefono}</d4p1:Telefono>\n" +
+                    "                        <d4p1:TotAcompAdult>{totalacompadultos}</d4p1:TotAcompAdult>\n" +
+                    "                        <d4p1:TotAcompMenor>{totalacompmenores}</d4p1:TotAcompMenor>\n" +
+                    "                    </d4p1:HuespedTitular>\n" +
+                    "                    <d4p1:NumeroHabitaciones>1</d4p1:NumeroHabitaciones>\n" +
+                    "                </d4p1:Habitacion>\n" +
+                    "                <d4p1:Reservante>\n" +
+                    "                    <d4p1:Apellidos>{reservanteapellidos}</d4p1:Apellidos>\n" +
+                    "                    <d4p1:Edad>0</d4p1:Edad>\n" +
+                    "                    <d4p1:Nombre>{reservantenombre}</d4p1:Nombre>\n" +
+                    "                    <d4p1:CorreoElectronico>{reservantecorreoelectronico}</d4p1:CorreoElectronico>\n" +
+                    "                    <d4p1:RwdNumber />\n" +
+                    "                    <d4p1:TelefonoReservante>{reservantetelefono}</d4p1:TelefonoReservante>\n" +
+                    "                </d4p1:Reservante>\n" +
+                    "                <d4p1:SMART>\n" +
+                    "                    <d4p1:CVV>{smartcvv}</d4p1:CVV>\n" +
+                    "                    <d4p1:Clasificacion_Transaccion>{smartclasificacion}</d4p1:Clasificacion_Transaccion>\n" +
+                    "                    <d4p1:CuentaId>{smartcuentaid}</d4p1:CuentaId>\n" +
+                    "                    <d4p1:Host>{smarthost}</d4p1:Host>\n" +
+                    "                    <d4p1:PuntoVenta>2</d4p1:PuntoVenta>\n" +
+                    "                    <d4p1:SMART_Moneda>{smartmoneda}</d4p1:SMART_Moneda>\n" +
+                    "                    <d4p1:SMART_Pais>{smartpais}</d4p1:SMART_Pais>\n" +
+                    "                    <d4p1:Tipo_Cliente>C</d4p1:Tipo_Cliente>\n" +
+                    "                </d4p1:SMART>" +
+                    "                <d4p1:TarjetaCredito>\n" +
+                    "                    <d4p1:AnoVencimiento />\n" +
+                    "                    <d4p1:CodigoSeguridad />\n" +
+                    "                    <d4p1:MesVencimiento />\n" +
+                    "                    <d4p1:NombreTarjeta />\n" +
+                    "                    <d4p1:NumeroTarjeta />\n" +
+                    "                </d4p1:TarjetaCredito>" +
+                    "                <d4p1:TarjetaVirtual>\n" +
+                    "                    <d4p1:AnoVencimiento />\n" +
+                    "                    <d4p1:CodigoSeguridad />\n" +
+                    "                    <d4p1:MesVencimiento />\n" +
+                    "                    <d4p1:NombreTarjeta />\n" +
+                    "                    <d4p1:NumeroTarjeta />\n" +
+                    "                </d4p1:TarjetaVirtual>\n" +
+                    "            </mdlReservation>\n" +
+                    "        </InsertBookingv3_01>\n" +
+                    "    </s:Body>\n" +
+                    "</s:Envelope>";
 
 
-        enviarxml = enviarxml.replace("{correoelectronico}",txtEmail.getText());
-        enviarxml = enviarxml.replace("{telefono}",txtPhone.getText() );
-        enviarxml = enviarxml.replace("{totalacompadultos}", "1");
-        enviarxml = enviarxml.replace("{totalacompmenores}","0");
-        enviarxml = enviarxml.replace("{codigopais}","MEX");
-        enviarxml = enviarxml.replace("{acompanantes}","");
-        enviarxml = enviarxml.replace("{huespednombre}",txtName.getText() );
-        enviarxml = enviarxml.replace("{huespedapellidos}",txtLast.getText() );
+            String llegada = new SimpleDateFormat("yyyy-MM-dd").format(arrival);
+
+            enviarxml = enviarxml.replace("{smart}", "true");
+            enviarxml = enviarxml.replace("{codigohabitacion}", codigoBase);
+            enviarxml = enviarxml.replace("{codigotarifa}", "1114");
+            enviarxml = enviarxml.replace("{codigopromocion}", "");
 
 
-        enviarxml = enviarxml.replace("{codigohotel}",_hotel.getSiglas() );
-        enviarxml = enviarxml.replace("{estanciaentrada}",llegada );
-        enviarxml = enviarxml.replace("{numeronoches}",""+numNoches);
+            enviarxml = enviarxml.replace("{correoelectronico}", titulares.get(i).getEmail());
+            enviarxml = enviarxml.replace("{telefono}", titulares.get(i).getPhone());
+            enviarxml = enviarxml.replace("{totalacompadultos}", "1");
+            enviarxml = enviarxml.replace("{totalacompmenores}", "0");
+            enviarxml = enviarxml.replace("{codigopais}", "MEX");
+            enviarxml = enviarxml.replace("{acompanantes}", "");
+            enviarxml = enviarxml.replace("{huespednombre}", titulares.get(i).getName());
+            enviarxml = enviarxml.replace("{huespedapellidos}", titulares.get(i).getName());
 
-        enviarxml = enviarxml.replace("{reservantenombre}", txtName.getText() );
-        enviarxml = enviarxml.replace("{reservanteapellidos}", txtLast.getText() );
-        enviarxml = enviarxml.replace("{reservantecorreoelectronico}",txtEmail.getText());
-        enviarxml = enviarxml.replace("{reservantetelefono}",txtPhone.getText() );
+
+            enviarxml = enviarxml.replace("{codigohotel}", _hotel.getSiglas());
+            enviarxml = enviarxml.replace("{estanciaentrada}", llegada);
+            enviarxml = enviarxml.replace("{numeronoches}", "" + numNoches);
+
+            enviarxml = enviarxml.replace("{reservantenombre}", titulares.get(i).getName());
+            enviarxml = enviarxml.replace("{reservanteapellidos}", titulares.get(i).getLastName());
+            enviarxml = enviarxml.replace("{reservantecorreoelectronico}", titulares.get(i).getEmail());
+            enviarxml = enviarxml.replace("{reservantetelefono}", titulares.get(i).getPhone());
 
 
-        enviarxml = enviarxml.replace("{depositomonto}", precio); //Total?
-        enviarxml = enviarxml.replace("{depositotipomoneda}","MX");
-        enviarxml = enviarxml.replace("{depositofecha}",llegada );
-        enviarxml = enviarxml.replace("{formapago}","TCRED" );
+            enviarxml = enviarxml.replace("{depositomonto}", precio); //Total?
+            enviarxml = enviarxml.replace("{depositotipomoneda}", "MXN");
+            enviarxml = enviarxml.replace("{depositofecha}", llegada);
+            enviarxml = enviarxml.replace("{formapago}", "SMART");
 
 
         /*EditText txtCardName = (EditText) findViewById( R.id.txtCardName );
@@ -781,102 +792,95 @@ public class ReservacionPremiosActivity extends Activity {
         EditText txtCardCode = (EditText) findViewById( R.id.txtCardCode );*/
 
 
+            enviarxml = enviarxml.replace("{smartcvv}", cvvTarjetaLista);
+            enviarxml = enviarxml.replace("{smartclasificacion}", "16|||||||189.210.219.25|OSCAR TEST|2015-12-23|1|1||3||BLVD. JOSE MARIA CHAVEZ |NO. 1919|COL. SAN PEDRO|AGUASCALIENTES|MX|20280|014491492900|0|||||||||||||||"+nombreUsuarioCity+"|"+apellidoUsuarioCity+"|||||||||||"+correoUsuarioCity+"|||");
+            enviarxml = enviarxml.replace("{smartcuentaid}", tarjetaID);
+            enviarxml = enviarxml.replace("{smarthost}", hostUsuario);
+            enviarxml = enviarxml.replace("{smartmoneda}", "484");
+            enviarxml = enviarxml.replace("{smartpais}", "MX");
+
+            Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
+
+            System.out.println("XML a enviar --> " + enviarxml);
 
 
-        enviarxml = enviarxml.replace("{smartcvv}",cvvTarjetaLista);
-        enviarxml = enviarxml.replace("{smartclasificacion}","16|||||||host|NombreCompletoTarjeta|YYYY-MM-dd|numNoches|numHabitaciones||3|||||||||0|||||||||||||||Nombre|||||||||||||||  " );
-        enviarxml = enviarxml.replace("{smartcuentaid}",tarjetaID );
-        enviarxml = enviarxml.replace("{smarthost}",hostUsuario );
-        enviarxml = enviarxml.replace("{smartmoneda}","484" );
-        enviarxml = enviarxml.replace("{smartpais}","484" );
-
-        Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
-
-        System.out.println("XML a enviar --> " + enviarxml);
+            final String finalEnviarxml = enviarxml;
+            StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
 
 
-        final String finalEnviarxml = enviarxml;
-        StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+                    try {
+
+                        JSONObject jsonObj = null;
+                        JSONObject body = null;
+                        JSONObject InsertBookingv3_01Response = null;
+
+                        jsonObj = XML.toJSONObject(response);
+
+                        Log.d("JSON alta tarjeta", jsonObj.toString());
 
 
+                        body = jsonObj.getJSONObject("s:Envelope").getJSONObject("s:Body");
+                        InsertBookingv3_01Response = body.getJSONObject("InsertBookingv3_01Response").getJSONObject("InsertBookingv3_01Result");
+
+                        if (InsertBookingv3_01Response.has("a:NumReservacion")) {
+
+                            FinenviarReservacion("" + InsertBookingv3_01Response.getInt("a:NumReservacion"));
+                            return;
+
+                        }
 
 
-                try {
+                        //AltaTarjetaResult
 
-                    JSONObject jsonObj = null;
-                    JSONObject body = null;
-                    JSONObject InsertBookingv3_01Response = null;
-
-                    jsonObj = XML.toJSONObject(response);
-
-                    Log.d("JSON alta tarjeta", jsonObj.toString());
-
-
-                    body = jsonObj.getJSONObject("s:Envelope").getJSONObject("s:Body");
-                    InsertBookingv3_01Response = body.getJSONObject("InsertBookingv3_01Response").getJSONObject("InsertBookingv3_01Result");
-
-                    if ( InsertBookingv3_01Response.has("a:NumReservacion") ){
-
-                        FinenviarReservacion( "" +InsertBookingv3_01Response.getInt("a:NumReservacion") );
-                        return;
-
+                    } catch (JSONException e) {
+                        Log.e("JSON exception", e.getMessage());
+                        e.printStackTrace();
                     }
 
+                    FinenviarReservacion("");
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                    NetworkResponse response = error.networkResponse;
+                    String datos = new String(response.data);
+                    System.out.println("sout" + datos);
+                    //ErrorenviarTarjeta("error");
+                    ErrorenviarReservacion();
+                }
+            }) {
 
-
-
-
-                    //AltaTarjetaResult
-
-                } catch (JSONException e) {
-                    Log.e("JSON exception", e.getMessage());
-                    e.printStackTrace();
+                public String getBodyContentType() {
+                    return "text/xml; charset=utf-8";
                 }
 
-                FinenviarReservacion("");
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                NetworkResponse response = error.networkResponse;
-                String datos = new String(response.data);
-                System.out.println("sout" + datos);
-                //ErrorenviarTarjeta("error");
-                ErrorenviarReservacion();
-            }
-        }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> params = new HashMap<String, String>();
+                    //params.put("Content-Type", "application/xml; charset=utf-8");
+                    params.put("SOAPAction", "http://tempuri.org/IReservationEngine/InsertBookingv3_01");
+                    Log.d("hsdhsdfhuidiuhsd", "clave");
+                    return params;
+                }
 
-            public String getBodyContentType() {
-                return "text/xml; charset=utf-8";
-            }
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    //return cadena.toString().getBytes();
+                    final String temp = finalEnviarxml.toString();
+                    return temp.toString().getBytes();
+                }
 
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> params = new HashMap<String, String>();
-                //params.put("Content-Type", "application/xml; charset=utf-8");
-                params.put("SOAPAction", "http://tempuri.org/IReservationEngine/InsertBookingv3_01");
-                Log.d("hsdhsdfhuidiuhsd", "clave");
-                return params;
-            }
+            };
 
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                //return cadena.toString().getBytes();
-                final String temp = finalEnviarxml.toString();
-                return  temp.toString().getBytes();
-            }
-
-        };
-
-        System.out.println("registro->" + registro.toString());
-        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Volley.newRequestQueue(this).add(registro);
+            System.out.println("registro->" + registro.toString());
+            registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            Volley.newRequestQueue(this).add(registro);
 
 
-
+        }
 
     }
 
@@ -903,6 +907,9 @@ public class ReservacionPremiosActivity extends Activity {
         reservacionBD.setNumNoches(numNoches);
         reservacionBD.setNumHabitaciones(numHabitacion);
         reservacionBD.setDireccionHotel(getAddressString());
+        reservacionBD.setCheckIn(false);
+        reservacionBD.setCheckOut(false);
+        reservacionBD.setConsultarSaldos(false);
         System.out.println("DIreccionHotel" + getAddressString());
         System.out.println("numNohe" + numNoches);
         System.out.println("descHabitacion"+ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());
@@ -924,7 +931,7 @@ public class ReservacionPremiosActivity extends Activity {
         System.out.println("Reservacion OK " + reservacion);
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
+       /* AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
         builder.setTitle("Hoteles City")
                 .setMessage("El numero de reservacion es " +reservacion)
                 .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
@@ -935,7 +942,7 @@ public class ReservacionPremiosActivity extends Activity {
                 });
 
         AlertDialog dialog = builder.create();
-        dialog.show();
+        dialog.show();*/
     }
 
     public void ErrorenviarReservacion(){
@@ -944,6 +951,136 @@ public class ReservacionPremiosActivity extends Activity {
     }
 
 
+    public String obtenerClasificacion(GuestData titular){
+        StringBuilder clasificacion = new StringBuilder();
+        //Impuestos
+        clasificacion.append("16");
+        clasificacion.append("|");
+        //CodigoCupon
+        clasificacion.append("|");
+        //MontoCUpon
+        clasificacion.append("|");
+        //CodigoLealtad
+        clasificacion.append("|");
+        //CodigoPromocion
+        clasificacion.append("|");
+        //MontoPromocion
+        clasificacion.append("|");
+        //DireccionIP
+        clasificacion.append(hostUsuario);
+        clasificacion.append("|");
+        //NombreCliente
+        clasificacion.append(titular.getName());
+        clasificacion.append("|");
+        //FechaIngreso
+        SimpleDateFormat sdfecha = new SimpleDateFormat( "dd-MM-yyyy" );
+        clasificacion.append(sdfecha.format(arrival));
+        clasificacion.append("|");
+        //NumNoches
+        clasificacion.append(""+numNoches);
+        clasificacion.append("|");
+        //CantCuartos
+        clasificacion.append("1");
+        clasificacion.append("|");
+        //NumeroCuarto
+        clasificacion.append("|");
+        //MedioReservacion
+        clasificacion.append("3");
+        clasificacion.append("|");
+        //NombreAgenciaTercero
+        clasificacion.append("|");
+        //DATOSHOTEL
+        //CAlle **obtener calle del hotel
+        clasificacion.append("|");
+        //Numero **validarNumero
+        clasificacion.append("|");
+        //coloniaHOtel
+        clasificacion.append(_hotel.getColonia());
+        clasificacion.append("|");
+        //Estado/Municipio
+        clasificacion.append(_hotel.getEstado());
+        clasificacion.append("|");
+        //Pais
+        clasificacion.append(_hotel.getPais());
+        clasificacion.append("|");
+        //CP
+        clasificacion.append(""+_hotel.getCp());
+        clasificacion.append("|");
+        //Telefono
+        clasificacion.append(_hotel.getTelefono());
+        clasificacion.append("|");
+        //DatosFacturacion
+        //TipoPersona
+        clasificacion.append("0");
+        clasificacion.append("|");
+        //RFC
+        clasificacion.append("|");
+        //Nombre
+        clasificacion.append("|");
+        //apellidoPAterno
+        clasificacion.append("|");
+        //apellidoMateno
+        clasificacion.append("|");
+        //calle
+        clasificacion.append("|");
+        //NumeroExterioe
+        clasificacion.append("|");
+        //NumeroInterior
+        clasificacion.append("|");
+        //DelegacionMunicipio
+        clasificacion.append("|");
+        //Ciudad
+        clasificacion.append("|");
+        //Estado
+        clasificacion.append("|");
+        //CodigoPostal
+        clasificacion.append("|");
+        //Pais
+        clasificacion.append("|");
+        //Email
+        clasificacion.append("|");
+        //Telefono
+        clasificacion.append("|");
+
+        //DAtos del Cliente
+        //Nombre
+        clasificacion.append(titular.getName());
+        clasificacion.append("|");
+        //Apellido Paterno
+        clasificacion.append(titular.getLastName());
+        clasificacion.append("|");
+        //Apellido Materno
+        clasificacion.append("|");
+        //Calle
+        clasificacion.append("|");
+        //NumeroExterior
+        clasificacion.append("|");
+        //NumeroInterior
+        clasificacion.append("|");
+        //Delegacion/Municipio
+        clasificacion.append("|");
+        //Ciudad
+        clasificacion.append("|");
+        //Estado
+        clasificacion.append("|");
+        //CodigoPostal
+        clasificacion.append("|");
+        //Pais
+        clasificacion.append("|");
+        //Telefono
+        clasificacion.append("|");
+        //Email
+        clasificacion.append("lucky.strike88@hotmail.com"); //titular.get(0).getEmail();
+        clasificacion.append("|");
+        //Membresia
+        clasificacion.append("|");
+        //Fecha de Alta Membresia
+        clasificacion.append("|");
+        //Nivel de membresia
+        clasificacion.append("|");
+
+        return clasificacion.toString();
+    }
 
     public void parseXML(InputStream is) {
         XmlPullParserFactory factory = null;

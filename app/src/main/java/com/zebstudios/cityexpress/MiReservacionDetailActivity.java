@@ -140,7 +140,7 @@ public class MiReservacionDetailActivity extends Activity {
         btnCheckOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                checkOut();
             }
         });
 
@@ -234,6 +234,17 @@ public class MiReservacionDetailActivity extends Activity {
         txtPrecioTotal .setText("Total: $ " + datosReservacion.get(0).getHabCosto() + " M.N");
         txtDireccionHotel .setText("" + datosReservacion.get(0).getDireccionHotel());
         txtReferenciaHotel.setText("" + datosReservacion.get(0).getDescripcionLugarHotel());
+        btnCheckIn.setEnabled(datosReservacion.get(0).isCheckIn());
+        btnCheckOut.setEnabled(datosReservacion.get(0).isCheckOut());
+        if(datosReservacion.get(0).isCheckIn()){
+            btnCheckIn.setEnabled(false);
+            btnCheckOut.setEnabled(true);
+        }
+        if(datosReservacion.get(0).isCheckOut()){
+            btnCheckOut.setEnabled(false);
+            btnCheckIn.setEnabled(false);
+        }
+
         _mapView.onResume();
 
         try
@@ -348,8 +359,39 @@ public class MiReservacionDetailActivity extends Activity {
     }
 
     public void finObtenerCheckIn(JSONObject checkInResult) throws JSONException{
+        if(checkInResult.getInt("a:CodigoError")!=0){
+            alert(checkInResult.getString("a:DescError"));
+        }else{
+            ReservacionBD reservacionBD = new ReservacionBD();
+            reservacionBD.setNombreUsuario(datosReservacion.get(0).getNombreUsuario());
+            reservacionBD.setApellidoUsuario(datosReservacion.get(0).getApellidoUsuario());
+            reservacionBD.setNombreHotel(datosReservacion.get(0).getNombreHotel());
+            reservacionBD.setFechaLlegada(datosReservacion.get(0).getFechaLlegada());
+            reservacionBD.setFechaSalida(datosReservacion.get(0).getFechaSalida());
+            reservacionBD.setDescripcionLugarHotel(datosReservacion.get(0).getDescripcionLugarHotel());
+            reservacionBD.setSiglasHotel(datosReservacion.get(0).getSiglasHotel());
+            reservacionBD.setDeschabitacion(datosReservacion.get(0).getDeschabitacion());
+            reservacionBD.setLatitudHotel(datosReservacion.get(0).getLatitudHotel());
+            reservacionBD.setLongitudHotel(datosReservacion.get(0).getLongitudHotel());
+            reservacionBD.setHabCosto(datosReservacion.get(0).getHabCosto());
+            reservacionBD.setNumReservacion(datosReservacion.get(0).getNumReservacion());
+            reservacionBD.setAdultos(datosReservacion.get(0).getAdultos());
+            reservacionBD.setInfantes(datosReservacion.get(0).getInfantes());
+            reservacionBD.setCodigoHabitacion(datosReservacion.get(0).getCodigoHabitacion());
+            reservacionBD.setNumNoches(datosReservacion.get(0).getNumNoches());
+            reservacionBD.setNumHabitaciones(datosReservacion.get(0).getNumHabitaciones());
+            reservacionBD.setDireccionHotel(datosReservacion.get(0).getDireccionHotel());
+            reservacionBD.setCheckIn(true);
+            reservacionBD.setCheckOut(false);
+            reservacionBD.setConsultarSaldos(false);
+            realm= Realm.getInstance(this);
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(reservacionBD);
+            realm.commitTransaction();
 
-        alert(checkInResult.getString("a:DescError"));
+            alert(checkInResult.getString("a:DescError"));
+            btnCheckIn.setEnabled(false);
+        }
 
     }
     public void errorObtenerCheckIn(){
@@ -386,21 +428,21 @@ public class MiReservacionDetailActivity extends Activity {
 
                     JSONObject jsonObj = null;
                     JSONObject body = null;
-                    JSONObject ListadoTarjetasResult = null;
+                    JSONObject checkOutResult = null;
 
                     jsonObj = XML.toJSONObject(response);
                     body = jsonObj.getJSONObject("soap:Envelope").getJSONObject("soap:Body");
-                    ListadoTarjetasResult = body.getJSONObject("ListadoTarjetasResponse").getJSONObject("ListadoTarjetasResult");
+                    checkOutResult = body.getJSONObject("WS_CheckOUTResponse").getJSONObject("WS_CheckOUTResult");
 
-                    Log.d("JSON", ListadoTarjetasResult.toString());
+                    Log.d("JSON", checkOutResult.toString());
 
-
+                    finObtenerCheckOut(checkOutResult);
                 } catch (JSONException e) {
                     Log.e("JSON exception", e.getMessage());
                     e.printStackTrace();
                 }
 
-                //finObtenerCheckIn(tarjetas_list);
+                //
 
             }
         }, new Response.ErrorListener() {
@@ -440,6 +482,10 @@ public class MiReservacionDetailActivity extends Activity {
         System.out.println("registro->" + registro.toString());
         registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(this).add(registro);
+    }
+
+    public void finObtenerCheckOut(JSONObject checkOutResult){
+
     }
 
     private void alert( String message )

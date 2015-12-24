@@ -31,6 +31,9 @@ public class ReservacionBD  extends RealmObject{
     private int numNoches;
     private double longitudHotel;
     private double latitudHotel;
+    private boolean checkIn;
+    private boolean checkOut;
+    private boolean consultarSaldos;
 
     public ReservacionBD() {
     }
@@ -214,5 +217,29 @@ public class ReservacionBD  extends RealmObject{
 
     public void setCodigoHabitacion(String codigoHabitacion) {
         this.codigoHabitacion = codigoHabitacion;
+    }
+
+    public boolean isCheckIn() {
+        return checkIn;
+    }
+
+    public void setCheckIn(boolean checkIn) {
+        this.checkIn = checkIn;
+    }
+
+    public boolean isCheckOut() {
+        return checkOut;
+    }
+
+    public void setCheckOut(boolean checkOut) {
+        this.checkOut = checkOut;
+    }
+
+    public boolean isConsultarSaldos() {
+        return consultarSaldos;
+    }
+
+    public void setConsultarSaldos(boolean consultarSaldos) {
+        this.consultarSaldos = consultarSaldos;
     }
 }
