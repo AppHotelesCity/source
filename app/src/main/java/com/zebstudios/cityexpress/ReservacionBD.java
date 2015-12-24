@@ -16,6 +16,7 @@ public class ReservacionBD  extends RealmObject{
     private String apellidoUsuario;
     private String nombreHotel;
     private String siglasHotel;
+    private String emailHotel;
     private Date fechaLlegada;
     private Date fechaSalida;
     private String deschabitacion;
@@ -241,5 +242,13 @@ public class ReservacionBD  extends RealmObject{
 
     public void setConsultarSaldos(boolean consultarSaldos) {
         this.consultarSaldos = consultarSaldos;
+    }
+
+    public String getEmailHotel() {
+        return emailHotel;
+    }
+
+    public void setEmailHotel(String emailHotel) {
+        this.emailHotel = emailHotel;
     }
 }

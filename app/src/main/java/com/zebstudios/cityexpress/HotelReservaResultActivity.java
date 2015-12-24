@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+import static com.appsee.Appsee.addEvent;
+
 /**
  * Created by edwinhernandez on 20/12/15.
  */
@@ -114,7 +116,12 @@ public class HotelReservaResultActivity extends Activity {
         btnEnviarMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String to = datosReservacion.get(0).getEmailHotel();
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
+                email.setType("message/rfc822");
+                startActivityForResult(Intent.createChooser(email, "Send Email"), 1);
+                addEvent("HotelDetails-SendEmail-Smartphone");
             }
         });
 
@@ -134,8 +141,7 @@ public class HotelReservaResultActivity extends Activity {
         btnAbrirUbicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                
             }
         });
     }

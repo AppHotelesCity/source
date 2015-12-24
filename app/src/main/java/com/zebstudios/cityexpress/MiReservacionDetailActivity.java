@@ -39,6 +39,8 @@ import java.util.Map;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+import static com.appsee.Appsee.addEvent;
+
 /**
  * Created by edwinhernandez on 21/12/15.
  */
@@ -113,8 +115,6 @@ public class MiReservacionDetailActivity extends Activity {
          imageBack = (ImageView) findViewById(R.id.back_button);
 
         _mapView.onCreate(savedInstanceState);
-        btnCheckIn.setEnabled(false);
-        btnCheckOut.setEnabled(false);
         btnConsultarSaldos.setEnabled(false);
         btnFacturacion.setEnabled(false);
 
@@ -201,7 +201,12 @@ public class MiReservacionDetailActivity extends Activity {
         imageCorreo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String to = datosReservacion.get(0).getEmailHotel();
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
+                email.setType("message/rfc822");
+                startActivityForResult(Intent.createChooser(email, "Send Email"), 1);
+                addEvent("HotelDetails-SendEmail-Smartphone");
             }
         });
 

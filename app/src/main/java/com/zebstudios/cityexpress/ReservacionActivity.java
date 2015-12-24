@@ -680,6 +680,7 @@ public class ReservacionActivity extends Activity {
         reservacionBD.setNombreUsuario(titulares.get(contador).getName());
         reservacionBD.setApellidoUsuario(titulares.get(contador).getLastName());
         reservacionBD.setNombreHotel(_hotel.getNombre());
+        reservacionBD.setEmailHotel(_hotel.getEmail());
         reservacionBD.setFechaLlegada(arrival);
         reservacionBD.setFechaSalida(departure);
         reservacionBD.setDescripcionLugarHotel(_hotel.getLugaresCercanos());
