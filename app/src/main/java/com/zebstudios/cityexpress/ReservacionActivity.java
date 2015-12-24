@@ -692,7 +692,7 @@ public class ReservacionActivity extends Activity {
         reservacionBD.setHabCosto(""+precioHabitacion);
         reservacionBD.setNumReservacion(Integer.parseInt(reservacion));
         reservacionBD.setAdultos(1);
-        reservacionBD.setInfantes(1);
+        reservacionBD.setInfantes(0);
         reservacionBD.setCodigoHabitacion(codigoBase);
         reservacionBD.setNumNoches(numNoches);
         reservacionBD.setNumHabitaciones(numHabitacion);

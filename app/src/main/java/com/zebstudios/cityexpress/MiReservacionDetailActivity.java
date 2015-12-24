@@ -239,11 +239,7 @@ public class MiReservacionDetailActivity extends Activity {
         SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
         txtNumeroReservacion.setText(""+datosReservacion.get(0).getNumReservacion());
         txtNombreUsuario.setText(datosReservacion.get(0).getNombreUsuario() + " " + datosReservacion.get(0).getApellidoUsuario());
-        if(datosReservacion.get(0).getNumHabitacionAsigado().equalsIgnoreCase("")){
-            txtHabitacion .setText(""+datosReservacion.get(0).getNumHabitacionAsigado());
-        }else{
-            txtHabitacion .setText(",Habitación "+datosReservacion.get(0).getNumHabitacionAsigado());
-        }
+        txtHabitacion .setText("");
         txtNombreHotel .setText(datosReservacion.get(0).getNombreHotel());
         txtLlegada .setText(sdf.format(datosReservacion.get(0).getFechaLlegada()));
         txtSalida.setText(sdf.format(datosReservacion.get(0).getFechaSalida()));
@@ -261,6 +257,7 @@ public class MiReservacionDetailActivity extends Activity {
             btnCheckOut.setEnabled(false);
         }else{
             btnCheckOut.setEnabled(true);
+            txtHabitacion .setText(", Habitación "+datosReservacion.get(0).getNumHabitacionAsigado());
         }
 
 
