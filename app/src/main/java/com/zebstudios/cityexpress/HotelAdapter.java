@@ -42,6 +42,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
 
         }else{
             String precio = "";
+            String precio2 = "";
             holder.txtNombreHotel.setText(hotel.getNombre());
             holder.txtDescripcionHotel.setText(hotel.getLugaresCercanos());
             habitacionBaseArrayList = hotel.getArrayHabitaciones();
@@ -54,16 +55,15 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
                         precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",", ""));
                         precio = habitacionBaseArrayList.get(i).getCosto();
                         System.out.println("Precio1"+precio);
-                    } else {
+                    } else{
                         precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",", ""));
-                        precio = habitacionBaseArrayList.get(i).getCosto();
-                        System.out.println("Precio2"+precio);
-
+                        precio2 = habitacionBaseArrayList.get(i).getCosto();
+                        System.out.println("Precio2"+precio2);
                     }
                 }
                 System.out.println("habitacionesCosto->" + habitacionBaseArrayList.get(i).getCosto());
             }
-            holder.txtPrecioHotel.setText("$ "+precio);
+            holder.txtPrecioHotel.setText("$ "+precio2);
 
             holder.cardViewHotel.setOnClickListener(new View.OnClickListener() {
                 @Override
