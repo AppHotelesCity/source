@@ -895,6 +895,7 @@ public class ReservacionPremiosActivity extends Activity {
         reservacionBD.setFechaLlegada(arrival);
         reservacionBD.setFechaSalida(departure);
         reservacionBD.setEmailHotel(_hotel.getEmail());
+        reservacionBD.setNumHabitacionAsigado("");
         reservacionBD.setDescripcionLugarHotel(_hotel.getLugaresCercanos());
         reservacionBD.setSiglasHotel(_hotel.getSiglas());
         reservacionBD.setDeschabitacion(descripcionHabitacionJSON);

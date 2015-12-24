@@ -35,6 +35,7 @@ public class ReservacionBD  extends RealmObject{
     private boolean checkIn;
     private boolean checkOut;
     private boolean consultarSaldos;
+    private String numHabitacionAsigado;
 
     public ReservacionBD() {
     }
@@ -250,5 +251,13 @@ public class ReservacionBD  extends RealmObject{
 
     public void setEmailHotel(String emailHotel) {
         this.emailHotel = emailHotel;
+    }
+
+    public String getNumHabitacionAsigado() {
+        return numHabitacionAsigado;
+    }
+
+    public void setNumHabitacionAsigado(String numHabitacionAsigado) {
+        this.numHabitacionAsigado = numHabitacionAsigado;
     }
 }

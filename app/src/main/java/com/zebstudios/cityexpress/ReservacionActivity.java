@@ -674,7 +674,7 @@ public class ReservacionActivity extends Activity {
     }
 
 
-    public void FinenviarReservacion(String reservacion) {
+    public void FinenviarReservacion(String reservacion) throws Exception{
 
         ReservacionBD reservacionBD = new ReservacionBD();
         reservacionBD.setNombreUsuario(titulares.get(contador).getName());
@@ -682,6 +682,7 @@ public class ReservacionActivity extends Activity {
         reservacionBD.setNombreHotel(_hotel.getNombre());
         reservacionBD.setEmailHotel(_hotel.getEmail());
         reservacionBD.setFechaLlegada(arrival);
+        reservacionBD.setNumHabitacionAsigado("");
         reservacionBD.setFechaSalida(departure);
         reservacionBD.setDescripcionLugarHotel(_hotel.getLugaresCercanos());
         reservacionBD.setSiglasHotel(_hotel.getSiglas());
@@ -697,7 +698,7 @@ public class ReservacionActivity extends Activity {
         reservacionBD.setNumHabitaciones(numHabitacion);
         reservacionBD.setDireccionHotel(getAddressString());
         reservacionBD.setCheckIn(true);
-        reservacionBD.setCheckOut(false);
+        reservacionBD.setCheckOut(true);
         reservacionBD.setConsultarSaldos(false);
         System.out.println("DIreccionHotel" + getAddressString());
         System.out.println("numNohe" + numNoches);
@@ -914,8 +915,14 @@ public class ReservacionActivity extends Activity {
                             InsertBookingv3_01Response = body.getJSONObject("InsertBookingv3_01Response").getJSONObject("InsertBookingv3_01Result");
 
                             if (InsertBookingv3_01Response.has("a:NumReservacion")) {
+                                try{
+                                    FinenviarReservacion("" + InsertBookingv3_01Response.getInt("a:NumReservacion"));
 
-                                FinenviarReservacion("" + InsertBookingv3_01Response.getInt("a:NumReservacion"));
+                                }catch(Exception e){
+                                    alert("Se ha producido un error intenta mas tarde.");
+                                    Intent intent =  new Intent(getBaseContext(),MainActivity.class);
+                                    startActivity(intent);
+                                }
                                 return;
 
                             }
@@ -931,8 +938,14 @@ public class ReservacionActivity extends Activity {
                         //AltaTarjetaResult
 
 
+                    try{
+                        FinenviarReservacion("");
+                    }catch(Exception e ){
+                        alert("Se ha producido un error intenta mas tarde");
+                        Intent intent =  new Intent(getBaseContext(),MainActivity.class);
+                        startActivity(intent);
+                    }
 
-                    FinenviarReservacion("");
                 }
             }, new Response.ErrorListener() {
                 @Override

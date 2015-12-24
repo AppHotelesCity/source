@@ -238,11 +238,16 @@ public class MiReservacionDetailActivity extends Activity {
     public void llenarInformacion(){
         SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
         txtNumeroReservacion.setText(""+datosReservacion.get(0).getNumReservacion());
-        txtNombreUsuario.setText(datosReservacion.get(0).getNombreUsuario());
-        txtHabitacion .setText("");
+        txtNombreUsuario.setText(datosReservacion.get(0).getNombreUsuario() + " " + datosReservacion.get(0).getApellidoUsuario());
+        if(datosReservacion.get(0).getNumHabitacionAsigado().equalsIgnoreCase("")){
+            txtHabitacion .setText(""+datosReservacion.get(0).getNumHabitacionAsigado());
+        }else{
+            txtHabitacion .setText(",Habitación "+datosReservacion.get(0).getNumHabitacionAsigado());
+        }
         txtNombreHotel .setText(datosReservacion.get(0).getNombreHotel());
         txtLlegada .setText(sdf.format(datosReservacion.get(0).getFechaLlegada()));
         txtSalida.setText(sdf.format(datosReservacion.get(0).getFechaSalida()));
+        txtHabitacion.setText(datosReservacion.get(0).getNumHabitacionAsigado());
         txtTipoHabitacion .setText(datosReservacion.get(0).getDeschabitacion());
         txtPrecioHabitacion.setText("$" + datosReservacion.get(0).getHabCosto() + "M.N");
         txtNumAdultos.setText("" + datosReservacion.get(0).getAdultos());
@@ -253,13 +258,11 @@ public class MiReservacionDetailActivity extends Activity {
         btnCheckIn.setEnabled(datosReservacion.get(0).isCheckIn());
         btnCheckOut.setEnabled(datosReservacion.get(0).isCheckOut());
         if(datosReservacion.get(0).isCheckIn()){
-            btnCheckIn.setEnabled(true);
             btnCheckOut.setEnabled(false);
+        }else{
+            btnCheckOut.setEnabled(true);
         }
-        if(datosReservacion.get(0).isCheckOut()){
-            btnCheckOut.setEnabled(false);
-            btnCheckIn.setEnabled(false);
-        }
+
 
         _mapView.onResume();
 
@@ -331,9 +334,6 @@ public class MiReservacionDetailActivity extends Activity {
                     Log.e("JSON exception", e.getMessage());
                     e.printStackTrace();
                 }
-
-
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -391,22 +391,24 @@ public class MiReservacionDetailActivity extends Activity {
             reservacionBD.setLongitudHotel(datosReservacion.get(0).getLongitudHotel());
             reservacionBD.setHabCosto(datosReservacion.get(0).getHabCosto());
             reservacionBD.setNumReservacion(datosReservacion.get(0).getNumReservacion());
-            reservacionBD.setAdultos(datosReservacion.get(0).getAdultos());
+            reservacionBD.setAdultos(checkInResult.getInt("a:totaladults"));
+            reservacionBD.setNumHabitacionAsigado(checkInResult.getString("a:room"));
             reservacionBD.setInfantes(datosReservacion.get(0).getInfantes());
             reservacionBD.setCodigoHabitacion(datosReservacion.get(0).getCodigoHabitacion());
             reservacionBD.setNumNoches(datosReservacion.get(0).getNumNoches());
             reservacionBD.setNumHabitaciones(datosReservacion.get(0).getNumHabitaciones());
             reservacionBD.setDireccionHotel(datosReservacion.get(0).getDireccionHotel());
-            reservacionBD.setCheckIn(true);
-            reservacionBD.setCheckOut(false);
-            reservacionBD.setConsultarSaldos(false);
+            reservacionBD.setCheckIn(false);
+            reservacionBD.setCheckOut(true);
+            reservacionBD.setConsultarSaldos(true);
             realm= Realm.getInstance(this);
             realm.beginTransaction();
             realm.copyToRealmOrUpdate(reservacionBD);
             realm.commitTransaction();
-
+            txtHabitacion.setText(", Habitación " + checkInResult.getString("a:room"));
             alert(checkInResult.getString("a:DescError"));
             btnCheckIn.setEnabled(false);
+            btnCheckOut.setEnabled(true);
         }
 
     }
@@ -452,7 +454,12 @@ public class MiReservacionDetailActivity extends Activity {
 
                     Log.d("JSON", checkOutResult.toString());
 
-                    finObtenerCheckOut(checkOutResult);
+                    try {
+                        finObtenerCheckOut(checkOutResult);
+                    }catch(Exception e){
+                        alert("Ocurrio un problema intenta mas tarde");
+                    }
+
                 } catch (JSONException e) {
                     Log.e("JSON exception", e.getMessage());
                     e.printStackTrace();
@@ -500,8 +507,14 @@ public class MiReservacionDetailActivity extends Activity {
         Volley.newRequestQueue(this).add(registro);
     }
 
-    public void finObtenerCheckOut(JSONObject checkOutResult){
-
+    public void finObtenerCheckOut(JSONObject checkOutResult) throws Exception{
+        if(checkOutResult.getInt("a:CodigoError")!=0){
+            alert(checkOutResult.getString("a:DescError"));
+        }else {
+            alert("Check out Exitoso");
+            btnCheckOut.setEnabled(false);
+            btnFacturacion.setEnabled(true);
+        }
     }
 
     private void alert( String message )
