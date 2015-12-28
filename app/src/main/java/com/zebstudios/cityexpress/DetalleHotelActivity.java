@@ -417,8 +417,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
         protected Integer doInBackground( Void... arg0 )
         {
             ServiceHandler sh = new ServiceHandler();
-            String jsonStr = sh.makeServiceCall( "http://api.openweathermap.org/data/2.5/weather?lat=" + ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getLatitude() + "&lon=" + ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getLongitude() + "&lang=ES&units=metric", ServiceHandler.GET );
-
+            String jsonStr = sh.makeServiceCall( "http://api.openweathermap.org/data/2.5/weather?lat=" + ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getLatitude() + "&lon=" + ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getLongitude() + "&APPID=2e9600ef77ddc382c98ac7ccef1ecd2c&lang=es", ServiceHandler.GET );
             if( jsonStr != null )
             {
                 try
