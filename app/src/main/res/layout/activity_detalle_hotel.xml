@@ -70,7 +70,7 @@
                    android:layout_gravity="center"
                    android:gravity="center"
                    android:background="@color/com_facebook_button_background_color_disabled"
-                   android:text="Descripcion"/>
+                   android:text="Descripción"/>
                <TextView
                    android:id="@+id/txtServiciosHotel"
                    android:layout_width="wrap_content"

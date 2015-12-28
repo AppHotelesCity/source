@@ -23,7 +23,7 @@
 
     <!--Principal-->
 
-    <string name="iniciar_sesion">INICIAR SESION</string>
+    <string name="iniciar_sesion">INICIAR SESIÓN</string>
     <string name="registrarme">REGISTRARME</string>
     <string name="hotel_destino_ciudad">Hotel, destino o ciudad</string>
     <string name="selecciona_promocode">Selecciona un promocode</string>

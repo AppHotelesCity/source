@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +86,11 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
            linearUsuario.setVisibility(View.VISIBLE);
            textNombreUsuario.setText(prefsUsuario.getString("nombre",null) +" "+ prefsUsuario.getString("apellido",null));
        }
+
+       ActionBarActivity activity = (ActionBarActivity) getActivity();
+       activity.getSupportActionBar().setTitle("Principal");
+       activity.getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.blue_button));
+
 
    }
 

@@ -56,6 +56,7 @@ public class CercaFragment extends Fragment
 		super.onResume();
 		ActionBarActivity activity = (ActionBarActivity)getActivity();
 		activity.getSupportActionBar().setTitle( "Cerca de tí" );
+		activity.getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.blue_button));
 
 		if( !_isLocationObtained )
 		{

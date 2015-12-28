@@ -1,6 +1,5 @@
 package com.zebstudios.cityexpress;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,14 +24,15 @@ import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.ads.conversiontracking.AdWordsConversionReporter;
-//import com.urbanairship.UAirship;
-//import com.urbanairship.richpush.RichPushInbox;
 
 import java.util.ArrayList;
 
 import io.fabric.sdk.android.Fabric;
 
 import static com.appsee.Appsee.addEvent;
+
+//import com.urbanairship.UAirship;
+//import com.urbanairship.richpush.RichPushInbox;
 
 public class MainActivity extends ActionBarActivity
 {
@@ -293,7 +293,7 @@ public class MainActivity extends ActionBarActivity
 		_navDrawerItems = new ArrayList<NavDrawerListAdapter.ListItem>();
 		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "Hoteles", R.drawable.icon_hoteles ) );
 		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "Promociones", R.drawable.icon_promociones ) );
-		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "Cerca de ti", R.drawable.icon_cerca ) );
+		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "Cerca de tí", R.drawable.icon_cerca ) );
 		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "Reservaciones", R.drawable.icon_reservaciones ) );
 		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "Blog", R.drawable.icon_blog ) );
 		_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "City Premios", R.drawable.icon_premios_puntos ) );
@@ -396,7 +396,7 @@ public class MainActivity extends ActionBarActivity
 		}
 		else if( index == 5 )
 		{
-			Intent dialog = new Intent( this, BlogActivity.class );
+			//Intent dialog = new Intent( this, BlogActivity.class );
 			//startActivityForResult( dialog, ACTIVITY_BLOG );
 			premiosImageClicked();
 			//addEvent("MenuCityPremios-SmartPhone");
@@ -425,13 +425,16 @@ public class MainActivity extends ActionBarActivity
 
 		if( user == null )
 		{
-			Intent dialog = new Intent( this, PremiosLoginActivity.class );
-			startActivityForResult( dialog, ACTIVITY_PREMIOS_LOGIN );
+			PremiosLoginFragment fragment = new PremiosLoginFragment();
+			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
+
+			//Intent dialog = new Intent( this, PremiosLoginActivity.class );
+			//startActivityForResult( dialog, ACTIVITY_PREMIOS_LOGIN );
 		}
 		else
 		{
-			Intent dialog = new Intent( this, PremiosDetailActivity.class );
-			startActivityForResult( dialog, ACTIVITY_PREMIOS_DETAIL );
+			PremiosLoginActivity fragment = new PremiosLoginActivity();
+			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
 		}
 
 		addEvent("MenuCityPremios-Smartphone");

@@ -59,6 +59,7 @@ public class PromotionsFragment extends Fragment
 		super.onResume();
 		ActionBarActivity activity = (ActionBarActivity)getActivity();
 		activity.getSupportActionBar().setTitle( "Promociones" );
+		activity.getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.blue_button));
 	}
 
 	private void promosObtained()

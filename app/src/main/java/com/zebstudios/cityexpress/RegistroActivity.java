@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,6 +53,7 @@ public class RegistroActivity extends Activity {
     ProgressDialog progressDialog;
 
     String gender;
+    TextView txtTermis;
 
     String genero[];
     String paises[];
@@ -96,6 +99,7 @@ public class RegistroActivity extends Activity {
         btnRegistrar = (Button)findViewById(R.id.btnRegistrate);
 
         genero = getResources().getStringArray(R.array.gender_user);
+        txtTermis = (TextView) findViewById(R.id.txtTerminos);
 
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,6 +224,16 @@ public class RegistroActivity extends Activity {
             public void onClick(View v) {
                 imageConditions.setImageResource(R.drawable.checked);
                 banderaCondiciones = true;
+            }
+        });
+
+        txtTermis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String link = "https://www.cityexpress.com/es/terminos-y-condiciones-de-uso/";
+                Intent intent = null;
+                intent = new Intent(intent.ACTION_VIEW, Uri.parse(link));
+                startActivity(intent);
             }
         });
 
