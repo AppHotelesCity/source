@@ -7,11 +7,13 @@
 
     <ScrollView
         android:layout_width="match_parent"
+        android:id="@+id/scrollDetalle"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
+            android:id="@+id/linearDetalle"
             android:layout_height="wrap_content">
 
 
@@ -54,7 +56,7 @@
 
        <LinearLayout
            android:layout_width="match_parent"
-           android:layout_height="wrap_content"
+           android:layout_height="match_parent"
            android:orientation="vertical">
 
            <LinearLayout
@@ -198,7 +200,13 @@
                                    <TextView
                                        android:layout_width="match_parent"
                                        android:layout_height="wrap_content"
-                                       android:text="Dirección"/>
+                                       android:textSize="18sp"
+                                       android:textColor="#000"
+                                       android:textStyle="bold"
+                                       android:layout_marginLeft="12dp"
+                                       android:layout_marginTop="10dp"
+                                       android:layout_marginBottom="10dp"
+                                       android:text="Dirección:"/>
 
                        <TextView
                            android:id="@+id/lblAddress"
@@ -210,10 +218,20 @@
                            android:layout_height="wrap_content"
                            android:textAppearance="?android:attr/textAppearanceMedium"/>
 
+                                   <TextView
+                                       android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       android:textSize="14sp"
+                                       android:textColor="@color/blue_letters_color"
+                                       android:textStyle="bold"
+                                       android:layout_marginLeft="100dp"
+                                       android:layout_marginTop="10dp"
+                                       android:text="El clima de hoy es:"/>
+
                        <LinearLayout
                            android:id="@+id/tblWeather"
                            android:visibility="gone"
-                           android:layout_marginTop="20dp"
+                           android:layout_marginTop="10dp"
                            android:layout_marginBottom="20dp"
                            android:orientation="horizontal"
                            android:layout_width="wrap_content"
@@ -350,16 +368,26 @@
                android:id="@+id/mapViewDetalle"
                android:visibility="gone"
                android:layout_width="match_parent"
-               android:layout_height="match_parent" />
-           <ListView
-               android:id="@+id/listServicios"
-               android:visibility="gone"
-               android:background="@color/white"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"/>
+               android:layout_height="600dp" />
+
+
        </LinearLayout>
 
              </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <ListView
+                    android:id="@+id/listServicios"
+                    android:visibility="gone"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="600dp"/>
+
+            </LinearLayout>
 
 
         </LinearLayout>
