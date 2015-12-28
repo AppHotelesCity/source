@@ -13,7 +13,7 @@
                 android:id="@+id/imageViewHotel"
                 android:layout_width="match_parent"
                 android:src="@drawable/ic_launcher"
-                android:scaleType="centerCrop"
+                android:scaleType="fitXY"
                 android:layout_height="match_parent" />
 
             <LinearLayout

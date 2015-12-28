@@ -76,7 +76,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
                     System.out.println("POSICION"+position);
                 }
             });
-            Picasso.with(holder.context).load(hotel.getImagenPrincipal()).into(holder.imageViewHotel);
+            Picasso.with(holder.context).load(hotel.get_imagenes()[0]).into(holder.imageViewHotel);
         }
 
     }
