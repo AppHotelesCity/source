@@ -1,30 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  android:orientation="vertical"
+			  android:orientation="horizontal"
 			  android:layout_width="match_parent"
-			  android:layout_height="match_parent"
+			  android:layout_height="wrap_content"
 			  android:layout_marginTop="8dp"
 			  android:layout_marginBottom="8dp"
 			  android:paddingLeft="16dp"
 			  android:paddingTop="8dp"
 			  android:paddingRight="16dp"
 			  android:paddingBottom="8dp">
-	<TextView
-			android:id="@+id/lblTitle"
+		<de.hdodenhof.circleimageview.CircleImageView
+			android:id="@+id/imageview_Blog"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:layout_gravity="center_vertical"/>
+		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:textColor="@android:color/black"
-			android:maxLines="2"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textStyle="bold"
-			android:text="Título"/>
-	<TextView
-			android:id="@+id/lblText"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:textColor="@android:color/black"
-			android:maxLines="3"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:text="Description"/>
+            android:layout_marginLeft="5dp"
+			android:orientation="vertical">
+			<TextView
+					android:id="@+id/lblTitle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textColor="@android:color/black"
+					android:maxLines="2"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textStyle="bold"
+					android:text="Título"/>
+			<TextView
+					android:id="@+id/lblText"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textColor="@android:color/black"
+					android:maxLines="3"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:text="Description"/>
+		</LinearLayout>
 
 </LinearLayout>

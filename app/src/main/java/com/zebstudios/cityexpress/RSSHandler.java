@@ -16,6 +16,7 @@ public class RSSHandler extends DefaultHandler
 	// Feed and Article objects to use for temporary storage
 	private RSSArticle currentArticle = new RSSArticle();
 	private List<RSSArticle> articleList = new ArrayList<RSSArticle>();
+    boolean bandera=false;
 
 	//Current characters being accumulated
 	StringBuffer chars = new StringBuffer();
@@ -36,20 +37,20 @@ public class RSSHandler extends DefaultHandler
 	public void startElement( String uri, String localName, String qName, Attributes atts )
 	{
 		chars = new StringBuffer();
-		/*if( qName.equalsIgnoreCase( "media:content" ) )
-		{
-			if( atts.getValue( "type" ).equalsIgnoreCase( "image/jpeg" ) )
-			{
-				currentArticle.setMedia( atts.getValue( "url" ) );
-			}
-		}*/
-		if( localName.equalsIgnoreCase( "enclosure" ) )
+		if( qName.equalsIgnoreCase( "media:content" ) )
 		{
 			if( atts.getValue( "type" ).equalsIgnoreCase( "image/jpeg" ) )
 			{
 				currentArticle.setMedia( atts.getValue( "url" ) );
 			}
 		}
+		/*if( localName.equalsIgnoreCase( "enclosure" ) )
+		{
+			if( atts.getValue( "type" ).equalsIgnoreCase( "image/jpeg" ) )
+			{
+				currentArticle.setMedia( atts.getValue( "url" ) );
+			}
+		}*/
 	}
 
 
@@ -74,9 +75,13 @@ public class RSSHandler extends DefaultHandler
 		}
 		else if( localName.equalsIgnoreCase( "description" ) )
 		{
-			currentArticle.setDescription( chars.toString() );
-		}
-		else if( localName.equalsIgnoreCase( "published" ) )
+            if(!bandera){
+                bandera=true;
+            }else{
+                bandera=false;
+                currentArticle.setDescription(chars.toString());
+            }
+        } else if (localName.equalsIgnoreCase( "published" ) )
 		{
 			currentArticle.setPubDate( chars.toString() );
 		}
