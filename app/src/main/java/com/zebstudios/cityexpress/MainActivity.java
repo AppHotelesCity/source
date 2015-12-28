@@ -390,8 +390,10 @@ public class MainActivity extends ActionBarActivity
 		}
 		else if( index == 4 )
 		{
-			Intent dialog = new Intent( this, BlogActivity.class );
-			startActivityForResult( dialog, ACTIVITY_BLOG );
+			BlogFragment fragment = new BlogFragment();
+			getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+			//Intent dialog = new Intent( this, BlogActivity.class );
+			//startActivityForResult( dialog, ACTIVITY_BLOG );
 			addEvent("MenuBlog-SmartPhone");
 		}
 		else if( index == 5 )
