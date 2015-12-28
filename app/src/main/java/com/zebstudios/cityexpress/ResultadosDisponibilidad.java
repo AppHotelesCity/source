@@ -534,7 +534,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     "                <cit:FechaInicial>"+fechaPartida+"</cit:FechaInicial>\n" +
                     "                <cit:Hotel>" + listaHotel.get(contador).getSiglas() + "</cit:Hotel>\n" +
                     "                <cit:NumeroAdultos>1</cit:NumeroAdultos>\n" +
-                    "                <cit:NumeroDeNoches>1</cit:NumeroDeNoches>\n" +
+                    "                <cit:NumeroDeNoches>"+totalNoches+"</cit:NumeroDeNoches>\n" +
                     "                <cit:NumeroHabitaciones>1</cit:NumeroHabitaciones>\n" +
                     "                <cit:Segmento></cit:Segmento>\n" +
                     "                <cit:TipoHabitacion></cit:TipoHabitacion>\n" +
