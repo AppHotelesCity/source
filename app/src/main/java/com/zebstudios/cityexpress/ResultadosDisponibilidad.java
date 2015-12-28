@@ -546,7 +546,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
             StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
                 @Override
-                public void onResponse(String response) {
+                public void onResponse(String response) { //wsMotor2014 // wsMotor2015_Prod
                     System.out.println(contador + "->contador" + response);
                     InputStream stream = null;
                     try {

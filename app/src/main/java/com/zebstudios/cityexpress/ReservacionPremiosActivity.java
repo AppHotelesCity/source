@@ -52,7 +52,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.card.payment.CardIOActivity;
+import io.card.payment.CreditCard;
 import io.realm.Realm;
+
+import static com.appsee.Appsee.addEvent;
 
 /**
  * Created by edwinhernandez on 17/12/15.
@@ -125,15 +129,25 @@ public class ReservacionPremiosActivity extends Activity {
     String nombreUsuarioCity;
     String apellidoUsuarioCity;
     String correoUsuarioCity;
+    String phoneUsuarioCity;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_reservacion_city);
         numTarjeta = new ArrayList<String>();
-        this.obtenerListadoTarjetas();
+        linearaddTarjeta = (LinearLayout) findViewById(R.id.pnlCCPayment);
+        linearAgregarTarjeta = (LinearLayout) findViewById(R.id.linearAddtarjeta);
+        try {
+            this.obtenerListadoTarjetas();
+        } catch (Exception e) {
+            SpinnerAdapter adapterTajetas = new ArrayAdapter<String>( getBaseContext(), R.layout.habitaciones_item, R.id.txtOption, numTarjeta );
+            Spinner spinTarjetas = (Spinner) findViewById(R.id.spinTarjetas);
+            linearAgregarTarjeta.setVisibility(View.VISIBLE);
+            linearaddTarjeta.setVisibility(View.GONE);
+        }
 
         obtenerHostUsuario();
         SharedPreferences prefsUsuario = this.getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
@@ -141,14 +155,13 @@ public class ReservacionPremiosActivity extends Activity {
         nombreUsuarioCity = prefsUsuario.getString("nombre", null);
         apellidoUsuarioCity = prefsUsuario.getString("apellido", null);
         correoUsuarioCity = prefsUsuario.getString("usuario", null);
+        phoneUsuarioCity = prefsUsuario.getString("phone",null);
 
-        System.out.println("NOMBREUSUARIO"+ nombreUsuarioCity + "apellidoUsuario "+ apellidoUsuarioCity + "CorreoUsuario" + correoUsuarioCity);
+        System.out.println("NOMBREUSUARIO" + nombreUsuarioCity + "apellidoUsuario " + apellidoUsuarioCity + "CorreoUsuario" + correoUsuarioCity);
         if(personF2GO==null){
             Intent i = new Intent(this, IniciarSesionActivity.class);
             startActivityForResult(i, 1);
         }
-
-        setContentView(R.layout.activity_reservacion_city);
 
         TextView lblHotelName = (TextView) findViewById(R.id.lblHotelName);
         TextView lblArrivalDate = (TextView) findViewById( R.id.dates_arrival_text );
@@ -176,8 +189,12 @@ public class ReservacionPremiosActivity extends Activity {
         spinAdultos = (Spinner) findViewById( R.id.spinAdultos );
         spinNinos = (Spinner) findViewById( R.id.spinNinos );
 
-        linearaddTarjeta = (LinearLayout) findViewById(R.id.pnlCCPayment);
-        linearAgregarTarjeta = (LinearLayout) findViewById(R.id.linearAddtarjeta);
+        txtName.setText(nombreUsuarioCity);
+        txtLast.setText(apellidoUsuarioCity);
+        txtEmail.setText(correoUsuarioCity);
+        txtPhone.setText(phoneUsuarioCity);
+
+
 
         btnGuardarTarjeta = (Button) findViewById(R.id.guardarTarjeta);
 
@@ -624,13 +641,6 @@ public class ReservacionPremiosActivity extends Activity {
 
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if(resultCode == Activity.RESULT_OK){
-                personF2GO=data.getStringExtra("result");
-            }
-    }
 
 
     public void RecibirDatos(){
@@ -1147,7 +1157,7 @@ public class ReservacionPremiosActivity extends Activity {
     }
 
 
-    public void obtenerListadoTarjetas(){
+    public void obtenerListadoTarjetas() throws Exception{
         Log.d("ReservacionActivity", "obtener listado tarjetas");
 
 /*
@@ -1385,6 +1395,8 @@ public class ReservacionPremiosActivity extends Activity {
                 } catch (JSONException e) {
                     Log.e("JSON exception", e.getMessage());
                     e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
 
@@ -1428,7 +1440,7 @@ public class ReservacionPremiosActivity extends Activity {
     }
 
 
-    public void FinenviarTarjeta( String mensaje){
+    public void FinenviarTarjeta( String mensaje) throws  Exception{
         alert("Tarjeta agregada con éxito");
         obtenerListadoTarjetas();
         linearaddTarjeta.setVisibility(View.VISIBLE);
@@ -1482,6 +1494,92 @@ public class ReservacionPremiosActivity extends Activity {
         Volley.newRequestQueue(this).add(registro);
     }
 
+    public void onScanPress(View view) {
+        Log.d("escanear ", "€scanear");
+
+
+        Intent scanIntent = new Intent(this, CardIOActivity.class);
+
+        // customize these values to suit your needs.
+        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, true); // default: false
+        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, false); // default: false
+        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_POSTAL_CODE, false); // default: false
+
+        // hides the manual entry button
+        // if set, developers should provide their own manual entry mechanism in the app
+        scanIntent.putExtra(CardIOActivity.EXTRA_SUPPRESS_MANUAL_ENTRY, false); // default: false
+
+        // matches the theme of your application
+        scanIntent.putExtra(CardIOActivity.EXTRA_KEEP_APPLICATION_THEME, false); // default: false
+
+        // MY_SCAN_REQUEST_CODE is arbitrary and is only used within this activity.
+        startActivityForResult(scanIntent, 100);
+        addEvent("");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Activity.RESULT_OK){
+            personF2GO=data.getStringExtra("result");
+        }
+
+        EditText txtCardNumber = (EditText) this.findViewById(R.id.txtCardNumber);
+        Spinner spinExpMonth = (Spinner) this.findViewById(R.id.spinExpMonth);
+        Spinner spinExpYear = (Spinner) this.findViewById(R.id.spinExpYear);
+        EditText txtCardCode = (EditText) this.findViewById(R.id.txtCardCode);
+
+        String resultStr;
+        if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
+            CreditCard scanResult = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT);
+
+            // Never log a raw card number. Avoid displaying it, but if necessary use getFormattedCardNumber()
+            resultStr = "Card Number: " + scanResult.getFormattedCardNumber() + "\n";
+            Log.d("Escanear redacted --> ", scanResult.getRedactedCardNumber());
+            Log.d("Escanear formater --> ", scanResult.getFormattedCardNumber());
+            //txtCardNumber.setText(scanResult.getRedactedCardNumber());
+            txtCardNumber.setText(scanResult.getFormattedCardNumber());
+
+            // Do something with the raw number, e.g.:
+            // myService.setCardNumber( scanResult.cardNumber );
+
+
+            if (scanResult.isExpiryValid()) {
+                resultStr += "Expiration Date: " + scanResult.expiryMonth + "/" + scanResult.expiryYear + "\n";
+                //spinExpMonth.setSelection(scanResult.expiryMonth);
+                //spinExpYear.setSelection(scanResult.expiryYear);
+                Log.d("Escanear --> ", "spinner --> " + scanResult.expiryMonth + " - " + scanResult.expiryYear);
+
+
+                spinExpMonth.setSelection(scanResult.expiryMonth - 0);
+                spinExpYear.setSelection(scanResult.expiryYear - 2014);
+            }
+
+            if (scanResult.cvv != null) {
+                // Never log or display a CVV
+                resultStr += "CVV has " + scanResult.cvv.length() + " digits.\n";
+                txtCardCode.setText(scanResult.cvv);
+            }
+
+            if (scanResult.postalCode != null) {
+                resultStr += "Postal Code: " + scanResult.postalCode + "\n";
+            }
+
+
+
+
+        } else {
+            resultStr = "Scan was canceled.";
+        }
+        //resultTextView.setText(resultStr);
+        Log.d("Escanear --> ", resultStr);
+
+        //gato
+
+
+    }
+
     private void clearCaptureFocus()
     {
         RadioButton btnMisma = (RadioButton) findViewById( R.id.btn_rad_misma );
@@ -1514,7 +1612,9 @@ public class ReservacionPremiosActivity extends Activity {
         clearCaptureFocus();
         saveCurrentGuest();
         _lastGuestIndex = index;
-        setGuestData();
+        if(index!=0){
+            setGuestData();
+        }
 
         if( index == 0 )
         {
