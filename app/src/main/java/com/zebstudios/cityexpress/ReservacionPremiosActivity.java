@@ -1193,7 +1193,7 @@ public class ReservacionPremiosActivity extends Activity {
                 "    </soapenv:Body>\n" +
                 "</soapenv:Envelope>";
 
-        enviarxml = enviarxml.replace("{IDF2GO}","1977012");
+        enviarxml = enviarxml.replace("{IDF2GO}",personF2GO);
 
 
         Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
