@@ -48,7 +48,7 @@ public class BlogActivity extends ActionBarActivity
 		}
 
 		_articlesBlog = new ArrayList<RSSArticle>();
-		new GetRSS( 2, "http://blog.cityexpress.com/tag/14/feed/" ).execute();
+		new GetRSS( 2, "https://www.cityexpress.com/blog/feed/" ).execute(); //http://blog.cityexpress.com/tag/14/feed/
 
 		Analytics analytics = (Analytics)getApplication();
 		analytics.sendAppScreenTrack( "BLOG ANDROID" );
