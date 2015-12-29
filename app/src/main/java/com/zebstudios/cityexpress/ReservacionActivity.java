@@ -691,6 +691,7 @@ public class ReservacionActivity extends Activity {
         reservacionBD.setDescripcionLugarHotel(_hotel.getLugaresCercanos());
         reservacionBD.setSiglasHotel(_hotel.getSiglas());
         reservacionBD.setDeschabitacion(descripcionHabitacionJSON);
+        System.out.println();
         reservacionBD.setLatitudHotel(_hotel.getLatitude());
         reservacionBD.setLongitudHotel(_hotel.getLongitude());
         reservacionBD.setHabCosto(""+precioHabitacion);
@@ -703,7 +704,7 @@ public class ReservacionActivity extends Activity {
         reservacionBD.setDireccionHotel(getAddressString());
         reservacionBD.setCheckIn(true);
         reservacionBD.setCheckOut(true);
-        reservacionBD.setConsultarSaldos(false);
+        reservacionBD.setConsultarSaldos(true);
         System.out.println("DIreccionHotel" + getAddressString());
         System.out.println("numNohe" + numNoches);
         System.out.println("descHabitacion"+ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());

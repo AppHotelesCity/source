@@ -919,8 +919,8 @@ public class ReservacionPremiosActivity extends Activity {
         reservacionBD.setNumNoches(numNoches);
         reservacionBD.setNumHabitaciones(numHabitacion);
         reservacionBD.setDireccionHotel(getAddressString());
-        reservacionBD.setCheckIn(false);
-        reservacionBD.setCheckOut(false);
+        reservacionBD.setCheckIn(true);
+        reservacionBD.setCheckOut(true);
         reservacionBD.setConsultarSaldos(false);
         System.out.println("DIreccionHotel" + getAddressString());
         System.out.println("numNohe" + numNoches);
