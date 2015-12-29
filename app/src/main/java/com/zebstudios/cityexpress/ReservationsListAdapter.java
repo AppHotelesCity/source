@@ -47,7 +47,7 @@ public class ReservationsListAdapter extends BaseAdapter
 		TextView txtName = (TextView) v.findViewById( R.id.txtName );
 		txtName.setText( item.getNombreHotel());
 		TextView txtDates = (TextView) v.findViewById( R.id.txtDates );
-		txtDates.setText(sdf.format(item.getFechaSalida()) + " / " + sdf.format(item.getFechaLlegada()));
+		txtDates.setText(sdf.format(item.getFechaLlegada()) + " / " + sdf.format(item.getFechaSalida()));
 
 		return v;
 	}
