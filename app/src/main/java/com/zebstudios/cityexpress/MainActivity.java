@@ -435,8 +435,11 @@ public class MainActivity extends ActionBarActivity
 		}
 		else
 		{
-			PremiosLoginActivity fragment = new PremiosLoginActivity();
-			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
+			//PremiosLoginFragment fragment = new PremiosLoginFragment();
+			//getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
+			Intent dialog = new Intent( this, PremiosDetailActivity.class );
+			startActivityForResult( dialog, ACTIVITY_PREMIOS_DETAIL );
+
 		}
 
 		addEvent("MenuCityPremios-Smartphone");
