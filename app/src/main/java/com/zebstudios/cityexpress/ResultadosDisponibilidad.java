@@ -358,7 +358,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     _departureDate = null;
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
-                txt_llegada.setText(sdf.format(date));
+                txt_salida.setText(sdf.format(date));
                 _arrivalCalendarFragment.dismiss();
 
                 Calendar c = Calendar.getInstance();
@@ -377,7 +377,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         _arrivalCalendarFragment.setCalendarListener( _arrivalCalendarListener );
         _arrivalCalendarFragment.setArguments( bundle );
 
-    txt_llegada.setOnClickListener(new View.OnClickListener() {
+    txt_salida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar cal = Calendar.getInstance();
@@ -424,7 +424,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
 
 
-     txt_salida.setOnClickListener(new View.OnClickListener() {
+     txt_llegada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar cal = Calendar.getInstance();
