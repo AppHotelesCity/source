@@ -136,26 +136,47 @@ public class ReservacionPremiosActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reservacion_city);
-        numTarjeta = new ArrayList<String>();
-        linearaddTarjeta = (LinearLayout) findViewById(R.id.pnlCCPayment);
-        linearAgregarTarjeta = (LinearLayout) findViewById(R.id.linearAddtarjeta);
+
         try {
-            this.obtenerListadoTarjetas();
+            SharedPreferences prefsUsuario = this.getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
+            personF2GO = prefsUsuario.getString("person_ID", null);
+            nombreUsuarioCity = prefsUsuario.getString("nombre", null);
+            apellidoUsuarioCity = prefsUsuario.getString("apellido", null);
+            correoUsuarioCity = prefsUsuario.getString("usuario", null);
+            phoneUsuarioCity = prefsUsuario.getString("phone",null);
+
+
+            obtenerListadoTarjetas();
+            setContentView(R.layout.activity_reservacion_city);
+
+
         } catch (Exception e) {
+            setContentView(R.layout.activity_reservacion_city);
+            alert("Problema al cargar las tarjetas");
+            numTarjeta = new ArrayList<String>();
+            linearaddTarjeta = (LinearLayout) findViewById(R.id.pnlCCPayment);
+            linearAgregarTarjeta = (LinearLayout) findViewById(R.id.linearAddtarjeta);
             SpinnerAdapter adapterTajetas = new ArrayAdapter<String>( getBaseContext(), R.layout.habitaciones_item, R.id.txtOption, numTarjeta );
             Spinner spinTarjetas = (Spinner) findViewById(R.id.spinTarjetas);
             linearAgregarTarjeta.setVisibility(View.VISIBLE);
             linearaddTarjeta.setVisibility(View.GONE);
         }
 
+        imageBack = (ImageView) findViewById(R.id.back_button);
+
+        imageBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         obtenerHostUsuario();
-        SharedPreferences prefsUsuario = this.getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
+       /* SharedPreferences prefsUsuario = this.getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
         personF2GO = prefsUsuario.getString("person_ID", null);
         nombreUsuarioCity = prefsUsuario.getString("nombre", null);
         apellidoUsuarioCity = prefsUsuario.getString("apellido", null);
         correoUsuarioCity = prefsUsuario.getString("usuario", null);
-        phoneUsuarioCity = prefsUsuario.getString("phone",null);
+        phoneUsuarioCity = prefsUsuario.getString("phone",null);*/
 
         System.out.println("NOMBREUSUARIO" + nombreUsuarioCity + "apellidoUsuario " + apellidoUsuarioCity + "CorreoUsuario" + correoUsuarioCity);
         if(personF2GO==null){
@@ -188,13 +209,14 @@ public class ReservacionPremiosActivity extends Activity {
         spinViaje = (Spinner) findViewById( R.id.spinViaje );
         spinAdultos = (Spinner) findViewById( R.id.spinAdultos );
         spinNinos = (Spinner) findViewById( R.id.spinNinos );
-
+        linearaddTarjeta = (LinearLayout) findViewById(R.id.pnlCCPayment);
+        linearAgregarTarjeta = (LinearLayout) findViewById(R.id.linearAddtarjeta);
         txtName.setText(nombreUsuarioCity);
         txtLast.setText(apellidoUsuarioCity);
         txtEmail.setText(correoUsuarioCity);
         txtPhone.setText(phoneUsuarioCity);
 
-
+        numTarjeta = new ArrayList<String>();
 
         btnGuardarTarjeta = (Button) findViewById(R.id.guardarTarjeta);
 
@@ -803,7 +825,7 @@ public class ReservacionPremiosActivity extends Activity {
 
 
             enviarxml = enviarxml.replace("{smartcvv}", cvvTarjetaLista);
-            enviarxml = enviarxml.replace("{smartclasificacion}", "16|||||||"+hostUsuario+"|"+nombreUsuarioCity+"|"+llegada+"|"+numNoches+"|1||3||BLVD. JOSE MARIA CHAVEZ |NO. 1919|COL. SAN PEDRO|AGUASCALIENTES|MX|20280|014491492900|0|||||||||||||||"+nombreUsuarioCity+"|"+apellidoUsuarioCity+"|||||||||||"+correoUsuarioCity+"|||");
+            enviarxml = enviarxml.replace("{smartclasificacion}", "16|||||||"+hostUsuario+"|"+nombreUsuarioCity+"|"+llegada+"|"+numNoches+"|1||3||BLVD. JOSE MARIA CHAVEZ |NO. 1919|COL. SAN PEDRO|"+_hotel.getEstado()+"|MX|"+_hotel.getCp()+"|014491492900|0|||||||||||||||"+nombreUsuarioCity+"|"+apellidoUsuarioCity+"|||||||||||"+correoUsuarioCity+"|||");
             enviarxml = enviarxml.replace("{smartcuentaid}", tarjetaID);
             enviarxml = enviarxml.replace("{smarthost}", hostUsuario);
             enviarxml = enviarxml.replace("{smartmoneda}", "484");
@@ -1157,7 +1179,7 @@ public class ReservacionPremiosActivity extends Activity {
     }
 
 
-    public void obtenerListadoTarjetas() throws Exception{
+    public void obtenerListadoTarjetas() {
         Log.d("ReservacionActivity", "obtener listado tarjetas");
 
 /*
@@ -1203,7 +1225,7 @@ public class ReservacionPremiosActivity extends Activity {
                 "    </soapenv:Body>\n" +
                 "</soapenv:Envelope>";
 
-        enviarxml = enviarxml.replace("{IDF2GO}",personF2GO);
+        enviarxml = enviarxml.replace("{IDF2GO}",""+personF2GO);
 
 
         Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
