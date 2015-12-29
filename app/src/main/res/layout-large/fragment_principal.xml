@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:textColor="@color/gray_letters_color"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:text="@string/iniciar_sesion"/>
         <Button
             android:id="@+id/btnRegistarme"
@@ -33,6 +34,7 @@
             android:textColor="@color/gray_letters_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:layout_below="@+id/btnIniciarSesion"
             android:layout_marginTop="15dp"
             android:text="@string/registrarme"/>

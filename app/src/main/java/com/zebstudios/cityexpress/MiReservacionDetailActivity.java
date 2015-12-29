@@ -60,6 +60,7 @@ public class MiReservacionDetailActivity extends Activity {
     TextView txtLeyendaCambios;
     TextView txtDireccionHotel;
     TextView txtReferenciaHotel;
+    TextView txtToolbar;
 
     GoogleMap _map;
     MapView _mapView;
@@ -100,6 +101,7 @@ public class MiReservacionDetailActivity extends Activity {
          txtDireccionHotel = (TextView) findViewById(R.id.txt_direccion_hotel);
          txtReferenciaHotel = (TextView) findViewById(R.id.txt_referencia_hotel);
         _mapView = (MapView) findViewById( R.id.mapViewReservacion);
+        txtToolbar = (TextView) findViewById(R.id.toolbarTitle);
 
          btnCheckIn = (Button) findViewById(R.id.btn_Check_in);
          btnCheckOut = (Button) findViewById(R.id.btn_Check_out);
@@ -117,6 +119,7 @@ public class MiReservacionDetailActivity extends Activity {
         _mapView.onCreate(savedInstanceState);
         btnConsultarSaldos.setEnabled(false);
         btnFacturacion.setEnabled(false);
+        txtToolbar.setText("Mis reservaciones");
 
         Bundle bundle =  getIntent().getExtras();
         numReservacion = bundle.getInt("numReservacion");
@@ -177,7 +180,9 @@ public class MiReservacionDetailActivity extends Activity {
         btnComoLlegar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("http://maps.google.com/maps?saddr=" +datosReservacion.get(0).getLatitudHotel()+ "&daddr="+datosReservacion.get(0).getLongitudHotel()));
+                startActivity(intent);
             }
         });
 
