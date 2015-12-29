@@ -107,8 +107,8 @@ public class ReservacionesFragment extends Fragment
                                 for (final int position : reverseSortedPositions) {
                                     System.out.println("->" + reservationsListAdapter.getItem(position));
                                     new AlertDialog.Builder(getActivity())
-                                            .setTitle("Eliminar")
-                                            .setMessage("Deseas Eliminar esta encuesta?")
+                                            .setTitle("Hoteles City")
+                                            .setMessage("Deseas eliminar esta reservación?")
                                             .setCancelable(false)
                                             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
 
