@@ -377,7 +377,7 @@ public class RegistroActivity extends Activity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
             builder.setTitle("City Express")
-                    .setMessage("El campo Nombre es obligatorio")
+                    .setMessage("El campo Nombre no puede estar vacío")
                     .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -390,7 +390,7 @@ public class RegistroActivity extends Activity {
         }else if("".equals(edtxtApPaterno.getText().toString())){
             AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
             builder.setTitle("City Express")
-                    .setMessage("El campo Apellido Paterno es obligatorio")
+                    .setMessage("El campo Apellido Paterno no puede estar vacío")
                     .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -403,7 +403,7 @@ public class RegistroActivity extends Activity {
         }else if("".equals(edtxtApMaterno.getText().toString())){
             AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
             builder.setTitle("City Express")
-                    .setMessage("El campo Apellido Materno es obligatorio")
+                    .setMessage("El campo Apellido Materno no puede estar vacío")
                     .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -416,7 +416,7 @@ public class RegistroActivity extends Activity {
         }else if("".equals(edtxtCorreo.getText().toString())){
             AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
             builder.setTitle("City Express")
-                    .setMessage("El campo Correo es obligatorio")
+                    .setMessage("El campo Correo no puede estar vacío")
                     .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -429,7 +429,7 @@ public class RegistroActivity extends Activity {
         }else if("".equals(edtxtPass.getText().toString())){
             AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
             builder.setTitle("City Express")
-                    .setMessage("El campo Contraseña es obligatorio")
+                    .setMessage("El campo Contraseña no puede estar vacío")
                     .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -443,7 +443,7 @@ public class RegistroActivity extends Activity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
             builder.setTitle("City Express")
-                    .setMessage("El campo Teléfono es obligatorio")
+                    .setMessage("El campo Teléfono no puede estar vacío")
                     .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

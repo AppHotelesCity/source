@@ -205,7 +205,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                 if("".equals(edtxtHotelDestino.getText().toString())){
                     AlertDialog.Builder builder = new AlertDialog.Builder(ResultadosDisponibilidad.this);
                     builder.setTitle("City Express")
-                            .setMessage("El campo Destino es obligatorio")
+                            .setMessage("Ingrese un texto en la búsqueda.")
                             .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -250,7 +250,23 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             habitacionCityPremiosList = new ArrayList<>();
             progress = ProgressDialog.show(ResultadosDisponibilidad.this, "Cargando...",
                     "Espere por favor", true);
-            buscarDisponibilidad(bundle.getString("busqueda"));
+            try{
+                buscarDisponibilidad(bundle.getString("busqueda"));
+            }catch (Exception e){
+                AlertDialog.Builder builder = new AlertDialog.Builder(ResultadosDisponibilidad.this);
+                builder.setTitle("Hoteles City")
+                        .setMessage("No se encontraron resultados.")
+                        .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+
         }else{
             hotelAdapter = new HotelAdapter(listaGeneralHotel);
             listaTarjetasHotel.setAdapter(hotelAdapter);
@@ -444,7 +460,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
 
 
-    public void buscarDisponibilidad(String busqueda){
+    public void buscarDisponibilidad(String busqueda) throws Exception{
         //System.out.println("->"+busqueda);
 
         contador=0;

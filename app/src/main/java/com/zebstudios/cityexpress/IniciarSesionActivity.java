@@ -42,7 +42,7 @@ public class IniciarSesionActivity extends Activity {
     EditText edtUsuario;
     EditText edtPassUsuario;
     Button btnEntrarLogin;
-    Button btnOlvidePass;
+    TextView btnOlvidePass;
     Button btnRegistro;
     ProgressDialog progressDialog;
     SoapObject resultString;
@@ -66,7 +66,7 @@ public class IniciarSesionActivity extends Activity {
         edtUsuario = (EditText) findViewById(R.id.edtxtUsuarioLogIn);
         edtPassUsuario = (EditText) findViewById(R.id.edtxtPassLogIn);
         btnEntrarLogin = (Button) findViewById(R.id.btnEntrarLogIn);
-        btnOlvidePass = (Button) findViewById(R.id.btnOlvidePassLogIn);
+        btnOlvidePass = (TextView) findViewById(R.id.btnOlvidePassLogIn);
         btnRegistro = (Button) findViewById(R.id.btnRegistrateLogIn);
 
         tituloToolbar.setText(getResources().getText(R.string.iniciar_sesion_toolbar));

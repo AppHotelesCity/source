@@ -343,7 +343,7 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 if("".equals(editTextHotelDestino.getText().toString())){
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("City Express")
-                            .setMessage("El campo Destino es obligatorio")
+                            .setMessage("Ingrese un texto en la búsqueda.")
                             .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

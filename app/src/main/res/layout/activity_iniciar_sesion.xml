@@ -55,11 +55,12 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
                     android:layout_gravity="center"
+                    android:inputType="textEmailAddress"
                     android:layout_height="wrap_content"
                     android:hint="@string/correo_electronico"/>
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="32dp"
+                    android:layout_width="25dp"
+                    android:layout_height="27dp"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center"
                     android:src="@drawable/user"/>
@@ -83,8 +84,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/password"/>
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="25dp"
+                    android:layout_height="27dp"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center"
                     android:src="@drawable/password"/>
@@ -95,15 +96,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="@color/main_color3"
+                android:background="@color/main_color2"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:text="@string/entrar" />
-            <Button
+            <TextView
                 android:id="@+id/btnOlvidePassLogIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/main_color1"
+                android:gravity="center"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/olvide_password"
                 android:textColor="@color/white"/>
@@ -121,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:textSize="20sp"
-                android:background="@color/main_color3"
+                android:background="@color/main_color2"
                 android:text="@string/registrate"
                 android:textColor="@color/white"/>
         </LinearLayout>

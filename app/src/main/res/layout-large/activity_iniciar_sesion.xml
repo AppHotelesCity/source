@@ -55,6 +55,7 @@
                     android:background="@color/white"
                     android:gravity="center_vertical"
                     android:layout_gravity="center"
+                    android:inputType="textEmailAddress"
                     android:paddingLeft="10dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/correo_electronico"/>
@@ -96,15 +97,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="@color/main_color3"
+                android:background="@color/main_color2"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:text="@string/entrar" />
-            <Button
+            <TextView
                 android:id="@+id/btnOlvidePassLogIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/main_color1"
+                android:gravity="center"
+                android:paddingTop="20dp"
+                android:textSize="18sp"
+                android:paddingBottom="20dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/olvide_password"
                 android:textColor="@color/white"/>
@@ -121,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="@color/main_color3"
+                android:background="@color/main_color2"
                 android:textSize="20sp"
                 android:text="@string/registrate"
                 android:textColor="@color/white"/>

@@ -217,10 +217,10 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:text="@string/buscar_disponibilidad"
                 android:textColor="#FFF"
-                android:background="@color/blue_button"/>
+                android:background="@color/blue_button_2"/>
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

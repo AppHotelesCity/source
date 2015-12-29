@@ -3,7 +3,7 @@
 	<color name="black_overlay">#66000000</color>
 	<color name="main_bar">#ff264b89</color>
 	<color name="main_option1">#214173</color>
-	<color name="main_option2">#1e3962</color>
+	<color name="main_option2">#121832</color>
 	<color name="main_option3">#0D4D8B</color>
 	<color name="main_search">#FFf9db45</color>
 	<color name="main_search_disabled">#99f9db45</color>
@@ -55,7 +55,8 @@
 	<color name="white">#fff</color>
 	<color name="white_alpha">#64b1b0b0</color>
 	<color name="yellow_button">#fbb900</color>
-	<color name="blue_button">#11387b</color>
+	<color name="blue_button">#121832</color>11387b
+	<color name="blue_button_2">#11387b</color>
 	<color name="gray_letters_color">#434343</color>
 	<color name="gray_letters_color_alpha">#b4434343</color>
 	<color name="blue_letters_color">#0c4da2</color>

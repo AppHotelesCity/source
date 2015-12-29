@@ -103,7 +103,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
         System.out.println("PosicionDetalleHote"+posicion);
 
         hotelActual = ResultadosDisponibilidad.listaGeneralHotel.get(posicion);
-        txtTitulo.setText(ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getNombre());
+        txtTitulo.setText(ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getNombre().toUpperCase());
 
         roomAvailableArrayList = new ArrayList<RoomAvailable>();
         _extras = new ArrayList<RoomAvailableExtra>();

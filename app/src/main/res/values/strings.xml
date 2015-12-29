@@ -34,8 +34,8 @@
     <string name="correo_electronico">Correo electrónico</string>
     <string name="password">Contraseña</string>
     <string name="entrar">ENTRAR</string>
-    <string name="olvide_password">Olvide mi contraseña</string>
-    <string name="no_registro">¿NO ESTAS REGISTRADO?</string>
+    <string name="olvide_password">Olvidé mi contraseña</string>
+    <string name="no_registro">¿NO ESTÁS REGISTRADO?</string>
     <string name="registrate">REGÍSTRATE</string>
 
     <!--Registro-->
