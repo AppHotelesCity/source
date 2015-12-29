@@ -250,22 +250,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             habitacionCityPremiosList = new ArrayList<>();
             progress = ProgressDialog.show(ResultadosDisponibilidad.this, "Cargando...",
                     "Espere por favor", true);
-            try{
                 buscarDisponibilidad(bundle.getString("busqueda"));
-            }catch (Exception e){
-                AlertDialog.Builder builder = new AlertDialog.Builder(ResultadosDisponibilidad.this);
-                builder.setTitle("Hoteles City")
-                        .setMessage("No se encontraron resultados.")
-                        .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
 
         }else{
             hotelAdapter = new HotelAdapter(listaGeneralHotel);
@@ -460,7 +445,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
 
 
-    public void buscarDisponibilidad(String busqueda) throws Exception{
+    public void buscarDisponibilidad(String busqueda){
         //System.out.println("->"+busqueda);
 
         contador=0;
@@ -472,6 +457,20 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     progress.dismiss();
                 } catch (JSONException e) {
                     e.printStackTrace();
+
+                } catch (Exception e){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ResultadosDisponibilidad.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("No se encontraron resultados.")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
             }
         }, new Response.ErrorListener() {
