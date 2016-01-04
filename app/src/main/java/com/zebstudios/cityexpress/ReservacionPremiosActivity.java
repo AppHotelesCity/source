@@ -123,7 +123,7 @@ public class ReservacionPremiosActivity extends Activity {
 
     int contador;
 
-  //  Realm realm;
+    //Realm realm;
 
     //DAtosUsuario City;
     String nombreUsuarioCity;
@@ -933,11 +933,12 @@ public class ReservacionPremiosActivity extends Activity {
         reservacionBD.setDeschabitacion(descripcionHabitacionJSON);
         reservacionBD.setLatitudHotel(_hotel.getLatitude());
         reservacionBD.setLongitudHotel(_hotel.getLongitude());
-        reservacionBD.setHabCosto(""+precioHabitacion);
+        reservacionBD.setHabCosto("" + precioHabitacion);
         reservacionBD.setNumReservacion(Integer.parseInt(reservacion));
         reservacionBD.setAdultos(1);
         reservacionBD.setInfantes(1);
         reservacionBD.setCodigoHabitacion(codigoBase);
+        reservacionBD.setTotal(""+precioHabitacion);
         reservacionBD.setNumNoches(numNoches);
         reservacionBD.setNumHabitaciones(numHabitacion);
         reservacionBD.setDireccionHotel(getAddressString());
@@ -948,10 +949,15 @@ public class ReservacionPremiosActivity extends Activity {
         System.out.println("numNohe" + numNoches);
         System.out.println("descHabitacion"+ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());
 
-       /* realm= Realm.getInstance(this);
+        /*realm= Realm.getInstance(this);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(reservacionBD);
-        realm.commitTransaction();
+        realm.commitTransaction();*/
+
+        ReservacionBDD ds = new ReservacionBDD( this );
+        ds.open();
+        ds.insert(reservacionBD);
+        ds.close();
         contador++;
         if(contador==titulares.size()){
             Intent intent = new Intent(ReservacionPremiosActivity.this, HotelReservaResultActivity.class);
@@ -963,7 +969,7 @@ public class ReservacionPremiosActivity extends Activity {
             startActivity(intent);
         }
         System.out.println("Reservacion OK " + reservacion);
-*/
+
 
        /* AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
         builder.setTitle("Hoteles City")

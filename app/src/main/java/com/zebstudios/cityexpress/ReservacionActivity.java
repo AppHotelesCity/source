@@ -704,7 +704,6 @@ public class ReservacionActivity extends Activity {
         reservacionBD.setDireccionHotel(getAddressString());
         reservacionBD.setCheckIn(true);
         reservacionBD.setCheckOut(true);
-        reservacionBD.setNumHabitacionAsigado("");
         reservacionBD.setTotal(""+precioHabitacion);
         reservacionBD.setConsultarSaldos(true);
         System.out.println("DIreccionHotel" + getAddressString());
