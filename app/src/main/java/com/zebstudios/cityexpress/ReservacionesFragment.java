@@ -15,9 +15,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-/*import io.realm.Realm;
-import io.realm.RealmResults;
-import io.realm.Sort;*/
 
 
 /**
@@ -27,6 +24,7 @@ public class ReservacionesFragment extends Fragment
 {
 	View _view;
 	ArrayList<ReservacionBD> _reservations;
+	ReservacionBD reservacionesBD;
 	//RealmResults<ReservacionBD> reservacionesBD;
 
 	public ReservacionesFragment()
@@ -41,53 +39,10 @@ public class ReservacionesFragment extends Fragment
 
         _reservations = new ArrayList<>();
 
-		/*ReservationDS ds = new ReservationDS( getActivity() );
+		ReservacionBDD ds = new ReservacionBDD( getActivity() );
 		ds.open();
 		_reservations = ds.getReservations();
-		ds.close();*/
-
-		/*Realm realm = Realm.getInstance(getActivity());
-
-		reservacionesBD = realm.where(ReservacionBD.class).findAll();
-        reservacionesBD.sort("numReservacion", Sort.DESCENDING);
-
-		for (int i = 0; i < reservacionesBD.size(); i++) {
-			System.out.println("->" + reservacionesBD.get(i).getNombreUsuario() + "Apellidos->"+ reservacionesBD.get(i).getApellidoUsuario() +"NombreHOtel"+ reservacionesBD.get(i).getNombreHotel() + "RESERVACIONES->" + reservacionesBD.get(i).getNumReservacion());
-            _reservations.add(
-                    new ReservacionBD(reservacionesBD.get(i).getNumReservacion(),
-                            reservacionesBD.get(i).getNombreUsuario(),
-                            reservacionesBD.get(i).getApellidoUsuario(),
-                            reservacionesBD.get(i).getNombreHotel(),
-                            reservacionesBD.get(i).getFechaLlegada(),
-                            reservacionesBD.get(i).getFechaSalida(),
-                            reservacionesBD.get(i).getDeschabitacion(),
-                            reservacionesBD.get(i).getDescHotel(),
-                            reservacionesBD.get(i).getHabCosto(),
-                            reservacionesBD.get(i).getTotal(),
-                            reservacionesBD.get(i).getDireccionHotel(),
-                            reservacionesBD.get(i).getDescripcionLugarHotel(),
-                            reservacionesBD.get(i).getAdultos(),
-                            reservacionesBD.get(i).getInfantes(),
-                            reservacionesBD.get(i).getNumHabitaciones(),
-                            reservacionesBD.get(i).getNumNoches(),
-                            reservacionesBD.get(i).getLongitudHotel(),
-                            reservacionesBD.get(i).getLatitudHotel()
-                    ));
-		}
-
-		/*Bundle args = getArguments();
-		if( args != null )
-		{
-			long reservationId = args.getLong( "RESERVATION_ID", 0 );
-			if( reservationId != 0 )
-			{
-				int reservationIndex = getReservationIndex( reservationId );
-				if( reservationIndex != -1 )
-				{
-					reservationSelected( reservationIndex );
-				}
-			}
-		}*/
+		ds.close();
 
 		final ReservationsListAdapter reservationsListAdapter = new ReservationsListAdapter( getActivity(), _reservations );
 		ListView list = (ListView)_view.findViewById( R.id.list_reservations );
@@ -148,16 +103,6 @@ public class ReservacionesFragment extends Fragment
 		return _view;
 	}
 
-	/*private int getReservationIndex( long reservationId )
-	{
-		for( int i=0; i<_reservations.size(); i++ )
-		{
-			/*if( _reservations.get( i ).getId() == reservationId )
-				return i;
-		}
-
-		return -1;
-	}*/
 
 	@Override
 	public void onResume()
@@ -171,14 +116,7 @@ public class ReservacionesFragment extends Fragment
 	private void reservationSelected( int index )
 	{
         Intent intent = new Intent(getActivity(), MiReservacionDetailActivity.class);
-        //intent.putExtra("numReservacion",reservacionesBD.get(index).getNumReservacion());
+        intent.putExtra("numReservacion",_reservations.get(index).getNumReservacion());
         startActivity(intent);
-		/*Bundle parameters = new Bundle();
-		parameters.putSerializable( "RESERVATION", .get( index ) );
-
-		Log.d("Reservacionesfragment", "Index :3:3:· --> " + _reservations.get(index).getId() );
-		HotelReservaResultFragment fragment = new HotelReservaResultFragment();
-		fragment.setArguments( parameters );
-		getFragmentManager().beginTransaction().add( R.id.fragment_container, fragment ).addToBackStack( "ReservationDetail" ).commit();*/
 	}
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -137,6 +138,26 @@ public class ReservacionBDD {
     }
 
     // { "rvntId", "rvntNombre", "rvntApellido", "rvntCorreo", "rvntSocio", "rvntAfiliate", "rvntTelefono", "rvntViaje" };
+
+    public ArrayList<ReservacionBD> getReservations()
+    {
+        ArrayList<ReservacionBD> results = new ArrayList<ReservacionBD>();
+
+        Cursor cursor = _database.query( "ClienteReservante", _reservanteColumns, null, null, null, null, "numReservacion DESC" );
+        cursor.moveToFirst();
+        while( !cursor.isAfterLast() )
+        {
+            ReservacionBD reservation = getReservanteFromCursor(cursor);
+            results.add( reservation );
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+
+        return results;
+    }
+
+
     private ReservacionBD getReservanteFromCursor( Cursor cursor )
     {
         ReservacionBD reservante = new ReservacionBD();
