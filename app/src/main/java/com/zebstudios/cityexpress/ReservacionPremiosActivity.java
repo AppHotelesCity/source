@@ -54,7 +54,7 @@ import java.util.Map;
 
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
-import io.realm.Realm;
+//import io.realm.Realm;
 
 import static com.appsee.Appsee.addEvent;
 
@@ -123,7 +123,7 @@ public class ReservacionPremiosActivity extends Activity {
 
     int contador;
 
-    Realm realm;
+  //  Realm realm;
 
     //DAtosUsuario City;
     String nombreUsuarioCity;
@@ -948,7 +948,7 @@ public class ReservacionPremiosActivity extends Activity {
         System.out.println("numNohe" + numNoches);
         System.out.println("descHabitacion"+ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());
 
-        realm= Realm.getInstance(this);
+       /* realm= Realm.getInstance(this);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(reservacionBD);
         realm.commitTransaction();
@@ -963,7 +963,7 @@ public class ReservacionPremiosActivity extends Activity {
             startActivity(intent);
         }
         System.out.println("Reservacion OK " + reservacion);
-
+*/
 
        /* AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
         builder.setTitle("Hoteles City")

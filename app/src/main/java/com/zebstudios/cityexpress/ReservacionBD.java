@@ -2,15 +2,15 @@ package com.zebstudios.cityexpress;
 
 import java.util.Date;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+//import io.realm.RealmObject;
+//import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by DanyCarreto on 21/12/15.
  */
-public class ReservacionBD  extends RealmObject{
+public class ReservacionBD {// extends RealmObject{
 
-    @PrimaryKey
+   // @PrimaryKey
     private int numReservacion;
     private String nombreUsuario;
     private String apellidoUsuario;

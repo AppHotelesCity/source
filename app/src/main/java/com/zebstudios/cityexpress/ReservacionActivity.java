@@ -50,7 +50,7 @@ import java.util.Map;
 
 import io.card.payment.CardIOActivity;
 import io.card.payment.CreditCard;
-import io.realm.Realm;
+//import io.realm.Realm;
 
 import static com.appsee.Appsee.addEvent;
 
@@ -108,7 +108,7 @@ public class ReservacionActivity extends Activity {
 
     int contador;
 
-    Realm realm;
+    //Realm realm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -694,7 +694,7 @@ public class ReservacionActivity extends Activity {
         System.out.println();
         reservacionBD.setLatitudHotel(_hotel.getLatitude());
         reservacionBD.setLongitudHotel(_hotel.getLongitude());
-        reservacionBD.setHabCosto(""+precioHabitacion);
+        reservacionBD.setHabCosto("" + precioHabitacion);
         reservacionBD.setNumReservacion(Integer.parseInt(reservacion));
         reservacionBD.setAdultos(1);
         reservacionBD.setInfantes(0);
@@ -704,15 +704,22 @@ public class ReservacionActivity extends Activity {
         reservacionBD.setDireccionHotel(getAddressString());
         reservacionBD.setCheckIn(true);
         reservacionBD.setCheckOut(true);
+        reservacionBD.setNumHabitacionAsigado("");
+        reservacionBD.setTotal(""+precioHabitacion);
         reservacionBD.setConsultarSaldos(true);
         System.out.println("DIreccionHotel" + getAddressString());
         System.out.println("numNohe" + numNoches);
-        System.out.println("descHabitacion"+ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());
+        System.out.println("descHabitacion" + ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());
 
-        realm= Realm.getInstance(this);
+        /*realm= Realm.getInstance(this);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(reservacionBD);
-        realm.commitTransaction();
+        realm.commitTransaction();*/
+        ReservacionBDD ds = new ReservacionBDD( this );
+        ds.open();
+        ds.insert( reservacionBD );
+        ds.close();
+
         contador++;
         if(contador==titulares.size()){
             Intent intent = new Intent(ReservacionActivity.this, HotelReservaResultActivity.class);

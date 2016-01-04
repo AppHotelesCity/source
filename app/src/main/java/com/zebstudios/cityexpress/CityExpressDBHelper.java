@@ -26,6 +26,7 @@ public class CityExpressDBHelper extends SQLiteOpenHelper
 		db.execSQL( "CREATE TABLE ReservationsNights ( resnResrId INTEGER, resnCost REAL )" );
 		// Version 2
 		db.execSQL( "CREATE TABLE Reservante ( rvntId INTEGER PRIMARY KEY, rvntNombre TEXT, rvntApellido TEXT, rvntCorreo TEXT, rvntSocio TEXT, rvntAfiliate BOOLEAN, rvntTelefono TEXT, rvntViaje INTEGER )" );
+		db.execSQL( "CREATE TABLE ClienteReservante (numReservacion INTEGER PRIMARY KEY, nombreUsuario TEXT, apellidoUsuario TEXT, nombreHotel TEXT, siglasHotel TEXT, emailHotel TEXT, fechaLlegada TEXT, fechaSalida TEXT, deschabitacion TEXT, descHotel TEXT, habCosto TEXT, total TEXT, codigoHabitacion TEXT, direccionHotel TEXT, descripcionLugarHotel TEXT, adultos INTEGER, infantes INTEGER, numHabitaciones INTEGER, numNoches INTEGER, longitudHotel REAL, latitudHotel REAL, checkIn BOOLEAN, checkOut BOOLEAN, consultarSaldos BOOLEAN, numHabitacionAsigado BOOLEAN)");
 		// Version 3
 		// ADD COLUMN resHotelEmail
 		// ADD COLUMN resHotelPhone

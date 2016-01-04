@@ -21,8 +21,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
+//import io.realm.Realm;
+//import io.realm.RealmResults;
 
 import static com.appsee.Appsee.addEvent;
 
@@ -46,9 +46,9 @@ public class HotelReservaResultActivity extends Activity {
     Button btnEnviarMail;
     Button btnCompartir;
     Button btnAbrirUbicacion;
-
-    RealmResults<ReservacionBD> datosReservacion;
-    Realm realm;
+    ReservacionBD datosReservacion;
+   // RealmResults<ReservacionBD> datosReservacion;
+   // Realm realm;
     int numReservacion;
     int numHabitaciones;
     int numNoches;
@@ -96,11 +96,13 @@ public class HotelReservaResultActivity extends Activity {
         list.setAdapter(adapter);
 
 
-        realm = Realm.getInstance(getBaseContext());
+        //realm = Realm.getInstance(getBaseContext());
+        ReservacionBDD ds = new ReservacionBDD( this );
+        ds.open();
+        datosReservacion =ds.getReservante(numReservacion);
+        ds.close();
 
-        datosReservacion = realm.where(ReservacionBD.class).equalTo("numReservacion",numReservacion).findAll();
-
-        System.out.println("NombreHotel"+datosReservacion.get(0).getNombreHotel() + "TOTAL->" +datosReservacion.get(0).getHabCosto());
+        System.out.println("NombreHotel"+datosReservacion.getNombreHotel() + "TOTAL->" +datosReservacion.getHabCosto());
 
 
         llenarInformacion();
@@ -117,7 +119,7 @@ public class HotelReservaResultActivity extends Activity {
         btnEnviarMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String to = datosReservacion.get(0).getEmailHotel();
+                String to = datosReservacion.getEmailHotel();
                 Intent email = new Intent(Intent.ACTION_SEND);
                 email.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
                 email.setType("message/rfc822");
@@ -144,7 +146,7 @@ public class HotelReservaResultActivity extends Activity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("http://maps.google.com/maps?saddr=" +datosReservacion.get(0).getLongitudHotel()+ "&daddr="+datosReservacion.get(0).getLatitudHotel()));
+                        Uri.parse("http://maps.google.com/maps?saddr=" +datosReservacion.getLongitudHotel()+ "&daddr="+datosReservacion.getLatitudHotel()));
                 startActivity(intent);
                 
             }
@@ -161,15 +163,15 @@ public class HotelReservaResultActivity extends Activity {
 
     public void llenarInformacion(){
         SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
-        txtNumeroReservacion.setText(""+datosReservacion.get(0).getNumReservacion());
-        txtNombreUsuario.setText(datosReservacion.get(0).getNombreUsuario());
-        txtNombreHotel.setText(datosReservacion.get(0).getNombreHotel());
-        txtLlegada.setText(sdf.format(datosReservacion.get(0).getFechaLlegada()));
-        txtSalida.setText(sdf.format(datosReservacion.get(0).getFechaSalida()));
+        txtNumeroReservacion.setText(""+datosReservacion.getNumReservacion());
+        txtNombreUsuario.setText(datosReservacion.getNombreUsuario());
+        txtNombreHotel.setText(datosReservacion.getNombreHotel());
+        txtLlegada.setText(sdf.format(datosReservacion.getFechaLlegada()));
+        txtSalida.setText(sdf.format(datosReservacion.getFechaSalida()));
 
         txtPrecioTotal .setText("Total: $ " + total + " M.N");
-        txtDireccionHotel .setText("" + datosReservacion.get(0).getDireccionHotel());
-        txtReferenciaHotel.setText("" + datosReservacion.get(0).getDescripcionLugarHotel());
+        txtDireccionHotel .setText("" + datosReservacion.getDireccionHotel());
+        txtReferenciaHotel.setText("" + datosReservacion.getDescripcionLugarHotel());
         _mapView.onResume();
 
         try
@@ -185,8 +187,8 @@ public class HotelReservaResultActivity extends Activity {
         _map = _mapView.getMap();
         //_map = ((SupportMapFragment) getFragmentManager().findFragmentById( R.id.map )).getMap();
 
-        LatLng hotelPosition =  new LatLng( datosReservacion.get(0).getLatitudHotel(), datosReservacion.get(0).getLongitudHotel() );
-        Marker m = _map.addMarker( new MarkerOptions().position( hotelPosition ).title(datosReservacion.get(0).getNombreHotel()) );
+        LatLng hotelPosition =  new LatLng( datosReservacion.getLatitudHotel(), datosReservacion.getLongitudHotel() );
+        Marker m = _map.addMarker( new MarkerOptions().position( hotelPosition ).title(datosReservacion.getNombreHotel()) );
         //_map.animateCamera( CameraUpdateFactory.newLatLngZoom( hotelPosition, 14 ) );
         _map.moveCamera(CameraUpdateFactory.newLatLngZoom(hotelPosition, 14));
         m.showInfoWindow();

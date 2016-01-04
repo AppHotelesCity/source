@@ -15,9 +15,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import io.realm.Realm;
+/*import io.realm.Realm;
 import io.realm.RealmResults;
-import io.realm.Sort;
+import io.realm.Sort;*/
 
 
 /**
@@ -27,7 +27,7 @@ public class ReservacionesFragment extends Fragment
 {
 	View _view;
 	ArrayList<ReservacionBD> _reservations;
-	RealmResults<ReservacionBD> reservacionesBD;
+	//RealmResults<ReservacionBD> reservacionesBD;
 
 	public ReservacionesFragment()
 	{
@@ -46,7 +46,7 @@ public class ReservacionesFragment extends Fragment
 		_reservations = ds.getReservations();
 		ds.close();*/
 
-		Realm realm = Realm.getInstance(getActivity());
+		/*Realm realm = Realm.getInstance(getActivity());
 
 		reservacionesBD = realm.where(ReservacionBD.class).findAll();
         reservacionesBD.sort("numReservacion", Sort.DESCENDING);
@@ -171,7 +171,7 @@ public class ReservacionesFragment extends Fragment
 	private void reservationSelected( int index )
 	{
         Intent intent = new Intent(getActivity(), MiReservacionDetailActivity.class);
-        intent.putExtra("numReservacion",reservacionesBD.get(index).getNumReservacion());
+        //intent.putExtra("numReservacion",reservacionesBD.get(index).getNumReservacion());
         startActivity(intent);
 		/*Bundle parameters = new Bundle();
 		parameters.putSerializable( "RESERVATION", .get( index ) );
