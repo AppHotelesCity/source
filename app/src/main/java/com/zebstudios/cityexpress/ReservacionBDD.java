@@ -63,8 +63,8 @@ public class ReservacionBDD {
         data.put( "nombreHotel", reservante.getNombreHotel() );
         data.put( "siglasHotel", reservante.getSiglasHotel() );
         data.put( "emailHotel", reservante.getEmailHotel() );
-        data.put( "fechaLlegada", reservante.getFechaLlegada().toString() );
-        data.put( "fechaSalida", reservante.getFechaSalida().toString()) ;
+        data.put( "fechaLlegada", reservante.getFechaLlegada().getTime() );
+        data.put( "fechaSalida", reservante.getFechaSalida().getTime()) ;
         data.put( "deschabitacion", reservante.getDeschabitacion() );
         data.put( "descHotel", reservante.getDescHotel() );
         data.put( "habCosto", reservante.getHabCosto() );
@@ -87,7 +87,7 @@ public class ReservacionBDD {
         System.out.println("BDNUMERORESERVACION->"+reservante.getNumReservacion());
     }
 
-    public void update( ReservacionBD reservante )
+    public void update( ReservacionBD reservante, String numReservacion)
     {
         ContentValues data = new ContentValues();
         data.put( "numReservacion", reservante.getNumReservacion() );
@@ -96,8 +96,8 @@ public class ReservacionBDD {
         data.put( "nombreHotel", reservante.getNombreHotel() );
         data.put( "siglasHotel", reservante.getSiglasHotel() );
         data.put( "emailHotel", reservante.getEmailHotel() );
-        data.put( "fechaLlegada", reservante.getFechaLlegada() .toString());
-        data.put( "fechaSalida", reservante.getFechaSalida().toString()) ;
+        data.put( "fechaLlegada", reservante.getFechaLlegada() .getTime());
+        data.put( "fechaSalida", reservante.getFechaSalida().getTime()) ;
         data.put( "deschabitacion", reservante.getDeschabitacion() );
         data.put( "descHotel", reservante.getDescHotel() );
         data.put( "habCosto", reservante.getHabCosto() );
@@ -117,7 +117,7 @@ public class ReservacionBDD {
         data.put( "numHabitacionAsigado", reservante.getNumHabitacionAsigado() );
 
         String where = "numReservacion=?";
-        String[] whereArgs = { "1" };
+        String[] whereArgs = { "" + numReservacion };
         _database.update( "ClienteReservante", data, where, whereArgs );
     }
 

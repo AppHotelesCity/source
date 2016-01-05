@@ -76,7 +76,7 @@ public class MiReservacionDetailActivity extends Activity {
     ImageView imageCorreo;
     ImageView imageChat;
     ImageView imageBack;
-
+    ReservacionBD datosReservacion;
    // RealmResults<ReservacionBD> datosReservacion;
    // Realm realm;
     int numReservacion;
@@ -125,10 +125,13 @@ public class MiReservacionDetailActivity extends Activity {
         numReservacion = bundle.getInt("numReservacion");
 
        // realm = Realm.getInstance(getBaseContext());
+        ReservacionBDD ds = new ReservacionBDD( this );
+        ds.open();
+        datosReservacion =ds.getReservante(numReservacion);
+        ds.close();
+       // datosReservacion = realm.where(ReservacionBD.class).equalTo("numReservacion",numReservacion).findAll();
 
-        //datosReservacion = realm.where(ReservacionBD.class).equalTo("numReservacion",numReservacion).findAll();
-
-        //System.out.println("NombreHotel"+datosReservacion.get(0).getNombreHotel() + "TOTAL->" +datosReservacion.get(0).getHabCosto() + "SiglasHotel->" + datosReservacion.get(0).getSiglasHotel());
+        System.out.println("NombreHotel" + datosReservacion.getNombreHotel() + "TOTAL->" + datosReservacion.getHabCosto() + "SiglasHotel->" + datosReservacion.getSiglasHotel());
 
         llenarInformacion();
         btnCheckIn.setOnClickListener(new View.OnClickListener() {
@@ -148,9 +151,9 @@ public class MiReservacionDetailActivity extends Activity {
         btnEnviarCorreo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //String to = datosReservacion.get(0).getEmailHotel();
+                String to = datosReservacion.getEmailHotel();
                 Intent email = new Intent(Intent.ACTION_SEND);
-                //email.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
                 email.setType("message/rfc822");
                 startActivityForResult(Intent.createChooser(email, "Send Email"), 1);
                 addEvent("HotelDetails-SendEmail-Smartphone");
@@ -180,9 +183,9 @@ public class MiReservacionDetailActivity extends Activity {
         btnComoLlegar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("http://maps.google.com/maps?saddr=" +datosReservacion.get(0).getLatitudHotel()+ "&daddr="+datosReservacion.get(0).getLongitudHotel()));
-                startActivity(intent);*/
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("http://maps.google.com/maps?saddr=" + datosReservacion.getLatitudHotel() + "&daddr=" + datosReservacion.getLongitudHotel()));
+                startActivity(intent);
             }
         });
 
@@ -211,9 +214,9 @@ public class MiReservacionDetailActivity extends Activity {
         imageCorreo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // String to = datosReservacion.get(0).getEmailHotel();
+                String to = datosReservacion.getEmailHotel();
                 Intent email = new Intent(Intent.ACTION_SEND);
-                //email.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
                 email.setType("message/rfc822");
                 startActivityForResult(Intent.createChooser(email, "Send Email"), 1);
                 addEvent("HotelDetails-SendEmail-Smartphone");
@@ -242,28 +245,28 @@ public class MiReservacionDetailActivity extends Activity {
 
     public void llenarInformacion(){
         SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
-        /*txtNumeroReservacion.setText(""+datosReservacion.get(0).getNumReservacion());
-        txtNombreUsuario.setText(datosReservacion.get(0).getNombreUsuario() + " " + datosReservacion.get(0).getApellidoUsuario());
+        txtNumeroReservacion.setText("" + datosReservacion.getNumReservacion());
+        txtNombreUsuario.setText(datosReservacion.getNombreUsuario() + " " + datosReservacion.getApellidoUsuario());
         txtHabitacion .setText("");
-        txtNombreHotel .setText(datosReservacion.get(0).getNombreHotel());
-        txtLlegada .setText(sdf.format(datosReservacion.get(0).getFechaLlegada()));
-        txtSalida.setText(sdf.format(datosReservacion.get(0).getFechaSalida()));
-        txtHabitacion.setText(datosReservacion.get(0).getNumHabitacionAsigado());
-        txtTipoHabitacion .setText(datosReservacion.get(0).getDeschabitacion());
-        txtPrecioHabitacion.setText("$" + datosReservacion.get(0).getHabCosto() + "M.N");
-        txtNumAdultos.setText("" + datosReservacion.get(0).getAdultos());
-        txtNumNiños .setText("" + datosReservacion.get(0).getInfantes());
-        txtPrecioTotal .setText("Total: $ " + datosReservacion.get(0).getHabCosto() + " M.N");
-        txtDireccionHotel .setText("" + datosReservacion.get(0).getDireccionHotel());
-        txtReferenciaHotel.setText("" + datosReservacion.get(0).getDescripcionLugarHotel());
-        btnCheckIn.setEnabled(datosReservacion.get(0).isCheckIn());
-        btnCheckOut.setEnabled(datosReservacion.get(0).isCheckOut());
-        if(datosReservacion.get(0).isCheckIn()){
+        txtNombreHotel .setText(datosReservacion.getNombreHotel());
+        txtLlegada .setText(sdf.format(datosReservacion.getFechaLlegada()));
+        txtSalida.setText(sdf.format(datosReservacion.getFechaSalida()));
+        txtHabitacion.setText(datosReservacion.getNumHabitacionAsigado());
+        txtTipoHabitacion .setText(datosReservacion.getDeschabitacion());
+        txtPrecioHabitacion.setText("$" + datosReservacion.getHabCosto() + "M.N");
+        txtNumAdultos.setText("" + datosReservacion.getAdultos());
+        txtNumNiños .setText("" + datosReservacion.getInfantes());
+        txtPrecioTotal .setText("Total: $ " + datosReservacion.getHabCosto() + " M.N");
+        txtDireccionHotel .setText("" + datosReservacion.getDireccionHotel());
+        txtReferenciaHotel.setText("" + datosReservacion.getDescripcionLugarHotel());
+        btnCheckIn.setEnabled(datosReservacion.isCheckIn());
+        btnCheckOut.setEnabled(datosReservacion.isCheckOut());
+        if(datosReservacion.isCheckIn()){
             btnCheckOut.setEnabled(false);
         }else{
             btnCheckOut.setEnabled(true);
-            txtHabitacion .setText(", Habitación "+datosReservacion.get(0).getNumHabitacionAsigado());
-        }*/
+            txtHabitacion .setText(", Habitación " + datosReservacion.getNumHabitacionAsigado());
+        }
 
 
         _mapView.onResume();
@@ -281,11 +284,11 @@ public class MiReservacionDetailActivity extends Activity {
         _map = _mapView.getMap();
         //_map = ((SupportMapFragment) getFragmentManager().findFragmentById( R.id.map )).getMap();
 
-        //LatLng hotelPosition =  new LatLng( datosReservacion.get(0).getLatitudHotel(), datosReservacion.get(0).getLongitudHotel() );
-        //Marker m = _map.addMarker( new MarkerOptions().position( hotelPosition ).title(datosReservacion.get(0).getNombreHotel()) );
+        LatLng hotelPosition =  new LatLng( datosReservacion.getLatitudHotel(), datosReservacion.getLongitudHotel() );
+        Marker m = _map.addMarker( new MarkerOptions().position(hotelPosition).title(datosReservacion.getNombreHotel()) );
         //_map.animateCamera( CameraUpdateFactory.newLatLngZoom( hotelPosition, 14 ) );
-        //_map.moveCamera(CameraUpdateFactory.newLatLngZoom(hotelPosition, 14));
-        //m.showInfoWindow();
+        _map.moveCamera(CameraUpdateFactory.newLatLngZoom(hotelPosition, 14));
+        m.showInfoWindow();
 
     }
 
@@ -303,8 +306,8 @@ public class MiReservacionDetailActivity extends Activity {
                 "    </soap:Body>\n" +
                 "</soap:Envelope>";
 
-       // enviarxml = enviarxml.replace("{hotel}", datosReservacion.get(0).getSiglasHotel());
-       // enviarxml = enviarxml.replace("{codigoreserva}", ""+datosReservacion.get(0).getNumReservacion());
+        enviarxml = enviarxml.replace("{hotel}", datosReservacion.getSiglasHotel());
+        enviarxml = enviarxml.replace("{codigoreserva}", ""+datosReservacion.getNumReservacion());
         enviarxml = enviarxml.replace("{ref}", "");
 
 
@@ -380,37 +383,43 @@ public class MiReservacionDetailActivity extends Activity {
         if(checkInResult.getInt("a:CodigoError")!=0){
             alert(checkInResult.getString("a:DescError"));
         }else{
-           /* ReservacionBD reservacionBD = new ReservacionBD();
-            reservacionBD.setNombreUsuario(datosReservacion.get(0).getNombreUsuario());
-            reservacionBD.setApellidoUsuario(datosReservacion.get(0).getApellidoUsuario());
-            reservacionBD.setNombreHotel(datosReservacion.get(0).getNombreHotel());
-            reservacionBD.setFechaLlegada(datosReservacion.get(0).getFechaLlegada());
-            reservacionBD.setFechaSalida(datosReservacion.get(0).getFechaSalida());
-            reservacionBD.setDescripcionLugarHotel(datosReservacion.get(0).getDescripcionLugarHotel());
-            reservacionBD.setSiglasHotel(datosReservacion.get(0).getSiglasHotel());
-            reservacionBD.setDeschabitacion(datosReservacion.get(0).getDeschabitacion());
-            reservacionBD.setLatitudHotel(datosReservacion.get(0).getLatitudHotel());
-            reservacionBD.setLongitudHotel(datosReservacion.get(0).getLongitudHotel());
-            reservacionBD.setHabCosto(datosReservacion.get(0).getHabCosto());
-            reservacionBD.setNumReservacion(datosReservacion.get(0).getNumReservacion());
+            ReservacionBD reservacionBD = new ReservacionBD();
+            reservacionBD.setNombreUsuario(datosReservacion.getNombreUsuario());
+            reservacionBD.setApellidoUsuario(datosReservacion.getApellidoUsuario());
+            reservacionBD.setNombreHotel(datosReservacion.getNombreHotel());
+            reservacionBD.setFechaLlegada(datosReservacion.getFechaLlegada());
+            reservacionBD.setFechaSalida(datosReservacion.getFechaSalida());
+            reservacionBD.setDescripcionLugarHotel(datosReservacion.getDescripcionLugarHotel());
+            reservacionBD.setSiglasHotel(datosReservacion.getSiglasHotel());
+            reservacionBD.setDeschabitacion(datosReservacion.getDeschabitacion());
+            reservacionBD.setLatitudHotel(datosReservacion.getLatitudHotel());
+            reservacionBD.setLongitudHotel(datosReservacion.getLongitudHotel());
+            reservacionBD.setHabCosto(datosReservacion.getHabCosto());
+            reservacionBD.setNumReservacion(datosReservacion.getNumReservacion());
             reservacionBD.setAdultos(checkInResult.getInt("a:totaladults"));
             reservacionBD.setNumHabitacionAsigado(checkInResult.getString("a:room"));
-            reservacionBD.setInfantes(datosReservacion.get(0).getInfantes());
-            reservacionBD.setCodigoHabitacion(datosReservacion.get(0).getCodigoHabitacion());
-            reservacionBD.setNumNoches(datosReservacion.get(0).getNumNoches());
-            reservacionBD.setNumHabitaciones(datosReservacion.get(0).getNumHabitaciones());
-            reservacionBD.setDireccionHotel(datosReservacion.get(0).getDireccionHotel());
+            reservacionBD.setInfantes(datosReservacion.getInfantes());
+            reservacionBD.setCodigoHabitacion(datosReservacion.getCodigoHabitacion());
+            reservacionBD.setNumNoches(datosReservacion.getNumNoches());
+            reservacionBD.setNumHabitaciones(datosReservacion.getNumHabitaciones());
+            reservacionBD.setDireccionHotel(datosReservacion.getDireccionHotel());
             reservacionBD.setCheckIn(false);
             reservacionBD.setCheckOut(true);
             reservacionBD.setConsultarSaldos(true);
-            realm= Realm.getInstance(this);
+
+            ReservacionBDD ds = new ReservacionBDD( this );
+            ds.open();
+            ds.update(reservacionBD,""+numReservacion);
+            ds.close();
+
+           /* realm= Realm.getInstance(this);
             realm.beginTransaction();
             realm.copyToRealmOrUpdate(reservacionBD);
-            realm.commitTransaction();
+            realm.commitTransaction();*/
             txtHabitacion.setText(", Habitación " + checkInResult.getString("a:room"));
             alert(checkInResult.getString("a:DescError"));
             btnCheckIn.setEnabled(false);
-            btnCheckOut.setEnabled(true);*/
+            btnCheckOut.setEnabled(true);
         }
 
     }
@@ -429,9 +438,9 @@ public class MiReservacionDetailActivity extends Activity {
                 "    </SOAP-ENV:Body>\n" +
                 "</SOAP-ENV:Envelope>";
 
-       /* enviarxml = enviarxml.replace("{guestcode}","" + datosReservacion.get(0).getNumReservacion());
-        enviarxml = enviarxml.replace("{propcode}", "" + datosReservacion.get(0).getSiglasHotel());
-        enviarxml = enviarxml.replace("{lastname}", "" + datosReservacion.get(0).getApellidoUsuario());*/
+        enviarxml = enviarxml.replace("{guestcode}","" + datosReservacion.getNumReservacion());
+        enviarxml = enviarxml.replace("{propcode}", "" + datosReservacion.getSiglasHotel());
+        enviarxml = enviarxml.replace("{lastname}", "" + datosReservacion.getApellidoUsuario());
 
 
         Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
