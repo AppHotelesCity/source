@@ -14,6 +14,14 @@
 		android:hint="No. de socio"
 		android:maxLength="10"
 		style="@style/RoundedControl"/>
+	<EditText
+		android:id="@+id/txtEmailPremios"
+		android:layout_width="match_parent"
+		android:layout_height="60dp"
+		android:layout_marginTop="12dp"
+		android:hint="Email"
+		android:maxLength="10"
+		style="@style/RoundedControl"/>
 
 	<Button
 		android:id="@+id/btnRecuperar"

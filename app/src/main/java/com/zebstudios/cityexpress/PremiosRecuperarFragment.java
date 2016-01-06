@@ -52,6 +52,7 @@ public class PremiosRecuperarFragment extends Fragment
 	private void recuperarPass()
 	{
 		EditText txtSocio = (EditText)_view.findViewById( R.id.txtSocio );
+		EditText txtEmail = (EditText)_view.findViewById(R.id.txtEmailPremios);
 		if( txtSocio.getText().toString().trim().length() != 0 && ( txtSocio.getText().toString().trim().length() != 10 || !isAlphaNumeric( txtSocio.getText().toString().trim() ) ) )
 		if( !isEmailValid( txtSocio.getText() ) )
 		{
@@ -59,12 +60,19 @@ public class PremiosRecuperarFragment extends Fragment
 			return;
 		}
 
+		if( txtEmail.getText().toString().trim().length() != 0 && ( txtEmail.getText().toString().trim().length() != 10 || !isAlphaNumeric( txtEmail.getText().toString().trim() ) ) )
+			if( !isEmailValid( txtEmail.getText() ) )
+			{
+				alert( "Por favor, ingresa un email válido." );
+				return;
+			}
+
 		PremiosExternoClient.entSocioCP param = new PremiosExternoClient.entSocioCP();
 		param.getAplicacion().setClaveAplicacion( "903" );
 		param.getProgramaSocio().setClaveProg( "1" );
 
 		param.setNoSocioCP( txtSocio.getText().toString() );
-
+		param.setCorreoDestinoSocio(txtEmail.getText().toString());
 		new ServiceCaller( param ).execute();
 	}
 

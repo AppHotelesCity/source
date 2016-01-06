@@ -6,13 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Denumeris Interactive on 02/12/2014.
@@ -42,12 +41,11 @@ public class BlogArticleListAdapter extends BaseAdapter
 		}
 		TextView title = (TextView) v.findViewById( R.id.lblTitle );
 		TextView text = (TextView) v.findViewById( R.id.lblText );
-		CircleImageView imageViewBlog = (CircleImageView) v.findViewById(R.id.imageview_Blog);
-
+		ImageView imageViewBlog = (ImageView) v.findViewById(R.id.imageview_Blog);
 		RSSArticle article = _items.get( position );
 		title.setText( article.getTitle() );
 		text.setText( stripHtml(article.getDescription()) );
-		Picasso.with(_context).load(article.getMedia()).into(imageViewBlog);
+		Picasso.with(_context).load(article.getMedia()).transform(new RoundedTransformation(250, 0)).into(imageViewBlog) ;
 		System.out.println("ENCODEDCONTENT->" + article.getEncodedContent());
         System.out.println("-Descripction"+ article.getDescription());
 		return v;
