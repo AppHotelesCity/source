@@ -13,57 +13,58 @@ import android.widget.TextView;
  */
 public class WorkingDialogFragment extends DialogFragment
 {
-	private int _icon;
-	private String _label;
-	private TextView _textView;
+    private int _icon;
+    private String _label;
+    private TextView _textView;
 
-	public static WorkingDialogFragment newInstance()
-	{
-		return new WorkingDialogFragment();
-	}
+    public static WorkingDialogFragment newInstance()
+    {
+        return new WorkingDialogFragment();
+    }
 
-	@Override
-	public void onCreate( Bundle savedInstanceState )
-	{
-		super.onCreate( savedInstanceState );
-		setStyle( STYLE_NO_FRAME, android.R.style.Theme_Translucent );
-	}
+    @Override
+    public void onCreate( Bundle savedInstanceState )
+    {
+        super.onCreate( savedInstanceState );
+        setStyle( STYLE_NO_FRAME, android.R.style.Theme_Translucent );
+    }
 
-	@Override
-	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
-	{
-		View view = inflater.inflate( R.layout.fragment_working_dialog, container, false );
+    @Override
+    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
+    {
+        View view = inflater.inflate( R.layout.fragment_working_dialog, container, false );
 
-		ImageView imageView = (ImageView)view.findViewById( R.id.imageView );
-		imageView.setImageResource( _icon );
-		_textView = (TextView)view.findViewById( R.id.label );
-		_textView.setText( _label );
+        ImageView imageView = (ImageView)view.findViewById( R.id.imageView );
+        imageView.setImageResource( _icon );
+        _textView = (TextView)view.findViewById( R.id.label );
+        _textView.setText( _label );
 
-		return view;
-	}
+        return view;
+    }
 
-	public void ChageLabel( String text )
-	{
-		_textView.setText( text );
-	}
+    public void ChageLabel( String text )
+    {
+        _textView.setText( text );
+    }
 
-	public int getIcon()
-	{
-		return _icon;
-	}
+    public int getIcon()
+    {
+        return _icon;
+    }
 
-	public void setIcon( int icon )
-	{
-		_icon = icon;
-	}
+    public void setIcon( int icon )
+    {
+        _icon = icon;
+    }
 
-	public String getLabel()
-	{
-		return _label;
-	}
+    public String getLabel()
+    {
+        return _label;
+    }
 
-	public void setLabel( String label )
-	{
-		_label = label;
-	}
+    public void setLabel( String label )
+    {
+        _label = label;
+    }
 }
+

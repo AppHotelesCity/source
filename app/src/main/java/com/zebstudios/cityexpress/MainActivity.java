@@ -92,7 +92,9 @@ public class MainActivity extends ActionBarActivity
 
 	public void OcultarBagde(){
 		MenuItem msgItem = messagesAction.findItem(R.id.message_center);
-		msgItem.setVisible(false);
+		Intent intent = new Intent(this, InboxActivity.class);
+		startActivity(intent);
+		//msgItem.setVisible(false);
 	}
 	public void MostrarBagde(){
 		MenuItem msgItem = messagesAction.findItem(R.id.message_center);
@@ -380,7 +382,7 @@ public class MainActivity extends ActionBarActivity
 		{
 			CercaFragment fragment = new CercaFragment();
 			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
-			//addEvent("MenuCercaDeTi-Smartphone");
+			addEvent("MenuCercaDeTi-Smartphone");
 		}
 		else if( index == 3 )
 		{

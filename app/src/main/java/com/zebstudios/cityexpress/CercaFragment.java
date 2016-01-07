@@ -15,6 +15,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,7 +30,9 @@ public class CercaFragment extends Fragment
 	private View _view;
 	private LocationManager _locationManager;
 	private LocationListener _locationListener;
-	private WorkingDialogFragment _progress;
+	//private WorkingDialogFragment2 _progress;
+	LinearLayout cargandoLinear;
+	TextView txtCargando;
 	private boolean _isLocationObtained;
 
 	private static final int RESULTS_ACTIVITY = 1000;
@@ -44,8 +48,23 @@ public class CercaFragment extends Fragment
 	{
 		startScreen("ViewCercaDeTi");
 		_view = inflater.inflate( R.layout.fragment_cerca, container, false );
-
+		cargandoLinear = (LinearLayout) _view.findViewById(R.id.linear_cargando_mapas);
+		txtCargando = (TextView) _view.findViewById(R.id.txt_leyenda_cerca);
 		_isLocationObtained = false;
+
+		if( !_isLocationObtained )
+		{
+			_locationManager = (LocationManager)getActivity().getSystemService( Context.LOCATION_SERVICE );
+			_locationListener = new LocalLocationListener();
+			_locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, _locationListener );
+			txtCargando.setText("Obteniendo tu ubicación");
+			/*_progress = new WorkingDialogFragment2();
+			_progress.setLabel( "Obteniendo tu ubicación" );
+
+			_progress.setIcon( R.drawable.pin_big );
+			_progress.setCancelable( false );
+			_progress.show( getFragmentManager(), "Dialog" );*/
+		}
 
 		return _view;
 	}
@@ -58,18 +77,18 @@ public class CercaFragment extends Fragment
 		activity.getSupportActionBar().setTitle( "Cerca de tí" );
 		activity.getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.blue_button));
 
-		if( !_isLocationObtained )
+		/*if( !_isLocationObtained )
 		{
 			_locationManager = (LocationManager)getActivity().getSystemService( Context.LOCATION_SERVICE );
 			_locationListener = new LocalLocationListener();
 			_locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, _locationListener );
 
-			_progress = new WorkingDialogFragment();
+			_progress = new WorkingDialogFragment2();
 			_progress.setLabel( "Obteniendo tu ubicación" );
 			_progress.setIcon( R.drawable.pin_big );
 			_progress.setCancelable( false );
 			_progress.show( getFragmentManager(), "Dialog" );
-		}
+		}*/
 	}
 
 	private void locationObtained( Location location )
@@ -80,7 +99,8 @@ public class CercaFragment extends Fragment
 		}
 		_isLocationObtained = true;
 		_locationManager.removeUpdates( _locationListener );
-		_progress.ChageLabel( "Obteniendo hotel más cercano" );
+		//_progress.ChageLabel("Obteniendo hotel más cercano");
+		txtCargando.setText("Obteniendo hotel más cercano");
 		new SearchNearest( location.getLatitude(), location.getLongitude() ).execute();
 	}
 
@@ -88,13 +108,15 @@ public class CercaFragment extends Fragment
 	{
 		if( res == 0 )
 		{
-			_progress.ChageLabel( "Obteniendo datos del hotel" );
+			//_progress.ChageLabel( "Obteniendo datos del hotel" );
+			txtCargando.setText("Obteniendo datos del hotel" );
 			new GetHotelData( hotels ).execute();
 		}
 		else
 		{
 			alert( "No se ha podido realizar la búsqueda. Por favor intenta nuevamente más tarde." );
-			_progress.dismiss();
+			//_progress.dismiss();
+			cargandoLinear.setVisibility(View.GONE);
 		}
 	}
 
@@ -106,7 +128,8 @@ public class CercaFragment extends Fragment
 			{
 				android.util.Log.d( "TEST", "HOTEL: " + hotels.get( i ).getNombre() );
 			}
-			_progress.dismiss();
+			//_progress.dismiss();
+			cargandoLinear.setVisibility(View.GONE);
 
 			if( CompatibilityUtil.isTablet( getActivity() ) )
 			{
@@ -131,8 +154,9 @@ public class CercaFragment extends Fragment
 		}
 		else
 		{
-			alert( "No se ha podido realizar la búsqueda. Por favor intenta nuevamente más tarde." );
-			_progress.dismiss();
+			alert( "No se ha podido realizar la búsqueda. Por favor intenta nuevamente más tarde.");
+			//_progress.dismiss();
+			cargandoLinear.setVisibility(View.GONE);
 		}
 	}
 

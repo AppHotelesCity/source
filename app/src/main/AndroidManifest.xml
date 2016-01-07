@@ -178,8 +178,8 @@
 
         <activity
             android:name="io.card.payment.CardIOActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" />
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
         <activity android:name="io.card.payment.DataEntryActivity" />
         <!-- Urban Airship -->
         <!-- This is required for persisting preferences related to push and location -->
@@ -253,20 +253,29 @@
             android:screenOrientation="portrait"
             android:theme="@style/ToolbarColor" >
         </activity>
-        <activity android:name=".Reservacion"
-            android:screenOrientation="portrait">
+        <activity
+            android:name=".Reservacion"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".ReservacionActivity"
-            android:screenOrientation="portrait">
+        <activity
+            android:name=".ReservacionActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".ReservacionPremiosActivity"
-            android:screenOrientation="portrait">
+        <activity
+            android:name=".ReservacionPremiosActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".HotelReservaResultActivity"
-            android:screenOrientation="portrait">
+        <activity
+            android:name=".HotelReservaResultActivity"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".MiReservacionDetailActivity"
-            android:screenOrientation="portrait">
+        <activity
+            android:name=".MiReservacionDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name=".InboxActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ToolbarColor">
         </activity>
     </application>
 
