@@ -1,0 +1,139 @@
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.adroid.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardViewHabitacion"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_margin="5dp"
+    card_view:cardCornerRadius="8dp">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/imageViewHabitacion"
+            android:layout_width="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher"
+            android:layout_height="match_parent" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/gray_letters_color_alpha"
+    android:layout_gravity="bottom">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/textViewDescripcionHabitacion"
+                    android:layout_width="150dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Sencilla, 1 cama queen"
+                    android:layout_gravity="center"
+                    android:textColor="#FFF"
+                    android:gravity="left"
+                    android:textSize="20sp"/>
+                <LinearLayout
+                    android:id="@+id/linearPrecioPremio"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="right"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="City Premios"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:textColor="#FFF"
+                        android:gravity="center"
+                        android:textSize="12sp"/>
+                    <TextView
+                        android:id="@+id/textViewPrecioPremioHabitacion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$589"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#fff"
+                        android:textSize="26sp"/>
+
+
+                </LinearLayout>
+
+
+
+
+
+                <LinearLayout
+                    android:id="@+id/linearPrecioDestino"
+                    android:layout_width="100dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="right"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Pago en destino"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:textColor="#FFF"
+                        android:gravity="center"
+                        android:textSize="12sp"/>
+                    <TextView
+                        android:id="@+id/textViewPrecioPagoDestinoHotel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$589"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#fff"
+                        android:textSize="26sp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    <View
+        android:layout_width="30dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="-35dp"
+        android:layout_marginLeft="40dp"
+        android:clickable="false"
+        android:id="@+id/btnYPremios"
+        android:background="@color/yellow_button"
+        android:layout_height="35dp" />
+
+    <View
+        android:layout_width="30dp"
+        android:layout_gravity="right"
+        android:clickable="false"
+        android:layout_marginBottom="-35dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/yellow_button"
+        android:layout_height="35dp"
+        android:id="@+id/btnYDestinos" />
+
+    <Button
+        android:id="@+id/btnReservarAhora"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="15dp"
+        android:background="@color/yellow_button"
+        android:text="RESERVAR AHORA"/>
+
+</LinearLayout>
+    </FrameLayout>
+
+</android.support.v7.widget.CardView>

@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zebstudios.cityexpress.Reservacion">
+
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/toolbarTitulo"
+                layout="@layout/toolbar_general"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_home"
+                android:layout_height="100dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="28dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:text="Paso 2 de 3"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/paso2y"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/pnlCapture"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:padding="12dp"
+                android:orientation="vertical">
+
+                <!--Toolbar con numero de Paso-->
+
+                <TextView
+                    android:id="@+id/lblHotelName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FF660000"
+                    android:textSize="18sp"
+                    android:text="Hotel Name"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/dates_arrival_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="Llegada: "/>
+
+                    <TextView
+                        android:id="@+id/dates_arrival_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/dates_arrival_title"
+                        android:textStyle="bold"
+                        android:text="21 Oct 2014"/>
+
+                    <TextView
+                        android:id="@+id/dates_departure_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:textStyle="bold"
+                        android:text="23 Oct 2014"/>
+
+                    <TextView
+                        android:id="@+id/dates_departure_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@id/dates_departure_text"
+                        android:text="Salida: "/>
+
+                </RelativeLayout>
+
+
+                <com.zebstudios.cityexpress.NestedListView
+                    android:id="@+id/list_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginTop="12dp"/>
+
+
+
+                <TextView
+                    android:id="@+id/lblTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="end"
+                    android:textColor="@color/main_color1"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="Total"/>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="?android:attr/listDivider"/>
+
+                <Spinner
+                    android:id="@+id/spinHuespedes"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/spinner_rounded_background"
+                    android:layout_marginBottom="12dp"/>
+
+                <com.zebstudios.cityexpress.SegmentedGroup
+                    android:id="@+id/segmented"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <RadioButton
+                        android:id="@+id/btn_rad_misma"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:textSize="14sp"
+                        android:text="Mismos datos hab 1"
+                        style="@style/RadioButton"/>
+
+                    <RadioButton
+                        android:id="@+id/btn_rad_otros"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="Otros datos"
+                        style="@style/RadioButton"/>
+
+                </com.zebstudios.cityexpress.SegmentedGroup>
+
+                <EditText
+                    android:id="@+id/txtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="12dp"
+                    android:hint="Nombre"
+                    android:inputType="textCapWords"
+                    style="@style/RoundedControl"/>
+
+                <EditText
+                    android:id="@+id/txtLast"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="12dp"
+                    android:hint="Apellido"
+                    android:inputType="textCapWords"
+                    style="@style/RoundedControl"/>
+
+                <EditText
+                    android:id="@+id/txtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="12dp"
+                    android:hint="Correo electrónico"
+                    android:inputType="textEmailAddress"
+                    style="@style/RoundedControl"/>
+
+                <EditText
+                    android:id="@+id/txtSocio"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="12dp"
+                    android:hint="No. de socio City Premios"
+                    android:maxLength="10"
+                    style="@style/RoundedControl"/>
+
+                <CheckBox
+                    android:id="@+id/cbAfiliate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/control_border_dark"
+                    android:text="Afiliate a nuestro programa de lealtad City Premios y obtén tarifas preferenciales en tus siguientes estancias."/>
+
+                <EditText
+                    android:id="@+id/txtPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="12dp"
+                    android:inputType="phone"
+                    android:hint="Teléfono"
+                    style="@style/RoundedControl"/>
+
+                <Spinner
+                    android:id="@+id/spinViaje"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/spinner_rounded_enabled"
+                    android:layout_marginTop="12dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:text="Acompañantes"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="center"
+                        android:text="Adultos"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="center"
+                        android:text="Niños (13-)"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="24dp">
+
+                    <Spinner
+                        android:id="@+id/spinAdultos"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="0.5"
+                        android:layout_marginRight="6dp"
+                        android:background="@drawable/spinner_rounded_background"/>
+
+                    <Spinner
+                        android:id="@+id/spinNinos"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="0.5"
+                        android:layout_marginLeft="6dp"
+                        android:background="@drawable/spinner_rounded_background"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="?android:attr/listDivider"/>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/header_icon3"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/paso3"
+                        android:layout_alignParentLeft="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:gravity="center"
+                        android:text="Pago:"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/main_color1"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/header_icon3"/>
+
+                    <com.zebstudios.cityexpress.SegmentedGroup
+                        android:id="@+id/segmentedPaymentMethod"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_alignParentRight="true">
+
+                        <RadioButton
+                            android:id="@+id/btn_method_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="24dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="24dp"
+                            android:paddingBottom="8dp"
+                            android:text="Tarjeta"
+                            style="@style/RadioButton"/>
+
+                        <RadioButton
+                            android:id="@+id/btn_method_paypal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="24dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="24dp"
+                            android:paddingBottom="8dp"
+                            android:text="PayPal"
+                            style="@style/RadioButton"/>
+
+                    </com.zebstudios.cityexpress.SegmentedGroup>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/linearImagePagos"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/logo_amex"/>
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:src="@drawable/logo_mastercard"/>
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/logo_visa"/>
+
+                    <ImageButton android:id="@+id/escanear"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"
+                        android:onClick="onScanPress"
+                        android:text="SCAN"
+                        android:scaleType="fitXY"
+                        android:layout_gravity="right|center_vertical"
+                        android:src="@drawable/bttarjeta" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearAddtarjeta"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <EditText
+                        android:id="@+id/txtCardName"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="12dp"
+                        android:inputType="textCapCharacters"
+                        android:hint="Nombre en la tarjeta"
+                        style="@style/RoundedControl"/>
+
+                    <EditText
+                        android:id="@+id/txtCardNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="12dp"
+                        android:inputType="number"
+                        android:maxLength="16"
+                        android:hint="Número de tarjeta"
+                        style="@style/RoundedControl"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Fecha de expiración"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="horizontal">
+
+
+                        <Spinner
+                            android:id="@+id/spinExpMonth"
+                            android:layout_width="0dp"
+                            android:layout_height="60dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_rounded_background"/>
+
+                        <Spinner
+                            android:id="@+id/spinExpYear"
+                            android:layout_width="0dp"
+                            android:layout_height="60dp"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:background="@drawable/spinner_rounded_background"/>
+
+                        <EditText
+                            android:id="@+id/txtCardCode"
+                            android:layout_width="0dp"
+                            android:layout_height="60dp"
+                            android:layout_weight="1"
+                            android:inputType="number"
+                            android:maxLength="3"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:hint="CVV"
+                            style="@style/RoundedControl"/>
+
+                    </LinearLayout>
+                    <EditText
+                        android:id="@+id/txtAlias"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="12dp"
+                        android:hint="Alias de tarjeta"
+                        style="@style/RoundedControl"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/verTarjetas"
+                            android:layout_width="120dp"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="12dp"
+                            android:textSize="14sp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@color/yellow_button"
+                            android:textColor="@android:color/black"
+                            android:text="Ver tarjetas"/>
+
+                        <Button
+                            android:id="@+id/guardarTarjeta"
+                            android:layout_width="130dp"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginLeft="25dp"
+                            android:textSize="14sp"
+                            android:background="@color/yellow_button"
+                            android:textColor="@android:color/black"
+                            android:text="Guardar tarjeta"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/pnlCCPayment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Spinner
+                        android:id="@+id/spinTarjetas"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:background="@drawable/spinner_rounded_enabled"
+                        android:layout_marginTop="12dp"/>
+
+                    <EditText
+                        android:id="@+id/txtcvv"
+                        android:layout_width="100dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="12dp"
+                        android:inputType="phone"
+                        android:hint="CVV"
+                        android:gravity="center"
+                        style="@style/RoundedControl"/>
+
+                    <Button
+                        android:id="@+id/btnAddTarjeta"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@color/yellow_button"
+                        android:textColor="@android:color/black"
+                        android:drawableRight="@drawable/flecha_drop"
+                        android:paddingRight="15dp"
+                        android:drawableLeft="@drawable/add_tarjeta"
+                        android:paddingLeft="15dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Añadir tarjeta"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="?android:attr/listDivider"/>
+
+                <TextView
+                    android:id="@+id/lblHotelName2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FF660000"
+                    android:textSize="18sp"
+                    android:text="Hotel Name"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/dates_arrival_title2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="Llegada: "/>
+
+                    <TextView
+                        android:id="@+id/dates_arrival_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/dates_arrival_title2"
+                        android:textStyle="bold"
+                        android:text="21 Oct 2014"/>
+
+                    <TextView
+                        android:id="@+id/dates_departure_text2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:textStyle="bold"
+                        android:text="23 Oct 2014"/>
+
+                    <TextView
+                        android:id="@+id/dates_departure_title2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@id/dates_departure_text2"
+                        android:text="Salida: "/>
+
+                </RelativeLayout>
+
+                <com.zebstudios.cityexpress.NestedListView
+                    android:id="@+id/list_summary2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"/>
+
+                <TextView
+                    android:id="@+id/lblTotal2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="end"
+                    android:textColor="@color/main_color1"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="Total"/>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="?android:attr/listDivider"/>
+
+                <Button
+                    android:id="@+id/btnReserva"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/button_rounded_background"
+                    android:textColor="@android:color/white"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Reserva"/>
+
+            </LinearLayout>
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+            </WebView>
+        </LinearLayout>
+            </ScrollView>
+</LinearLayout>

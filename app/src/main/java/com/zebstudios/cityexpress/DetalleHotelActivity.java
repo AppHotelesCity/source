@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -484,8 +486,28 @@ public class DetalleHotelActivity extends ActionBarActivity{
             habitacionAdapter = new HabitacionAdapter(ResultadosDisponibilidad.listaGeneralHotel, ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones(),ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitacionesCity(),_extras,posicion);
             recyclerViewHabitaciones.setAdapter(habitacionAdapter);
 
-            int viewHeight = 450 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size();
-            recyclerViewHabitaciones.getLayoutParams().height = viewHeight;
+            DisplayMetrics metrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(metrics);
+            int density = metrics.densityDpi;
+
+            if (density == DisplayMetrics.DENSITY_HIGH) {
+                int viewHeight = 320 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size();
+                recyclerViewHabitaciones.getLayoutParams().height = viewHeight;
+
+            }
+            else if (density == DisplayMetrics.DENSITY_MEDIUM) {
+                int viewHeight = 300 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size();
+                recyclerViewHabitaciones.getLayoutParams().height = viewHeight;
+            }
+            else if (density == DisplayMetrics.DENSITY_LOW) {
+                int viewHeight = 280 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size();
+                recyclerViewHabitaciones.getLayoutParams().height = viewHeight;
+            }
+            else {
+                int viewHeight = 450 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size();
+                recyclerViewHabitaciones.getLayoutParams().height = viewHeight;
+                Toast.makeText(this, "Density is neither HIGH, MEDIUM OR LOW.  Density is " + String.valueOf(density), Toast.LENGTH_LONG).show();
+            }
 
         }catch(Exception e){
 

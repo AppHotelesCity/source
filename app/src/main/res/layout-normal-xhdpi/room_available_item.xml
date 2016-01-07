@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent">
+
+	<ImageView
+			android:id="@+id/imgRoom"
+			android:layout_width="match_parent"
+			android:layout_height="150dp"
+			android:scaleType="centerCrop"
+			/>
+
+	<TextView
+			android:id="@+id/lblRoom"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Title"
+			android:textStyle="bold"
+			android:textSize="18sp"
+			android:textColor="@color/control_border_dark"
+			android:layout_marginTop="10dp"
+			android:layout_marginLeft="10dp"/>
+
+	<TextView
+			android:id="@+id/lblRoomTarifa"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Tarifa"
+			android:textStyle="bold"
+			android:textSize="18sp"
+			android:textColor="@color/main_color1"
+			android:layout_marginLeft="10dp"/>
+
+	<TextView
+			android:id="@+id/lblRoomDesc"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Description"
+			android:textColor="@color/control_border_dark"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"/>
+
+</LinearLayout>

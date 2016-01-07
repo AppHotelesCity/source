@@ -1,0 +1,21 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 xmlns:tools="http://schemas.android.com/tools"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent"
+			 android:background="@android:color/white"
+			 tools:context="com.zebstudios.cityexpress.PromotionDetailFragment">
+
+	<ScrollView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+
+		<com.zebstudios.cityexpress.PromotionsImageView
+				android:id="@+id/promoImageView"
+				android:adjustViewBounds="true"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:scaleType="fitXY"/>
+
+	</ScrollView>
+
+</FrameLayout>

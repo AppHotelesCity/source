@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 xmlns:tools="http://schemas.android.com/tools"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent"
+			 android:background="@android:color/white">
+
+		<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent">
+
+			<TableLayout
+				android:id="@+id/tblContent"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="12dp"
+				android:stretchColumns="*"
+				android:layout_margin="150dp">
+
+				<TableRow>
+
+					<com.zebstudios.cityexpress.SquareLayout
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:layout_marginLeft="12dp"
+						android:layout_marginTop="12dp"
+						android:layout_marginRight="6dp"
+						android:layout_marginBottom="6dp"
+						android:layout_column="0"
+						android:background="@drawable/rounded_blue">
+
+						<RelativeLayout
+							android:layout_width="fill_parent"
+							android:layout_height="fill_parent"
+							android:orientation="vertical">
+
+							<TextView
+								android:id="@+id/lblPuntos"
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"
+								android:textColor="@android:color/white"
+								android:gravity="center_horizontal"
+								android:textSize="28dp"
+								android:textStyle="bold"
+								android:layout_centerInParent="true"
+								android:text=""/>
+
+							<TextView
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"
+								android:gravity="center_horizontal"
+								android:textColor="@android:color/white"
+								android:textAppearance="?android:attr/textAppearanceMedium"
+								android:layout_below="@id/lblPuntos"
+								android:text="Puntos"/>
+
+						</RelativeLayout>
+
+					</com.zebstudios.cityexpress.SquareLayout>
+
+					<com.zebstudios.cityexpress.SquareLayout
+						android:layout_width="0dp"
+						android:layout_height="fill_parent"
+						android:layout_weight="1"
+						android:layout_marginLeft="6dp"
+						android:layout_marginTop="12dp"
+						android:layout_marginRight="12dp"
+						android:layout_marginBottom="6dp"
+						android:layout_column="0"
+						android:background="@drawable/rounded_yellow">
+
+						<RelativeLayout
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="vertical">
+
+							<TextView
+								android:id="@+id/lblVencer"
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"
+								android:textColor="@android:color/white"
+								android:gravity="center_horizontal"
+								android:textSize="28dp"
+								android:textStyle="bold"
+								android:layout_centerInParent="true"
+								android:text=""/>
+
+							<TextView
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"
+								android:gravity="center_horizontal"
+								android:textColor="@android:color/white"
+								android:textAppearance="?android:attr/textAppearanceMedium"
+								android:layout_below="@id/lblVencer"
+								android:text="Por vencer"/>
+
+						</RelativeLayout>
+
+					</com.zebstudios.cityexpress.SquareLayout>
+
+				</TableRow>
+
+				<TableRow>
+
+					<com.zebstudios.cityexpress.SquareLayout
+						android:layout_width="0dp"
+						android:layout_height="fill_parent"
+						android:layout_weight="1"
+						android:layout_marginLeft="12dp"
+						android:layout_marginTop="6dp"
+						android:layout_marginRight="6dp"
+						android:layout_marginBottom="12dp"
+						android:layout_column="0"
+						android:background="@drawable/rounded_red">
+
+						<RelativeLayout
+							android:layout_width="fill_parent"
+							android:layout_height="fill_parent"
+							android:orientation="vertical">
+
+							<TextView
+								android:id="@+id/lblVencidos"
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"
+								android:textColor="@android:color/white"
+								android:gravity="center_horizontal"
+								android:textSize="28dp"
+								android:textStyle="bold"
+								android:layout_centerInParent="true"
+								android:text=""/>
+
+							<TextView
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"
+								android:gravity="center_horizontal"
+								android:textColor="@android:color/white"
+								android:textAppearance="?android:attr/textAppearanceMedium"
+								android:layout_below="@id/lblVencidos"
+								android:text="Vencidos"/>
+
+						</RelativeLayout>
+
+					</com.zebstudios.cityexpress.SquareLayout>
+
+					<com.zebstudios.cityexpress.SquareLayout
+						android:layout_width="0dp"
+						android:layout_height="fill_parent"
+						android:layout_weight="1"
+						android:layout_marginLeft="6dp"
+						android:layout_marginTop="6dp"
+						android:layout_marginRight="12dp"
+						android:layout_marginBottom="12dp"
+						android:layout_column="1"
+						android:background="@drawable/rounded_gray">
+
+						<RelativeLayout
+							android:layout_width="fill_parent"
+							android:layout_height="fill_parent"
+							android:orientation="vertical"
+							android:padding="6dp">
+
+							<TextView
+								android:id="@+id/lblCanje"
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"
+								android:textColor="@android:color/white"
+								android:gravity="center_horizontal"
+								android:textSize="28dp"
+								android:textStyle="bold"
+								android:layout_centerInParent="true"
+								android:text=""/>
+
+							<TextView
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"
+								android:gravity="center_horizontal"
+								android:textColor="@android:color/white"
+								android:textAppearance="?android:attr/textAppearanceMedium"
+								android:layout_below="@id/lblCanje"
+								android:text="En proceso de canje"/>
+
+						</RelativeLayout>
+
+					</com.zebstudios.cityexpress.SquareLayout>
+
+				</TableRow>
+
+			</TableLayout>
+
+			<Button
+				android:id="@+id/btnLogout"
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:layout_marginTop="12dp"
+				android:background="@drawable/button_rounded_background"
+				android:textColor="@android:color/white"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_marginLeft="150dp"
+				android:layout_marginRight="150dp"
+				android:layout_marginBottom="50dp"
+				android:layout_alignParentBottom="true"
+				android:text="Cerrar sesión"/>
+		</RelativeLayout>
+
+</FrameLayout>

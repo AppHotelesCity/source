@@ -1,0 +1,233 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 xmlns:tools="http://schemas.android.com/tools"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent"
+			 android:background="@android:color/white"
+			 tools:context="com.zebstudios.cityexpress.HotelReservaResultFragment">
+
+
+
+	<ScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+
+		<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
+
+
+			<include
+				android:id="@+id/toolbarTitulo"
+				layout="@layout/toolbar_general"/>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:orientation="vertical"
+				android:background="@drawable/bg_home"
+				android:layout_height="100dp">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textColor="@color/white"
+					android:layout_marginTop="30dp"
+					android:layout_marginLeft="28dp"
+					android:layout_marginBottom="10dp"
+					android:gravity="center_vertical"
+					android:textStyle="bold"
+					android:text="Paso 3 de 3"/>
+
+				<ImageView
+					android:layout_width="wrap_content"
+					android:background="@drawable/paso3y"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="20dp"
+					android:layout_gravity="center_vertical" />
+
+			</LinearLayout>
+
+			<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="20dp"
+					android:background="@color/reserva_light_gray"
+					android:orientation="vertical">
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Detalles de su reservación:"/>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:orientation="horizontal"
+					android:layout_marginTop="10dp"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:textStyle="bold"
+						android:textColor="#000"
+						android:id="@+id/txt_numero_reservacion"
+						android:textSize="18sp"
+						android:layout_marginRight="10dp"
+						android:layout_height="wrap_content"
+						android:text="812341"/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textSize="16sp"
+						android:id="@+id/txt_nombre_usuario"
+						android:text="Oscar Test"/>
+
+
+				</LinearLayout>
+			</LinearLayout>
+
+
+			<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="12dp">
+
+				<TextView
+						android:id="@+id/lblHotelName"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textColor="#FF660000"
+						android:text="Hotel Name"/>
+
+				<RelativeLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+					android:layout_marginTop="5dp">
+
+					<TextView
+							android:id="@+id/dates_arrival_title"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:text="Llegada: "/>
+
+					<TextView
+							android:id="@+id/dates_arrival_text"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_toRightOf="@id/dates_arrival_title"
+							android:textStyle="bold"
+							android:text="21 Oct 2014"/>
+
+					<TextView
+							android:id="@+id/dates_departure_text"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentRight="true"
+							android:textStyle="bold"
+							android:text="23 Oct 2014"/>
+
+					<TextView
+							android:id="@+id/dates_departure_title"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_toLeftOf="@id/dates_departure_text"
+							android:text="Salida: "/>
+
+				</RelativeLayout>
+
+				<com.zebstudios.cityexpress.NestedListView
+					android:id="@+id/list_reservations"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="2dp"/>
+
+
+				<!--  <ListView
+					android:id="@+id/list_summary"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="4dp"/> -->
+
+
+				<TextView
+						android:id="@+id/lblTotal"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="16dp"
+						android:gravity="end"
+						android:textColor="@color/main_color1"
+						android:textSize="20sp"
+						android:textStyle="bold"
+						android:text="Total"/>
+
+				<View
+						android:layout_width="fill_parent"
+						android:layout_height="2dp"
+						android:layout_marginTop="12dp"
+						android:layout_marginBottom="12dp"
+						android:background="?android:attr/listDivider"/>
+
+				<TextView
+						android:id="@+id/lblAddress1"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:paddingTop="12dp"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="Dirección del hotel"/>
+
+				<TextView
+						android:id="@+id/lblAddress2"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:paddingTop="12dp"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="Notas del hotel"/>
+
+
+				<Button
+						android:id="@+id/btnSendEmail"
+						android:layout_width="match_parent"
+						android:layout_height="60dp"
+						android:layout_marginTop="24dp"
+						android:background="@drawable/button_rounded_background"
+						android:textColor="@android:color/white"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="Enviar por email"/>
+
+				<Button
+						android:id="@+id/btnShare"
+						android:layout_width="match_parent"
+						android:layout_height="60dp"
+						android:layout_marginTop="12dp"
+						android:background="@drawable/button_rounded_background"
+						android:textColor="@android:color/white"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="Compartir"/>
+
+				<Button
+						android:id="@+id/btnOpenLocation"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="12dp"
+						android:background="@drawable/button_rounded_background"
+						android:textColor="@android:color/white"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="Abrir ubicación en"/>
+
+				<com.google.android.gms.maps.MapView
+						xmlns:android="http://schemas.android.com/apk/res/android"
+						android:id="@+id/mapViewReservaResult"
+						android:layout_marginTop="24dp"
+						android:layout_width="match_parent"
+						android:layout_height="250dp" />
+
+					</LinearLayout>
+
+				</LinearLayout>
+
+			</ScrollView>
+
+</FrameLayout>

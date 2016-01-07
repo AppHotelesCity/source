@@ -380,7 +380,7 @@ public class MainActivity extends ActionBarActivity
 		{
 			CercaFragment fragment = new CercaFragment();
 			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
-			addEvent("MenuCercaDeTi-Smartphone");
+			//addEvent("MenuCercaDeTi-Smartphone");
 		}
 		else if( index == 3 )
 		{

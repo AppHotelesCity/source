@@ -1308,9 +1308,14 @@ public class ReservacionPremiosActivity extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                NetworkResponse response = error.networkResponse;
-                String datos = new String(response.data);
-                System.out.println("sout" + datos);
+                try {
+                    NetworkResponse response = error.networkResponse;
+                    String datos = new String(response.data);
+                    System.out.println("sout" + datos);
+                }catch (Exception e){
+                  e.printStackTrace();
+                }
+
             }
         }) {
 

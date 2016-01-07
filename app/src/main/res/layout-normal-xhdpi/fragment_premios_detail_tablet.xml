@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  android:background="@android:color/white"
+	android:padding="50dp">
+
+	<RelativeLayout
+		android:id="@+id/pnlTop"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="8dp">
+
+		<ImageView
+			android:id="@+id/imgBack"
+			android:layout_width="36dp"
+			android:layout_height="36dp"
+			android:src="@drawable/reserva_back"
+			android:layout_alignParentLeft="true"
+			android:clickable="true"/>
+
+		<TextView
+			android:id="@+id/lblBack"
+			android:layout_width="wrap_content"
+			android:layout_height="36dp"
+			android:gravity="center"
+			android:text="Regresar"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textColor="@color/main_color1"
+			android:layout_marginLeft="6dp"
+			android:layout_toRightOf="@id/imgBack"
+			android:clickable="true"/>
+
+		<TextView
+			android:id="@+id/lblDisponibles"
+			android:layout_width="wrap_content"
+			android:layout_height="36dp"
+			android:gravity="center"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textColor="@color/main_color1"
+			android:layout_alignParentRight="true"
+			android:text="puntos disponibles"/>
+
+	</RelativeLayout>
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/pnlTop"
+		android:layout_above="@+id/pnlBottom">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:layout_marginTop="12dp"
+				android:layout_marginBottom="12dp">
+
+				<ImageView
+					android:id="@+id/imgPremio"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:src="@drawable/logo_mastercard"
+					android:layout_gravity="center_vertical"
+					android:padding="24dp"
+					android:layout_weight="1"
+					android:scaleType="fitCenter"
+					android:adjustViewBounds="true"/>
+
+				<View
+					android:layout_width="1dp"
+					android:layout_height="fill_parent"
+					android:background="#FF000000"
+					/>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:gravity="center"
+					android:paddingTop="12dp"
+					android:paddingBottom="12dp"
+					android:layout_weight="1">
+
+					<TextView
+						android:id="@+id/lblPuntos"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textStyle="bold"
+						android:textSize="36dp"
+						android:textColor="@color/main_color1"
+						android:text="1,250"/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textStyle="bold"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:text="Puntos"/>
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<TextView
+				android:id="@+id/lblName"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:layout_margin="12dp"
+				android:textSize="20dp"
+				android:text="MONEDERO ELECTRONICO CON UN VALOR DE $100"/>
+
+			<TextView
+				android:id="@+id/lblDescription"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:layout_margin="12dp"
+				android:textSize="16dp"
+				android:text="VALIDO EN TODAS LAS TIENDAS NO SE DEVUELVE CAMBIO."/>
+
+		</LinearLayout>
+
+	</ScrollView>
+
+	<LinearLayout
+		android:id="@+id/pnlBottom"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:padding="12dp"
+		android:layout_alignParentBottom="true">
+
+		<Spinner
+			android:id="@+id/spinTotal"
+			android:layout_width="match_parent"
+			android:layout_height="60dp"
+			android:background="@drawable/spinner_rounded_background"
+			android:layout_marginRight="6dp"
+			android:layout_weight="1"/>
+
+		<Button
+			android:id="@+id/btnCanjear"
+			android:layout_width="match_parent"
+			android:layout_height="60dp"
+			android:layout_marginLeft="6dp"
+			android:background="@drawable/button_rounded_background"
+			android:textColor="@android:color/white"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:text="Canjear"
+			android:layout_weight="1"/>
+
+	</LinearLayout>
+
+</RelativeLayout>
