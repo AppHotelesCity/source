@@ -153,8 +153,9 @@
                         android:id="@+id/btn_rad_misma"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
+                        android:layout_weight="1"
                         android:textSize="14sp"
+                        android:padding="10dp"
                         android:text="Mismos datos hab 1"
                         style="@style/RadioButton"/>
 
@@ -162,7 +163,8 @@
                         android:id="@+id/btn_rad_otros"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
+                        android:layout_weight="1"
+                        android:padding="10dp"
                         android:text="Otros datos"
                         style="@style/RadioButton"/>
 

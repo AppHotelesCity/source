@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FF660000"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:text="Hotel Name"/>
 
                 <RelativeLayout
@@ -141,22 +141,22 @@
 
                     <RadioButton
                         android:id="@+id/btn_rad_misma"
-                        android:layout_width="10dp"
-                        android:padding="10dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:padding="10dp"
                         android:text="Mismos datos hab 1"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         style="@style/RadioButton"/>
 
                     <RadioButton
                         android:id="@+id/btn_rad_otros"
-                        android:layout_width="10dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:padding="10dp"
                         android:text="Otros datos"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         style="@style/RadioButton"/>
 
                 </com.zebstudios.cityexpress.SegmentedGroup>
@@ -460,7 +460,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FF660000"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:text="Hotel Name"/>
 
                 <RelativeLayout

@@ -141,20 +141,18 @@
 
                     <RadioButton
                         android:id="@+id/btn_rad_misma"
-                        android:layout_width="10dp"
-                        android:padding="10dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:text="Mismos datos hab 1"
                         android:textSize="14sp"
                         style="@style/RadioButton"/>
 
                     <RadioButton
                         android:id="@+id/btn_rad_otros"
-                        android:layout_width="10dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="10dp"
+                        android:layout_weight="0.5"
                         android:text="Otros datos"
                         android:textSize="14sp"
                         style="@style/RadioButton"/>
