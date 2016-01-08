@@ -166,7 +166,6 @@
                         android:gravity="center"
                         android:textColor="@color/white"
                         android:textAlignment="center"
-                        android:textSize="16sp"
                         android:text="@string/acepto_condiciones"/>
                 </LinearLayout>
                 <Button
