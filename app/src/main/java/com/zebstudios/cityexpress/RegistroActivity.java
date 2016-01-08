@@ -151,7 +151,7 @@ public class RegistroActivity extends Activity {
         });
 
         btnPais.setText("México");
-        paisSeleccionado = "145";
+        paisSeleccionado = "MX";
         btnPais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
