@@ -47,7 +47,7 @@
     <string name="validar_pass">La contraseña debe tener 8 caracteres como mínimo, debe incluir un numero</string>
     <string name="pais">País</string>
     <string name="teléfono">Teléfono</string>
-    <string name="acepto_condiciones">ACEPTO LOS TÉRMINOS Y CONDICIONES</string>
+    <string name="acepto_condiciones"><u>ACEPTO LOS TÉRMINOS Y CONDICIONES</u></string>
     <string name="iniciar_sesion_toolbar">Iniciar Sesión</string>
     <string name="registro_toolbar">Registro</string>
     <string name="recuperar_pass">Recuperar contraseña</string>

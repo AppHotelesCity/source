@@ -141,7 +141,7 @@ public class RegistroActivity extends Activity {
                         .setItems(titulo, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                btnTitulo.setText(genero[which]);
+                                btnTitulo.setText(titulo[which]);
                             }
                         });
 
