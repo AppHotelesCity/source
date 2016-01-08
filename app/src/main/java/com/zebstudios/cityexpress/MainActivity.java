@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.appsee.Appsee;
@@ -73,6 +74,8 @@ public class MainActivity extends ActionBarActivity
 				public void onClick(View view) {
 					//((SlidingMenuBase)view.getContext()).onOptionsItemSelected(msgItem);
 					Log.e("MainActivity", "Click en item message center");
+					Intent intent = new Intent(getBaseContext(), MensajesPushActivity.class);
+					startActivity(intent);
 					openMessageCenter();
 					OcultarBagde();
 				}
@@ -92,8 +95,7 @@ public class MainActivity extends ActionBarActivity
 
 	public void OcultarBagde(){
 		MenuItem msgItem = messagesAction.findItem(R.id.message_center);
-		Intent intent = new Intent(this, InboxActivity.class);
-		startActivity(intent);
+
 		//msgItem.setVisible(false);
 	}
 	public void MostrarBagde(){
@@ -304,7 +306,17 @@ public class MainActivity extends ActionBarActivity
 		//_navDrawerItems.add( new NavDrawerListAdapter.ListItem( "City Premios", R.drawable.icon_premios ) );
 
 		NavDrawerListAdapter navDrawerListAdapter = new NavDrawerListAdapter( this, _navDrawerItems );
-
+		LinearLayout linear = (LinearLayout) findViewById(R.id.linearFondo);
+		linear.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				_drawerLayout.closeDrawers();
+				PrincipalFragment fragment = new PrincipalFragment();
+				//MainFragment fragment = new MainFragment();
+				getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment).commit();
+				addEvent("ViewHotelesSmartphone");
+			}
+		});
 		ListView list = (ListView) findViewById( R.id.navDrawerList );
 		list.setAdapter( navDrawerListAdapter );
 		list.setOnItemClickListener( new AdapterView.OnItemClickListener()
@@ -354,6 +366,9 @@ public class MainActivity extends ActionBarActivity
 	private void DrawerItemSelected( int index )
 	{
 		_drawerLayout.closeDrawers();
+
+
+
 		if( index == 0 )
 		{
 			if( CompatibilityUtil.isTablet( this ) )

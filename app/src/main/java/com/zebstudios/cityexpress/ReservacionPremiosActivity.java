@@ -229,7 +229,7 @@ public class ReservacionPremiosActivity extends Activity {
         btnTarjetas = (Button) findViewById(R.id.verTarjetas);
 
 
-
+        cbAfiliate.setChecked(true);
         Bundle bundle = getIntent().getExtras();
         posicionHot = bundle.getInt("posicionHotel");
         codigoBase = bundle.getString("codigoBase");

@@ -62,6 +62,13 @@
         <item>Femenino</item>
     </string-array>
 
+    <string-array name="titulo_user">
+        <item>Miss</item>
+        <item>Mr</item>
+        <item>Mrs</item>
+        <item>Prof</item>
+    </string-array>
+
     <string-array name="num_habitaciones">   
         <item>1</item>     
         <item>2</item>

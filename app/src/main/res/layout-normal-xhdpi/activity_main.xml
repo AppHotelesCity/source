@@ -12,6 +12,7 @@
 
 	<!-- The navigation drawer -->
 	<LinearLayout
+		android:id="@+id/linearFondo"
 		android:layout_width="220dp"
 		android:layout_height="match_parent"
 		android:layout_gravity="start"

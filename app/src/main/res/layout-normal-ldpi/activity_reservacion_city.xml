@@ -217,6 +217,7 @@
                     android:id="@+id/txtPhone"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
+                    android:maxLength="16"
                     android:layout_marginTop="12dp"
                     android:inputType="phone"
                     android:hint="Teléfono"

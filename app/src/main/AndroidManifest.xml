@@ -273,7 +273,8 @@
             android:name=".MiReservacionDetailActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".InboxActivity"
+        <activity
+            android:name=".MensajesPushActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ToolbarColor">
         </activity>

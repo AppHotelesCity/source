@@ -56,6 +56,7 @@ public class RegistroActivity extends Activity {
     TextView txtTermis;
 
     String genero[];
+    String titulo[];
     String paises[];
     ArrayList<Pais> arrayPais;
     SoapObject resultString;
@@ -99,6 +100,7 @@ public class RegistroActivity extends Activity {
         btnRegistrar = (Button)findViewById(R.id.btnRegistrate);
 
         genero = getResources().getStringArray(R.array.gender_user);
+        titulo = getResources().getStringArray(R.array.titulo_user);
         txtTermis = (TextView) findViewById(R.id.txtTerminos);
 
         imageViewBack.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +110,7 @@ public class RegistroActivity extends Activity {
             }
         });
 
+        tituloToolbar.setText("Registro");
        btnGenero.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -135,7 +138,7 @@ public class RegistroActivity extends Activity {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
                 builder.setTitle(getResources().getString(R.string.genero))
-                        .setItems(genero, new DialogInterface.OnClickListener() {
+                        .setItems(titulo, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 btnTitulo.setText(genero[which]);
@@ -147,6 +150,8 @@ public class RegistroActivity extends Activity {
             }
         });
 
+        btnPais.setText("México");
+        paisSeleccionado = "145";
         btnPais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
