@@ -271,7 +271,7 @@ public class IniciarSesionActivity extends Activity {
                 "        </ns1:CityPremiosUsrPwd>\n" +
                 "    </SOAP-ENV:Body>\n" +
                 "</SOAP-ENV:Envelope>";
-        xmlF2GO = xmlF2GO.replace("{IDF2GO}","2702348");//socio); //cambiar por cadena socio.
+        xmlF2GO = xmlF2GO.replace("{IDF2GO}",socio); //cambiar por cadena socio.
 
         StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wcfMiCityExpress_WCF_Prod/ClienteUnico.svc", new Response.Listener<String>() {
             @Override

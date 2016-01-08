@@ -131,12 +131,41 @@ public class ReservacionPremiosActivity extends Activity {
     String correoUsuarioCity;
     String phoneUsuarioCity;
 
+    boolean segunda=false;
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(segunda){
+            System.out.println("ONRESUMESEGUNDA");
+            segunda=false;
+        }else{
+            System.out.println("NOPASOSEGUNDA");
+            if(personF2GO==null){
+                finish();
+            }else{
+                SharedPreferences prefsUsuario = this.getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
+                personF2GO = prefsUsuario.getString("person_ID", null);
+                nombreUsuarioCity = prefsUsuario.getString("nombre", null);
+                apellidoUsuarioCity = prefsUsuario.getString("apellido", null);
+                correoUsuarioCity = prefsUsuario.getString("usuario", null);
+                phoneUsuarioCity = prefsUsuario.getString("phone",null);
+
+                txtName.setText(nombreUsuarioCity);
+                txtLast.setText(apellidoUsuarioCity);
+                txtEmail.setText(correoUsuarioCity);
+                txtPhone.setText(phoneUsuarioCity);
+
+            }
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        segunda=true;
         try {
             SharedPreferences prefsUsuario = this.getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
             personF2GO = prefsUsuario.getString("person_ID", null);
