@@ -69,8 +69,8 @@ public class HotelReservaResultActivity extends Activity {
         txtNombreUsuario = (TextView) findViewById(R.id.txt_nombre_usuario);
         listHabitaciones = (ListView) findViewById(R.id.list_reservations);
         txtNombreHotel = (TextView) findViewById(R.id.lblHotelName);
-        txtSalida = (TextView) findViewById(R.id.dates_arrival_text);
-        txtLlegada = (TextView) findViewById(R.id.dates_departure_text);
+        txtLlegada = (TextView) findViewById(R.id.dates_arrival_text);
+        txtSalida = (TextView) findViewById(R.id.dates_departure_text);
         txtPrecioTotal = (TextView) findViewById(R.id.lblTotal);
         txtPrecioSubtotal = (TextView) findViewById(R.id.lblSubTotal);
         txtPrecioIva = (TextView) findViewById(R.id.lblIVA);

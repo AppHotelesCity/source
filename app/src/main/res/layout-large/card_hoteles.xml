@@ -78,7 +78,7 @@
                         android:textStyle="bold"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="0dp"
                         android:textColor="#fff"
                         android:textSize="30sp"
                         android:layout_below="@id/title"

@@ -376,21 +376,20 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         bundle.putString( CalendarFragment.DIALOG_TITLE, "Llegada" );
         _arrivalCalendarFragment = new CalendarFragment();
         _arrivalCalendarFragment.setCalendarListener( _arrivalCalendarListener );
-        _arrivalCalendarFragment.setArguments( bundle );
+        _arrivalCalendarFragment.setArguments(bundle);
 
     txt_salida.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar cal = Calendar.getInstance();
-                Date d = cal.getTime();
-                if( _arrivalDate != null )
-                {
-                    _arrivalCalendarFragment.setSelectedDates( _arrivalDate, _arrivalDate );
-                }
-                _arrivalCalendarFragment.setMinDate(d);
-                _arrivalCalendarFragment.show(getSupportFragmentManager(), "TO_CALENDAR_FRAGMENT");
+        @Override
+        public void onClick(View v) {
+            Calendar cal = Calendar.getInstance();
+            Date d = cal.getTime();
+            if (_arrivalDate != null) {
+                _arrivalCalendarFragment.setSelectedDates(_arrivalDate, _arrivalDate);
             }
-        });
+            _arrivalCalendarFragment.setMinDate(d);
+            _arrivalCalendarFragment.show(getSupportFragmentManager(), "TO_CALENDAR_FRAGMENT");
+        }
+    });
     }
 
 
@@ -421,26 +420,25 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         bundle.putString( CalendarFragment.DIALOG_TITLE, "Salida" );
         _departureCalendarFragment = new CalendarFragment();
         _departureCalendarFragment.setCalendarListener( _departureCalendarListener );
-        _departureCalendarFragment.setArguments( bundle );
+        _departureCalendarFragment.setArguments(bundle);
 
 
 
      txt_llegada.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar cal = Calendar.getInstance();
-                //if( _arrivalDate != null )
-                //	cal.setTime( _arrivalDate );
-                cal.add( Calendar.DATE, 1 );
-                Date d = cal.getTime();
-                if( _departureDate != null )
-                {
-                    _departureCalendarFragment.setSelectedDates( _departureDate, _departureDate );
-                }
-                _departureCalendarFragment.setMinDate( d );
-                _departureCalendarFragment.show( getSupportFragmentManager(), "TO_CALENDAR_FRAGMENT" );
-            }
-        });
+         @Override
+         public void onClick(View v) {
+             Calendar cal = Calendar.getInstance();
+             //if( _arrivalDate != null )
+             //	cal.setTime( _arrivalDate );
+             cal.add(Calendar.DATE, 1);
+             Date d = cal.getTime();
+             if (_departureDate != null) {
+                 _departureCalendarFragment.setSelectedDates(_departureDate, _departureDate);
+             }
+             _departureCalendarFragment.setMinDate(d);
+             _departureCalendarFragment.show(getSupportFragmentManager(), "TO_CALENDAR_FRAGMENT");
+         }
+     });
     }
 
 
@@ -668,9 +666,23 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     obtenerDescripcionHotelImpuestos(response);
                     try {
                         JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
-                        listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList, habitacionCityPremiosList));
-                        System.out.println("TotalHabitaciones->"+listaGeneralHotel.get(0).getArrayHabitaciones().size());
+                        if(habitacionBaseList.size()==0 ){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ResultadosDisponibilidad.this);
+                            builder.setTitle("Hoteles City")
+                                    .setMessage("No se encontraron resultados.")
+                                    .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    });
 
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }else{
+                            listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList, habitacionCityPremiosList));
+                            System.out.println("TotalHabitaciones->"+listaGeneralHotel.get(0).getArrayHabitaciones().size());
+                        }
                     }catch(JSONException e){
 
                     }
@@ -852,6 +864,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
                     JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBaseI"));
                     JSONArray habitacionBaseJSON = new JSONArray(tarifaBase.getString("a:HabBaseI"));
+
                     for (int j = 0; j < habitacionBaseJSON.length(); j++) {
                         habitacionBase = new HabitacionBase();
                         JSONObject habitacionBaseDisponibilidad = new JSONObject(habitacionBaseJSON.get(j).toString());
