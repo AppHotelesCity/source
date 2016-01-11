@@ -28,15 +28,13 @@ public class PremiosRecuperarFragment extends Fragment
 		else
 			_view = inflater.inflate( R.layout.fragment_premiosrecuperar, container, false );
 
-		Button btnCrear = (Button) _view.findViewById( R.id.btnRecuperar );
-		btnCrear.setOnClickListener( new View.OnClickListener()
-		{
+		Button btnCrear = (Button) _view.findViewById(R.id.btnRecuperar);
+		btnCrear.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick( View v )
-			{
+			public void onClick(View v) {
 				recuperarPass();
 			}
-		} );
+		});
 
 		return _view;
 	}
@@ -46,34 +44,36 @@ public class PremiosRecuperarFragment extends Fragment
 	{
 		super.onResume();
 		ActionBarActivity activity = (ActionBarActivity) getActivity();
-		activity.getSupportActionBar().setTitle( "Recuperar contraseña" );
+		activity.getSupportActionBar().setTitle("Recuperar contraseña");
 	}
 
 	private void recuperarPass()
 	{
 		EditText txtSocio = (EditText)_view.findViewById( R.id.txtSocio );
 		EditText txtEmail = (EditText)_view.findViewById(R.id.txtEmailPremios);
-		if( txtSocio.getText().toString().trim().length() != 0 && ( txtSocio.getText().toString().trim().length() != 10 || !isAlphaNumeric( txtSocio.getText().toString().trim() ) ) )
-		if( !isEmailValid( txtSocio.getText() ) )
-		{
-			alert( "Por favor, ingresa un número de socio válido." );
-			return;
+		if(txtSocio.getText().toString().equalsIgnoreCase("") && txtEmail.getText().toString().equalsIgnoreCase("")){
+			alert( "Es necesario ingresar por lo menos un dato para recuperar la contraseña (No. Socio/Email)." );
+		}else {
+			if (txtSocio.getText().toString().trim().length() != 0 && (txtSocio.getText().toString().trim().length() != 10 || !isAlphaNumeric(txtSocio.getText().toString().trim())))
+				if (!isEmailValid(txtSocio.getText())) {
+					alert("Por favor, ingresa un número de socio válido.");
+					return;
+				}
+
+			if (txtEmail.getText().toString().trim().length() != 0 && (txtEmail.getText().toString().trim().length() != 10 || !isAlphaNumeric(txtEmail.getText().toString().trim())))
+				if (!isEmailValid(txtEmail.getText())) {
+					alert("Por favor, ingresa un email válido.");
+					return;
+				}
+			PremiosExternoClient.entSocioCP param = new PremiosExternoClient.entSocioCP();
+			param.getAplicacion().setClaveAplicacion("903");
+			param.getProgramaSocio().setClaveProg("1");
+
+			param.setNoSocioCP(txtSocio.getText().toString());
+			param.setCorreoDestinoSocio(txtEmail.getText().toString());
+			new ServiceCaller(param).execute();
 		}
 
-		if( txtEmail.getText().toString().trim().length() != 0 && ( txtEmail.getText().toString().trim().length() != 10 || !isAlphaNumeric( txtEmail.getText().toString().trim() ) ) )
-			if( !isEmailValid( txtEmail.getText() ) )
-			{
-				alert( "Por favor, ingresa un email válido." );
-				return;
-			}
-
-		PremiosExternoClient.entSocioCP param = new PremiosExternoClient.entSocioCP();
-		param.getAplicacion().setClaveAplicacion( "903" );
-		param.getProgramaSocio().setClaveProg( "1" );
-
-		param.setNoSocioCP( txtSocio.getText().toString() );
-		param.setCorreoDestinoSocio(txtEmail.getText().toString());
-		new ServiceCaller( param ).execute();
 	}
 
 	private void recuperarComplete( PremiosExternoClient.SendEmailResponse result )
@@ -83,10 +83,10 @@ public class PremiosRecuperarFragment extends Fragment
 			if( result.isSent() )
 				alertAndWaitForResponse( "Tu contraseña se ha enviado a tu correo." );
 			else
-				alert( "No se ha podido enviar tu contraseña. Intenta nuevamente más tarde." );
+				alert("No se encuentra socio en nuestro sistema con los datos ingresados");
 		}
-		else
-			alert( "No se ha podido enviar tu contraseña. Intenta nuevamente más tarde." );
+		/*else
+			alert( "No se ha podido enviar tu contraseña. Intenta nuevamente más tarde." );*/
 	}
 
 	private void userInformed()
