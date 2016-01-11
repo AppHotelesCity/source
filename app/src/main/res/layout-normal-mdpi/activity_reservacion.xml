@@ -108,7 +108,7 @@
 
 
                 <TextView
-                    android:id="@+id/lblTotal"
+                    android:id="@+id/lblSubTotal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -116,7 +116,27 @@
                     android:textColor="@color/main_color1"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:text="Total"/>
+                    android:text="Subtotal:"/>
+                <TextView
+                    android:id="@+id/lblIVA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="end"
+                    android:textColor="@color/main_color1"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="IVA:"/>
+                <TextView
+                    android:id="@+id/lblTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="end"
+                    android:textColor="@color/main_color1"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="Total:"/>
 
                 <View
                     android:layout_width="fill_parent"
@@ -505,7 +525,7 @@
                     android:layout_marginTop="4dp"/>
 
                 <TextView
-                    android:id="@+id/lblTotal2"
+                    android:id="@+id/lblSubTotal2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -513,7 +533,27 @@
                     android:textColor="@color/main_color1"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:text="Total"/>
+                    android:text="Subtotal:"/>
+                <TextView
+                    android:id="@+id/lblIVA2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="end"
+                    android:textColor="@color/main_color1"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="IVA:"/>
+                <TextView
+                    android:id="@+id/lblTotal2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="end"
+                    android:textColor="@color/main_color1"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="Total:"/>
 
                 <View
                     android:layout_width="fill_parent"

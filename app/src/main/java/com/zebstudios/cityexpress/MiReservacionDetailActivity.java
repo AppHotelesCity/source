@@ -57,6 +57,8 @@ public class MiReservacionDetailActivity extends Activity {
     TextView txtNumAdultos;
     TextView txtNumNiños;
     TextView txtPrecioTotal;
+    TextView txtPrecioSubtotal;
+    TextView txtPrecioIva;
     TextView txtLeyendaCambios;
     TextView txtDireccionHotel;
     TextView txtReferenciaHotel;
@@ -97,6 +99,8 @@ public class MiReservacionDetailActivity extends Activity {
          txtNumAdultos = (TextView) findViewById(R.id.numero_adultos_reserva);
          txtNumNiños = (TextView) findViewById(R.id.numero_niños_reserva);
          txtPrecioTotal = (TextView) findViewById(R.id.txt_precio_total);
+         txtPrecioSubtotal = (TextView) findViewById(R.id.txt_precio_subtotal);
+         txtPrecioIva = (TextView) findViewById(R.id.txt_precio_iva);
          txtLeyendaCambios = (TextView) findViewById(R.id.txt_leyenda_cambios);
          txtDireccionHotel = (TextView) findViewById(R.id.txt_direccion_hotel);
          txtReferenciaHotel = (TextView) findViewById(R.id.txt_referencia_hotel);
@@ -257,6 +261,8 @@ public class MiReservacionDetailActivity extends Activity {
         txtNumAdultos.setText("" + datosReservacion.getAdultos());
         txtNumNiños .setText("" + datosReservacion.getInfantes());
         txtPrecioTotal .setText("Total: $ " + datosReservacion.getHabCosto() + " M.N");
+        txtPrecioSubtotal .setText("Subtotal: $ " + datosReservacion.getSubtotal() + " M.N");
+        txtPrecioIva .setText("IVA: $ " + datosReservacion.getIva() + " M.N");
         txtDireccionHotel .setText("" + datosReservacion.getDireccionHotel());
         txtReferenciaHotel.setText("" + datosReservacion.getDescripcionLugarHotel());
         btnCheckIn.setEnabled(datosReservacion.isCheckIn());
@@ -395,6 +401,9 @@ public class MiReservacionDetailActivity extends Activity {
             reservacionBD.setLatitudHotel(datosReservacion.getLatitudHotel());
             reservacionBD.setLongitudHotel(datosReservacion.getLongitudHotel());
             reservacionBD.setHabCosto(datosReservacion.getHabCosto());
+            reservacionBD.setTotal(datosReservacion.getTotal());
+            reservacionBD.setSubtotal(datosReservacion.getSubtotal());
+            reservacionBD.setIva(datosReservacion.getIva());
             reservacionBD.setNumReservacion(datosReservacion.getNumReservacion());
             reservacionBD.setAdultos(checkInResult.getInt("a:totaladults"));
             reservacionBD.setNumHabitacionAsigado(checkInResult.getString("a:room"));

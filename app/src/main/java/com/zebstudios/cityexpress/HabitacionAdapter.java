@@ -64,12 +64,12 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         Picasso.with(holder.context).load(habitacionesArrayList.get(position).getImagenApp()).into(holder.imageViewHabitacion);
         for (int i = 0; i < habitacionBaseArrayListCity.size(); i++) {
                 if(habitacionBaseArrayList.get(position).getCodigoBase().equalsIgnoreCase(habitacionBaseArrayListCity.get(i).getCodigoBase())){
-                        holder.txtPrecioPremioHabitacion.setText("" + habitacionBaseArrayListCity.get(i).getCosto());
+                        holder.txtPrecioPremioHabitacion.setText("" + habitacionBaseArrayListCity.get(i).getSubTotal()); //getCosto()
                 }
         }
         holder.txtDescripcionHabitacion.setText(habitacionesArrayList.get(position).getDescripcion());
 
-        holder.txtPrecioDestinoHabitacion.setText(habitacionBaseArrayList.get(position).getCosto());
+        holder.txtPrecioDestinoHabitacion.setText(habitacionBaseArrayList.get(position).getSubTotal()); //getCosto()
         holder.cardViewHotel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,6 +98,8 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                                         intent.putExtra("numHabitacion", (which+1));
                                         intent.putExtra("descipcionHabitacionJSON",habitacionesArrayList.get(position).getDescripcion());
                                         intent.putExtra("precioDestino", habitacionBaseArrayList.get(position).getCosto());
+                                        intent.putExtra("precioSubtotal", habitacionBaseArrayList.get(position).getSubTotal());
+                                        intent.putExtra("precioIVA", habitacionBaseArrayList.get(position).getIVA());
                                         intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
                                         v.getContext().startActivity(intent);
                                     }
@@ -127,6 +129,8 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                                         intent.putExtra("numHabitacion", (which+1));
                                         intent.putExtra("descipcionHabitacionJSON",habitacionesArrayList.get(position).getDescripcion());
                                         intent.putExtra("precioDestino", habitacionBaseArrayList.get(position).getCosto());
+                                        intent.putExtra("precioSubtotal", habitacionBaseArrayList.get(position).getSubTotal());
+                                        intent.putExtra("precioIVA", habitacionBaseArrayList.get(position).getIVA());
                                         intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
                                         v.getContext().startActivity(intent);
                                     }
@@ -147,6 +151,8 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                                         intent.putExtra("numHabitacion", (which+1));
                                         intent.putExtra("descipcionHabitacionJSON",habitacionesArrayList.get(position).getDescripcion());
                                         intent.putExtra("precioPremio", habitacionBaseArrayListCity.get(posicion).getCosto());
+                                        intent.putExtra("precioSubtotal", habitacionBaseArrayListCity.get(posicion).getSubTotal());
+                                        intent.putExtra("precioIVA", habitacionBaseArrayListCity.get(posicion).getIVA());
                                         intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
                                         v.getContext().startActivity(intent);
                                     }

@@ -49,22 +49,22 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
             System.out.println(habitacionBaseArrayList.size() + "hotelNombre>>**->" + hotel.getNombre());
             for (int i = 0; i < habitacionBaseArrayList.size(); i++) {
 
-                if(habitacionBaseArrayList.get(i).getCosto().equalsIgnoreCase("")) {
+                if(habitacionBaseArrayList.get(i).getCosto().equalsIgnoreCase("")||habitacionBaseArrayList.get(i).getSubTotal().equalsIgnoreCase("")) {
                 }else{
-                    if (precioAux < Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",", ""))) {
-                        precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",", ""));
-                        precio = habitacionBaseArrayList.get(i).getCosto();
+                    if (precioAux < Double.parseDouble(habitacionBaseArrayList.get(i).getSubTotal().replace(",", ""))) { //getCosto()
+                        precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getSubTotal().replace(",", "")); //getCosto()
+                        precio = habitacionBaseArrayList.get(i).getSubTotal(); //getCosto
                         System.out.println("Precio1"+precio);
                     } else{
-                        precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getCosto().replace(",", ""));
-                        precio2 = habitacionBaseArrayList.get(i).getCosto();
+                        precioAux = Double.parseDouble(habitacionBaseArrayList.get(i).getSubTotal().replace(",", "")); //getCosto()
+                        precio2 = habitacionBaseArrayList.get(i).getSubTotal(); //getCosto()
                         System.out.println("Precio2"+precio2);
                     }
                 }
-                System.out.println("habitacionesCosto->" + habitacionBaseArrayList.get(i).getCosto());
+                System.out.println("habitacionesCosto->" + habitacionBaseArrayList.get(i).getSubTotal()); //getCosto
             }
             if(precio2.equalsIgnoreCase("")){
-                holder.txtPrecioHotel.setText("$ "+habitacionBaseArrayList.get(0).getCosto());
+                holder.txtPrecioHotel.setText("$ "+habitacionBaseArrayList.get(0).getSubTotal()); //getCosto
             }else{
                 holder.txtPrecioHotel.setText("$ "+precio2);
             }

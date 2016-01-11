@@ -9,12 +9,24 @@ public class HabitacionBase {
     String descBase;
     String costo;
     String fecha;
+    String IVA;
+    String subTotal;
 
     public HabitacionBase(String disponibilidad, String codigoBase, String descBase, String costo, String fecha) {
         this.disponibilidad = disponibilidad;
         this.codigoBase = codigoBase;
         this.descBase = descBase;
         this.costo = costo;
+        this.fecha = fecha;
+    }
+
+    public HabitacionBase(String disponibilidad, String codigoBase, String descBase, String costo,String IVA, String subTotal, String fecha) {
+        this.disponibilidad = disponibilidad;
+        this.codigoBase = codigoBase;
+        this.descBase = descBase;
+        this.costo = costo;
+        this.IVA = IVA;
+        this.subTotal = subTotal;
         this.fecha = fecha;
     }
 
@@ -59,5 +71,21 @@ public class HabitacionBase {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public String getIVA() {
+        return IVA;
+    }
+
+    public void setIVA(String IVA) {
+        this.IVA = IVA;
+    }
+
+    public String getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(String subTotal) {
+        this.subTotal = subTotal;
     }
 }

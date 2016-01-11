@@ -39,6 +39,8 @@ public class HotelReservaResultActivity extends Activity {
     TextView txtSalida;
     TextView txtLlegada;
     TextView txtPrecioTotal;
+    TextView txtPrecioSubtotal;
+    TextView txtPrecioIva;
     TextView txtDireccionHotel;
     TextView txtReferenciaHotel;
     GoogleMap _map;
@@ -54,6 +56,8 @@ public class HotelReservaResultActivity extends Activity {
     int numNoches;
     double precioHabitacion;
     double total;
+    double subtotal;
+    double iva;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -68,6 +72,8 @@ public class HotelReservaResultActivity extends Activity {
         txtSalida = (TextView) findViewById(R.id.dates_arrival_text);
         txtLlegada = (TextView) findViewById(R.id.dates_departure_text);
         txtPrecioTotal = (TextView) findViewById(R.id.lblTotal);
+        txtPrecioSubtotal = (TextView) findViewById(R.id.lblSubTotal);
+        txtPrecioIva = (TextView) findViewById(R.id.lblIVA);
         txtDireccionHotel = (TextView) findViewById(R.id.lblAddress1);
         txtReferenciaHotel = (TextView) findViewById(R.id.lblAddress2);
         _mapView = (MapView) findViewById( R.id.mapViewReservaResult);
@@ -81,6 +87,8 @@ public class HotelReservaResultActivity extends Activity {
         precioHabitacion = bundle.getDouble("precioHabitacion");
         numNoches = bundle.getInt("numNoches");
         total = bundle.getDouble("total");
+        subtotal = bundle.getDouble("subtotal");
+        iva = bundle.getDouble("iva");
 
         ArrayList<SummaryEntry> sumary = new ArrayList<SummaryEntry>();
 
@@ -169,6 +177,8 @@ public class HotelReservaResultActivity extends Activity {
         txtLlegada.setText(sdf.format(datosReservacion.getFechaLlegada()));
         txtSalida.setText(sdf.format(datosReservacion.getFechaSalida()));
 
+        txtPrecioSubtotal .setText("Subtotal: $ " + subtotal + " M.N");
+        txtPrecioIva .setText("IVA: $ " + iva + " M.N");
         txtPrecioTotal .setText("Total: $ " + total + " M.N");
         txtDireccionHotel .setText("" + datosReservacion.getDireccionHotel());
         txtReferenciaHotel.setText("" + datosReservacion.getDescripcionLugarHotel());

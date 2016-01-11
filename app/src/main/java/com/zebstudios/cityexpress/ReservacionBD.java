@@ -23,6 +23,8 @@ public class ReservacionBD {// extends RealmObject{
     private String deschabitacion;
     private String descHotel;
     private String habCosto;
+    private String subtotal;
+    private String iva;
     private String total;
     private String codigoHabitacion;
     private String direccionHotel;
@@ -268,5 +270,21 @@ public class ReservacionBD {// extends RealmObject{
 
     public void setEmailUsuario(String emailUsuario) {
         this.emailUsuario = emailUsuario;
+    }
+
+    public String getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(String subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public String getIva() {
+        return iva;
+    }
+
+    public void setIva(String iva) {
+        this.iva = iva;
     }
 }

@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class ReservacionBDD {
 
-    private final String[] _reservanteColumns = { "numReservacion", "nombreUsuario", "apellidoUsuario", "nombreHotel", "siglasHotel", "emailHotel", "fechaLlegada", "fechaSalida", "deschabitacion", "descHotel", "habCosto", "total", "codigoHabitacion", "direccionHotel", "descripcionLugarHotel", "adultos", "infantes", "numHabitaciones", "numNoches", "longitudHotel", "latitudHotel", "checkIn", "checkOut", "consultarSaldos", "numHabitacionAsigado"};
+    private final String[] _reservanteColumns = { "numReservacion", "nombreUsuario", "apellidoUsuario", "nombreHotel", "siglasHotel", "emailHotel", "fechaLlegada", "fechaSalida", "deschabitacion", "descHotel", "habCosto", "total", "codigoHabitacion", "direccionHotel", "descripcionLugarHotel", "adultos", "infantes", "numHabitaciones", "numNoches", "longitudHotel", "latitudHotel", "checkIn", "checkOut", "consultarSaldos", "numHabitacionAsigado", "subtotal", "iva" };
     private CityExpressDBHelper _dbHelper;
     private SQLiteDatabase _database;
 
@@ -82,6 +82,8 @@ public class ReservacionBDD {
         data.put( "checkOut", reservante.isCheckOut() );
         data.put( "consultarSaldos", reservante.isConsultarSaldos() );
         data.put( "numHabitacionAsigado", reservante.getNumHabitacionAsigado() );
+        data.put( "subtotal", reservante.getSubtotal() );
+        data.put( "iva", reservante.getIva() );
 
         _database.insert("ClienteReservante", null, data);
         System.out.println("BDNUMERORESERVACION->"+reservante.getNumReservacion());
@@ -110,11 +112,13 @@ public class ReservacionBDD {
         data.put( "numHabitaciones", reservante.getNumHabitaciones() );
         data.put( "numNoches", reservante.getNumNoches() );
         data.put( "longitudHotel", reservante.getLongitudHotel() );
-        data.put( "latitudHotel", reservante.getLatitudHotel() );
+        data.put("latitudHotel", reservante.getLatitudHotel() );
         data.put( "checkIn", reservante.isCheckIn() );
         data.put( "checkOut", reservante.isCheckOut() );
         data.put( "consultarSaldos", reservante.isConsultarSaldos() );
         data.put( "numHabitacionAsigado", reservante.getNumHabitacionAsigado() );
+        data.put( "subtotal", reservante.getSubtotal() );
+        data.put( "iva", reservante.getIva() );
 
         String where = "numReservacion=?";
         String[] whereArgs = { "" + numReservacion };
@@ -187,6 +191,8 @@ public class ReservacionBDD {
         reservante.setCheckOut( cursor.getInt(22 ) > 0 ? Boolean.TRUE : Boolean.FALSE );
         reservante.setConsultarSaldos( cursor.getInt( 23 ) > 0 ? Boolean.TRUE : Boolean.FALSE );
         reservante.setNumHabitacionAsigado( cursor.getString( 24 ) );
+        reservante.setSubtotal(cursor.getString(25));
+        reservante.setIva(cursor.getString(26));
 
 
         return reservante;

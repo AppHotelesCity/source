@@ -212,7 +212,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
@@ -221,8 +221,28 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Subtotal: $828.42 M.N"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:id="@+id/txt_precio_subtotal"
+            android:textStyle="bold"
+            android:textColor="@color/blue_letters_color"
+            android:textSize="18sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IVA: $828.42 M.N"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:id="@+id/txt_precio_iva"
+            android:textStyle="bold"
+            android:textColor="@color/blue_letters_color"
+            android:textSize="18sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Total: $828.42 M.N"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="15dp"
             android:id="@+id/txt_precio_total"
             android:textStyle="bold"

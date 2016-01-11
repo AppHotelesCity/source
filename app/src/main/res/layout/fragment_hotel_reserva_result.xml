@@ -153,15 +153,35 @@
 
 
 				<TextView
-						android:id="@+id/lblTotal"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="16dp"
-						android:gravity="end"
-						android:textColor="@color/main_color1"
-						android:textSize="20sp"
-						android:textStyle="bold"
-						android:text="Total"/>
+					android:id="@+id/lblSubTotal"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="16dp"
+					android:gravity="end"
+					android:textColor="@color/main_color1"
+					android:textSize="20sp"
+					android:textStyle="bold"
+					android:text="Subtotal:"/>
+				<TextView
+					android:id="@+id/lblIVA"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="10dp"
+					android:gravity="end"
+					android:textColor="@color/main_color1"
+					android:textSize="20sp"
+					android:textStyle="bold"
+					android:text="IVA:"/>
+				<TextView
+					android:id="@+id/lblTotal"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="10dp"
+					android:gravity="end"
+					android:textColor="@color/main_color1"
+					android:textSize="20sp"
+					android:textStyle="bold"
+					android:text="Total:"/>
 
 				<View
 						android:layout_width="fill_parent"

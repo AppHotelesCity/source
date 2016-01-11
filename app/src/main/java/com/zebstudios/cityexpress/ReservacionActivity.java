@@ -82,6 +82,8 @@ public class ReservacionActivity extends Activity {
     static ProgressDialog progress;
 
     double precioHabitacion;
+    double IVAHabitacion;
+    double subtotalHabitacion;
     ArrayList<GuestData> titulares;
     SegmentedGroup segmentswitch;
 
@@ -125,12 +127,15 @@ public class ReservacionActivity extends Activity {
         TextView lblHotelName = (TextView) findViewById(R.id.lblHotelName);
         TextView lblArrivalDate = (TextView) findViewById(R.id.dates_arrival_text);
         TextView lblDepartureDate = (TextView) findViewById(R.id.dates_departure_text);
+        TextView lblSubTotal = (TextView) findViewById(R.id.lblSubTotal);
+        TextView lblIVA = (TextView) findViewById(R.id.lblIVA);
         TextView lblTotal = (TextView) findViewById(R.id.lblTotal);
         TextView lblHotelName2 = (TextView) findViewById(R.id.lblHotelName2);
         TextView lblArrivalDate2 = (TextView) findViewById(R.id.dates_arrival_text2);
         TextView lblDepartureDate2 = (TextView) findViewById(R.id.dates_departure_text2);
         TextView lblTotal2 = (TextView) findViewById(R.id.lblTotal2);
-
+        TextView lblSubTotal2 = (TextView) findViewById(R.id.lblSubTotal2);
+        TextView lblIVA2 = (TextView) findViewById(R.id.lblIVA2);
         imageBack = (ImageView) findViewById(R.id.back_button);
 
         imageBack.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +158,8 @@ public class ReservacionActivity extends Activity {
         numNoches = ResultadosDisponibilidad.totalNoches;
         numNoches = Math.abs(numNoches);
         precioHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getCosto().replace(",", ""));
+        subtotalHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getSubTotal().replace(",", ""));
+        IVAHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getIVA().replace(",", ""));
         _lastGuestIndex = 0;
         System.out.println("numNoches" + numNoches);
         _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot);
@@ -298,7 +305,10 @@ public class ReservacionActivity extends Activity {
 
         lblTotal.setText(String.format("Total: $%,.2f ", getTotalCost()) + "MXN");//String.format( "Total: $%,.2f ",1123 ) );
         lblTotal2.setText(String.format("Total: $%,.2f ", getTotalCost()) + "MXN");// String.format( "Total: $%,.2f ", 34345 )  );
-
+        lblIVA.setText(String.format("IVA: $%,.2f ", getIVACost()) + "MXN");
+        lblIVA2.setText(String.format("IVA: $%,.2f ", getIVACost()) + "MXN");
+        lblSubTotal.setText(String.format("Subtotal: $%,.2f ", getSubTotalCost()) + "MXN");
+        lblSubTotal2.setText(String.format("Subtotal: $%,.2f ", getSubTotalCost()) + "MXN");
 
         //  NestedListView list = (NestedListView) findViewById( R.id.list_summary );
         // NestedListView list2 = (NestedListView) findViewById( R.id.list_summary2 );
@@ -420,7 +430,7 @@ public class ReservacionActivity extends Activity {
             huespedes.add("Huesped titular - habitación " + (i + 1));
             sumary.add(new SummaryEntry(0, "Habitación " + (i + 1)));
             for (int j = 0; j < Math.abs(numNoches); j++) {
-                sumary.add(new SummaryEntry(1, "Noche " + (j + 1) + " $" + precioHabitacion));
+                sumary.add(new SummaryEntry(1, "Noche " + (j + 1) + " $" + subtotalHabitacion));//precioHabitacion));
             }
             titulares.add(new GuestData());
 
@@ -685,7 +695,6 @@ public class ReservacionActivity extends Activity {
         reservacionBD.setDescripcionLugarHotel(_hotel.getLugaresCercanos());
         reservacionBD.setSiglasHotel(_hotel.getSiglas());
         reservacionBD.setDeschabitacion(descripcionHabitacionJSON);
-        System.out.println();
         reservacionBD.setLatitudHotel(_hotel.getLatitude());
         reservacionBD.setLongitudHotel(_hotel.getLongitude());
         reservacionBD.setHabCosto("" + precioHabitacion);
@@ -698,7 +707,9 @@ public class ReservacionActivity extends Activity {
         reservacionBD.setDireccionHotel(getAddressString());
         reservacionBD.setCheckIn(true);
         reservacionBD.setCheckOut(true);
-        reservacionBD.setTotal(""+precioHabitacion);
+        reservacionBD.setTotal("" + precioHabitacion);
+        reservacionBD.setSubtotal("" + subtotalHabitacion);
+        reservacionBD.setIva("" + IVAHabitacion);
         reservacionBD.setConsultarSaldos(true);
         System.out.println("DIreccionHotel" + getAddressString());
         System.out.println("numNohe" + numNoches);
@@ -721,6 +732,8 @@ public class ReservacionActivity extends Activity {
             intent.putExtra("precioHabitacion", precioHabitacion);
             intent.putExtra("numNoches",numNoches);
             intent.putExtra("total",getTotalCost());
+            intent.putExtra("subtotal",getSubTotalCost());
+            intent.putExtra("iva",getIVACost());
             startActivity(intent);
         }
         System.out.println("Reservacion OK " + reservacion);
@@ -1262,6 +1275,25 @@ public class ReservacionActivity extends Activity {
         return (total*numHabitacion);
     }
 
+    private double getSubTotalCost(){
+        double total = 0;
+        for( int i = 0; i < Math.abs(numNoches) ; i++ )
+        {
+            total += subtotalHabitacion;
+        }
+
+        return (total*numHabitacion);
+    }
+
+    private double getIVACost(){
+        double total = 0;
+        for( int i = 0; i < Math.abs(numNoches) ; i++ )
+        {
+            total += IVAHabitacion;
+        }
+
+        return (total*numHabitacion);
+    }
     private void saveCurrentGuest()
     {
         RadioButton btnMisma = (RadioButton) findViewById(R.id.btn_rad_misma);

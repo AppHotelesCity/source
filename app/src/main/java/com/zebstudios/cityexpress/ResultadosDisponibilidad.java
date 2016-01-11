@@ -503,8 +503,8 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                 }
             }
 
-            pedirDescripcionHotel();
-            //pedirDescripcionHotelImpuestos();
+            //pedirDescripcionHotel();
+            pedirDescripcionHotelImpuestos();
             if( _map != null )
             {
                 for (int i = 0; i < listaHotel.size(); i++) {
@@ -635,9 +635,6 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         if (contador < listaHotel.size()) {
             //System.out.println("SIGLAS->"+listaHotel.get(contador).getSiglas());
             cadena = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
-                    "  <s:Header>\n" +
-                    "    <Action s:mustUnderstand=\"1\" xmlns=\"http://schemas.microsoft.com/ws/2005/05/addressing/none\">http://tempuri.org/IReservationEngine/GetRoomsAvailablePromoImpuestos</A…\n" +
-                    "  </s:Header>\n" +
                     "  <s:Body>\n" +
                     "    <GetRoomsAvailablePromoImpuestos xmlns=\"http://tempuri.org/\">\n" +
                     "      <promoRequestModelv3I xmlns:d4p1=\"http://schemas.datacontract.org/2004/07/CityHub\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
@@ -663,20 +660,20 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     InputStream stream = null;
                     try {
                         stream = new ByteArrayInputStream(response.getBytes("UTF-8"));
-                        //parseXML(stream);
+                        parseXMLImpuestos(stream);
 
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-                    //obtenerDescripcionHotel(response);
-                   /* try {
+                    obtenerDescripcionHotelImpuestos(response);
+                    try {
                         JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
                         listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList, habitacionCityPremiosList));
                         System.out.println("TotalHabitaciones->"+listaGeneralHotel.get(0).getArrayHabitaciones().size());
 
                     }catch(JSONException e){
 
-                    }*/
+                    }
                     contador++;
                     pedirDescripcionHotelImpuestos();
                 }
@@ -800,6 +797,85 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         }
     }
 
+    public void obtenerDescripcionHotelImpuestos(String hotel){
+
+        JSONObject jsonObj = null;
+        JSONObject mobilegate = null;
+        habitacionBase = new HabitacionBase();
+        habitacionCity = new HabitacionBase();
+
+        try {
+
+
+            jsonObj = XML.toJSONObject(hotel);
+
+            JSONObject envelope = new JSONObject(jsonObj.getString("s:Envelope"));
+
+            JSONObject sbody = new JSONObject(envelope.getString("s:Body"));
+
+            JSONObject roomsAvaliables = new JSONObject(sbody.getString("GetRoomsAvailablePromoImpuestosResponse"));
+
+            JSONObject resultRoomsAvailable = new JSONObject(roomsAvaliables.getString("GetRoomsAvailablePromoImpuestosResult"));
+
+            JSONObject disponibilidad = new JSONObject(resultRoomsAvailable.getString("a:Disponibilidad"));
+
+            //System.out.println("Disponibilidad->"+disponibilidad.getString("a:Available"));
+            //mobilegate = jsonObj.getJSONObject("Costo");
+
+            JSONArray arreglodisponibilidad = new JSONArray(disponibilidad.getString("a:AvailableI"));
+
+            for (int i = 0; i < arreglodisponibilidad.length(); i++) {
+                JSONObject descripcion = new JSONObject(arreglodisponibilidad.getString(i));
+
+                if(descripcion.getString("a:CodigoTarifa").equalsIgnoreCase("1115P")){
+
+                    //descripcion.getString("")
+                    JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBaseI"));
+                    JSONArray habitacionBase = new JSONArray(tarifaBase.getString("a:HabBaseI"));
+
+                    for (int j = 0; j < habitacionBase.length(); j++) {
+
+                        habitacionCity = new HabitacionBase();
+                        JSONObject habitacionBaseDisponibilidad = new JSONObject(habitacionBase.get(j).toString());
+                        System.out.println("CUATRO1115P->"+habitacionBaseDisponibilidad.getString("a:CodBase"));
+                        habitacionCity.setCodigoBase(habitacionBaseDisponibilidad.getString("a:CodBase"));
+                        System.out.println("CINCO115P->"+habitacionBaseDisponibilidad.getString("a:Noches"));
+                        JSONObject noche = new JSONObject(habitacionBaseDisponibilidad.getString("a:Noches"));
+                        JSONObject costoNoche = new JSONObject(noche.getString("a:NocheI"));
+                        System.out.println("CostoTotal->"+costoNoche.get("a:Costo"));
+                        habitacionCity.setCosto(costoNoche.get("a:Costo").toString());
+                        habitacionCity.setIVA(costoNoche.get("a:IVA").toString());
+                        habitacionCity.setSubTotal(costoNoche.get("a:SubTotal").toString());
+                        habitacionCityPremiosList.add(habitacionCity);
+                    }
+                }else if(descripcion.getString("a:CodigoTarifa").equalsIgnoreCase("1114")){
+
+                    JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBaseI"));
+                    JSONArray habitacionBaseJSON = new JSONArray(tarifaBase.getString("a:HabBaseI"));
+                    for (int j = 0; j < habitacionBaseJSON.length(); j++) {
+                        habitacionBase = new HabitacionBase();
+                        JSONObject habitacionBaseDisponibilidad = new JSONObject(habitacionBaseJSON.get(j).toString());
+                        System.out.println("CUATRO->"+habitacionBaseDisponibilidad.getString("a:CodBase"));
+                        habitacionBase.setCodigoBase(habitacionBaseDisponibilidad.getString("a:CodBase"));
+                        System.out.println("CINCO->"+habitacionBaseDisponibilidad.getString("a:Noches"));
+                        JSONObject noche = new JSONObject(habitacionBaseDisponibilidad.getString("a:Noches"));
+                        JSONObject costoNoche = new JSONObject(noche.getString("a:NocheI"));
+                        System.out.println("CostoTotal->"+costoNoche.get("a:Costo"));
+                        habitacionBase.setCosto(costoNoche.get("a:Costo").toString());
+                        habitacionBase.setIVA(costoNoche.get("a:IVA").toString());
+                        habitacionBase.setSubTotal(costoNoche.get("a:SubTotal").toString());
+                        habitacionBaseList.add(habitacionBase);
+                    }
+                }
+            }
+
+
+        } catch (JSONException e) {
+            Log.e("JSON exception", e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     public void parseXML(InputStream is) {
         XmlPullParserFactory factory = null;
         XmlPullParser parser = null;
@@ -898,6 +974,139 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                             }else{
                                 habitacionBase.setCosto(text);
                             }
+                        } else if (tagname.equalsIgnoreCase("Fecha")) {
+                            habitacionBase.setFecha(text);
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+                eventType = parser.next();
+            }
+
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void parseXMLImpuestos(InputStream is) {
+        XmlPullParserFactory factory = null;
+        XmlPullParser parser = null;
+        //List<String> listaBase = null;
+        try {
+            //listaBase = new ArrayList<>();
+            factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            parser = factory.newPullParser();
+
+            parser.setInput(is, null);
+            habitacionBaseList = new ArrayList<>();
+            habitacionCityPremiosList = new ArrayList<>();
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                String tagname = parser.getName();
+                switch (eventType) {
+                    case XmlPullParser.START_TAG:
+                        if (tagname.equalsIgnoreCase("AvailableI")) {
+                        } else if(tagname.equalsIgnoreCase("Disponibilidad")){
+
+                        } else if(tagname.equalsIgnoreCase("HabBaseI")){
+                            habitacionBase = new HabitacionBase();
+                            habitacionCity = new HabitacionBase();
+
+                        }
+                        break;
+
+                    case XmlPullParser.TEXT:
+                        text = parser.getText();
+                        break;
+
+                    case XmlPullParser.END_TAG:
+                        if (tagname.equalsIgnoreCase("Available")) {
+
+                            if(cityPremios){
+
+                            }else{
+                                JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
+                                if(!(contador<listaGeneralHotel.size())){
+                                    listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList,habitacionCityPremiosList));
+
+                                }
+                                //listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList,habitacionCityPremiosList));
+                                //listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList));
+                                //System.out.println("TOTAL->" + listaGeneralHotel.size());
+                                habitacionBaseList = new ArrayList<>();
+                                //habitacionCityPremiosList = new ArrayList<>();
+                                // add employee object to list
+                                // employee.setHabitacionBasesList(habitacionBasesList);
+                            }
+
+                        }else if(tagname.equalsIgnoreCase("CodigoError")){
+
+                        }else if(tagname.equalsIgnoreCase("CodigoTarifa")){
+                            if(text.equalsIgnoreCase("1115P")){
+                                System.out.println("Hola15");
+                                cityPremios = true;
+                            }else{
+                                cityPremios = false;
+                            }
+                        }else if(tagname.equalsIgnoreCase("DescError")){
+                        }else if(tagname.equalsIgnoreCase("Descripcion")){
+                        }else if(tagname.equalsIgnoreCase("Hotel")){
+                        }else if(tagname.equalsIgnoreCase("Promociones")){
+                        }else if(tagname.equalsIgnoreCase("Disponibilidad")){
+
+                        }else if(tagname.equalsIgnoreCase("TarifaBase")){
+                        } else if(tagname.equalsIgnoreCase("HabBase")){
+
+                            if(cityPremios){
+                                habitacionCityPremiosList.add(habitacionCity);
+                            }else{
+                                habitacionBaseList.add(habitacionBase);
+                            }
+                            System.out.println("HabitacionBase" + habitacionBaseList.size());
+                            System.out.println("HabitacionCity" + habitacionCityPremiosList.size());
+                        }else if (tagname.equalsIgnoreCase("Descripcion")) {
+                        } else if (tagname.equalsIgnoreCase("CodigoTarifa")) {
+                        } else if (tagname.equalsIgnoreCase("Hotel")) {
+                        } else if (tagname.equalsIgnoreCase("AVAILABILITY")) {
+                            habitacionBase.setDisponibilidad(text);
+                        } else if (tagname.equalsIgnoreCase("CodBase")) {
+                            if(cityPremios){
+                                habitacionCity.setCodigoBase(text);
+                                System.out.println(text+"zz------");
+                            }else{
+                                habitacionCity.setCodigoBase("");
+                                habitacionBase.setCodigoBase(text);
+                            }
+                        } else if (tagname.equalsIgnoreCase("DescBase")) {
+                            habitacionBase.setDescBase(text);
+                        } else if (tagname.equalsIgnoreCase("Costo")) {
+                            if(cityPremios){
+                                habitacionCity.setCosto(text);
+                            }else{
+                                habitacionBase.setCosto(text);
+                            }
+                        } else if (tagname.equalsIgnoreCase("IVA")) {
+                            if(cityPremios){
+                                habitacionCity.setIVA(text);
+                            }else{
+                                habitacionBase.setIVA(text);
+                            }
+                            System.out.println("IVA->"+text);
+                        } else if (tagname.equalsIgnoreCase("SubTotal")) {
+                            if(cityPremios){
+                                habitacionCity.setSubTotal(text);
+                            }else{
+                                habitacionBase.setSubTotal(text);
+                            }
+                            System.out.println("SUBTOTAL->"+text);
                         } else if (tagname.equalsIgnoreCase("Fecha")) {
                             habitacionBase.setFecha(text);
                         }
