@@ -101,7 +101,7 @@ public class SearchResultsActivity extends ActionBarActivity
 
 	private void hotelObtained( int res, Hotel hotel )
 	{
-		Intent dialog = new Intent( this, HotelDetailsActivity.class );
+		Intent dialog = new Intent( this, DetalleHotelCercaActivity.class );
 		if( res == 0 )
 			dialog.putExtra( "HOTEL", hotel );
 		else

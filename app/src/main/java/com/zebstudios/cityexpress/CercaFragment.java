@@ -131,7 +131,7 @@ public class CercaFragment extends Fragment
 			//_progress.dismiss();
 			cargandoLinear.setVisibility(View.GONE);
 
-			if( CompatibilityUtil.isTablet( getActivity() ) )
+/*			if( CompatibilityUtil.isTablet( getActivity() ) )
 			{
 				Bundle bundle = new Bundle();
 				bundle.putSerializable( "RESULTS", hotels );
@@ -143,14 +143,14 @@ public class CercaFragment extends Fragment
 				dialog.show( getFragmentManager(), "dialog" );
 			}
 			else
-			{
-				Intent dialog = new Intent( getActivity(), SearchResultsActivity.class );
+			{*/
+				Intent dialog = new Intent( getActivity().getApplicationContext(), SearchResultsActivity.class );
 				dialog.putExtra( "STATE", "Cerca de ti" );
 				dialog.putExtra( "MARCA", "" );
 				dialog.putExtra( "WORD", "" );
 				dialog.putExtra( "RESULTS", hotels );
 				startActivityForResult( dialog, RESULTS_ACTIVITY );
-			}
+		//	}
 		}
 		else
 		{
@@ -162,7 +162,7 @@ public class CercaFragment extends Fragment
 
 	public void hotelSelected( Hotel hotel )
 	{
-		Intent dialog = new Intent( getActivity(), TabletHotelDetailsActivity.class );
+		Intent dialog = new Intent( getActivity(), DetalleHotelCercaActivity.class );
 		dialog.putExtra( "HOTEL", hotel );
 		startActivityForResult( dialog, DETAILS_ACTIVITY );
 	}

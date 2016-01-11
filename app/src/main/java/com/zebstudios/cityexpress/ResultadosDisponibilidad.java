@@ -504,7 +504,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             }
 
             pedirDescripcionHotel();
-
+            //pedirDescripcionHotelImpuestos();
             if( _map != null )
             {
                 for (int i = 0; i < listaHotel.size(); i++) {
@@ -602,6 +602,103 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     HashMap<String, String> params = new HashMap<String, String>();
                     //params.put("Content-Type", "application/xml; charset=utf-8");
                     params.put("SOAPAction", "http://tempuri.org/IReservationEngine/GetRoomsAvailablePromo");
+                    Log.d("hsdhsdfhuidiuhsd", "clave");
+                    return params;
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    return cadena.toString().getBytes();
+                }
+
+            };
+            //System.out.println("registro->" + registro.toString());
+            registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            Volley.newRequestQueue(this).add(registro);
+        }else{
+            for (int i = 0; i <listaGeneralHotel.size() ; i++) {
+                for (int j = 0; j < listaGeneralHotel.get(i).getArrayHabitaciones().size() ; j++) {
+                    if(listaGeneralHotel.get(i).getArrayHabitaciones().get(j).getCodigoBase().equalsIgnoreCase("HCP")){
+                        listaGeneralHotel.get(i).getArrayHabitaciones().remove(j);
+                    }
+                }
+            }
+            hotelAdapter = new HotelAdapter(listaGeneralHotel);
+            listaTarjetasHotel.setAdapter(hotelAdapter);
+        }
+    }
+
+    /**
+     *
+     */
+    public void pedirDescripcionHotelImpuestos(){
+        if (contador < listaHotel.size()) {
+            //System.out.println("SIGLAS->"+listaHotel.get(contador).getSiglas());
+            cadena = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
+                    "  <s:Header>\n" +
+                    "    <Action s:mustUnderstand=\"1\" xmlns=\"http://schemas.microsoft.com/ws/2005/05/addressing/none\">http://tempuri.org/IReservationEngine/GetRoomsAvailablePromoImpuestos</A…\n" +
+                    "  </s:Header>\n" +
+                    "  <s:Body>\n" +
+                    "    <GetRoomsAvailablePromoImpuestos xmlns=\"http://tempuri.org/\">\n" +
+                    "      <promoRequestModelv3I xmlns:d4p1=\"http://schemas.datacontract.org/2004/07/CityHub\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
+                    "        <d4p1:CodigoPromocion />\n" +
+                    "        <d4p1:CodigoTarifa>1114</d4p1:CodigoTarifa>\n" +
+                    "        <d4p1:FechaInicial>"+fechaPartida+"</d4p1:FechaInicial>\n" +
+                    "        <d4p1:Hotel>"+ listaHotel.get(contador).getSiglas() +"</d4p1:Hotel>\n" +
+                    "        <d4p1:NumeroAdultos>1</d4p1:NumeroAdultos>\n" +
+                    "        <d4p1:NumeroDeNoches>"+Math.abs(totalNoches)+"</d4p1:NumeroDeNoches>\n" +
+                    "        <d4p1:NumeroHabitaciones>1</d4p1:NumeroHabitaciones>\n" +
+                    "        <d4p1:Segmento>001</d4p1:Segmento>\n" +
+                    "        <d4p1:TipoHabitacion />\n" +
+                    "      </promoRequestModelv3I>\n" +
+                    "    </GetRoomsAvailablePromoImpuestos>\n" +
+                    "  </s:Body>\n" +
+                    "</s:Envelope>";
+
+
+            StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) { //wsMotor2014 // wsMotor2015_Prod
+                    System.out.println("IMPUESTOS->"+response);
+                    InputStream stream = null;
+                    try {
+                        stream = new ByteArrayInputStream(response.getBytes("UTF-8"));
+                        //parseXML(stream);
+
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    //obtenerDescripcionHotel(response);
+                   /* try {
+                        JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
+                        listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList, habitacionCityPremiosList));
+                        System.out.println("TotalHabitaciones->"+listaGeneralHotel.get(0).getArrayHabitaciones().size());
+
+                    }catch(JSONException e){
+
+                    }*/
+                    contador++;
+                    pedirDescripcionHotelImpuestos();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                    NetworkResponse response = error.networkResponse;
+                    String datos = new String(response.data);
+                    System.out.println("sout" + datos);
+                }
+            }) {
+
+                public String getBodyContentType() {
+                    return "text/xml; charset=utf-8";
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> params = new HashMap<String, String>();
+                    //params.put("Content-Type", "application/xml; charset=utf-8");
+                    params.put("SOAPAction", "http://tempuri.org/IReservationEngine/GetRoomsAvailablePromoImpuestos");
                     Log.d("hsdhsdfhuidiuhsd", "clave");
                     return params;
                 }

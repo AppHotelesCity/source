@@ -254,10 +254,6 @@
             android:theme="@style/ToolbarColor" >
         </activity>
         <activity
-            android:name=".Reservacion"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".ReservacionActivity"
             android:screenOrientation="portrait" >
         </activity>
@@ -275,6 +271,10 @@
         </activity>
         <activity
             android:name=".MensajesPushActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ToolbarColor" >
+        </activity>
+        <activity android:name=".DetalleHotelCercaActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ToolbarColor">
         </activity>

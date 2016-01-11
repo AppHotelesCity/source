@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +34,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -580,19 +583,6 @@ public class ReservacionPremiosActivity extends Activity {
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }else if(!cbAfiliate.isChecked()) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
-                    builder.setTitle("Hoteles City")
-                            .setMessage("Hubo un problema al tratar de hacer tu reservación, vuelve a intentarlo")
-                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            });
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
                 }else if("".equals(txtPhone.getText().toString())){
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
                     builder.setTitle("Hoteles City")
@@ -937,7 +927,7 @@ public class ReservacionPremiosActivity extends Activity {
             };
 
             System.out.println("registro->" + registro.toString());
-            registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            registro.setRetryPolicy(new DefaultRetryPolicy(17000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             Volley.newRequestQueue(this).add(registro);
 
 
@@ -951,6 +941,7 @@ public class ReservacionPremiosActivity extends Activity {
 
         ReservacionBD reservacionBD = new ReservacionBD();
         reservacionBD.setNombreUsuario(titulares.get(contador).getName());
+        reservacionBD.setEmailUsuario(titulares.get(contador).getEmail());
         reservacionBD.setApellidoUsuario(titulares.get(contador).getLastName());
         reservacionBD.setNombreHotel(_hotel.getNombre());
         reservacionBD.setFechaLlegada(arrival);
@@ -987,6 +978,7 @@ public class ReservacionPremiosActivity extends Activity {
         ds.open();
         ds.insert(reservacionBD);
         ds.close();
+        new EmailSender( reservacionBD ).execute();
         contador++;
         if(contador==titulares.size()){
             Intent intent = new Intent(ReservacionPremiosActivity.this, HotelReservaResultActivity.class);
@@ -1371,7 +1363,7 @@ public class ReservacionPremiosActivity extends Activity {
         };
 
         System.out.println("registro->" + registro.toString());
-        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        registro.setRetryPolicy(new DefaultRetryPolicy(17000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(this).add(registro);
 
 
@@ -1497,7 +1489,7 @@ public class ReservacionPremiosActivity extends Activity {
         };
 
         System.out.println("registro->" + registro.toString());
-        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        registro.setRetryPolicy(new DefaultRetryPolicy(17000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(this).add(registro);
     }
 
@@ -2141,5 +2133,142 @@ public class ReservacionPremiosActivity extends Activity {
         return address;
     }
 
+    private class EmailSender extends AsyncTask<Void, Void, Void>
+    {
+        private ReservacionBD _results;
+
+        public EmailSender( ReservacionBD results )
+        {
+            _results = results;
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+
+            /*_progress = ProgressDialogFragment.newInstance( "Enviando respuesta..." );
+            _progress.setCancelable( false );
+            _progress.show( getSupportFragmentManager(), "Dialog" );*/
+        }
+
+        @Override
+        protected Void doInBackground( Void... arg0 )
+        {
+            ///////////////////////
+            String para = "";
+            ArrayList<String> ccs = new ArrayList<String>();
+            ArrayList<String> afiliates = new ArrayList<String>();
+            String codigos = "";
+            String reservantes = "";
+            double total = 0;
+
+            ReservacionBD huesped = _results;
+            String correo = huesped.getEmailUsuario();
+            String reservante = "[" + huesped.getNombreUsuario() + " " + huesped.getApellidoUsuario() + "^" + descripcionHabitacionJSON + "^" + "1" + "^" + numNoches + "^" + precioHabitacion + "]";
+            reservante = reservante.replaceAll( ",", " " );
+
+               /* total += Double.parseDouble(_results.getHabCosto());
+                //if( i == 0 )
+               // {
+                    para = huesped.getEmailUsuario();
+                    codigos += _results.getNumReservacion();
+                    reservantes += reservante;
+                //}
+               /* else
+                {
+                    if( !para.equalsIgnoreCase( correo ) && !isInList( correo, ccs ) )
+                    {
+                        ccs.add( correo );
+                    }
+                    codigos += "," + _results.getNumReservacion();
+                    reservantes += "," + reservante;
+                }*/
+
+
+           /* for( int i = 0; i < titulares.size(); i++ )
+            {
+                GuestData g = titulares.get( i );
+                if( i == 0 )
+                {
+                    if( g.isAfiliate() )
+                    {
+                        afiliates.add( g.getEmail() );
+                    }
+                }
+                else if( g.isAfiliate() && g.getDataOption() != 0 )
+                {
+                    if( !isInList( g.getEmail(), afiliates ) )
+                    {
+                        afiliates.add( g.getEmail() );
+                    }
+                }
+            }*/
+
+            /*String cctext = "";
+            for( int i = 0; i < ccs.size(); i++ )
+            {
+                if( i == 0 )
+                {
+                    cctext = ccs.get( i );
+                }
+                else
+                {
+                    cctext += "," + ccs.get( i );
+                }
+            }
+
+            String afiliatestext = "";
+            for( int i = 0; i < afiliates.size(); i++ )
+            {
+                if( i == 0 )
+                {
+                    afiliatestext = afiliates.get( i );
+                }
+                else
+                {
+                    afiliatestext += "," + afiliates.get( i );
+                }
+            }*/
+
+            SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy" );
+            ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add( new BasicNameValuePair( "Para", _results.getEmailUsuario() ) );
+            params.add( new BasicNameValuePair( "CC", "" ) );
+            params.add( new BasicNameValuePair( "CodigosReservacion", _results.getNumReservacion()+"" ) );
+            params.add( new BasicNameValuePair( "CodigoHotel", _hotel.getSiglas() ) );
+            params.add( new BasicNameValuePair( "FInicioFfinal", sdf.format( arrival ) + "," + sdf.format( departure ) ) );
+            params.add( new BasicNameValuePair( "NumHabitaciones", numHabitacion + "" ) );
+            params.add( new BasicNameValuePair( "idioma", "es" ) );
+            params.add( new BasicNameValuePair( "DatosReservantes", reservante ) );
+            params.add( new BasicNameValuePair( "CostoTotal", _results.getHabCosto()));//String.format( Locale.US, "%.2f", total ) ) );
+            params.add( new BasicNameValuePair( "cuentasAfiliacion", "" ) );
+
+            ServiceHandler handler = new ServiceHandler();
+            String response = handler.makeServiceCall( APIAddress.HOTELS_API_MOBILE + "/EnvioCorreos", ServiceHandler.GET, params );
+            Log.d( "TEST", "EMAIL: " + response );
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute( Void arg0 ) {
+            super.onPostExecute(arg0 );
+            //_progress.dismiss();
+        }
+
+        private boolean isInList( String text, ArrayList<String> list )
+        {
+            for( int i = 0; i < list.size(); i++ )
+            {
+                if( list.get( i ).equalsIgnoreCase( text ) )
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
 
 }
