@@ -102,6 +102,8 @@ public class ReservacionPremiosActivity extends Activity {
     Spinner spinNinos;
     ImageView imageBack;
     double precioHabitacion;
+    double IVAHabitacion;
+    double subtotalHabitacion;
     ArrayList<GuestData> titulares;
     SegmentedGroup segmentswitch;
     RadioButton btnTarjeta;
@@ -219,11 +221,16 @@ public class ReservacionPremiosActivity extends Activity {
         TextView lblHotelName = (TextView) findViewById(R.id.lblHotelName);
         TextView lblArrivalDate = (TextView) findViewById( R.id.dates_arrival_text );
         TextView lblDepartureDate = (TextView) findViewById( R.id.dates_departure_text );
+        TextView lblSubTotal = (TextView) findViewById(R.id.lblSubTotal);
+        TextView lblIVA = (TextView) findViewById(R.id.lblIVA);
         TextView lblTotal = (TextView) findViewById(R.id.lblTotal);
         TextView lblHotelName2 = (TextView) findViewById( R.id.lblHotelName2 );
         TextView lblArrivalDate2 = (TextView) findViewById( R.id.dates_arrival_text2 );
         TextView lblDepartureDate2 = (TextView) findViewById( R.id.dates_departure_text2 );
         TextView lblTotal2 = (TextView) findViewById(R.id.lblTotal2);
+        TextView lblSubTotal2 = (TextView) findViewById(R.id.lblSubTotal2);
+        TextView lblIVA2 = (TextView) findViewById(R.id.lblIVA2);
+
 
 
         txtCardName = (EditText) findViewById(R.id.txtCardName);
@@ -274,6 +281,8 @@ public class ReservacionPremiosActivity extends Activity {
         numNoches = ResultadosDisponibilidad.totalNoches;
         numNoches = Math.abs(numNoches);
         precioHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getCosto().replace(",", ""));
+        subtotalHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getSubTotal().replace(",", ""));
+        IVAHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getIVA().replace(",", ""));
         _lastGuestIndex = 0;
         System.out.println("numNoches" + numNoches);
         _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot);
@@ -440,7 +449,7 @@ public class ReservacionPremiosActivity extends Activity {
         btnGuardarTarjeta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if("".equals(txtCardName.getText().toString())){
+                if ("".equals(txtCardName.getText().toString())) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
                     builder.setTitle("Hoteles City")
                             .setMessage("Por favor ingresa el nombre del titular de la tarjeta de crédito.")
@@ -453,14 +462,13 @@ public class ReservacionPremiosActivity extends Activity {
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }else if( !CCUtils.validCC( txtCardNumb.getText().toString() ) )
-                {
+                } else if (!CCUtils.validCC(txtCardNumb.getText().toString())) {
                     alert("El número de tarjeta es inválido.");
-                }EditText txtCardCode = (EditText) findViewById( R.id.txtCardCode );
-                if( txtCardCode.getText().toString().trim().length() != 3 || !isNumeric( txtCardCode.getText().toString().trim() ) )
-                {
+                }
+                EditText txtCardCode = (EditText) findViewById(R.id.txtCardCode);
+                if (txtCardCode.getText().toString().trim().length() != 3 || !isNumeric(txtCardCode.getText().toString().trim())) {
                     alert("El código de validación de la tarjeta es incorrecto. Ingresa los últimos tres dígitos del número que se encuentra en la parte posterior de la tarjeta.");
-                }else if("".equalsIgnoreCase(fechaVencimiento)){
+                } else if ("".equalsIgnoreCase(fechaVencimiento)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
                     builder.setTitle("Hoteles City")
                             .setMessage("Selecciona el año de expiración de la tarjeta de crédito.")
@@ -473,7 +481,7 @@ public class ReservacionPremiosActivity extends Activity {
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }else if("".equalsIgnoreCase(mesVencimiento)){
+                } else if ("".equalsIgnoreCase(mesVencimiento)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
                     builder.setTitle("Hoteles City")
                             .setMessage("Selecciona el mes de expiración de la tarjeta de crédito.")
@@ -486,11 +494,8 @@ public class ReservacionPremiosActivity extends Activity {
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }
-
-
-                else{
-                    System.out.println("AÑO/MES" + yearVencimiento+mesVencimiento);
+                } else {
+                    System.out.println("AÑO/MES" + yearVencimiento + mesVencimiento);
                     txtCardName.getText();
                     txtCardNumb.getText();
                     txtCvv.getText();
@@ -507,7 +512,7 @@ public class ReservacionPremiosActivity extends Activity {
 
 
         _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(0);
-        lblHotelName.setText( _hotel.getNombre() );
+        lblHotelName.setText(_hotel.getNombre());
         lblArrivalDate.setText(sdfecha.format(arrival));
         lblDepartureDate.setText(sdfecha.format(departure));
         lblHotelName2.setText( _hotel.getNombre() );
@@ -519,6 +524,10 @@ public class ReservacionPremiosActivity extends Activity {
         lblTotal.setText(String.format( "Total: $%,.2f ", getTotalCost() ) + "MXN");//String.format( "Total: $%,.2f ",1123 ) );
         lblTotal2.setText(String.format( "Total: $%,.2f ", getTotalCost()) + "MXN" );// String.format( "Total: $%,.2f ", 34345 )  );
 
+        lblIVA.setText(String.format("IVA: $%,.2f ", getIVACost()) + "MXN");
+        lblIVA2.setText(String.format("IVA: $%,.2f ", getIVACost()) + "MXN");
+        lblSubTotal.setText(String.format("Subtotal: $%,.2f ", getSubTotalCost()) + "MXN");
+        lblSubTotal2.setText(String.format("Subtotal: $%,.2f ", getSubTotalCost()) + "MXN");
 
 
         //  NestedListView list = (NestedListView) findViewById( R.id.list_summary );
@@ -635,7 +644,7 @@ public class ReservacionPremiosActivity extends Activity {
             sumary.add( new SummaryEntry( 0, "Habitación " + ( i + 1 ) ) );
             for( int j = 0; j < Math.abs(numNoches); j++ )
             {
-                sumary.add( new SummaryEntry( 1, "Noche " + ( j + 1 ) + " $"+precioHabitacion));
+                sumary.add( new SummaryEntry( 1, "Noche " + ( j + 1 ) + " $" + subtotalHabitacion));//precioHabitacion));
             }
             titulares.add(new GuestData());
         }
@@ -958,7 +967,9 @@ public class ReservacionPremiosActivity extends Activity {
         reservacionBD.setAdultos(1);
         reservacionBD.setInfantes(1);
         reservacionBD.setCodigoHabitacion(codigoBase);
-        reservacionBD.setTotal(""+precioHabitacion);
+        reservacionBD.setTotal("" + precioHabitacion);
+        reservacionBD.setSubtotal("" + subtotalHabitacion);
+        reservacionBD.setIva("" + IVAHabitacion);
         reservacionBD.setNumNoches(numNoches);
         reservacionBD.setNumHabitaciones(numHabitacion);
         reservacionBD.setDireccionHotel(getAddressString());
@@ -987,6 +998,8 @@ public class ReservacionPremiosActivity extends Activity {
             intent.putExtra("precioHabitacion", precioHabitacion);
             intent.putExtra("numNoches",numNoches);
             intent.putExtra("total",getTotalCost());
+            intent.putExtra("subtotal",getSubTotalCost());
+            intent.putExtra("iva",getIVACost());
             startActivity(intent);
         }
         System.out.println("Reservacion OK " + reservacion);
@@ -1809,6 +1822,25 @@ public class ReservacionPremiosActivity extends Activity {
         alert.show();
     }
 
+    private double getSubTotalCost(){
+        double total = 0;
+        for( int i = 0; i < Math.abs(numNoches) ; i++ )
+        {
+            total += subtotalHabitacion;
+        }
+
+        return (total*numHabitacion);
+    }
+
+    private double getIVACost(){
+        double total = 0;
+        for( int i = 0; i < Math.abs(numNoches) ; i++ )
+        {
+            total += IVAHabitacion;
+        }
+
+        return (total*numHabitacion);
+    }
 
     private void saveCurrentGuest()
     {
@@ -2242,10 +2274,12 @@ public class ReservacionPremiosActivity extends Activity {
             params.add( new BasicNameValuePair( "idioma", "es" ) );
             params.add( new BasicNameValuePair( "DatosReservantes", reservante ) );
             params.add( new BasicNameValuePair( "CostoTotal", _results.getHabCosto()));//String.format( Locale.US, "%.2f", total ) ) );
+            params.add( new BasicNameValuePair( "subTotal", ""+_results.getSubtotal() ) );
+            params.add( new BasicNameValuePair( "IVA", ""+ _results.getIva() ) );
             params.add( new BasicNameValuePair( "cuentasAfiliacion", "" ) );
 
             ServiceHandler handler = new ServiceHandler();
-            String response = handler.makeServiceCall( APIAddress.HOTELS_API_MOBILE + "/EnvioCorreos", ServiceHandler.GET, params );
+            String response = handler.makeServiceCall( APIAddress.HOTELS_API_MOBILE + "/EnvioCorreosIVA", ServiceHandler.GET, params );
             Log.d( "TEST", "EMAIL: " + response );
 
             return null;
