@@ -64,12 +64,12 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         Picasso.with(holder.context).load(habitacionesArrayList.get(position).getImagenApp()).into(holder.imageViewHabitacion);
         for (int i = 0; i < habitacionBaseArrayListCity.size(); i++) {
                 if(habitacionBaseArrayList.get(position).getCodigoBase().equalsIgnoreCase(habitacionBaseArrayListCity.get(i).getCodigoBase())){
-                        holder.txtPrecioPremioHabitacion.setText("" + habitacionBaseArrayListCity.get(i).getSubTotal()); //getCosto()
+                        holder.txtPrecioPremioHabitacion.setText(String.format("$%,.0f ", Double.parseDouble(habitacionBaseArrayListCity.get(i).getSubTotal())) ); //getCosto()
                 }
         }
         holder.txtDescripcionHabitacion.setText(habitacionesArrayList.get(position).getDescripcion());
 
-        holder.txtPrecioDestinoHabitacion.setText(habitacionBaseArrayList.get(position).getSubTotal()); //getCosto()
+        holder.txtPrecioDestinoHabitacion.setText(String.format("$%,.0f ", Double.parseDouble(habitacionBaseArrayList.get(position).getSubTotal()))); //getCosto()
         holder.cardViewHotel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
