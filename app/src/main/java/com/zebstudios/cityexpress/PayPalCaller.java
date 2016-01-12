@@ -1,5 +1,6 @@
 package com.zebstudios.cityexpress;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import org.apache.http.NameValuePair;
@@ -24,8 +25,9 @@ public class PayPalCaller extends AsyncTask<Void, Void, Void>
 	public static final int REFUND_TRANSACTION = 102;
 
 	private int _task;
-	private ProgressDialogFragment _progress;
+	//private ProgressDialogFragment _progress;
 	private android.support.v4.app.FragmentManager _fragmentManager;
+	private Context context;
 	private PayPalCallerInterface _listener;
 	private Object _parameters;
 	private Object _response;
@@ -35,7 +37,16 @@ public class PayPalCaller extends AsyncTask<Void, Void, Void>
 		_listener = listener;
 		_task = task;
 		_fragmentManager = fragmentManager;
-		_progress = progress;
+		//_progress = progress;
+		_parameters = parameters;
+	}
+
+	public PayPalCaller( PayPalCallerInterface listener, int task, Object parameters,Context context, ProgressDialogFragment progress )
+	{
+		_listener = listener;
+		_task = task;
+		this.context = context;
+		//_progress = progress;
 		_parameters = parameters;
 	}
 
@@ -44,9 +55,9 @@ public class PayPalCaller extends AsyncTask<Void, Void, Void>
 	{
 		super.onPreExecute();
 
-		_progress = ProgressDialogFragment.newInstance();
+		/*_progress = ProgressDialogFragment.newInstance();
 		_progress.setCancelable( false );
-		_progress.show( _fragmentManager, "Dialog" );
+		_progress.show( _fragmentManager, "Dialog" );*/
 	}
 
 	@Override
@@ -204,7 +215,7 @@ public class PayPalCaller extends AsyncTask<Void, Void, Void>
 	protected void onPostExecute( Void arg0 )
 	{
 		super.onPostExecute( arg0 );
-		_progress.dismiss();
+		//_progress.dismiss();
 
 		if( _task == INITIATE_PAYMENT )
 		{
