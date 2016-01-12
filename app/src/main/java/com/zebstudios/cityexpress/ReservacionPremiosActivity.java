@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -53,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import io.card.payment.CardIOActivity;
@@ -64,7 +68,8 @@ import static com.appsee.Appsee.addEvent;
 /**
  * Created by edwinhernandez on 17/12/15.
  */
-public class ReservacionPremiosActivity extends Activity {
+public class ReservacionPremiosActivity extends Activity implements PayPalCaller.PayPalCallerInterface{
+
 
     ArrayList<SmartCard> tarjetas_list;
     ArrayList<String> numTarjeta;
@@ -125,9 +130,14 @@ public class ReservacionPremiosActivity extends Activity {
     Date departure;
     String precio;
     private int _lastGuestIndex;
+    private ProgressDialogFragment _progress;
 
     int contador;
 
+    private static final int PAYMENT_METHOD_CARD = 100;
+    private static final int PAYMENT_METHOD_PAYPAL = 101;
+    private int _paymentMethod;
+    private boolean _isShowingWebView = false;
     //Realm realm;
 
     //DAtosUsuario City;
@@ -231,7 +241,7 @@ public class ReservacionPremiosActivity extends Activity {
         TextView lblSubTotal2 = (TextView) findViewById(R.id.lblSubTotal2);
         TextView lblIVA2 = (TextView) findViewById(R.id.lblIVA2);
 
-
+        linearpayTarjeta = (LinearLayout) findViewById(R.id.linearAddtarjeta);
 
         txtCardName = (EditText) findViewById(R.id.txtCardName);
         txtCardNumb = (EditText) findViewById(R.id.txtCardNumber);
@@ -551,76 +561,87 @@ public class ReservacionPremiosActivity extends Activity {
             @Override
             public void onClick(View v) {
                 saveCurrentGuest();
-                System.out.println("Codigo CVV->" + txtCvvTarjetaLista.getText().toString());
-                if("".equals(txtName.getText().toString())){
+                if( _paymentMethod == PAYMENT_METHOD_CARD ){
+                    if("".equals(txtName.getText().toString())){
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
-                    builder.setTitle("Hoteles City")
-                            .setMessage("El campo Nombre no puede estar vacío")
-                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
+                        builder.setTitle("Hoteles City")
+                                .setMessage("El campo Nombre no puede estar vacío")
+                                .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                                }
-                            });
+                                    }
+                                });
 
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }else if("".equals(txtLast.getText().toString())){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
-                    builder.setTitle("Hoteles City")
-                            .setMessage("El campo Apellido no puede estar vacío")
-                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }else if("".equals(txtLast.getText().toString())){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
+                        builder.setTitle("Hoteles City")
+                                .setMessage("El campo Apellido no puede estar vacío")
+                                .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                                }
-                            });
+                                    }
+                                });
 
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }else if("".equals(txtEmail.getText().toString())){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
-                    builder.setTitle("Hoteles City")
-                            .setMessage("El campo Correo Electrónico no puede estar vacío")
-                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }else if("".equals(txtEmail.getText().toString())){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
+                        builder.setTitle("Hoteles City")
+                                .setMessage("El campo Correo Electrónico no puede estar vacío")
+                                .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                                }
-                            });
+                                    }
+                                });
 
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }else if("".equals(txtPhone.getText().toString())){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
-                    builder.setTitle("Hoteles City")
-                            .setMessage("El campo Teléfono no puede estar vacío")
-                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }else if("".equals(txtPhone.getText().toString())){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
+                        builder.setTitle("Hoteles City")
+                                .setMessage("El campo Teléfono no puede estar vacío")
+                                .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                                }
-                            });
+                                    }
+                                });
 
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }else if("".equalsIgnoreCase(txtCvvTarjetaLista.getText().toString())){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
-                    builder.setTitle("Hoteles City")
-                            .setMessage("El Codigo de seguridad de la tarjeta no puedo estar vacio")
-                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }else if("".equalsIgnoreCase(txtCvvTarjetaLista.getText().toString())){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
+                        builder.setTitle("Hoteles City")
+                                .setMessage("El Codigo de seguridad de la tarjeta no puedo estar vacio")
+                                .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                                }
-                            });
+                                    }
+                                });
 
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
 
-                else{
+                    else{
+                        if (validateCapture()) {
+                            for (int i = 0; i < titulares.size(); i++) {
+                                changeHuesped(i);
+                                System.out.println("Titular " + i + "---->Nombre" + titulares.get(i).getName() + "TAmaño ZisE->"+ titulares.size());
+                            }
+
+                            System.out.println("Lo Logre!!!!!");
+                            RecibirDatos();
+                        }
+                    }
+                }else{
                     if (validateCapture()) {
                         for (int i = 0; i < titulares.size(); i++) {
                             changeHuesped(i);
@@ -631,6 +652,9 @@ public class ReservacionPremiosActivity extends Activity {
                         RecibirDatos();
                     }
                 }
+
+                //System.out.println("Codigo CVV->" + txtCvvTarjetaLista.getText().toString());
+
             }
         });
 
@@ -689,6 +713,32 @@ public class ReservacionPremiosActivity extends Activity {
 
         System.out.println("Siglas de hotel->"+_hotel.getSiglas());
 
+        //Paypal
+        SegmentedGroup segmentedPayment = (SegmentedGroup) findViewById(R.id.segmentedPaymentMethod);
+        segmentedPayment.setOnCheckedChangeListener( new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged( RadioGroup group, int checkedId )
+            {
+                handleChangePaymentMethod();
+            }
+        } );
+
+        //LinearLayout pnlPaymentMethod = (LinearLayout) findViewById(R.id.pnlCCPayment);
+        /*RadioButton btnCardMethod = (RadioButton) findViewById(R.id.btn_method_card);
+        RadioButton btnPaypalMethod = (RadioButton) findViewById(R.id.btn_method_paypal);
+
+            _paymentMethod = PAYMENT_METHOD_PAYPAL;
+            btnPaypalMethod.setChecked( true );
+            btnCardMethod.setEnabled( false );
+            btnReserva2.setText( "Ingresar a PayPal" );*/
+        //pnlPaymentMethod.setVisibility( View.GONE );
+        WebView webView = (WebView) findViewById( R.id.webView );
+        webView.setWebViewClient(new PayPalWebViewClient());
+
+        Analytics analytics = (Analytics) getApplication();
+        analytics.sendAppEventTrack("HOTEL DETAIL ANDROID", "RESERVA 2", "HOTEL", _hotel.getNombre(), 1);
+
     }
 
 
@@ -712,7 +762,19 @@ public class ReservacionPremiosActivity extends Activity {
         // System.out.println(spinAdultos.getSelectedItem().toString());
         // System.out.println(spinViaje.getSelectedItem().toString());
         // System.out.println(spinNinos.getSelectedItem().toString());
-        enviarReservacion();
+        //enviarReservacion();
+        if( _paymentMethod == PAYMENT_METHOD_PAYPAL )
+        {
+            if( validateCapture() )
+            {
+
+                // Iniciar PayPal Payment
+                _payPalPayment = getPayPalPayment();
+                new PayPalCaller( this, PayPalCaller.INITIATE_PAYMENT, _payPalPayment, this, _progress ).execute();
+            }
+        }else {
+            enviarReservacion();
+        }
 
 
     }
@@ -1518,7 +1580,7 @@ public class ReservacionPremiosActivity extends Activity {
     }
 
     public void ErrorenviarTarjeta(String mensaje){
-        System.out.println("ERROR AL AÑADIR TARJETA  " + mensaje );
+        System.out.println("ERROR AL AÑADIR TARJETA  " + mensaje);
         AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
         builder.setTitle("City Express")
                 .setMessage(mensaje)
@@ -1752,6 +1814,49 @@ public class ReservacionPremiosActivity extends Activity {
                 return false;
             }
         }
+        if( _paymentMethod == PAYMENT_METHOD_CARD )
+        {
+
+            EditText txtCardName = (EditText) findViewById(R.id.txtCardName);
+            if( txtCardName.getText().toString().trim().length() == 0 )
+            {
+                alert( "Por favor ingresa el nombre del titular de la tarjeta de crédito." );
+                return false;
+            }
+
+            EditText txtCardNumber = (EditText) findViewById(R.id.txtCardNumber);
+            if( !CCUtils.validCC( txtCardNumber.getText().toString() ) )
+            {
+                alert( "El número de tarjeta es inválido." );
+                return false;
+            }
+
+            Spinner spinExpMonth = (Spinner) findViewById(R.id.spinExpMonth);
+            if( spinExpMonth.getSelectedItemPosition() == 0 )
+            {
+                alert( "Selecciona el mes de expiración de la tarjeta de crédito." );
+                return false;
+            }
+
+            Spinner spinExpYear = (Spinner) findViewById(R.id.spinExpYear);
+            if( spinExpYear.getSelectedItemPosition() == 0 )
+            {
+                alert( "Selecciona el año de expiración de la tarjeta de crédito." );
+                return false;
+            }
+
+            EditText txtCardCode = (EditText) findViewById( R.id.txtCardCode );
+            if( txtCardCode.getText().toString().trim().length() != 3 || !isNumeric( txtCardCode.getText().toString().trim() ) )
+            {
+                alert( "El código de validación de la tarjeta es incorrecto. Ingresa los últimos tres dígitos del número que se encuentra en la parte posterior de la tarjeta." );
+                return false;
+            }
+        }
+      /*  if(_paymentMethod == PAYMENT_METHOD_PAYPAL){
+
+        }
+            /*EditText txtCardName = (EditText) findViewById( R.id.txtCardName );
+
 
       /*  EditText txtCardName = (EditText) findViewById( R.id.txtCardName );
         if( txtCardName.getText().toString().trim().length() == 0 )
@@ -1955,11 +2060,35 @@ public class ReservacionPremiosActivity extends Activity {
         txtName.setText( d.getName() );
         txtLast.setText( d.getLastName() );
         txtEmail.setText( d.getEmail() );
-        txtSocio.setText( d.getSocio() );
+        txtSocio.setText(d.getSocio());
         cbAfiliate.setChecked(d.isAfiliate());
         txtPhone.setText(d.getPhone());
         spinViaje.setSelection(d.getViaje());
     }
+
+    /**
+     * PAyPAL
+     */
+    private void handleChangePaymentMethod()
+    {
+        RadioButton btnCardMethod = (RadioButton) findViewById(R.id.btn_method_card);
+        Button btnReserva = (Button) findViewById(R.id.btnReserva);
+        if( btnCardMethod.isChecked() )
+        {
+            btnReserva.setText( "Reserva" );
+            _paymentMethod = PAYMENT_METHOD_CARD;
+            linearaddTarjeta.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            btnReserva.setText( "Ingresar a PayPal" );
+            _paymentMethod = PAYMENT_METHOD_PAYPAL;
+            linearpayTarjeta.setVisibility(View.GONE);
+            linearAgregarTarjeta.setVisibility(View.GONE);
+            linearaddTarjeta.setVisibility(View.GONE);
+        }
+    }
+
 
     private void handleCaptureOptionHandle()
     {
@@ -2305,5 +2434,301 @@ public class ReservacionPremiosActivity extends Activity {
             return false;
         }
     }
+    /**
+     *
+     */
+    PayPalCaller.PayPalPayment _payPalPayment;
+    PayPalCaller.PayPalSECResponse _payPalSECResponse;
+    PayPalCaller.PayPalReturnResponse _payPalReturnResponse;
+    PayPalCaller.PayPalDECParameters _payPalDECParameters;
+    PayPalCaller.PayPalDECResponse _payPalDECResponse;
+    PayPalCaller.PayPalRTParameters _payPalRTParameters;
+
+    private PayPalCaller.PayPalPayment getPayPalPayment()
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
+
+        double total = getTotalCost();
+
+        PayPalCaller.PayPalPayment payment = new PayPalCaller.PayPalPayment();
+        payment.setUser( _hotel.getMerchantUserName() );
+        payment.setPassword( _hotel.getMerchantPassword() );
+        payment.setSignature( _hotel.getSignature() );
+        payment.setReturnURL( "http://www.zebstudiospayment-return.com" );
+        payment.setCancelURL( "http://www.zebstudiospayment-cancel.com" );
+        payment.setItemName( "Reservante: " + titulares.get( 0 ).getName() + " " + titulares.get( 0 ).getLastName() );
+        payment.setItemSKU( sdf.format( arrival ) + " a " + sdf.format( departure ) );
+        payment.setItemDesc( numHabitacion + " habitaciones en: " + descripcionHabitacionJSON );
+        payment.setItemAmount( String.format( Locale.US, "%.2f", total ) );
+        payment.setAmount( String.format( Locale.US, "%.2f", total ) );
+        payment.setCurrencyCode( "MXN" );
+
+        if( _hotel.getIdMarca() == 4 )
+        {
+            payment.setLogoImg( "https://www.cityexpress.com/images/logo-cityexpress-plus.png" );
+            payment.setCartBorderColor( "221c35" );
+        }
+        else if( _hotel.getIdMarca() == 3 )
+        {
+            payment.setLogoImg( "https://www.cityexpress.com/images/logo-cityexpress-suites.png" );
+            payment.setCartBorderColor( "8b2131" );
+        }
+        else if( _hotel.getIdMarca() == 2 )
+        {
+            payment.setLogoImg( "https://www.cityexpress.com/images/logo-cityexpress-junior.png" );
+            payment.setCartBorderColor( "004d41" );
+        }
+        else
+        {
+            payment.setLogoImg( "https://www.cityexpress.com/images/logo-cityexpress.png" );
+            payment.setCartBorderColor( "071689" );
+        }
+
+        return payment;
+    }
+
+    public void onPayPalPaymentInitiated( PayPalCaller.PayPalSECResponse response )
+    {
+        _payPalSECResponse = response;
+        android.util.Log.d( "TEST", "PAYMENT INITIATED" );
+        if( _payPalSECResponse.getACK().equalsIgnoreCase( "SUCCESS" ) )
+        {
+            android.util.Log.d( "TEST", "TOKEN: " + _payPalSECResponse.getToken() );
+
+            _isShowingWebView = true;
+
+            _progress = ProgressDialogFragment.newInstance();
+            _progress.setCancelable( false );
+            LinearLayout pnlCapture = (LinearLayout) findViewById(R.id.pnlCapture);
+            WebView webView = (WebView) findViewById(R.id.webView);
+            pnlCapture.setVisibility( View.GONE );
+            webView.clearView();
+            //TODO: Utilizar liga de acuerdo a si es producción o sandbox
+            webView.loadUrl( APIAddress.PAYPAL_MERCHANT_WEB + "?cmd=_express-checkout&token=" + _payPalSECResponse.getToken() );
+            webView.setVisibility( View.VISIBLE );
+        }
+        else
+        {
+            android.util.Log.d( "TEST", "ERROR: " + _payPalSECResponse.getLongMessage() );
+            alert( "PayPal no disponible. Por favor intente nuevamente más tarde." );
+        }
+    }
+
+    private void onPayPalPaymentCancelled()
+    {
+        LinearLayout pnlCapture = (LinearLayout) findViewById(R.id.pnlCapture);
+        WebView webView = (WebView) findViewById(R.id.webView);
+        pnlCapture.setVisibility( View.VISIBLE );
+        webView.setVisibility( View.GONE );
+    }
+
+    private void onPayPalPaymentReturned( String queryString )
+    {
+        android.util.Log.d( "TEST", "PAYPAL RETURN: " + queryString );
+
+        LinearLayout pnlCapture = (LinearLayout) findViewById(R.id.pnlCapture);
+        WebView webView = (WebView) findViewById(R.id.webView);
+        pnlCapture.setVisibility( View.VISIBLE );
+        webView.setVisibility( View.GONE );
+        _isShowingWebView = false;
+
+        _payPalReturnResponse = new PayPalCaller.PayPalReturnResponse( queryString );
+        if( _payPalReturnResponse.getToken() != null && _payPalReturnResponse.getPayerId() != null )
+        {
+            if( _payPalReturnResponse.getToken().equalsIgnoreCase( _payPalSECResponse.getToken() ) )
+            {
+                _payPalDECParameters = new PayPalCaller.PayPalDECParameters();
+                _payPalDECParameters.setUser( _hotel.getMerchantUserName() );
+                _payPalDECParameters.setPassword( _hotel.getMerchantPassword() );
+                _payPalDECParameters.setSignature( _hotel.getSignature() );
+                _payPalDECParameters.setToken( _payPalReturnResponse.getToken() );
+                _payPalDECParameters.setPayerId( _payPalReturnResponse.getPayerId() );
+                _payPalDECParameters.setAmount( _payPalPayment.getAmount() );
+                _payPalDECParameters.setCurrency( _payPalPayment.getCurrencyCode() );
+
+                new PayPalCaller( this, PayPalCaller.DO_EXPRESS_CHECKOUT, _payPalDECParameters,this, _progress ).execute();
+            }
+            else
+            {
+                alert( "Datos de PayPal corruptos. Por favor intente nuevamente más tarde." );
+            }
+        }
+        else
+        {
+            alert( "Error de comunicación con PayPal. Por favor intente nuevamente más tarde." );
+        }
+    }
+
+    public void onPayPalDoExpressCheckOut( PayPalCaller.PayPalDECResponse response )
+    {
+        android.util.Log.d( "TEST", "EXPRESS CHECKOUT DONE" );
+        _payPalDECResponse = response;
+        if( _payPalDECResponse.getACK().equalsIgnoreCase( "Success" ) )
+        {
+            if( _payPalDECResponse.getPaymentStatus().equalsIgnoreCase( "Pending" )  )
+            {
+                android.util.Log.d( "TEST", "PENDING LESS THAN 48" );
+                _payPalRTParameters = new PayPalCaller.PayPalRTParameters();
+                _payPalRTParameters.setUser( _hotel.getMerchantUserName() );
+                _payPalRTParameters.setPassword( _hotel.getMerchantPassword() );
+                _payPalRTParameters.setSignature( _hotel.getSignature() );
+                _payPalRTParameters.setPayerId( _payPalReturnResponse.getPayerId() );
+                _payPalRTParameters.setCurrency( _payPalDECResponse.getCourrencyCode() );
+                _payPalRTParameters.setTransactionId( _payPalDECResponse.getTransactionId() );
+
+                new PayPalCaller( this, PayPalCaller.REFUND_TRANSACTION, _payPalRTParameters, this, _progress ).execute();
+            }
+            else if( _payPalDECResponse.getPaymentStatus().equalsIgnoreCase( "Completed" ) || _payPalDECResponse.getPaymentStatus().equalsIgnoreCase( "Processed" ) || _payPalDECResponse.getPaymentStatus().equalsIgnoreCase( "Pending" ) )
+            {
+                android.util.Log.d( "TEST", "OK: " + _payPalDECResponse.getPaymentStatus() );
+                initiatePayPalReservation();
+            }
+            else
+            {
+                android.util.Log.d( "TEST", "ELSE: " + _payPalDECResponse.getPaymentStatus() );
+                alert( "No se ha podido realizar su pago con PayPal. Por favor intente nuevamente más tarde." );
+            }
+        }
+        else
+        {
+            alert( "Error de comunicación con PayPal. Por favor intente nuevamente más tarde." );
+            android.util.Log.d( "PAYPAL", "ERROR: " + _payPalDECResponse.getLongMessage() );
+        }
+    }
+
+    public void onPayPalRefundTransaction( PayPalCaller.PayPalRTResponse response )
+    {
+        android.util.Log.d( "TEST", "REFUND TRANSACTION DONE" );
+        if( response.getACK().equalsIgnoreCase( "Success" ) )
+        {
+            alert( "No se ha podido realizar su pago con PayPal. Fecha de reservación menor a 48 horas." );
+        }
+        else
+        {
+            //TODO: Dar un mensaje más descriptivo de este error
+            alert( "No se ha podido realizar su pago con PayPal. Fecha de reservación menor a 48 horas." );
+        }
+    }
+
+    private void initiatePayPalReservation()
+    {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        long timeOne = arrival.getTime();
+        long timeTwo = departure.getTime();
+        long oneDay = 1000 * 60 * 60 * 24;
+        long delta = ( timeTwo - timeOne ) / oneDay;
+
+        ArrayList<ReservationEngineClient.ReservationModelv3_01> reservations = new ArrayList<ReservationEngineClient.ReservationModelv3_01>();
+        for( int i = 0; i < _rooms.size(); i++ )
+        {
+            HabitacionBase room = _rooms.get( i );
+            GuestData d = titulares.get( i );
+            GuestData o = titulares.get( i );
+            if( i != 0 && d.getDataOption() == 0 )
+            {
+                o = titulares.get( 0 );
+            }
+
+            ReservationEngineClient.ReservationModelv3_01 reserva = new ReservationEngineClient.ReservationModelv3_01();
+            reserva.getEmpresa().setRfcEmisor( "EMISAPP" );
+
+            reserva.getEstancia().setCodigoOperador( "APP_Movil" );
+            reserva.getEstancia().setCodigoOrigen( "007" );
+            reserva.getEstancia().setFechaEntrada( arrival );
+            reserva.getEstancia().setHotel( _hotel.getSiglas() );
+            reserva.getEstancia().setNumeroDeNoches( (int) delta );
+            reserva.getEstancia().setTipoReservacion( "DEPO" );
+            reserva.getEstancia().setFormaDePago( "PAYPAL" );
+            reserva.getEstancia().setCodigoSegmento( o.getViaje() == 0 ? "001" : "015" );
+
+            reserva.getHabitacion().setCodigoHabitacion( room.getCodigoBase() );
+            reserva.getHabitacion().setCodigoPromocion( "" );
+            reserva.getHabitacion().setCodigoTarifa( room.getCosto() );
+            reserva.getHabitacion().setNumeroHabitaciones( 1 );
+
+            reserva.getHabitacion().getHuespedTitular().setNombre( o.getName() );
+            reserva.getHabitacion().getHuespedTitular().setApellidos( o.getLastName() );
+            reserva.getHabitacion().getHuespedTitular().setCorreoElectronico( o.getEmail() );
+            reserva.getHabitacion().getHuespedTitular().setTelefono( o.getPhone() );
+            reserva.getHabitacion().getHuespedTitular().setRwdNumber( o.getSocio() );
+            reserva.getHabitacion().getHuespedTitular().setTotAcompAdult( d.getAdultos() );
+            reserva.getHabitacion().getHuespedTitular().setTotAcompMenor( d.getNinos() );
+            reserva.getHabitacion().getHuespedTitular().setCodigoPais( "MEX" );
+            // TODO: Cuál es el código de país que debe llevar el huesped titular
+
+            reserva.getDeposito().setComprobante( _payPalDECResponse.getTransactionId() );
+            reserva.getDeposito().setFecha( sdf.format( cal.getTime() ) );
+            reserva.getDeposito().setMonto( Float.parseFloat( _payPalDECResponse.getAmount() ) );
+            reserva.getDeposito().setTipoMoneda( _payPalDECResponse.getCourrencyCode() );
+            reserva.getDeposito().setNotas( "PAGO PAYPAL. DEPOSITO POR ESTANCIA COMPLETA" );
+            if( _payPalDECResponse.getPaymentStatus().equalsIgnoreCase( "PENDING" ) )
+            {
+                reserva.getDeposito().setNotas2( "PENDING" );
+            }
+            else
+            {
+                reserva.getDeposito().setNotas2( "OK" );
+            }
+
+            reservations.add( reserva );
+        }
+
+    }
+
+    private class PayPalWebViewClient extends WebViewClient
+    {
+        @Override
+        public void onPageStarted( WebView view, String url, Bitmap favicon )
+        {
+            /*if( _progress != null && !_progress.isVisible() )
+            {
+                _progress.setCancelable( false );
+                _progress.show( this, "DIALOG" );
+            }*/
+        }
+
+        @Override
+        public void onPageFinished( WebView view, String url )
+        {
+            /*if( _progress != null && _progress.isVisible() )
+            {
+                _progress.dismiss();
+            }*/
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading( WebView view, String url )
+        {
+            android.util.Log.d( "WEBVIEW", "CALLING: " + url );
+            if( url.startsWith( "http://www.zebstudiospayment-return.com" ) )
+            {
+               /* if( _progress != null && _progress.isVisible() )
+                {
+                    _progress.dismiss();
+                }*/
+                android.util.Log.d( "WEBVIEW", "ACEPTED" );
+                onPayPalPaymentReturned( url.replace( "http://www.zebstudiospayment-return.com/?", "" ) );
+                return true;
+            }
+            else if( url.startsWith( "http://www.zebstudiospayment-cancel.com" ) )
+            {
+               /* if( _progress != null && _progress.isVisible() )
+                {
+                    _progress.dismiss();
+                }*/
+                android.util.Log.d( "WEBVIEW", "CANCELLED" );
+                onPayPalPaymentCancelled();
+                return true;
+            }
+            else
+                return false;
+        }
+    }
+    /**
+     *
+     */
+
 
 }
