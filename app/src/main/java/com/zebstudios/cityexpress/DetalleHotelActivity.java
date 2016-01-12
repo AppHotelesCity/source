@@ -380,7 +380,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
         }
 
         TextView lblTemp = (TextView) findViewById(R.id.lblWTemp);
-        lblTemp.setText(String.format("%.2f", _weatherReport.getTemperature()) + "°C");
+        lblTemp.setText(String.format("%.1f", _weatherReport.getTemperature()) + "°");
     }
 
     private int GetResourceForWeatherIcon( String icon )
