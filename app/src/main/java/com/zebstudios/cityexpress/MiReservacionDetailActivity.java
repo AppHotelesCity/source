@@ -267,6 +267,11 @@ public class MiReservacionDetailActivity extends Activity {
         txtReferenciaHotel.setText("" + datosReservacion.getDescripcionLugarHotel());
         btnCheckIn.setEnabled(datosReservacion.isCheckIn());
         btnCheckOut.setEnabled(datosReservacion.isCheckOut());
+        if(datosReservacion.isCityPremios()){
+            txtLeyendaCambios.setVisibility(View.VISIBLE);
+        }else{
+            txtLeyendaCambios.setVisibility(View.GONE);
+        }
         if(datosReservacion.isCheckIn()){
             btnCheckOut.setEnabled(false);
         }else{

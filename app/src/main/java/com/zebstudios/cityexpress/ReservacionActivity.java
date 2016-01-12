@@ -711,6 +711,7 @@ public class ReservacionActivity extends Activity {
         reservacionBD.setSubtotal("" + subtotalHabitacion);
         reservacionBD.setIva("" + IVAHabitacion);
         reservacionBD.setConsultarSaldos(true);
+        reservacionBD.setCityPremios(false);
         System.out.println("DIreccionHotel" + getAddressString());
         System.out.println("numNohe" + numNoches);
         System.out.println("descHabitacion" + ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());

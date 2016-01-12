@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class ReservacionBDD {
 
-    private final String[] _reservanteColumns = { "numReservacion", "nombreUsuario", "apellidoUsuario", "nombreHotel", "siglasHotel", "emailHotel", "fechaLlegada", "fechaSalida", "deschabitacion", "descHotel", "habCosto", "total", "codigoHabitacion", "direccionHotel", "descripcionLugarHotel", "adultos", "infantes", "numHabitaciones", "numNoches", "longitudHotel", "latitudHotel", "checkIn", "checkOut", "consultarSaldos", "numHabitacionAsigado", "subtotal", "iva" };
+    private final String[] _reservanteColumns = { "numReservacion", "nombreUsuario", "apellidoUsuario", "nombreHotel", "siglasHotel", "emailHotel", "fechaLlegada", "fechaSalida", "deschabitacion", "descHotel", "habCosto", "total", "codigoHabitacion", "direccionHotel", "descripcionLugarHotel", "adultos", "infantes", "numHabitaciones", "numNoches", "longitudHotel", "latitudHotel", "checkIn", "checkOut", "consultarSaldos", "numHabitacionAsigado", "subtotal", "iva", "cityPremios" };
     private CityExpressDBHelper _dbHelper;
     private SQLiteDatabase _database;
 
@@ -84,6 +84,7 @@ public class ReservacionBDD {
         data.put( "numHabitacionAsigado", reservante.getNumHabitacionAsigado() );
         data.put( "subtotal", reservante.getSubtotal() );
         data.put( "iva", reservante.getIva() );
+        data.put("cityPremios",reservante.isCityPremios());
 
         _database.insert("ClienteReservante", null, data);
         System.out.println("BDNUMERORESERVACION->"+reservante.getNumReservacion());
@@ -119,6 +120,7 @@ public class ReservacionBDD {
         data.put( "numHabitacionAsigado", reservante.getNumHabitacionAsigado() );
         data.put( "subtotal", reservante.getSubtotal() );
         data.put( "iva", reservante.getIva() );
+        data.put( "cityPremios", reservante.isCityPremios() );
 
         String where = "numReservacion=?";
         String[] whereArgs = { "" + numReservacion };
@@ -167,32 +169,33 @@ public class ReservacionBDD {
         ReservacionBD reservante = new ReservacionBD();
 
         reservante.setNumReservacion( cursor.getInt( 0 ) );
-        reservante.setNombreUsuario( cursor.getString( 1 ) );
-        reservante.setApellidoUsuario( cursor.getString( 2 ) );
-        reservante.setNombreHotel( cursor.getString( 3 ) );
-        reservante.setSiglasHotel( cursor.getString(4) );
-        reservante.setEmailHotel( cursor.getString( 5 ) );
-        reservante.setFechaLlegada(  new Date( cursor.getLong( 6 )));
-        reservante.setFechaSalida(  new Date( cursor.getLong( 7 )));
-        reservante.setDeschabitacion( cursor.getString( 8 ) );
-        reservante.setDescHotel( cursor.getString( 9 ) );
-        reservante.setHabCosto( cursor.getString(10 ) );
-        reservante.setTotal( cursor.getString( 11 ) );
-        reservante.setCodigoHabitacion( cursor.getString( 12 ) );
-        reservante.setDireccionHotel( cursor.getString( 13 ) );
-        reservante.setDescripcionLugarHotel( cursor.getString( 14 ) );
-        reservante.setAdultos( cursor.getInt( 15 ) );
-        reservante.setInfantes( cursor.getInt( 16 ) );
-        reservante.setNumHabitaciones( cursor.getInt( 17 ) );
-        reservante.setNumNoches( cursor.getInt( 18 ) );
-        reservante.setLongitudHotel( cursor.getDouble( 19 ) );
-        reservante.setLatitudHotel( cursor.getDouble( 20 ) );
-        reservante.setCheckIn( cursor.getInt( 21 ) > 0 ? Boolean.TRUE : Boolean.FALSE);
-        reservante.setCheckOut( cursor.getInt(22 ) > 0 ? Boolean.TRUE : Boolean.FALSE );
-        reservante.setConsultarSaldos( cursor.getInt( 23 ) > 0 ? Boolean.TRUE : Boolean.FALSE );
-        reservante.setNumHabitacionAsigado( cursor.getString( 24 ) );
+        reservante.setNombreUsuario(cursor.getString(1));
+        reservante.setApellidoUsuario(cursor.getString(2));
+        reservante.setNombreHotel(cursor.getString(3));
+        reservante.setSiglasHotel(cursor.getString(4));
+        reservante.setEmailHotel(cursor.getString(5));
+        reservante.setFechaLlegada(new Date(cursor.getLong(6)));
+        reservante.setFechaSalida(new Date(cursor.getLong(7)));
+        reservante.setDeschabitacion(cursor.getString(8));
+        reservante.setDescHotel(cursor.getString(9));
+        reservante.setHabCosto(cursor.getString(10));
+        reservante.setTotal(cursor.getString(11));
+        reservante.setCodigoHabitacion(cursor.getString(12));
+        reservante.setDireccionHotel(cursor.getString(13));
+        reservante.setDescripcionLugarHotel(cursor.getString(14));
+        reservante.setAdultos(cursor.getInt(15));
+        reservante.setInfantes(cursor.getInt(16));
+        reservante.setNumHabitaciones(cursor.getInt(17));
+        reservante.setNumNoches(cursor.getInt(18));
+        reservante.setLongitudHotel(cursor.getDouble(19));
+        reservante.setLatitudHotel(cursor.getDouble(20));
+        reservante.setCheckIn(cursor.getInt(21) > 0 ? Boolean.TRUE : Boolean.FALSE);
+        reservante.setCheckOut(cursor.getInt(22) > 0 ? Boolean.TRUE : Boolean.FALSE);
+        reservante.setConsultarSaldos(cursor.getInt(23) > 0 ? Boolean.TRUE : Boolean.FALSE);
+        reservante.setNumHabitacionAsigado(cursor.getString(24));
         reservante.setSubtotal(cursor.getString(25));
         reservante.setIva(cursor.getString(26));
+        reservante.setCityPremios(cursor.getInt( 27 ) > 0 ? Boolean.TRUE : Boolean.FALSE);
 
 
         return reservante;

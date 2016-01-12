@@ -39,6 +39,7 @@ public class ReservacionBD {// extends RealmObject{
     private boolean checkOut;
     private boolean consultarSaldos;
     private String numHabitacionAsigado;
+    private boolean cityPremios;
 
     public ReservacionBD() {
     }
@@ -286,5 +287,13 @@ public class ReservacionBD {// extends RealmObject{
 
     public void setIva(String iva) {
         this.iva = iva;
+    }
+
+    public boolean isCityPremios() {
+        return cityPremios;
+    }
+
+    public void setCityPremios(boolean cityPremios) {
+        this.cityPremios = cityPremios;
     }
 }

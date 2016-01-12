@@ -976,6 +976,7 @@ public class ReservacionPremiosActivity extends Activity {
         reservacionBD.setCheckIn(true);
         reservacionBD.setCheckOut(true);
         reservacionBD.setConsultarSaldos(false);
+        reservacionBD.setCityPremios(true);
         System.out.println("DIreccionHotel" + getAddressString());
         System.out.println("numNohe" + numNoches);
         System.out.println("descHabitacion"+ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());
