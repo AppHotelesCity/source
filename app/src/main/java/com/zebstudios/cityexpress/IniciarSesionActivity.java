@@ -82,10 +82,10 @@ public class IniciarSesionActivity extends Activity {
         btnEntrarLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(edtPassUsuario.getText().toString().equals("")){
+                if(edtUsuario.getText().toString().equals("")){
                     AlertDialog.Builder builder = new AlertDialog.Builder(IniciarSesionActivity.this);
                     builder.setTitle("Hoteles City")
-                            .setMessage("El campo de contraseña no puede estar vacío")
+                            .setMessage("El campo de e-mail no puede estar vacío.")
                             .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -95,10 +95,10 @@ public class IniciarSesionActivity extends Activity {
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }else if(edtUsuario.getText().toString().equals("")) {
+                }else if(edtPassUsuario.getText().toString().equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(IniciarSesionActivity.this);
                     builder.setTitle("Hoteles City")
-                            .setMessage("El campo de e-mail no puede estar vacío")
+                            .setMessage("El campo de contraseña no puede estar vacío.")
                             .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
