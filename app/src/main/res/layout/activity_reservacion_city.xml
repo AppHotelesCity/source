@@ -127,6 +127,16 @@
                     android:textStyle="bold"
                     android:text="Total"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No se aceptan cambios ni cancelaciones al reservar con tarifa City Premios."
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="15dp"
+                    android:id="@+id/txt_leyenda_cambios"
+                    android:textSize="14sp"/>
+
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="2dp"
