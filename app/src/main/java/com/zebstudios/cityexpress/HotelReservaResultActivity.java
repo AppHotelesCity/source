@@ -178,7 +178,7 @@ public class HotelReservaResultActivity extends Activity {
         txtSalida.setText(sdf.format(datosReservacion.getFechaSalida()));
 
         txtPrecioSubtotal .setText("Subtotal: $ " + subtotal + " M.N");
-        txtPrecioIva .setText("IVA: $ " + iva + " M.N");
+        txtPrecioIva .setText("Impuestos: $ " + iva + " M.N");
         txtPrecioTotal .setText("Total: $ " + total + " M.N");
         txtDireccionHotel .setText("" + datosReservacion.getDireccionHotel());
         txtReferenciaHotel.setText("" + datosReservacion.getDescripcionLugarHotel());

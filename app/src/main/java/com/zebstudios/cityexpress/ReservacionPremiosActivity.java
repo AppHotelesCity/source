@@ -535,8 +535,8 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
         lblTotal.setText(String.format( "Total: $%,.2f ", getTotalCost() ) + "MXN");//String.format( "Total: $%,.2f ",1123 ) );
         lblTotal2.setText(String.format( "Total: $%,.2f ", getTotalCost()) + "MXN" );// String.format( "Total: $%,.2f ", 34345 )  );
 
-        lblIVA.setText(String.format("IVA: $%,.2f ", getIVACost()) + "MXN");
-        lblIVA2.setText(String.format("IVA: $%,.2f ", getIVACost()) + "MXN");
+        lblIVA.setText(String.format("Impuestos: $%,.2f ", getIVACost()) + "MXN");
+        lblIVA2.setText(String.format("Impuestos: $%,.2f ", getIVACost()) + "MXN");
         lblSubTotal.setText(String.format("Subtotal: $%,.2f ", getSubTotalCost()) + "MXN");
         lblSubTotal2.setText(String.format("Subtotal: $%,.2f ", getSubTotalCost()) + "MXN");
 

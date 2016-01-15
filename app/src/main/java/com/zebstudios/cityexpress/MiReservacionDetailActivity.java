@@ -262,7 +262,7 @@ public class MiReservacionDetailActivity extends Activity {
         txtNumNiños .setText("" + datosReservacion.getInfantes());
         txtPrecioTotal .setText("Total: $ " + datosReservacion.getHabCosto() + " M.N");
         txtPrecioSubtotal .setText("Subtotal: $ " + datosReservacion.getSubtotal() + " M.N");
-        txtPrecioIva .setText("IVA: $ " + datosReservacion.getIva() + " M.N");
+        txtPrecioIva .setText("Impuestos: $ " + datosReservacion.getIva() + " M.N");
         txtDireccionHotel .setText("" + datosReservacion.getDireccionHotel());
         txtReferenciaHotel.setText("" + datosReservacion.getDescripcionLugarHotel());
         btnCheckIn.setEnabled(datosReservacion.isCheckIn());
