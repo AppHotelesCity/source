@@ -29,6 +29,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/textViewDescripcionHabitacion"
                         android:layout_width="180dp"
@@ -37,17 +40,30 @@
                         android:text="Sencilla, 1 cama queen y 1 sofa queen"
                         android:layout_gravity="center"
                         android:textColor="#FFF"
+                        android:layout_marginLeft="2dp"
                         android:gravity="left"
                         android:textSize="14sp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/impuestos"
+                            android:layout_marginTop="0dp"
+                            android:layout_below="@+id/textViewDescripcionHabitacion"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textSize="10sp"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="#fff"/>
+                    </RelativeLayout>
                     <LinearLayout
                         android:id="@+id/linearPrecioPremio"
-                        android:layout_width="100dp"
+                        android:layout_width="80dp"
                         android:layout_height="100dp"
                         android:layout_gravity="right"
                         android:layout_marginLeft="-15dp"
                         android:orientation="vertical">
                         <TextView
-                            android:layout_width="100dp"
+                            android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:text="City Premios"
                             android:layout_gravity="center"
@@ -112,7 +128,7 @@
                 android:layout_width="30dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="-35dp"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="15dp"
                 android:clickable="false"
                 android:id="@+id/btnYPremios"
                 android:background="@color/yellow_button"
@@ -123,7 +139,7 @@
                 android:layout_gravity="right"
                 android:clickable="false"
                 android:layout_marginBottom="-35dp"
-                android:layout_marginRight="50dp"
+                android:layout_marginRight="45dp"
                 android:background="@color/yellow_button"
                 android:layout_height="30dp"
                 android:id="@+id/btnYDestinos" />
