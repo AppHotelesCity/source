@@ -64,9 +64,9 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
                 System.out.println("habitacionesCosto->" + habitacionBaseArrayList.get(i).getSubTotal()); //getCosto
             }
             if(precio2.equalsIgnoreCase("")){
-                holder.txtPrecioHotel.setText(String.format("$%,.0f ", Double.parseDouble(habitacionBaseArrayList.get(0).getSubTotal()))); //getCosto
+                holder.txtPrecioHotel.setText(String.format("$%,.0f ", Double.parseDouble(habitacionBaseArrayList.get(0).getSubTotal().replace(",", "")))); //getCosto
             }else{
-                holder.txtPrecioHotel.setText(String.format("$%,.0f ",Double.parseDouble(precio2)));
+                holder.txtPrecioHotel.setText(String.format("$%,.0f ",Double.parseDouble(precio2.replace(",", ""))));
             }
 
             holder.cardViewHotel.setOnClickListener(new View.OnClickListener() {

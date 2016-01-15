@@ -81,6 +81,11 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
     Spinner spinAdultos;
     Spinner spinNinos;
 
+    EditText txtCardName;
+    EditText txtCardNumber;
+    Spinner spinExpMonth;
+    Spinner spinExpYear;
+    EditText txtCardCode;
     ImageView imageBack;
     static ProgressDialog progress;
 
@@ -144,6 +149,11 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         TextView lblSubTotal2 = (TextView) findViewById(R.id.lblSubTotal2);
         TextView lblIVA2 = (TextView) findViewById(R.id.lblIVA2);
         imageBack = (ImageView) findViewById(R.id.back_button);
+        txtCardName = (EditText) findViewById(R.id.txtCardName);
+        txtCardNumber = (EditText) findViewById(R.id.txtCardNumber);
+        spinExpMonth = (Spinner) findViewById(R.id.spinExpMonth);
+        spinExpYear = (Spinner) findViewById(R.id.spinExpYear);
+        txtCardCode = (EditText) findViewById(R.id.txtCardCode);
 
         imageBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,6 +218,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         btnTarjeta = (RadioButton) findViewById(R.id.btn_method_card);
         btnPaypal = (RadioButton) findViewById(R.id.btn_method_paypal);
 
+        btnTarjeta.toggle();
         listaHabitaciones = (ListView) findViewById(R.id.list_reservations);
 
         segmentswitch.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -389,6 +400,45 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
+                }   else if ("".equals(txtCardName.getText().toString())) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("El nombre del titular de la tarjeta no puede estar vacío")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }  else if ("".equals(txtCardNumber.getText().toString())) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("El campo de Número de tarjeta solo puede contener caracteres numéricos y debe ser igual o mayor a 12 caracteres")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                } else if ("".equals(txtCardCode.getText().toString())) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
+                    builder.setTitle("Hoteles City")
+                            .setMessage("El Código de seguridad de la tarjeta no puede estar vacío")
+                            .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 } else {
                     // Intent intent = new Intent(ReservacionActivity.this, HotelReservaResultActivity.class);
                     // startActivity(intent);
@@ -435,7 +485,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         ArrayList<SummaryEntry> sumary = new ArrayList<SummaryEntry>();
 
         for (int i = 0; i < numHabitacion; i++) {
-            huespedes.add("Huesped titular - habitación " + (i + 1));
+            huespedes.add("Huésped titular - habitación " + (i + 1));
             sumary.add(new SummaryEntry(0, "Habitación " + (i + 1)));
             for (int j = 0; j < Math.abs(numNoches); j++) {
                 sumary.add(new SummaryEntry(1, "Noche " + (j + 1) + " $" + subtotalHabitacion));//precioHabitacion));
@@ -936,11 +986,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             enviarxml = enviarxml.replace("{formapago}", "TCRED");
 
 
-            EditText txtCardName = (EditText) findViewById(R.id.txtCardName);
-            EditText txtCardNumber = (EditText) findViewById(R.id.txtCardNumber);
-            Spinner spinExpMonth = (Spinner) findViewById(R.id.spinExpMonth);
-            Spinner spinExpYear = (Spinner) findViewById(R.id.spinExpYear);
-            EditText txtCardCode = (EditText) findViewById(R.id.txtCardCode);
+
 
             enviarxml = enviarxml.replace("{tdc_anio}", spinExpYear.getSelectedItem().toString());
             enviarxml = enviarxml.replace("{tdc_CVV}", txtCardCode.getText());
@@ -1192,7 +1238,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         try {
             GuestData g = titulares.get(index);
 
-            String title = "Huesped titular - habitación " + (index + 1);
+            String title = "Huésped titular - habitación " + (index + 1);
 
             if (g.getName().trim().length() == 0 || g.getName().isEmpty()) {
                 alert("Por favor ingresa el nombre del " + title + ".");
@@ -1220,7 +1266,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                 return false;
             }
         }catch(Exception e){
-            alert("Falta registrar al Huesped titular - Habitación " + (index+1));
+            alert("Falta registrar al Huésped titular - Habitación " + (index+1));
             return false;
         }
 

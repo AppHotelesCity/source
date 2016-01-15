@@ -21,6 +21,8 @@
     <string name="action_settings">Settings</string>
     <string name="facebook_app_id">692589974203305</string>
 
+    <string name="impuestos">Precios sin impuestos</string>
+
     <!--Principal-->
 
     <string name="iniciar_sesion">INICIAR SESIÓN</string>

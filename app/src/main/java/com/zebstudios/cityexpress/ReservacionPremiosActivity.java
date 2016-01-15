@@ -273,6 +273,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
         btnTarjeta = (RadioButton)findViewById(R.id.btn_method_card);
         btnPaypal = (RadioButton) findViewById(R.id.btn_method_paypal);
 
+        btnTarjeta.toggle();
 
         btnaddTarjeta = (Button) findViewById(R.id.btnAddTarjeta);
         btnTarjetas = (Button) findViewById(R.id.verTarjetas);
@@ -618,7 +619,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                     }else if("".equalsIgnoreCase(txtCvvTarjetaLista.getText().toString())){
                         AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
                         builder.setTitle("Hoteles City")
-                                .setMessage("El Codigo de seguridad de la tarjeta no puedo estar vacio")
+                                .setMessage("El Código de seguridad de la tarjeta no puede estar vacío")
                                 .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -664,7 +665,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
 
         for( int i = 0; i < numHabitacion; i++ )
         {
-            huespedes.add( "Huesped titular - habitación " + ( i + 1 ) );
+            huespedes.add( "Huésped titular - habitación " + ( i + 1 ) );
             sumary.add( new SummaryEntry( 0, "Habitación " + ( i + 1 ) ) );
             for( int j = 0; j < Math.abs(numNoches); j++ )
             {
@@ -1769,7 +1770,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
         try {
             GuestData g = titulares.get(index);
 
-            String title = "Huesped titular - habitación " + (index + 1);
+            String title = "Huésped titular - habitación " + (index + 1);
 
             if (g.getName().trim().length() == 0 || g.getName().isEmpty()) {
                 alert("Por favor ingresa el nombre del " + title + ".");
@@ -1797,7 +1798,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                 return false;
             }
         }catch(Exception e){
-            alert("Falta registrar al Huesped titular - Habitación " + (index+1));
+            alert("Falta registrar al Huésped titular - Habitación " + (index+1));
             return false;
         }
 

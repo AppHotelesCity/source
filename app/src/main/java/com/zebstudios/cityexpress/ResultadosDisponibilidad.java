@@ -228,7 +228,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
 
         SimpleDateFormat sdfecha = new SimpleDateFormat( "yyyy-MM-dd" );
-        fechaPartida = sdfecha.format(PrincipalFragment._departureDate);
+        fechaPartida = sdfecha.format(PrincipalFragment._arrivalDate);
         textViewFechaLlegada.setText("Entrada "+sdf.format(PrincipalFragment._arrivalDate));
         textViewFechaSalida.setText("Salida " + sdf.format(PrincipalFragment._departureDate));
         imageViewBack.setOnClickListener(new View.OnClickListener() {
@@ -650,7 +650,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     "  </s:Body>\n" +
                     "</s:Envelope>";
 
-
+            System.out.println("XMLHOTELES"+cadena);
             StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) { //wsMotor2014 // wsMotor2015_Prod
@@ -660,34 +660,36 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                         stream = new ByteArrayInputStream(response.getBytes("UTF-8"));
                         parseXMLImpuestos(stream);
 
-                    } catch (UnsupportedEncodingException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
-                    }
-                    obtenerDescripcionHotelImpuestos(response);
-                    try {
-                        JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
-                        if(habitacionBaseList.size()==0 ){
-                            AlertDialog.Builder builder = new AlertDialog.Builder(ResultadosDisponibilidad.this);
-                            builder.setTitle("Hoteles City")
-                                    .setMessage("No se encontraron resultados.")
-                                    .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            finish();
-                                        }
-                                    });
+                    }finally {
+                        obtenerDescripcionHotelImpuestos(response);
+                        try {
+                            JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
+                            if(habitacionBaseList.size()==0 ){
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ResultadosDisponibilidad.this);
+                                builder.setTitle("Hoteles City")
+                                        .setMessage("No se encontraron resultados.")
+                                        .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                finish();
+                                            }
+                                        });
 
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
-                        }else{
-                            listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList, habitacionCityPremiosList));
-                            System.out.println("TotalHabitaciones->"+listaGeneralHotel.get(0).getArrayHabitaciones().size());
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
+                            }else{
+                                listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList, habitacionCityPremiosList));
+                                System.out.println("TotalHabitaciones->"+listaGeneralHotel.get(0).getArrayHabitaciones().size());
+                            }
+                        }catch(JSONException e){
+
                         }
-                    }catch(JSONException e){
-
+                        contador++;
+                        pedirDescripcionHotelImpuestos();
                     }
-                    contador++;
-                    pedirDescripcionHotelImpuestos();
+
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -873,10 +875,11 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                         System.out.println("CINCO->"+habitacionBaseDisponibilidad.getString("a:Noches"));
                         JSONObject noche = new JSONObject(habitacionBaseDisponibilidad.getString("a:Noches"));
                         JSONObject costoNoche = new JSONObject(noche.getString("a:NocheI"));
-                        System.out.println("CostoTotal->"+costoNoche.get("a:Costo"));
+                        System.out.println("CostoTotal->" + costoNoche.get("a:Costo"));
                         habitacionBase.setCosto(costoNoche.get("a:Costo").toString());
                         habitacionBase.setIVA(costoNoche.get("a:IVA").toString());
                         habitacionBase.setSubTotal(costoNoche.get("a:SubTotal").toString());
+                        System.out.println("COSTOSUBTOTAL"+costoNoche.get("a:SubTotal").toString());
                         habitacionBaseList.add(habitacionBase);
                     }
                 }
@@ -1008,7 +1011,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
     }
 
-    public void parseXMLImpuestos(InputStream is) {
+    public void parseXMLImpuestos(InputStream is) throws Exception {
         XmlPullParserFactory factory = null;
         XmlPullParser parser = null;
         //List<String> listaBase = null;
@@ -1088,6 +1091,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                         }else if (tagname.equalsIgnoreCase("Descripcion")) {
                         } else if (tagname.equalsIgnoreCase("CodigoTarifa")) {
                         } else if (tagname.equalsIgnoreCase("Hotel")) {
+                        } else if (tagname.equalsIgnoreCase("PromocionesI")) {
                         } else if (tagname.equalsIgnoreCase("AVAILABILITY")) {
                             habitacionBase.setDisponibilidad(text);
                         } else if (tagname.equalsIgnoreCase("CodBase")) {
@@ -1101,11 +1105,12 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                         } else if (tagname.equalsIgnoreCase("DescBase")) {
                             habitacionBase.setDescBase(text);
                         } else if (tagname.equalsIgnoreCase("Costo")) {
-                            if(cityPremios){
-                                habitacionCity.setCosto(text);
-                            }else{
-                                habitacionBase.setCosto(text);
-                            }
+                                if (cityPremios) {
+                                    habitacionCity.setCosto(text);
+                                } else {
+                                    habitacionBase.setCosto(text);
+                                }
+
                         } else if (tagname.equalsIgnoreCase("IVA")) {
                             if(cityPremios){
                                 habitacionCity.setIVA(text);

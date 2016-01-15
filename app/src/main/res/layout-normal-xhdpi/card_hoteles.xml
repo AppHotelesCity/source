@@ -13,6 +13,7 @@
                 android:id="@+id/imageViewHotel"
                 android:layout_width="match_parent"
                 android:scaleType="fitXY"
+                android:background="@drawable/city_logo"
                 android:layout_height="match_parent" />
 
             <LinearLayout
@@ -23,6 +24,7 @@
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
+                    android:layout_weight="1"
                     android:layout_marginBottom="5dp"
                     android:orientation="vertical">
                     <TextView
@@ -57,6 +59,7 @@
                     android:layout_gravity="center|bottom"
                     android:layout_marginBottom="10dp"
                     android:paddingRight="15dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="100dp"
@@ -81,7 +84,20 @@
                         android:textColor="#fff"
                         android:textSize="26sp"
                         android:layout_below="@id/title"
-                        android:layout_marginTop="5dp"/>
+                        android:layout_marginTop="0dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/impuestos"
+                        android:layout_below="@id/textViewPrecioHotel"
+                        android:layout_marginTop="0dp"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="10sp"
+                        android:layout_marginRight="0dp"
+                        android:textColor="#fff"/>
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>

@@ -64,12 +64,12 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
         Picasso.with(holder.context).load(habitacionesArrayList.get(position).getImagenApp()).into(holder.imageViewHabitacion);
         for (int i = 0; i < habitacionBaseArrayListCity.size(); i++) {
                 if(habitacionBaseArrayList.get(position).getCodigoBase().equalsIgnoreCase(habitacionBaseArrayListCity.get(i).getCodigoBase())){
-                        holder.txtPrecioPremioHabitacion.setText(String.format("$%,.0f ", Double.parseDouble(habitacionBaseArrayListCity.get(i).getSubTotal())) ); //getCosto()
+                        holder.txtPrecioPremioHabitacion.setText(String.format("$%,.0f ", Double.parseDouble(habitacionBaseArrayListCity.get(i).getSubTotal().replace(",",""))) ); //getCosto()
                 }
         }
         holder.txtDescripcionHabitacion.setText(habitacionesArrayList.get(position).getDescripcion());
 
-        holder.txtPrecioDestinoHabitacion.setText(String.format("$%,.0f ", Double.parseDouble(habitacionBaseArrayList.get(position).getSubTotal()))); //getCosto()
+        holder.txtPrecioDestinoHabitacion.setText(String.format("$%,.0f ", Double.parseDouble(habitacionBaseArrayList.get(position).getSubTotal().replace(",","")))); //getCosto()
         holder.cardViewHotel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +86,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
 
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(holder.context);
-                        builder.setTitle("Selecciona el numero de habitaciones")
+                        builder.setTitle("Selecciona el número de habitaciones")
                                 .setItems(holder.num_habitacion, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         numHabitaciones = Integer.parseInt(holder.num_habitacion[which]);
@@ -116,7 +116,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                     if (holder.imgpremiosdestinos) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(holder.context);
-                        builder.setTitle("Selecciona el numero de habitaciones")
+                        builder.setTitle("Selecciona el número de habitaciones")
                                 .setItems(holder.num_habitacion, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         numHabitaciones = Integer.parseInt(holder.num_habitacion[which]);
@@ -140,7 +140,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
 
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(holder.context);
-                        builder.setTitle("Selecciona el numero de habitaciones")
+                        builder.setTitle("Selecciona el número de habitaciones")
                                 .setItems(holder.num_habitacion, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         numHabitaciones = Integer.parseInt(holder.num_habitacion[which]);

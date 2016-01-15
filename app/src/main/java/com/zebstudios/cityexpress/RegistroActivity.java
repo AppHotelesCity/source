@@ -137,7 +137,7 @@ public class RegistroActivity extends Activity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
-                builder.setTitle(getResources().getString(R.string.genero))
+                builder.setTitle(getResources().getString(R.string.titulo))
                         .setItems(titulo, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
