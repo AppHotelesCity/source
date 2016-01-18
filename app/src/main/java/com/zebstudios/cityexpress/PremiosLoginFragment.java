@@ -33,18 +33,57 @@ public class PremiosLoginFragment extends Fragment
 
     private String numSocio;
     private String passSocio;
+    private LayoutInflater inflater;
+    private ViewGroup container;
+    private boolean login;
 
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
     {
+        this.inflater = inflater;
+        this.container = container;
         SharedPreferences prefsUsuario = getActivity().getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
         usuario = prefsUsuario.getString("person_ID", null);
         if(usuario!=null) {
+            _view = inflater.inflate(R.layout.fragment_premioslogin, container, false);
             numSocio =prefsUsuario.getString("userP2GO", null); ;//"101W848549" ;
             passSocio =  prefsUsuario.getString("passP2GO", null);;//"City2015" ;
-            System.out.println("Socio->" +passSocio);
-            doLoginAutomatic(numSocio,passSocio);
+            System.out.println("Socio->" + passSocio);
+            doLoginAutomatic(numSocio, passSocio);
+            if(!login){
+                _view = inflater.inflate(R.layout.fragment_premioslogin, container, false);
+                startScreen("ViewCityPremios-Smartphone");
+                Button btnLogin = (Button) _view.findViewById(R.id.btnLogin);
+                btnLogin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        doLogin();
+                        addEvent("CityPremiosLogin");
+                    }
+                });
+
+                Button btnRegister = (Button) _view.findViewById(R.id.btnCrear);
+                btnRegister.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        register();
+                        addEvent("CityPremiosRegister");
+                    }
+                });
+
+                Button btnRecupear = (Button) _view.findViewById(R.id.btnOlvide);
+                btnRecupear.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        olvide();
+                        addEvent("CityPremiosReset");
+                    }
+                });
+
+                return _view;
+            }
             addEvent("CityPremiosLogin");
+            return _view;
 
         }
         else{
@@ -80,7 +119,6 @@ public class PremiosLoginFragment extends Fragment
 
             return _view;
         }
-        return null;
     }
 
     @Override
@@ -148,6 +186,7 @@ public class PremiosLoginFragment extends Fragment
         {
             if( result.getSocio().getsMensajeAfiliacion().equalsIgnoreCase( "OK" ) )
             {
+                login = true;
                 PremiosUserLoggedDS.PremiosUserLogged user = new PremiosUserLoggedDS.PremiosUserLogged();
                 user.setSocio( result.getSocio().getNoSocioCP() );
                 user.setLogged( new Date( System.currentTimeMillis() ) );
@@ -164,8 +203,10 @@ public class PremiosLoginFragment extends Fragment
                 getActivity().setResult( Activity.RESULT_OK );
                 getActivity().finish();
             }
-            else
-                alert( "Socio y/o contraseña inválidos." );
+            else {
+                alert("Socio y/o contraseña inválidos.");
+                login=false;
+            }
         }
         else
             alert( "No se han podido comprobar tus datos. Por favor intenta nuevamente más tarde." );
