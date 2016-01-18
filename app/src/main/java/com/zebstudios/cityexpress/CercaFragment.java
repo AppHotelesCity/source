@@ -18,10 +18,19 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.appsee.Appsee.startScreen;
 
@@ -30,6 +39,7 @@ public class CercaFragment extends Fragment
 	private View _view;
 	private LocationManager _locationManager;
 	private LocationListener _locationListener;
+	private ArrayList<Integer> _hotels;
 	//private WorkingDialogFragment2 _progress;
 	LinearLayout cargandoLinear;
 	TextView txtCargando;
@@ -52,11 +62,10 @@ public class CercaFragment extends Fragment
 		txtCargando = (TextView) _view.findViewById(R.id.txt_leyenda_cerca);
 		_isLocationObtained = false;
 
-		if( !_isLocationObtained )
-		{
+
 			_locationManager = (LocationManager)getActivity().getSystemService( Context.LOCATION_SERVICE );
 			_locationListener = new LocalLocationListener();
-			_locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, _locationListener );
+			_locationManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, _locationListener );
 			txtCargando.setText("Obteniendo tu ubicación");
 			/*_progress = new WorkingDialogFragment2();
 			_progress.setLabel( "Obteniendo tu ubicación" );
@@ -64,7 +73,7 @@ public class CercaFragment extends Fragment
 			_progress.setIcon( R.drawable.pin_big );
 			_progress.setCancelable( false );
 			_progress.show( getFragmentManager(), "Dialog" );*/
-		}
+
 
 		return _view;
 	}
@@ -98,10 +107,12 @@ public class CercaFragment extends Fragment
 			return;
 		}
 		_isLocationObtained = true;
-		_locationManager.removeUpdates( _locationListener );
+		_locationManager.removeUpdates(_locationListener);
 		//_progress.ChageLabel("Obteniendo hotel más cercano");
 		txtCargando.setText("Obteniendo hotel más cercano");
-		new SearchNearest( location.getLatitude(), location.getLongitude() ).execute();
+		//new SearchNearest( location.getLatitude(), location.getLongitude() ).execute();
+		System.out.println("UBICACION"+location.getLatitude()+ " ->"+location.getLongitude());
+		BuscarHotelCerca(location.getLatitude(), location.getLongitude());
 	}
 
 	private void nearestObtained( int res, ArrayList<Integer> hotels )
@@ -201,6 +212,58 @@ public class CercaFragment extends Fragment
 		}
 	}
 
+	public void BuscarHotelCerca(double lat, double lon){
+		_hotels = new ArrayList<Integer>();
+		String url = APIAddress.HOTELS_API_MOBILE + "/GetHotelsNearest/?Latitud="+ lat +"&Longitud=" + lon;
+
+		StringRequest postRequest = new StringRequest(Request.Method.GET, url,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String jsonStr) {
+						if( jsonStr != null )
+						{
+							try
+							{
+								JSONArray nearest = new JSONArray( jsonStr );
+								for( int i=0; i<nearest.length(); i++ )
+								{
+									_hotels.add( nearest.getInt( i ) );
+								}
+								nearestObtained( 0, _hotels );
+							}
+							catch( Exception e )
+							{
+								android.util.Log.e( "JSONParser", "Cant parse: " + e.getMessage() );
+							}
+						}
+						else
+						android.util.Log.e( "ServiceHandler", "Couldn't get any data" );
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						error.printStackTrace();
+					}
+				}
+		) {
+			public String getBodyContentType() {
+				return "text/xml; charset=utf-8";
+			}
+			/*@Override
+			public Map<String, String> getHeaders()
+			{
+				Map<String, String>  params = new HashMap<>();
+				params.put("Content-Type", "utf-8");
+				return params;
+			}*/
+		};
+		postRequest.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+		Volley.newRequestQueue(getActivity()).add(postRequest);
+
+
+
+	}
 	private class SearchNearest extends AsyncTask<Void, Void, Integer>
 	{
 		private double _latitude;
