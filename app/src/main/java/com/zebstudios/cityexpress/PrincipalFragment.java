@@ -226,8 +226,8 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
         Bundle bundle = new Bundle();
         bundle.putString( CalendarFragment.DIALOG_TITLE, "Llegada" );
         _departureCalendarFragment = new CalendarFragment();
-        _departureCalendarFragment.setCalendarListener( _departureCalendarListener );
-        _departureCalendarFragment.setArguments( bundle );
+        _departureCalendarFragment.setCalendarListener(_departureCalendarListener);
+        _departureCalendarFragment.setArguments(bundle);
 
 
 
@@ -315,20 +315,29 @@ public class PrincipalFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.linearSalida:
+                Calendar cale = Calendar.getInstance();
+                Date day = cale.getTime();
+                if( _arrivalDate != null )
+                {
+                    _arrivalCalendarFragment.setSelectedDates( _arrivalDate, _arrivalDate );
+                }
+                _arrivalCalendarFragment.setMinDate(day);
+                _arrivalCalendarFragment.show(getFragmentManager(), "FROM_CALENDAR_FRAGMENT");
+                break;
 
             case R.id.linearLlegada:
+                Calendar cal = Calendar.getInstance();
+                //if( _arrivalDate != null )
+                //	cal.setTime( _arrivalDate );
+                cal.add(Calendar.DATE, 1);
+                Date d = cal.getTime();
+                if( _departureDate != null )
+                {
+                    _departureCalendarFragment.setSelectedDates( _departureDate, _departureDate );
+                }
+                _departureCalendarFragment.setMinDate(d);
+                _departureCalendarFragment.show( getFragmentManager(), "TO_CALENDAR_FRAGMENT" );
 
-            Calendar cale = Calendar.getInstance();
-            //if( _arrivalDate != null )
-            //	cal.setTime( _arrivalDate );
-            cale.add( Calendar.DATE, 1 );
-            Date da = cale.getTime();
-            if( _departureDate != null )
-            {
-                _departureCalendarFragment.setSelectedDates( _departureDate, _departureDate );
-            }
-            _departureCalendarFragment.setMinDate( da );
-            _departureCalendarFragment.show( getFragmentManager(), "TO_CALENDAR_FRAGMENT" );
             break;
             case R.id.btnDisponibilidad:
 
