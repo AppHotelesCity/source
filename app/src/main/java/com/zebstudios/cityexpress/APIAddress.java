@@ -21,7 +21,7 @@ public class APIAddress
 	public static final String PAYPAL_MERCHANT_API = "https://api-3t.paypal.com/nvp";
 	public static final String PAYPAL_MERCHANT_WEB = "https://www.paypal.com/cgi-bin/webscr";
 	public static final String RESERVATION_ENGINE_URL = "http://wshc.hotelescity.com:9742/wsMotorapp/ReservationEngine.svc";
-	public static final String CITYPREMIOS_ENGINE_URL = "http://wshc.hotelescity.com:9742/wcfCityPremios/CityPremios/wcfCityPremiosExterno.svc";
+	public static final String CITYPREMIOS_ENGINE_URL = "http://wshc.hotelescity.com:9742/wcfCityPremios_Des/CityPremios/wcfCityPremiosExterno.svc"; //quitar _Des
 	public static final int PAYPAL_MODE = 1;
 
 

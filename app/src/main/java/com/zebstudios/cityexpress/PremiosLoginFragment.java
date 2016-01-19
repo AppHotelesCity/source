@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -50,38 +51,6 @@ public class PremiosLoginFragment extends Fragment
             passSocio =  prefsUsuario.getString("passP2GO", null);;//"City2015" ;
             System.out.println("Socio->" + passSocio);
             doLoginAutomatic(numSocio, passSocio);
-            if(!login){
-                _view = inflater.inflate(R.layout.fragment_premioslogin, container, false);
-                startScreen("ViewCityPremios-Smartphone");
-                Button btnLogin = (Button) _view.findViewById(R.id.btnLogin);
-                btnLogin.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        doLogin();
-                        addEvent("CityPremiosLogin");
-                    }
-                });
-
-                Button btnRegister = (Button) _view.findViewById(R.id.btnCrear);
-                btnRegister.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        register();
-                        addEvent("CityPremiosRegister");
-                    }
-                });
-
-                Button btnRecupear = (Button) _view.findViewById(R.id.btnOlvide);
-                btnRecupear.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        olvide();
-                        addEvent("CityPremiosReset");
-                    }
-                });
-
-                return _view;
-            }
             addEvent("CityPremiosLogin");
             return _view;
 
@@ -200,8 +169,10 @@ public class PremiosLoginFragment extends Fragment
                     db.update( user );
                 db.close();
 
-                getActivity().setResult( Activity.RESULT_OK );
-                getActivity().finish();
+                getActivity().setResult(Activity.RESULT_OK);
+                Intent dialog = new Intent( getActivity(), PremiosDetailActivity.class );
+                getActivity().startActivity(dialog);
+                //getActivity().finish();
             }
             else {
                 alert("Socio y/o contraseña inválidos.");

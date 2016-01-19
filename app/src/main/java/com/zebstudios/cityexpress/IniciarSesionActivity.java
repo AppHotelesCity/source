@@ -273,7 +273,7 @@ public class IniciarSesionActivity extends Activity {
                 "</SOAP-ENV:Envelope>";
         xmlF2GO = xmlF2GO.replace("{IDF2GO}",socio); //cambiar por cadena socio.
 
-        StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wcfMiCityExpress_WCF_Prod/ClienteUnico.svc", new Response.Listener<String>() {
+        StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wcfMiCityExpress_WCF_Des/ClienteUnico.svc", new Response.Listener<String>() { //cambiar _Prod
             @Override
             public void onResponse(String response) {
 

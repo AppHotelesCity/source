@@ -418,7 +418,7 @@ public class MainActivity extends ActionBarActivity
 			//Intent dialog = new Intent( this, BlogActivity.class );
 			//startActivityForResult( dialog, ACTIVITY_BLOG );
 			premiosImageClicked();
-			//addEvent("MenuCityPremios-SmartPhone");
+			addEvent("MenuCityPremios-SmartPhone");
 		}
 		else if(index == 6){
 			SharedPreferences loginOut = getSharedPreferences(APIAddress.LOGIN_USUARIO_PREFERENCES, Context.MODE_PRIVATE);
@@ -442,20 +442,23 @@ public class MainActivity extends ActionBarActivity
 		PremiosUserLoggedDS.PremiosUserLogged user = db.getUserLogged();
 		db.close();
 
-		if( user == null )
+		if( user != null )
 		{
-			PremiosLoginFragment fragment = new PremiosLoginFragment();
-			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
+			Intent dialog = new Intent( this, PremiosDetailActivity.class );
+			startActivityForResult(dialog, ACTIVITY_PREMIOS_DETAIL);
+
 
 			//Intent dialog = new Intent( this, PremiosLoginActivity.class );
 			//startActivityForResult( dialog, ACTIVITY_PREMIOS_LOGIN );
 		}
 		else
 		{
+			PremiosLoginFragment fragment = new PremiosLoginFragment();
+			getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
 			//PremiosLoginFragment fragment = new PremiosLoginFragment();
 			//getSupportFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).commit();
-			Intent dialog = new Intent( this, PremiosDetailActivity.class );
-			startActivityForResult( dialog, ACTIVITY_PREMIOS_DETAIL );
+			//Intent dialog = new Intent( this, PremiosDetailActivity.class );
+			//startActivityForResult( dialog, ACTIVITY_PREMIOS_DETAIL );
 
 		}
 

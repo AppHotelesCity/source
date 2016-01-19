@@ -1,5 +1,6 @@
 package com.zebstudios.cityexpress;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -89,7 +90,10 @@ public class PremiosDetailActivity extends ActionBarActivity
 		switch( item.getItemId() )
 		{
 			case android.R.id.home:
-				PremiosDetailActivity.this.onBackPressed();
+				//PremiosDetailActivity.this.onBackPressed();
+				Intent intent = new Intent(this, MainActivity.class);
+				startActivity(intent);
+				finish();
 				break;
 		}
 		return true;
@@ -103,5 +107,13 @@ public class PremiosDetailActivity extends ActionBarActivity
 	public PremiosExternoClient.EdoCtaResponse.ResRecord getResumen()
 	{
 		return _resumen;
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+		finish();
 	}
 }
