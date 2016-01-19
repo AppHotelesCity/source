@@ -94,6 +94,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                                         Intent intent = new Intent(v.getContext(), ReservacionActivity.class);
                                         intent.putExtra("city", false);
                                         intent.putExtra("posicionHotel", posicion);
+                                        intent.putExtra("siglasHotel" , habitacionesArrayList.get(position).getCodigoHotel());
                                         intent.putExtra("posicionHabitacion", position);
                                         intent.putExtra("numHabitacion", (which+1));
                                         intent.putExtra("descipcionHabitacionJSON",habitacionesArrayList.get(position).getDescripcion());
@@ -126,6 +127,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                                         intent.putExtra("city", false);
                                         intent.putExtra("posicionHotel", posicion);
                                         intent.putExtra("posicionHabitacion", position);
+                                        intent.putExtra("siglasHotel", habitacionesArrayList.get(position).getCodigoHotel());
                                         intent.putExtra("numHabitacion", (which+1));
                                         intent.putExtra("descipcionHabitacionJSON",habitacionesArrayList.get(position).getDescripcion());
                                         intent.putExtra("precioDestino", habitacionBaseArrayList.get(position).getCosto());
@@ -147,6 +149,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                                         Intent intent = new Intent(v.getContext(), ReservacionPremiosActivity.class);
                                         intent.putExtra("city", true);
                                         intent.putExtra("posicionHotel", posicion);
+                                        intent.putExtra("siglasHotel" , habitacionesArrayList.get(position).getCodigoHotel());
                                         intent.putExtra("posicionHabitacion", position);
                                         intent.putExtra("numHabitacion", (which+1));
                                         intent.putExtra("descipcionHabitacionJSON",habitacionesArrayList.get(position).getDescripcion());
