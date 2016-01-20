@@ -276,6 +276,7 @@ public class MiReservacionDetailActivity extends Activity {
             btnCheckOut.setEnabled(false);
         }else{
             btnCheckOut.setEnabled(true);
+            btnConsultarSaldos.setEnabled(true);
             txtHabitacion .setText(", Habitación " + datosReservacion.getNumHabitacionAsigado());
         }
 

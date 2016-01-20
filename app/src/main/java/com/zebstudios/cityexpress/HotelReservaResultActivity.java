@@ -92,12 +92,23 @@ public class HotelReservaResultActivity extends Activity {
 
         ArrayList<SummaryEntry> sumary = new ArrayList<SummaryEntry>();
 
-        for (int i = 0; i < numHabitaciones; i++) {
-            sumary.add(new SummaryEntry(0, "Habitación " + (i + 1)));
-            for (int j = 0; j < Math.abs(numNoches); j++) {
-                sumary.add(new SummaryEntry(1, "Noche " + (j + 1) + " $" + ReservacionActivity.preciosList.get(i)));
+        try {
+            for (int i = 0; i < numHabitaciones; i++) {
+                sumary.add(new SummaryEntry(0, "Habitación " + (i + 1)));
+                for (int j = 0; j < Math.abs(numNoches); j++) {
+                        sumary.add(new SummaryEntry(1, "Noche " + (j + 1) + " $" + ReservacionActivity.preciosList.get(i)));
+                }
+            }
+        }catch(Exception e ){
+            sumary.clear();
+            for (int i = 0; i < numHabitaciones; i++) {
+                sumary.add(new SummaryEntry(0, "Habitación " + (i + 1)));
+                for (int j = 0; j < Math.abs(numNoches); j++) {
+                        sumary.add(new SummaryEntry(1, "Noche " + (j + 1) + " $" + ReservacionPremiosActivity.preciosList.get(i)));
+                }
             }
         }
+
 
         NestedListView list = (NestedListView) findViewById(R.id.list_reservations);
         SummaryListAdapter adapter = new SummaryListAdapter(this, sumary);
@@ -109,9 +120,6 @@ public class HotelReservaResultActivity extends Activity {
         ds.open();
         datosReservacion =ds.getReservante(numReservacion);
         ds.close();
-
-        System.out.println("NombreHotel" + datosReservacion.getNombreHotel() + "TOTAL->" + ReservacionActivity.titulares.get(0).getPrecio());
-        System.out.println("NombreHotel"+datosReservacion.getNombreHotel() + "TOTAL->" +ReservacionActivity.titulares.get(1).getPrecio());
 
 
         llenarInformacion();
