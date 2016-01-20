@@ -95,7 +95,7 @@ public class HotelReservaResultActivity extends Activity {
         for (int i = 0; i < numHabitaciones; i++) {
             sumary.add(new SummaryEntry(0, "Habitación " + (i + 1)));
             for (int j = 0; j < Math.abs(numNoches); j++) {
-                sumary.add(new SummaryEntry(1, "Noche " + (j + 1) + " $" + precioHabitacion));
+                sumary.add(new SummaryEntry(1, "Noche " + (j + 1) + " $" + ReservacionActivity.preciosList.get(i)));
             }
         }
 
@@ -110,7 +110,8 @@ public class HotelReservaResultActivity extends Activity {
         datosReservacion =ds.getReservante(numReservacion);
         ds.close();
 
-        System.out.println("NombreHotel"+datosReservacion.getNombreHotel() + "TOTAL->" +datosReservacion.getHabCosto());
+        System.out.println("NombreHotel" + datosReservacion.getNombreHotel() + "TOTAL->" + ReservacionActivity.titulares.get(0).getPrecio());
+        System.out.println("NombreHotel"+datosReservacion.getNombreHotel() + "TOTAL->" +ReservacionActivity.titulares.get(1).getPrecio());
 
 
         llenarInformacion();
@@ -177,9 +178,9 @@ public class HotelReservaResultActivity extends Activity {
         txtLlegada.setText(sdf.format(datosReservacion.getFechaLlegada()));
         txtSalida.setText(sdf.format(datosReservacion.getFechaSalida()));
 
-        txtPrecioSubtotal .setText("Subtotal: $ " + subtotal + " M.N");
-        txtPrecioIva .setText("Impuestos: $ " + iva + " M.N");
-        txtPrecioTotal .setText("Total: $ " + total + " M.N");
+        txtPrecioSubtotal .setText(String.format("Subtotal: $%,.2f ", subtotal) + " M.N");
+        txtPrecioIva .setText(String.format("Impuestos: $%,.2f ", iva) + " M.N");
+        txtPrecioTotal .setText(String.format("Total: $%,.2f ", total) + " M.N");
         txtDireccionHotel .setText("" + datosReservacion.getDireccionHotel());
         txtReferenciaHotel.setText("" + datosReservacion.getDescripcionLugarHotel());
         _mapView.onResume();

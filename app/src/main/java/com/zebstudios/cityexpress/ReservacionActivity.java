@@ -45,6 +45,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -91,8 +92,12 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
     double precioHabitacion;
     double IVAHabitacion;
+    double IVAHabitacion2;
     double subtotalHabitacion;
-    ArrayList<GuestData> titulares;
+    double subtotalHabitacion2;
+    static ArrayList<GuestData> titulares;
+    ArrayList<String> adultos;
+    ArrayList<String> ninos;
     SegmentedGroup segmentswitch;
 
     RadioButton btnTarjeta;
@@ -113,21 +118,45 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
     int posicionHab;
     int numHabitacion;
     int numNoches;
+    int numInfantes;
+    int numAdultos;
+    int numPersonas;
     String codigoBase;
+    String siglasHotel;
+    String llegada;
     String descripcionHabitacionJSON;
     Date arrival;
     Date departure;
     String precio;
     private int _lastGuestIndex;
     private ProgressDialogFragment _progress;
-
+    TextView lblTotal;
+    TextView lblSubTotal;
+    TextView lblIVA;
+    TextView lblTotal2;
+    TextView lblSubTotal2;
+    TextView lblIVA2;
     int contador;
-
+    int numHuesped;
     private static final int PAYMENT_METHOD_CARD = 100;
     private static final int PAYMENT_METHOD_PAYPAL = 101;
     private int _paymentMethod;
     private boolean _isShowingWebView = false;
     //Realm realm;
+    HabitacionBase habitacionBase;
+    HabitacionBase habitacionCity;
+    ArrayList<HabitacionBase> habitacionBaseList;
+    ArrayList<HabitacionBase> habitacionCityPremiosList;
+    ArrayList<Hotel> listaGeneralHotel;
+    boolean cityPremios =false;
+    ArrayList<String> huespedes;
+    static ArrayList<SummaryEntry> sumary;
+    static ArrayList<String> preciosList;
+    boolean maxPersonas = false;
+    GuestData guess;
+    double subtotal;
+    double IVA;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,15 +168,15 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         TextView lblHotelName = (TextView) findViewById(R.id.lblHotelName);
         TextView lblArrivalDate = (TextView) findViewById(R.id.dates_arrival_text);
         TextView lblDepartureDate = (TextView) findViewById(R.id.dates_departure_text);
-        TextView lblSubTotal = (TextView) findViewById(R.id.lblSubTotal);
-        TextView lblIVA = (TextView) findViewById(R.id.lblIVA);
-        TextView lblTotal = (TextView) findViewById(R.id.lblTotal);
+        lblSubTotal = (TextView) findViewById(R.id.lblSubTotal);
+        lblIVA = (TextView) findViewById(R.id.lblIVA);
+        lblTotal = (TextView) findViewById(R.id.lblTotal);
         TextView lblHotelName2 = (TextView) findViewById(R.id.lblHotelName2);
         TextView lblArrivalDate2 = (TextView) findViewById(R.id.dates_arrival_text2);
         TextView lblDepartureDate2 = (TextView) findViewById(R.id.dates_departure_text2);
-        TextView lblTotal2 = (TextView) findViewById(R.id.lblTotal2);
-        TextView lblSubTotal2 = (TextView) findViewById(R.id.lblSubTotal2);
-        TextView lblIVA2 = (TextView) findViewById(R.id.lblIVA2);
+        lblTotal2 = (TextView) findViewById(R.id.lblTotal2);
+        lblSubTotal2 = (TextView) findViewById(R.id.lblSubTotal2);
+        lblIVA2 = (TextView) findViewById(R.id.lblIVA2);
         imageBack = (ImageView) findViewById(R.id.back_button);
         txtCardName = (EditText) findViewById(R.id.txtCardName);
         txtCardNumber = (EditText) findViewById(R.id.txtCardNumber);
@@ -169,8 +198,9 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         posicionHab = bundle.getInt("posicionHabitacion");
         numHabitacion = bundle.getInt("numHabitacion");
         descripcionHabitacionJSON = bundle.getString("descipcionHabitacionJSON");
-
+        siglasHotel = bundle.getString("siglasHotel");
         arrival = PrincipalFragment._arrivalDate;
+        llegada = new SimpleDateFormat("yyyy-MM-dd").format(arrival);
         departure = PrincipalFragment._departureDate;
         numNoches = ResultadosDisponibilidad.totalNoches;
         numNoches = Math.abs(numNoches);
@@ -178,7 +208,8 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         subtotalHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getSubTotal().replace(",", ""));
         IVAHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getIVA().replace(",", ""));
         _lastGuestIndex = 0;
-        System.out.println("numNoches" + numNoches);
+        System.out.println("IVAHABITACION" + IVAHabitacion);
+        System.out.println("SIGLASHOTEL"+ bundle.getString("siglasHotel"));
         _hotel = ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot);
         ResultadosDisponibilidad.habitacionBaseList.get(posicionHab);
 
@@ -194,10 +225,17 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         System.out.println("arrival" + arrival);
         System.out.println("departure" + departure);
         System.out.println("codigoBase" + codigoBase);
-
-
+        adultos = new ArrayList<String>();
+        ninos = new ArrayList<String>();
+        adultos.add("0");
+        ninos.add("0");
+        numInfantes = 0;
+        numAdultos = 0;
+        obtenerAdultos();
         contador = 0;
 
+        subtotalHabitacion2 = 0;
+        IVAHabitacion2 = 0;
         btnMisma = (RadioButton) findViewById(R.id.btn_rad_misma);
         btnOtros = (RadioButton) findViewById(R.id.btn_rad_otros);
         txtName = (EditText) findViewById(R.id.txtName);
@@ -275,8 +313,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
         //Log.d( "TEST", "MAX: " + _room.getMaxAdultos() );
 
-        ArrayList<String> adultos = new ArrayList<String>();
-        ArrayList<String> ninos = new ArrayList<String>();
+
 /*
         for( int i = 0; i <= _room.getMaxAdultos() - 1; i++ )
         {
@@ -287,10 +324,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             ninos.add( "" + i );
         }
 */
-        adultos.add("0");
-        adultos.add("1");
-        ninos.add("0");
-        ninos.add("1");
+
 
         Spinner spinAdultos = (Spinner) findViewById(R.id.spinAdultos);
         SpinnerAdapter adapterAdultos = new ArrayAdapter<String>(ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, adultos);
@@ -298,7 +332,8 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         spinAdultos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //changeAdultos();
+                numAdultos = position;
+                changeAdultos(numAdultos);
             }
 
             @Override
@@ -309,6 +344,18 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         Spinner spinNinos = (Spinner) findViewById(R.id.spinNinos);
         SpinnerAdapter adapterNinos = new ArrayAdapter<String>(ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, ninos);
         spinNinos.setAdapter(adapterNinos);
+        spinNinos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                numInfantes = position;
+                //changeAdultos(numAdultos,numInfantes);*/
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         SimpleDateFormat sdfecha = new SimpleDateFormat("dd-MM-yyyy");
         sdfecha.format(departure);
 
@@ -481,19 +528,22 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
         // list2.setAdapter( adapter );
 
-        ArrayList<String> huespedes = new ArrayList<String>();
-        ArrayList<SummaryEntry> sumary = new ArrayList<SummaryEntry>();
+        huespedes = new ArrayList<String>();
+        sumary = new ArrayList<SummaryEntry>();
+        preciosList = new ArrayList<String>();
 
         for (int i = 0; i < numHabitacion; i++) {
             huespedes.add("Huésped titular - habitación " + (i + 1));
             sumary.add(new SummaryEntry(0, "Habitación " + (i + 1)));
             for (int j = 0; j < Math.abs(numNoches); j++) {
                 sumary.add(new SummaryEntry(1, "Noche " + (j + 1) + " $" + subtotalHabitacion));//precioHabitacion));
+                preciosList.add(""+subtotalHabitacion);
             }
             titulares.add(new GuestData());
 
         }
 
+        numHuesped = 0;
         NestedListView list = (NestedListView) findViewById(R.id.list_summary);
         NestedListView list2 = (NestedListView) findViewById(R.id.list_summary2);
         SummaryListAdapter adapter = new SummaryListAdapter(this, sumary);
@@ -506,6 +556,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         spinHuespedes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                numHuesped = position;
                 changeHuesped(position);
             }
 
@@ -553,6 +604,437 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
         Analytics analytics = (Analytics) getApplication();
         analytics.sendAppEventTrack( "HOTEL DETAIL ANDROID", "RESERVA 2", "HOTEL", _hotel.getNombre(), 1 );
+    }
+
+    //Cambiar la tarifa de adultos.
+    public void changeAdultos(final int numAdultos){
+        int totalAdultos = numAdultos + numInfantes;
+
+        if(!(totalAdultos<numPersonas)){
+            //alert("Has alcanzado el limite permitido de personas por habitaciòn");
+        }
+        else if(numAdultos<=1){
+            ninos.clear();
+            int max=numPersonas-numAdultos;
+            for (int i = 0; i < max; i++) {
+                ninos.add(""+i);
+            }
+            SpinnerAdapter adapterNinos = new ArrayAdapter<String>(ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, ninos);
+            spinNinos.setAdapter(adapterNinos);
+            if(maxPersonas){
+                System.out.println("Cambiar tarifa");
+                System.out.println("NumeroDEAdultos->" + adultos.get(posicion));
+                maxPersonas=false;
+                cambiarTarifa();
+            }
+        }
+        else if(numAdultos>1 && totalAdultos<numPersonas ){
+            maxPersonas = true;
+            System.out.println("Cambiar tarifa");
+            System.out.println("NumeroDEAdultos->" + adultos.get(posicion));
+            ninos.clear();
+            int max=numPersonas-numAdultos;
+            for (int i = 0; i < max; i++) {
+                ninos.add(""+i);
+            }
+            SpinnerAdapter adapterNinos = new ArrayAdapter<String>(ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, ninos);
+            spinNinos.setAdapter(adapterNinos);
+            cambiarTarifa();
+
+        }
+        else if(numInfantes>1 && totalAdultos<numPersonas){
+            System.out.println("Cambiar tarifa");
+            System.out.println("numero de infantes" + ninos.get(posicion));
+            ninos.get(posicion);
+            cambiarTarifa();
+        }
+    }
+
+    public void cambiarTarifa(){
+            //System.out.println("SIGLAS->"+listaHotel.get(contador).getSiglas());
+            cadena = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
+                    "  <s:Body>\n" +
+                    "    <GetRoomsAvailablePromoImpuestos xmlns=\"http://tempuri.org/\">\n" +
+                    "      <promoRequestModelv3I xmlns:d4p1=\"http://schemas.datacontract.org/2004/07/CityHub\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
+                    "        <d4p1:CodigoPromocion />\n" +
+                    "        <d4p1:CodigoTarifa>1114</d4p1:CodigoTarifa>\n" +
+                    "        <d4p1:FechaInicial>"+llegada+"</d4p1:FechaInicial>\n" +
+                    "        <d4p1:Hotel>"+ siglasHotel +"</d4p1:Hotel>\n" +
+                    "        <d4p1:NumeroAdultos>"+((numAdultos+numInfantes)+1)+"</d4p1:NumeroAdultos>\n" +
+                    "        <d4p1:NumeroDeNoches>"+numNoches+"</d4p1:NumeroDeNoches>\n" +
+                    "        <d4p1:NumeroHabitaciones>1</d4p1:NumeroHabitaciones>\n" +
+                    "        <d4p1:Segmento>001</d4p1:Segmento>\n" +
+                    "        <d4p1:TipoHabitacion />\n" +
+                    "      </promoRequestModelv3I>\n" +
+                    "    </GetRoomsAvailablePromoImpuestos>\n" +
+                    "  </s:Body>\n" +
+                    "</s:Envelope>";
+
+            System.out.println("XMLHOTELES"+cadena);
+        progress = ProgressDialog.show(ReservacionActivity.this, "Cargando...",
+                "Espere por favor", true);
+            StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) { //wsMotor2014 // wsMotor2015_Prod
+
+                    System.out.println("IMPUESTOS->"+response);
+                    InputStream stream = null;
+                    try {
+                        stream = new ByteArrayInputStream(response.getBytes("UTF-8"));
+                        parseXMLImpuestos(stream);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }finally {
+                        obtenerDescripcionHotelImpuestos(response);
+                        progress.dismiss();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                    /*NetworkResponse response = error.networkResponse;
+                    String datos = new String(response.data);
+                    System.out.println("sout" + datos);*/
+                    progress.dismiss();
+                    alert("Ha ocurrido un error de conexión");
+                }
+            }) {
+
+                public String getBodyContentType() {
+                    return "text/xml; charset=utf-8";
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> params = new HashMap<String, String>();
+                    //params.put("Content-Type", "application/xml; charset=utf-8");
+                    params.put("SOAPAction", "http://tempuri.org/IReservationEngine/GetRoomsAvailablePromoImpuestos");
+                    Log.d("hsdhsdfhuidiuhsd", "clave");
+                    return params;
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    return cadena.toString().getBytes();
+                }
+
+            };
+            //System.out.println("registro->" + registro.toString());
+            registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            Volley.newRequestQueue(this).add(registro);
+           /* for (int i = 0; i <listaGeneralHotel.size() ; i++) {
+                for (int j = 0; j < listaGeneralHotel.get(i).getArrayHabitaciones().size() ; j++) {
+                    if(listaGeneralHotel.get(i).getArrayHabitaciones().get(j).getCodigoBase().equalsIgnoreCase("HCP")){
+                        listaGeneralHotel.get(i).getArrayHabitaciones().remove(j);
+                    }
+                }
+            }*/
+
+
+    }
+
+
+   public void parseXMLImpuestos(InputStream is) throws Exception {
+        XmlPullParserFactory factory = null;
+        XmlPullParser parser = null;
+        //List<String> listaBase = null;
+        try {
+            //listaBase = new ArrayList<>();
+            factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            parser = factory.newPullParser();
+
+            parser.setInput(is, null);
+            habitacionBaseList = new ArrayList<>();
+            habitacionCityPremiosList = new ArrayList<>();
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                String tagname = parser.getName();
+                switch (eventType) {
+                    case XmlPullParser.START_TAG:
+                        if (tagname.equalsIgnoreCase("AvailableI")) {
+                        } else if(tagname.equalsIgnoreCase("Disponibilidad")){
+
+                        } else if(tagname.equalsIgnoreCase("HabBaseI")){
+                            habitacionBase = new HabitacionBase();
+                            habitacionCity = new HabitacionBase();
+
+                        }
+                        break;
+
+                    case XmlPullParser.TEXT:
+                        text = parser.getText();
+                        break;
+
+                    case XmlPullParser.END_TAG:
+                        if (tagname.equalsIgnoreCase("Available")) {
+
+                            if(cityPremios){
+
+                            }else{
+                                //listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList,habitacionCityPremiosList));
+                                //listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList));
+                                //System.out.println("TOTAL->" + listaGeneralHotel.size());
+                                habitacionBaseList = new ArrayList<>();
+                                //habitacionCityPremiosList = new ArrayList<>();
+                                // add employee object to list
+                                // employee.setHabitacionBasesList(habitacionBasesList);
+                            }
+
+                        }else if(tagname.equalsIgnoreCase("CodigoError")){
+
+                        }else if(tagname.equalsIgnoreCase("CodigoTarifa")){
+                            if(text.equalsIgnoreCase("1115P")){
+                                System.out.println("Hola15");
+                                cityPremios = true;
+                            }else{
+                                cityPremios = false;
+                            }
+                        }else if(tagname.equalsIgnoreCase("DescError")){
+                        }else if(tagname.equalsIgnoreCase("Descripcion")){
+                        }else if(tagname.equalsIgnoreCase("Hotel")){
+                        }else if(tagname.equalsIgnoreCase("Promociones")){
+                        }else if(tagname.equalsIgnoreCase("Disponibilidad")){
+
+                        }else if(tagname.equalsIgnoreCase("TarifaBase")){
+                        } else if(tagname.equalsIgnoreCase("HabBase")){
+
+                            if(cityPremios){
+                                habitacionCityPremiosList.add(habitacionCity);
+                            }else{
+                                habitacionBaseList.add(habitacionBase);
+                            }
+                            System.out.println("HabitacionBase" + habitacionBaseList.size());
+                            System.out.println("HabitacionCity" + habitacionCityPremiosList.size());
+                        }else if (tagname.equalsIgnoreCase("Descripcion")) {
+                        } else if (tagname.equalsIgnoreCase("CodigoTarifa")) {
+                        } else if (tagname.equalsIgnoreCase("Hotel")) {
+                        } else if (tagname.equalsIgnoreCase("PromocionesI")) {
+                        } else if (tagname.equalsIgnoreCase("AVAILABILITY")) {
+                            habitacionBase.setDisponibilidad(text);
+                        } else if (tagname.equalsIgnoreCase("CodBase")) {
+                            if(cityPremios){
+                                habitacionCity.setCodigoBase(text);
+                                System.out.println(text+"zz------");
+                            }else{
+                                habitacionCity.setCodigoBase("");
+                                habitacionBase.setCodigoBase(text);
+                            }
+                        } else if (tagname.equalsIgnoreCase("DescBase")) {
+                            habitacionBase.setDescBase(text);
+                        } else if (tagname.equalsIgnoreCase("Costo")) {
+                            if (cityPremios) {
+                                habitacionCity.setCosto(text);
+                            } else {
+                                habitacionBase.setCosto(text);
+                            }
+
+                        } else if (tagname.equalsIgnoreCase("IVA")) {
+                            if(cityPremios){
+                                habitacionCity.setIVA(text);
+                            }else{
+                                habitacionBase.setIVA(text);
+                            }
+                            System.out.println("IVA->"+text);
+                        } else if (tagname.equalsIgnoreCase("SubTotal")) {
+                            if(cityPremios){
+                                habitacionCity.setSubTotal(text);
+                            }else{
+                                habitacionBase.setSubTotal(text);
+                            }
+                            System.out.println("SUBTOTAL->"+text);
+                        } else if (tagname.equalsIgnoreCase("Fecha")) {
+                            habitacionBase.setFecha(text);
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+                eventType = parser.next();
+            }
+
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void obtenerDescripcionHotelImpuestos(String hotel){
+
+        JSONObject jsonObj = null;
+        JSONObject mobilegate = null;
+        habitacionBase = new HabitacionBase();
+        habitacionCity = new HabitacionBase();
+
+        try {
+
+
+            jsonObj = XML.toJSONObject(hotel);
+
+            JSONObject envelope = new JSONObject(jsonObj.getString("s:Envelope"));
+
+            JSONObject sbody = new JSONObject(envelope.getString("s:Body"));
+
+            JSONObject roomsAvaliables = new JSONObject(sbody.getString("GetRoomsAvailablePromoImpuestosResponse"));
+
+            JSONObject resultRoomsAvailable = new JSONObject(roomsAvaliables.getString("GetRoomsAvailablePromoImpuestosResult"));
+
+            JSONObject disponibilidad = new JSONObject(resultRoomsAvailable.getString("a:Disponibilidad"));
+
+            //System.out.println("Disponibilidad->"+disponibilidad.getString("a:Available"));
+            //mobilegate = jsonObj.getJSONObject("Costo");
+
+            JSONArray arreglodisponibilidad = new JSONArray(disponibilidad.getString("a:AvailableI"));
+
+            for (int i = 0; i < arreglodisponibilidad.length(); i++) {
+                JSONObject descripcion = new JSONObject(arreglodisponibilidad.getString(i));
+
+                if(descripcion.getString("a:CodigoTarifa").equalsIgnoreCase("1115P")){
+
+                    //descripcion.getString("")
+                    JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBaseI"));
+                    JSONArray habitacionBase = new JSONArray(tarifaBase.getString("a:HabBaseI"));
+
+                    for (int j = 0; j < habitacionBase.length(); j++) {
+
+                        habitacionCity = new HabitacionBase();
+                        JSONObject habitacionBaseDisponibilidad = new JSONObject(habitacionBase.get(j).toString());
+                        System.out.println("CUATRO1115P->"+habitacionBaseDisponibilidad.getString("a:CodBase"));
+                        habitacionCity.setCodigoBase(habitacionBaseDisponibilidad.getString("a:CodBase"));
+                        System.out.println("CINCO115P->"+habitacionBaseDisponibilidad.getString("a:Noches"));
+                        JSONObject noche = new JSONObject(habitacionBaseDisponibilidad.getString("a:Noches"));
+                        JSONObject costoNoche = new JSONObject(noche.getString("a:NocheI"));
+                        System.out.println("CostoTotal->" + costoNoche.get("a:Costo"));
+                        habitacionCity.setCosto(costoNoche.get("a:Costo").toString());
+                        habitacionCity.setIVA(costoNoche.get("a:IVA").toString());
+                        habitacionCity.setSubTotal(costoNoche.get("a:SubTotal").toString());
+                        habitacionCityPremiosList.add(habitacionCity);
+                    }
+                }else if(descripcion.getString("a:CodigoTarifa").equalsIgnoreCase("1114")){
+
+                    JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBaseI"));
+                    JSONArray habitacionBaseJSON = new JSONArray(tarifaBase.getString("a:HabBaseI"));
+
+                    for (int j = 0; j < habitacionBaseJSON.length(); j++) {
+                        habitacionBase = new HabitacionBase();
+                        JSONObject habitacionBaseDisponibilidad = new JSONObject(habitacionBaseJSON.get(j).toString());
+                        System.out.println("CUATRO->"+habitacionBaseDisponibilidad.getString("a:CodBase"));
+                        habitacionBase.setCodigoBase(habitacionBaseDisponibilidad.getString("a:CodBase"));
+                        System.out.println("CINCO->"+habitacionBaseDisponibilidad.getString("a:Noches"));
+                        JSONObject noche = new JSONObject(habitacionBaseDisponibilidad.getString("a:Noches"));
+                        JSONObject costoNoche = new JSONObject(noche.getString("a:NocheI"));
+                        System.out.println("CostoTotal->" + costoNoche.get("a:Costo"));
+                        habitacionBase.setCosto(costoNoche.get("a:Costo").toString());
+                        habitacionBase.setIVA(costoNoche.get("a:IVA").toString());
+                        habitacionBase.setSubTotal(costoNoche.get("a:SubTotal").toString());
+                        System.out.println("COSTOSUBTOTAL" + costoNoche.get("a:SubTotal").toString());
+                        habitacionBaseList.add(habitacionBase);
+
+                        if(habitacionBase.getCodigoBase().equalsIgnoreCase(codigoBase)){
+
+                            precioHabitacion = Double.parseDouble(habitacionBase.getCosto().replace(",",""));
+                            IVAHabitacion2 = Double.parseDouble(habitacionBase.getIVA().replace(",", ""));
+                            subtotalHabitacion2 = Double.parseDouble(habitacionBase.getSubTotal().replace(",", ""));
+                            System.out.println("IVAHABITACION2" + IVAHabitacion2);
+                            sumary.clear();
+                            preciosList.clear();
+                            subtotal = 0;
+                            IVA = 0;
+                            for (int k = 0; k < numHabitacion; k++) {
+                                if(k==numHuesped){
+                                    sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
+                                    for (int l = 0; l < Math.abs(numNoches); l++) {
+                                        sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + subtotalHabitacion2));//precioHabitacion));
+                                        preciosList.add(subtotalHabitacion2+"");
+                                        subtotal += subtotalHabitacion2;
+                                        IVA += IVAHabitacion2;
+                                    }
+                                }else{
+                                    sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
+                                    for (int l = 0; l < Math.abs(numNoches); l++) {
+                                        sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + guess.getPrecio()));//precioHabitacion))//// ;
+                                        subtotal += guess.getPrecio();
+                                        preciosList.add(subtotal+"");
+                                        IVA += guess.getIva();
+                                    }
+                                }
+
+                            }
+
+                            NestedListView list = (NestedListView) findViewById(R.id.list_summary);
+                            NestedListView list2 = (NestedListView) findViewById(R.id.list_summary2);
+                            SummaryListAdapter adapter = new SummaryListAdapter(this, sumary);
+                            list.setAdapter(adapter);
+                            list2.setAdapter(adapter);
+                            lblTotal.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "MXN");//String.format( "Total: $%,.2f ",1123 ) );
+                            lblTotal2.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "MXN");// String.format( "Total: $%,.2f ", 34345 )  );
+                            lblIVA.setText(String.format("Impuestos: $%,.2f ", IVA) + "MXN");
+                            lblIVA2.setText(String.format("Impuestos: $%,.2f ", IVA) + "MXN");
+                            lblSubTotal.setText(String.format("Subtotal: $%,.2f ", subtotal) + "MXN");
+                            lblSubTotal2.setText(String.format("Subtotal: $%,.2f ", subtotal) + "MXN");
+                        }
+                    }
+                }
+            }
+
+
+        } catch (JSONException e) {
+            Log.e("JSON exception", e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void obtenerAdultos(){
+        progress = ProgressDialog.show(ReservacionActivity.this, "Cargando...",
+                "Espere por favor", true);
+        String url ="https://www.cityexpress.com/umbraco/api/MobileAppServices/GetHabitaciones?HotelCode="+siglasHotel+"&RoomCodes="+codigoBase;
+
+        StringRequest postRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String jsonStr) {
+                        System.out.println("JSONHABITACION->" + jsonStr);
+                        try {
+                            JSONArray habitacion = new JSONArray(jsonStr);
+                            JSONObject habi = new JSONObject(habitacion.get(0).toString());
+                            numPersonas = Integer.parseInt(habi.getString("Num_de_Personas"));
+                            for (int i = 1; i < numPersonas; i++) {
+                                adultos.add(""+i);
+                                ninos.add(""+i);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }finally {
+                            progress.dismiss();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        progress.dismiss();
+                    }
+                }
+        ) {
+            public String getBodyContentType() {
+                return "text/xml; charset=utf-8";
+            }
+			/*@Override
+			public Map<String, String> getHeaders()
+			{
+				Map<String, String>  params = new HashMap<>();
+				params.put("Content-Type", "utf-8");
+				return params;
+			}*/
+        };
+        postRequest.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(this).add(postRequest);
+
     }
 
     public void RecibirDatos() {
@@ -790,19 +1272,31 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         reservacionBD.setDeschabitacion(descripcionHabitacionJSON);
         reservacionBD.setLatitudHotel(_hotel.getLatitude());
         reservacionBD.setLongitudHotel(_hotel.getLongitude());
-        reservacionBD.setHabCosto("" + precioHabitacion);
+        reservacionBD.setHabCosto("" + titulares.get(contador).getPrecio());
         reservacionBD.setNumReservacion(Integer.parseInt(reservacion));
-        reservacionBD.setAdultos(1);
-        reservacionBD.setInfantes(0);
+        reservacionBD.setAdultos(titulares.get(contador).getAdultos());
+        reservacionBD.setInfantes(titulares.get(contador).getNinos());
         reservacionBD.setCodigoHabitacion(codigoBase);
         reservacionBD.setNumNoches(numNoches);
         reservacionBD.setNumHabitaciones(numHabitacion);
         reservacionBD.setDireccionHotel(getAddressString());
         reservacionBD.setCheckIn(true);
         reservacionBD.setCheckOut(true);
-        reservacionBD.setTotal("" + precioHabitacion);
-        reservacionBD.setSubtotal("" + subtotalHabitacion);
-        reservacionBD.setIva("" + IVAHabitacion);
+        if(getTotalCostAlt()==0){
+            reservacionBD.setTotal("" + precioHabitacion);
+        }else{
+            reservacionBD.setTotal(""+getTotalCostAlt());
+        }
+        if(subtotal ==0){
+            reservacionBD.setSubtotal("" + subtotalHabitacion);
+        }else{
+            reservacionBD.setSubtotal("" + subtotal);
+        }
+        if(IVA == 0){
+            reservacionBD.setIva("" + titulares.get(contador).getIva());
+        }else{
+            reservacionBD.setIva("" + titulares.get(contador).getIva());
+        }
         reservacionBD.setConsultarSaldos(true);
         reservacionBD.setCityPremios(false);
         System.out.println("DIreccionHotel" + getAddressString());
@@ -825,9 +1319,22 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             intent.putExtra("numHabitaciones", numHabitacion);
             intent.putExtra("precioHabitacion", precioHabitacion);
             intent.putExtra("numNoches",numNoches);
-            intent.putExtra("total",getTotalCost());
-            intent.putExtra("subtotal",getSubTotalCost());
-            intent.putExtra("iva",getIVACost());
+            if(getTotalCostAlt()==0){
+                intent.putExtra("total",getTotalCost());
+            }else{
+                intent.putExtra("total",getTotalCostAlt());
+            }
+            if(subtotal ==0){
+                intent.putExtra("subtotal",getSubTotalCost());
+            }else{
+                intent.putExtra("subtotal",subtotal);
+            }
+            if(IVA ==0){
+                intent.putExtra("iva",getIVACost());
+            } else {
+                intent.putExtra("iva",IVA);
+            }
+
             startActivity(intent);
         }
         System.out.println("Reservacion OK " + reservacion);
@@ -952,7 +1459,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                     "</s:Envelope>";
 
 
-            String llegada = new SimpleDateFormat("yyyy-MM-dd").format(arrival);
+            llegada = new SimpleDateFormat("yyyy-MM-dd").format(arrival);
 
             enviarxml = enviarxml.replace("{smart}", "false");
             enviarxml = enviarxml.replace("{codigohabitacion}", codigoBase);
@@ -962,8 +1469,8 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
             enviarxml = enviarxml.replace("{correoelectronico}", titulares.get(i).getEmail());
             enviarxml = enviarxml.replace("{telefono}", titulares.get(i).getPhone());
-            enviarxml = enviarxml.replace("{totalacompadultos}", "1");
-            enviarxml = enviarxml.replace("{totalacompmenores}", "0");
+            enviarxml = enviarxml.replace("{totalacompadultos}", ""+(1+numAdultos));
+            enviarxml = enviarxml.replace("{totalacompmenores}", "" + (0+numInfantes));
             enviarxml = enviarxml.replace("{codigopais}", "MEX");
             enviarxml = enviarxml.replace("{acompanantes}", "");
             enviarxml = enviarxml.replace("{huespednombre}", titulares.get(i).getName());
@@ -972,7 +1479,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
             enviarxml = enviarxml.replace("{codigohotel}", _hotel.getSiglas());
             enviarxml = enviarxml.replace("{estanciaentrada}", llegada);
-            enviarxml = enviarxml.replace("{numeronoches}", "1");
+            enviarxml = enviarxml.replace("{numeronoches}", ""+numNoches);
 
             enviarxml = enviarxml.replace("{reservantenombre}", titulares.get(i).getName());
             enviarxml = enviarxml.replace("{reservanteapellidos}", titulares.get(i).getLastName());
@@ -1206,6 +1713,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         spinViaje.clearFocus();
         spinAdultos.clearFocus();
         spinNinos.clearFocus();
+        cbAfiliate.setChecked(true);
     }
 
     private void changeHuesped( int index )
@@ -1222,6 +1730,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         else
         {
             setEnableSegmentedGroup(true);
+
         }
     }
 
@@ -1406,11 +1915,26 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         return (total*numHabitacion);
     }
 
+    private double getTotalCostAlt()
+    {
+        double total = 0;
+        for( int i = 0; i < Math.abs(numNoches) ; i++ )
+        {
+            total += IVA+subtotal;
+        }
+
+        return total;
+    }
+
     private double getSubTotalCost(){
         double total = 0;
         for( int i = 0; i < Math.abs(numNoches) ; i++ )
         {
-            total += subtotalHabitacion;
+            if(subtotalHabitacion2==0){
+                total += subtotalHabitacion;
+            }else{
+                total += subtotalHabitacion2;
+            }
         }
 
         return (total*numHabitacion);
@@ -1420,7 +1944,11 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         double total = 0;
         for( int i = 0; i < Math.abs(numNoches) ; i++ )
         {
-            total += IVAHabitacion;
+            if(IVAHabitacion2==0){
+                total += IVAHabitacion;
+            }else{
+                total += IVAHabitacion2;
+            }
         }
 
         return (total*numHabitacion);
@@ -1439,16 +1967,27 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         Spinner spinNinos = (Spinner) findViewById(R.id.spinNinos);
 
         GuestData d = titulares.get( _lastGuestIndex );
+
         d.setDataOption(btnMisma.isChecked() ? 0 : 1);
         if( _lastGuestIndex == 0 || ( _lastGuestIndex != 0 && !btnMisma.isChecked() ) )
         {
-            d.setName( txtName.getText().toString() );
-            d.setLastName( txtLast.getText().toString() );
-            d.setEmail( txtEmail.getText().toString() );
-            d.setSocio( txtSocio.getText().toString() );
-            d.setAfiliate( cbAfiliate.isChecked() );
-            d.setPhone( txtPhone.getText().toString() );
-            d.setViaje( spinViaje.getSelectedItemPosition() );
+            d.setName(txtName.getText().toString());
+            d.setLastName(txtLast.getText().toString());
+            d.setEmail(txtEmail.getText().toString());
+            d.setSocio(txtSocio.getText().toString());
+            d.setAfiliate(cbAfiliate.isChecked());
+            d.setPhone(txtPhone.getText().toString());
+            d.setViaje(spinViaje.getSelectedItemPosition());
+            if(subtotalHabitacion2 == 0){
+                d.setPrecio(subtotalHabitacion);
+            }else{
+                d.setPrecio(subtotalHabitacion2);
+            }
+            if(IVAHabitacion2 == 0){
+                d.setIva(IVAHabitacion);
+            }else{
+                d.setIva(IVAHabitacion2);
+            }
         }
         if(_lastGuestIndex>0 && btnMisma.isChecked()){
             System.out.println("ENTREACA");
@@ -1459,9 +1998,19 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             d.setAfiliate( cbAfiliate.isChecked() );
             d.setPhone( txtPhone.getText().toString() );
             d.setViaje( spinViaje.getSelectedItemPosition() );
+            if(subtotalHabitacion2 == 0){
+                d.setPrecio(subtotalHabitacion);
+            }else{
+                d.setPrecio(subtotalHabitacion2);
+            }
         }
         d.setAdultos( spinAdultos.getSelectedItemPosition() );
         d.setNinos(spinNinos.getSelectedItemPosition());
+        numAdultos=0;
+        spinAdultos.setSelection(0);
+        spinNinos.setSelection(0);
+        numInfantes = 0;
+        guess=d;
     }
 
     private void setGuestData()
@@ -1484,7 +2033,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         d = titulares.get( _lastGuestIndex );
 
 
-        prepareNinosSpinner( d.getAdultos() + 1 ); // Acompañantes + Titular
+        //prepareNinosSpinner( d.getAdultos() + 1 ); // Acompañantes + Titular
         spinAdultos.setSelection( d.getAdultos() );
         spinNinos.setSelection( d.getNinos() );
 
@@ -1498,6 +2047,8 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             cbAfiliate.setEnabled( true );
             txtPhone.setEnabled( true );
             spinViaje.setEnabled( true );
+            spinAdultos.setEnabled(true);
+            spinNinos.setEnabled(true);
         }
         else
         {
@@ -1521,6 +2072,45 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                 cbAfiliate.setEnabled( false );
                 txtPhone.setEnabled( false );
                 spinViaje.setEnabled( false );
+                spinAdultos.setEnabled(false);
+                spinNinos.setEnabled(false);
+                sumary.clear();
+                preciosList.clear();
+                subtotal =0;
+                IVA = 0;
+                for (int k = 0; k < numHabitacion; k++) {
+                    if(k==numHuesped){
+                        sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
+                        for (int l = 0; l < Math.abs(numNoches); l++) {
+                            sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + d.getPrecio()));//precioHabitacion));
+                            preciosList.add(""+d.getPrecio());
+                            subtotal+=d.getPrecio();
+                            IVA += d.getIva();
+                        }
+                    }else{
+                        sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
+                        for (int l = 0; l < Math.abs(numNoches); l++) {
+                            sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + d.getPrecio()));//precioHabitacion));
+                            subtotal+=d.getPrecio();
+                            preciosList.add(d.getPrecio()+"");
+                            IVA +=d.getIva();
+                        }
+                    }
+
+                }
+
+                NestedListView list = (NestedListView) findViewById(R.id.list_summary);
+                NestedListView list2 = (NestedListView) findViewById(R.id.list_summary2);
+                SummaryListAdapter adapter = new SummaryListAdapter(this, sumary);
+                list.setAdapter(adapter);
+                list2.setAdapter(adapter);
+                lblSubTotal.setText(String.format("Subtotal: $%,.2f ", subtotal) + "MXN");
+                lblSubTotal2.setText(String.format("Subtotal: $%,.2f ", subtotal) + "MXN");
+                lblIVA.setText(String.format("Impuestos: $%,.2f ", IVA) + "MXN");
+                lblIVA2.setText(String.format("Impuestos: $%,.2f ", IVA) + "MXN");
+                lblTotal.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "MXN");//String.format( "Total: $%,.2f ",1123 ) );
+                lblTotal2.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "MXN");// Str
+
             }
             else
             {
@@ -1531,6 +2121,8 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                 cbAfiliate.setEnabled( true );
                 txtPhone.setEnabled( true );
                 spinViaje.setEnabled( true );
+                spinAdultos.setEnabled(true);
+                spinNinos.setEnabled(true);
             }
         }
 
@@ -1541,6 +2133,8 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         cbAfiliate.setChecked(d.isAfiliate());
         txtPhone.setText(d.getPhone());
         spinViaje.setSelection(d.getViaje());
+        spinAdultos.setSelection(d.getAdultos());
+        spinNinos.setSelection(d.getNinos());
     }
 
     /**
@@ -1592,7 +2186,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         spinNinos.setAdapter(adapterNinos);
     }
 
-    private class GuestData
+    public class GuestData
     {
         private int _dataOption;
         private String _name;
@@ -1604,6 +2198,8 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         private int _viaje;
         private int _adultos;
         private int _ninos;
+        private double precio;
+        private double iva;
 
         public GuestData()
         {
@@ -1632,6 +2228,22 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             this._viaje = _viaje;
             this._adultos = _adultos;
             this._ninos = _ninos;
+        }
+
+        public double getIva() {
+            return iva;
+        }
+
+        public void setIva(double iva) {
+            this.iva = iva;
+        }
+
+        public double getPrecio() {
+            return precio;
+        }
+
+        public void setPrecio(double precio) {
+            this.precio = precio;
         }
 
         public int getDataOption()
@@ -1801,7 +2413,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
                 ReservacionBD huesped = _results;
                 String correo = huesped.getEmailUsuario();
-                String reservante = "[" + huesped.getNombreUsuario() + " " + huesped.getApellidoUsuario() + "^" + descripcionHabitacionJSON + "^" + "1" + "^" + numNoches + "^" + precioHabitacion + "]";
+                String reservante = "[" + huesped.getNombreUsuario() + " " + huesped.getApellidoUsuario() + "^" + descripcionHabitacionJSON + "^" + ""+numAdultos + "^" + numNoches + "^" + precioHabitacion + "]";
                 reservante = reservante.replaceAll( ",", " " );
 
                /* total += Double.parseDouble(_results.getHabCosto());
@@ -2202,8 +2814,4 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                 return false;
         }
     }
-    /**
-     *
-     */
-
 }

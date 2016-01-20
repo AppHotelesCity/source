@@ -258,11 +258,11 @@ public class MiReservacionDetailActivity extends Activity {
         txtHabitacion.setText(datosReservacion.getNumHabitacionAsigado());
         txtTipoHabitacion .setText(datosReservacion.getDeschabitacion());
         txtPrecioHabitacion.setText("$" + datosReservacion.getHabCosto() + "M.N");
-        txtNumAdultos.setText("" + datosReservacion.getAdultos());
+        txtNumAdultos.setText("" + (datosReservacion.getAdultos()+1));
         txtNumNiños .setText("" + datosReservacion.getInfantes());
-        txtPrecioTotal .setText("Total: $ " + datosReservacion.getHabCosto() + " M.N");
-        txtPrecioSubtotal .setText("Subtotal: $ " + datosReservacion.getSubtotal() + " M.N");
-        txtPrecioIva .setText("Impuestos: $ " + datosReservacion.getIva() + " M.N");
+        txtPrecioTotal .setText(String.format("Total: $%,.2f ", total())+ " M.N");
+        txtPrecioSubtotal .setText(String.format("Subtotal: $%,.2f ", Double.parseDouble( datosReservacion.getHabCosto().replace(",",""))) + " M.N");
+        txtPrecioIva .setText(String.format("Impuestos: $%,.2f ", Double.parseDouble(datosReservacion.getIva().replace(",",""))) + " M.N");
         txtDireccionHotel .setText("" + datosReservacion.getDireccionHotel());
         txtReferenciaHotel.setText("" + datosReservacion.getDescripcionLugarHotel());
         btnCheckIn.setEnabled(datosReservacion.isCheckIn());
@@ -301,6 +301,10 @@ public class MiReservacionDetailActivity extends Activity {
         _map.moveCamera(CameraUpdateFactory.newLatLngZoom(hotelPosition, 14));
         m.showInfoWindow();
 
+    }
+
+    public double total(){
+        return (Double.parseDouble(datosReservacion.getHabCosto().replace(",","")) + Double.parseDouble(datosReservacion.getIva().replace(",","")));
     }
 
     public void checkIn(){
