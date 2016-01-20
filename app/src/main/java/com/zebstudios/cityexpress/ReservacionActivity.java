@@ -447,7 +447,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }   else if ("".equals(txtCardName.getText().toString())) {
+                }   else if (("".equals(txtCardName.getText().toString())) && _paymentMethod != PAYMENT_METHOD_PAYPAL) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
                     builder.setTitle("Hoteles City")
                             .setMessage("El nombre del titular de la tarjeta no puede estar vacío")
@@ -460,7 +460,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }  else if ("".equals(txtCardNumber.getText().toString())) {
+                }  else if (("".equals(txtCardNumber.getText().toString()))  && _paymentMethod != PAYMENT_METHOD_PAYPAL) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
                     builder.setTitle("Hoteles City")
                             .setMessage("El campo de Número de tarjeta solo puede contener caracteres numéricos y debe ser igual o mayor a 12 caracteres")
@@ -473,7 +473,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                } else if ("".equals(txtCardCode.getText().toString())) {
+                } else if (("".equals(txtCardCode.getText().toString())) && _paymentMethod != PAYMENT_METHOD_PAYPAL) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
                     builder.setTitle("Hoteles City")
                             .setMessage("El Código de seguridad de la tarjeta no puede estar vacío")
@@ -1332,7 +1332,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             if(IVA ==0){
                 intent.putExtra("iva",getIVACost());
             } else {
-                intent.putExtra("iva",IVA);
+                intent.putExtra("iva", IVA);
             }
 
             startActivity(intent);
@@ -1487,7 +1487,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             enviarxml = enviarxml.replace("{reservantetelefono}", titulares.get(i).getPhone());
 
 
-            enviarxml = enviarxml.replace("{depositomonto}", precio);
+            enviarxml = enviarxml.replace("{depositomonto}", preciosList.get(i));
             enviarxml = enviarxml.replace("{depositotipomoneda}", "MX");
             enviarxml = enviarxml.replace("{depositofecha}", llegada);
             enviarxml = enviarxml.replace("{formapago}", "TCRED");
@@ -2537,7 +2537,11 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
 
         double total = getTotalCost();
-
+        if(getTotalCostAlt()==0){
+            total = getTotalCost();
+        }else{
+            total = getTotalCostAlt();
+        }
         PayPalCaller.PayPalPayment payment = new PayPalCaller.PayPalPayment();
         payment.setUser( _hotel.getMerchantUserName() );
         payment.setPassword( _hotel.getMerchantPassword() );
