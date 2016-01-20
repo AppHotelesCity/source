@@ -25,6 +25,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.XML;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -45,6 +48,7 @@ public class RegistroActivity extends Activity {
     EditText edtxtCorreo;
     EditText edtxtPass;
     EditText edtxtTelefono;
+    ProgressDialog progress;
 
     Button btnGenero;
     Button btnTitulo;
@@ -54,6 +58,7 @@ public class RegistroActivity extends Activity {
 
     String gender;
     TextView txtTermis;
+    String respuesta;
 
     String genero[];
     String titulo[];
@@ -120,9 +125,9 @@ public class RegistroActivity extends Activity {
                            @Override
                            public void onClick(DialogInterface dialog, int which) {
                                btnGenero.setText(genero[which]);
-                               if("Masculino".equals(btnGenero.getText().toString())){
+                               if ("Masculino".equals(btnGenero.getText().toString())) {
                                    gender = "H";
-                               }else if("Femenino".equals(btnGenero.getText().toString())){
+                               } else if ("Femenino".equals(btnGenero.getText().toString())) {
                                    gender = "F";
                                }
                            }
@@ -172,45 +177,7 @@ public class RegistroActivity extends Activity {
             }
         });
 
-        cadena = "<soapenv:Envelope\n" +
-                "    xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
-                "    xmlns:tem=\"http://tempuri.org/\"\n" +
-                "    xmlns:cit=\"http://schemas.datacontract.org/2004/07/CityHub\">\n" +
-                "    <soapenv:Header/>\n" +
-                "    <soapenv:Body>\n" +
-                "        <InsertUser\n" +
-                "            xmlns=\"http://tempuri.org/\">\n" +
-                "            <UserInfo\n" +
-                "                xmlns:d4p1=\"http://schemas.datacontract.org/2004/07/CityExpress.ClienteUnico.Entidades\"\n" +
-                "                xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-                "                <d4p1:Active>false</d4p1:Active>\n" +
-                "                <d4p1:Changed>2015-06-03T14:47:00</d4p1:Changed>\n" +
-                "                <d4p1:CityAccess_Pwd i:nil=\"true\" />\n" +
-                "                <d4p1:CityAccess_Usr i:nil=\"true\" />\n" +
-                "                <d4p1:CityPremios_Pwd i:nil=\"true\" />\n" +
-                "                <d4p1:CityPremios_Usr i:nil=\"true\" />\n" +
-                "                <d4p1:Country>MX</d4p1:Country>\n" +
-                "                <d4p1:Created>2015-06-03T14:47:00</d4p1:Created>\n" +
-                "                <d4p1:Gender>"+ gender +"</d4p1:Gender>\n" +
-                "                <d4p1:IsValidCityPremios>false</d4p1:IsValidCityPremios>\n" +
-                "                <d4p1:LastName>"+ edtxtApPaterno.getText().toString() +"</d4p1:LastName>\n" +
-                "                <d4p1:Name>" + edtxtNombre.getText().toString() +"</d4p1:Name>\n" +
-                "                <d4p1:Password>" + edtxtPass.getText().toString() +"</d4p1:Password>\n" +
-                "                <d4p1:Pers_Id_F2G>0</d4p1:Pers_Id_F2G>\n" +
-                "                <d4p1:Phone>" + edtxtTelefono.getText().toString() +"</d4p1:Phone>\n" +
-                "                <d4p1:SecondLastName>"+ edtxtApMaterno.getText().toString() +"</d4p1:SecondLastName>\n" +
-                "                <d4p1:System_ID i:nil=\"true\" />\n" +
-                "                <d4p1:UserType_ID>1</d4p1:UserType_ID>\n" +
-                "                <d4p1:User_Changed>0</d4p1:User_Changed>\n" +
-                "                <d4p1:User_Created>0</d4p1:User_Created>\n" +
-                "                <d4p1:User_ID>0</d4p1:User_ID>\n" +
-                "                <d4p1:Username>"+ edtxtCorreo.getText().toString() +"</d4p1:Username>\n" +
-                "            </UserInfo>\n" +
-                "            <AfilCityPrem>0</AfilCityPrem>\n" +
-                "            <Title>Mr</Title>\n" +
-                "        </InsertUser >\n" +
-                "    </soapenv:Body>\n" +
-                "</soapenv:Envelope>";
+
 
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,15 +213,37 @@ public class RegistroActivity extends Activity {
 
 
     public void enviarRegistro(){
+        progress = ProgressDialog.show(RegistroActivity.this, "Cargando...",
+                "Espere por favor", true);
+        System.out.println("CADENARESGIRTRO"+cadena);
         StringRequest registro = new StringRequest(Request.Method.POST,"http://wshc.hotelescity.com:9742/wcfMiCityExpress_WCF_Des/ClienteUnico.svc", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 System.out.println("RESPUESTA OK -------> "+response);
+                JSONObject jsonObj = null;
+                try {
+                    jsonObj = XML.toJSONObject(response);
+                    Log.d("JSON", jsonObj.toString());
+                    JSONObject a = new JSONObject(jsonObj.getString("s:Envelope"));
+                    JSONObject b = new JSONObject(a.getString("s:Body"));
+                    JSONObject c = new JSONObject(b.getString("InsertUserResponse"));
+                   // JSONObject respuesta = new JSONObject(c.getString("InsertUserResult"));
+                    respuesta =c.getString("InsertUserResult").replace("|","") ;
+
+                    System.out.println("RESPUESTASERVICIO"+ respuesta);
+                    alert(respuesta);
+                } catch (JSONException e) {
+                    Log.e("JSON exception", e.getMessage());
+                    e.printStackTrace();
+                }finally {
+                    progress.dismiss();
+                }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progress.dismiss();
                 error.printStackTrace();
                 NetworkResponse response = error.networkResponse;
                 String datos = new String(response.data);
@@ -529,7 +518,6 @@ public class RegistroActivity extends Activity {
                 btnTitulo.getText();
                 btnGenero.getText();
 
-                Toast.makeText(RegistroActivity.this, "Guardado", Toast.LENGTH_SHORT).show();
                 System.out.println("----> " + edtxtNombre.getText().toString());
                 System.out.println("----> " + edtxtApPaterno.getText().toString());
                 System.out.println("----> " + edtxtApMaterno.getText().toString());
@@ -539,12 +527,68 @@ public class RegistroActivity extends Activity {
                 System.out.println("----> " + btnTitulo.getText().toString());
                 System.out.println("----> " + btnGenero.getText().toString());
                 System.out.println("----> " + paisSeleccionado);
+            cadena = "<soapenv:Envelope\n" +
+                    "    xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
+                    "    xmlns:tem=\"http://tempuri.org/\"\n" +
+                    "    xmlns:cit=\"http://schemas.datacontract.org/2004/07/CityHub\">\n" +
+                    "    <soapenv:Header/>\n" +
+                    "    <soapenv:Body>\n" +
+                    "        <InsertUser\n" +
+                    "            xmlns=\"http://tempuri.org/\">\n" +
+                    "            <UserInfo\n" +
+                    "                xmlns:d4p1=\"http://schemas.datacontract.org/2004/07/CityExpress.ClienteUnico.Entidades\"\n" +
+                    "                xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
+                    "                <d4p1:Active>false</d4p1:Active>\n" +
+                    "                <d4p1:Changed>2015-06-03T14:47:00</d4p1:Changed>\n" +
+                    "                <d4p1:CityAccess_Pwd i:nil=\"true\" />\n" +
+                    "                <d4p1:CityAccess_Usr i:nil=\"true\" />\n" +
+                    "                <d4p1:CityPremios_Pwd i:nil=\"true\" />\n" +
+                    "                <d4p1:CityPremios_Usr i:nil=\"true\" />\n" +
+                    "                <d4p1:Country>MX</d4p1:Country>\n" +
+                    "                <d4p1:Created>2015-06-03T14:47:00</d4p1:Created>\n" +
+                    "                <d4p1:Gender>"+ gender +"</d4p1:Gender>\n" +
+                    "                <d4p1:IsValidCityPremios>false</d4p1:IsValidCityPremios>\n" +
+                    "                <d4p1:LastName>"+ edtxtApPaterno.getText().toString() +"</d4p1:LastName>\n" +
+                    "                <d4p1:Name>" + edtxtNombre.getText().toString() +"</d4p1:Name>\n" +
+                    "                <d4p1:Password>" + edtxtPass.getText().toString() +"</d4p1:Password>\n" +
+                    "                <d4p1:Pers_Id_F2G>0</d4p1:Pers_Id_F2G>\n" +
+                    "                <d4p1:Phone>" + edtxtTelefono.getText().toString() +"</d4p1:Phone>\n" +
+                    "                <d4p1:SecondLastName>"+ edtxtApMaterno.getText().toString() +"</d4p1:SecondLastName>\n" +
+                    "                <d4p1:System_ID i:nil=\"true\" />\n" +
+                    "                <d4p1:UserType_ID>1</d4p1:UserType_ID>\n" +
+                    "                <d4p1:User_Changed>0</d4p1:User_Changed>\n" +
+                    "                <d4p1:User_Created>0</d4p1:User_Created>\n" +
+                    "                <d4p1:User_ID>0</d4p1:User_ID>\n" +
+                    "                <d4p1:Username>"+ edtxtCorreo.getText().toString() +"</d4p1:Username>\n" +
+                    "            </UserInfo>\n" +
+                    "            <AfilCityPrem>0</AfilCityPrem>\n" +
+                    "            <Title>Mr</Title>\n" +
+                    "        </InsertUser >\n" +
+                    "    </soapenv:Body>\n" +
+                    "</soapenv:Envelope>";
+            return true;
             }
         return false;
         }
 
-    public void enviarDatos(){
+    private void alert( String message )
+    {
+        AlertDialog alert = new AlertDialog.Builder(this ).create();
+        alert.setTitle( "Atención" );
+        alert.setMessage(message);
+        alert.setIcon(R.drawable.notification_warning_small);
+        alert.setCancelable(false);
+        alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (respuesta.contains("Error")) {
 
+                } else {
+                    finish();
+                }
+            }
+        });
+        alert.show();
     }
 
 }
