@@ -32,6 +32,9 @@ public class ReservacionBDD {
         _dbHelper.close();
     }
 
+    public void delete(int numReservacion){
+        _database.delete("ClienteReservante", "numReservacion=?", new String[]{""+numReservacion});
+    }
     public void delete( Reservation reservation )
     {
         String where;

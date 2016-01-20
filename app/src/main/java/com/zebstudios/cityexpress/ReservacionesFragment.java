@@ -23,9 +23,12 @@ import java.util.ArrayList;
 public class ReservacionesFragment extends Fragment
 {
 	View _view;
-	ArrayList<ReservacionBD> _reservations;
+    ReservationsListAdapter reservationsListAdapter;
+    ArrayList<ReservacionBD> _reservations;
 	ReservacionBD reservacionesBD;
-	//RealmResults<ReservacionBD> reservacionesBD;
+    ReservacionBDD ds;
+    ListView list;
+    //RealmResults<ReservacionBD> reservacionesBD;
 
 	public ReservacionesFragment()
 	{
@@ -39,13 +42,12 @@ public class ReservacionesFragment extends Fragment
 
         _reservations = new ArrayList<>();
 
-		ReservacionBDD ds = new ReservacionBDD( getActivity() );
+		ds = new ReservacionBDD( getActivity() );
 		ds.open();
 		_reservations = ds.getReservations();
-		ds.close();
 
-		final ReservationsListAdapter reservationsListAdapter = new ReservationsListAdapter( getActivity(), _reservations );
-		ListView list = (ListView)_view.findViewById( R.id.list_reservations );
+        reservationsListAdapter = new ReservationsListAdapter( getActivity(), _reservations );
+		list = (ListView)_view.findViewById( R.id.list_reservations );
 		list.setAdapter( reservationsListAdapter );
 
         SwipeDismissListViewTouchListener touchListener =
@@ -60,7 +62,7 @@ public class ReservacionesFragment extends Fragment
                             @Override
                             public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                 for (final int position : reverseSortedPositions) {
-                                    System.out.println("->" + reservationsListAdapter.getItem(position));
+                                    System.out.println("->" + reservationsListAdapter.getItem(position) + "NUmoeri de reservacion"+_reservations.get(position).getNumReservacion());
                                     new AlertDialog.Builder(getActivity())
                                             .setTitle("Hoteles City")
                                             .setMessage("Deseas eliminar esta reservación?")
@@ -69,7 +71,11 @@ public class ReservacionesFragment extends Fragment
 
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    _reservations.remove(position);
+                                                    System.out.println("NUMERORESERVACION"+_reservations.get(position).getNumReservacion());
+                                                    ds.delete(_reservations.get(position).getNumReservacion());
+                                                    _reservations.remove(reservationsListAdapter.getItem(position));
+                                                    reservationsListAdapter = new ReservationsListAdapter( getActivity(), _reservations );
+                                                    list.setAdapter(reservationsListAdapter);
                                                 }
 
                                             }).setNegativeButton("No", new DialogInterface.OnClickListener() {

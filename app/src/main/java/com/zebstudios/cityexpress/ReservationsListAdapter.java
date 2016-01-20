@@ -61,12 +61,12 @@ public class ReservationsListAdapter extends BaseAdapter
 	@Override
 	public Object getItem( int position )
 	{
-		return null;
+		return _items.get(position);
 	}
 
 	@Override
 	public long getItemId( int position )
 	{
-		return 0;
+		return position;
 	}
 }
