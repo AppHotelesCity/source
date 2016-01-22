@@ -13,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -28,6 +30,7 @@ public class ReservacionesFragment extends Fragment
 	ReservacionBD reservacionesBD;
     ReservacionBDD ds;
     ListView list;
+    Date hoy;
     //RealmResults<ReservacionBD> reservacionesBD;
 
 	public ReservacionesFragment()
@@ -50,6 +53,56 @@ public class ReservacionesFragment extends Fragment
 		list = (ListView)_view.findViewById( R.id.list_reservations );
 		list.setAdapter( reservationsListAdapter );
 
+
+        final Calendar c = Calendar.getInstance();
+        int anio = c.get(Calendar.YEAR); //obtenemos el año
+        int mes = c.get(Calendar.MONTH); //obtenemos el mes
+        String mesT = Integer.toString(mes);
+        int dia = c.get(Calendar.DAY_OF_MONTH); // obtemos el día.
+        switch (mesT){
+            case "0":
+                mesT = "ene";
+                break;
+            case "1":
+                mesT = "feb";
+                break;
+            case "2":
+                mesT = "mar";
+                break;
+            case "3":
+                mesT = "abr";
+                break;
+            case "4":
+                mesT = "may";
+                break;
+            case "5":
+                mesT = "jun";
+                break;
+            case "6":
+                mesT = "jul";
+                break;
+            case "7":
+                mesT = "ago";
+                break;
+            case "8":
+                mesT = "sep";
+                break;
+            case "9":
+                mesT = "oct";
+                break;
+            case "10":
+                mesT = "nov";
+                break;
+            case "11":
+                mesT = "dic";
+                break;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat( "d MMM yyyy" );
+        hoy = c.getTime();
+        hoy.getTime();
+        System.out.println("Hoy->"+ hoy.getTime());
+
         SwipeDismissListViewTouchListener touchListener =
                 new SwipeDismissListViewTouchListener(
                         list,
@@ -63,28 +116,29 @@ public class ReservacionesFragment extends Fragment
                             public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                 for (final int position : reverseSortedPositions) {
                                     System.out.println("->" + reservationsListAdapter.getItem(position) + "NUmoeri de reservacion"+_reservations.get(position).getNumReservacion());
-                                    new AlertDialog.Builder(getActivity())
-                                            .setTitle("Hoteles City")
-                                            .setMessage("Deseas eliminar esta reservación?")
-                                            .setCancelable(false)
-                                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    if(hoy.before(_reservations.get(position).getFechaLlegada())) {
+                                        new AlertDialog.Builder(getActivity())
+                                                .setTitle("Hoteles City")
+                                                .setMessage("Deseas eliminar esta reservación?")
+                                                .setCancelable(false)
+                                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
 
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    System.out.println("NUMERORESERVACION"+_reservations.get(position).getNumReservacion());
-                                                    ds.delete(_reservations.get(position).getNumReservacion());
-                                                    _reservations.remove(reservationsListAdapter.getItem(position));
-                                                    reservationsListAdapter = new ReservationsListAdapter( getActivity(), _reservations );
-                                                    list.setAdapter(reservationsListAdapter);
-                                                }
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        System.out.println("NUMERORESERVACION" + _reservations.get(position).getNumReservacion());
+                                                        ds.delete(_reservations.get(position).getNumReservacion());
+                                                        _reservations.remove(reservationsListAdapter.getItem(position));
+                                                        reservationsListAdapter = new ReservationsListAdapter(getActivity(), _reservations);
+                                                        list.setAdapter(reservationsListAdapter);
+                                                    }
 
-                                            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                                                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
 
-                                        }
-                                    }).create().show();
-
+                                            }
+                                        }).create().show();
+                                    }
                                 }
                                 reservationsListAdapter.notifyDataSetChanged();
                             }
