@@ -2385,7 +2385,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                 return false;
             }
         }
-        if( _paymentMethod == PAYMENT_METHOD_CARD )
+    /*    if( _paymentMethod == PAYMENT_METHOD_CARD )
         {
 
             EditText txtCardName = (EditText) findViewById(R.id.txtCardName);
@@ -3085,7 +3085,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
             params.add( new BasicNameValuePair( "NumHabitaciones", numHabitacion + "" ) );
             params.add( new BasicNameValuePair( "idioma", "es" ) );
             params.add( new BasicNameValuePair( "DatosReservantes", reservante ) );
-            params.add( new BasicNameValuePair( "CostoTotal", _results.getHabCosto()));//String.format( Locale.US, "%.2f", total ) ) );
+            params.add( new BasicNameValuePair( "CostoTotal", _results.getTotal()));//String.format( Locale.US, "%.2f", total ) ) );
             params.add( new BasicNameValuePair( "subTotal", ""+_results.getSubtotal() ) );
             params.add( new BasicNameValuePair( "IVA", ""+ _results.getIva() ) );
             params.add( new BasicNameValuePair( "cuentasAfiliacion", "" ) );

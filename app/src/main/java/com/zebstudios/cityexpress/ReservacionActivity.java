@@ -2529,7 +2529,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             params.add( new BasicNameValuePair( "idioma", "es" ) );
             params.add( new BasicNameValuePair( "DatosReservantes", reservante ) );
             System.out.println("RESERVANTE->"+reservante);
-            params.add( new BasicNameValuePair( "CostoTotal", _results.getHabCosto()));//String.format( Locale.US, "%.2f", total ) ) );
+            params.add( new BasicNameValuePair( "CostoTotal", _results.getTotal()));//String.format( Locale.US, "%.2f", total ) ) );
             params.add( new BasicNameValuePair( "cuentasAfiliacion", "" ) );
             params.add( new BasicNameValuePair( "subTotal", ""+_results.getSubtotal() ) );
             params.add( new BasicNameValuePair( "IVA", ""+ _results.getIva() ) );
