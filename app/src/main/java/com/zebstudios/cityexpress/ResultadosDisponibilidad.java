@@ -493,7 +493,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                 dialog.show();
             }
         });
-        registro.setRetryPolicy(new DefaultRetryPolicy(15000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        registro.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(this).add(registro);
     }
 
@@ -626,7 +626,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
             };
             //System.out.println("registro->" + registro.toString());
-            registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            registro.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             Volley.newRequestQueue(this).add(registro);
         }else{
             for (int i = 0; i <listaGeneralHotel.size() ; i++) {
@@ -736,7 +736,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
             };
             //System.out.println("registro->" + registro.toString());
-            registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            registro.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             Volley.newRequestQueue(this).add(registro);
         }else{
             for (int i = 0; i <listaGeneralHotel.size() ; i++) {
