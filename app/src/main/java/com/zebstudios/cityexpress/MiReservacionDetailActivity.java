@@ -2,6 +2,7 @@ package com.zebstudios.cityexpress;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -79,6 +80,7 @@ public class MiReservacionDetailActivity extends Activity {
     ImageView imageChat;
     ImageView imageBack;
     ReservacionBD datosReservacion;
+    ProgressDialog progress;
    // RealmResults<ReservacionBD> datosReservacion;
    // Realm realm;
     int numReservacion;
@@ -164,13 +166,16 @@ public class MiReservacionDetailActivity extends Activity {
             }
         });
 
-        btnConsultarSaldos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
+            btnConsultarSaldos.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getBaseContext(), ConsultarSaldosActivity.class);
+                    intent.putExtra("cuarto", datosReservacion.getNumHabitacionAsigado());
+                    intent.putExtra("siglas", datosReservacion.getSiglasHotel());
+                    intent.putExtra("apellido", datosReservacion.getApellidoUsuario());
+                    startActivity(intent);
+                }
+            });
         btnCompartir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,10 +263,10 @@ public class MiReservacionDetailActivity extends Activity {
         txtHabitacion.setText(datosReservacion.getNumHabitacionAsigado());
         txtTipoHabitacion .setText(datosReservacion.getDeschabitacion());
         txtPrecioHabitacion.setText("$" + datosReservacion.getHabCosto() + "M.N");
-        txtNumAdultos.setText("" + (datosReservacion.getAdultos()+1));
+        txtNumAdultos.setText("" + (datosReservacion.getAdultos() + 1));
         txtNumNiños .setText("" + datosReservacion.getInfantes());
         txtPrecioTotal .setText(String.format("Total: $%,.2f ", total())+ " M.N");
-        txtPrecioSubtotal .setText(String.format("Subtotal: $%,.2f ", Double.parseDouble( datosReservacion.getHabCosto().replace(",",""))) + " M.N");
+        txtPrecioSubtotal .setText(String.format("Subtotal: $%,.2f ", Double.parseDouble(datosReservacion.getHabCosto().replace(",", ""))) + " M.N");
         txtPrecioIva .setText(String.format("Impuestos: $%,.2f ", Double.parseDouble(datosReservacion.getIva().replace(",",""))) + " M.N");
         txtDireccionHotel .setText("" + datosReservacion.getDireccionHotel());
         txtReferenciaHotel.setText("" + datosReservacion.getDescripcionLugarHotel());
@@ -272,14 +277,20 @@ public class MiReservacionDetailActivity extends Activity {
         }else{
             txtLeyendaCambios.setVisibility(View.GONE);
         }
+
         if(datosReservacion.isCheckIn()){
             btnCheckOut.setEnabled(false);
+            btnFacturacion.setEnabled(false);
         }else{
             btnCheckOut.setEnabled(true);
             btnConsultarSaldos.setEnabled(true);
             txtHabitacion .setText(", Habitación " + datosReservacion.getNumHabitacionAsigado());
         }
-
+        if(!datosReservacion.isCheckOut() && !datosReservacion.isCheckIn()){
+            btnFacturacion.setEnabled(true);
+            btnCheckOut.setEnabled(false);
+            btnConsultarSaldos.setEnabled(false);
+        }
 
         _mapView.onResume();
 
@@ -309,6 +320,8 @@ public class MiReservacionDetailActivity extends Activity {
     }
 
     public void checkIn(){
+        progress = ProgressDialog.show(MiReservacionDetailActivity.this, "Cargando...",
+                "Espere por favor", true);
         String enviarxml = "<soap:Envelope\n" +
                 "    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
                 "    xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\n" +
@@ -354,11 +367,14 @@ public class MiReservacionDetailActivity extends Activity {
                 } catch (JSONException e) {
                     Log.e("JSON exception", e.getMessage());
                     e.printStackTrace();
+                }finally {
+                    progress.dismiss();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progress.dismiss();
                 error.printStackTrace();
                 NetworkResponse response = error.networkResponse;
                 String datos = new String(response.data);
@@ -399,7 +415,7 @@ public class MiReservacionDetailActivity extends Activity {
         if(checkInResult.getInt("a:CodigoError")!=0){
             alert(checkInResult.getString("a:DescError"));
         }else{
-            ReservacionBD reservacionBD = new ReservacionBD();
+            final ReservacionBD reservacionBD = new ReservacionBD();
             reservacionBD.setNombreUsuario(datosReservacion.getNombreUsuario());
             reservacionBD.setApellidoUsuario(datosReservacion.getApellidoUsuario());
             reservacionBD.setNombreHotel(datosReservacion.getNombreHotel());
@@ -428,7 +444,7 @@ public class MiReservacionDetailActivity extends Activity {
 
             ReservacionBDD ds = new ReservacionBDD( this );
             ds.open();
-            ds.update(reservacionBD,""+numReservacion);
+            ds.update(reservacionBD, "" + numReservacion);
             ds.close();
 
            /* realm= Realm.getInstance(this);
@@ -436,9 +452,20 @@ public class MiReservacionDetailActivity extends Activity {
             realm.copyToRealmOrUpdate(reservacionBD);
             realm.commitTransaction();*/
             txtHabitacion.setText(", Habitación " + checkInResult.getString("a:room"));
-            alert(checkInResult.getString("a:DescError"));
+            alert("Check in realizado correctamente. El número de tu habitación es " + checkInResult.getString("a:room") + ". La fecha de check-out es " + checkInResult.getString("a:dateout") + " antes de la 1:00 PM");
             btnCheckIn.setEnabled(false);
             btnCheckOut.setEnabled(true);
+            btnConsultarSaldos.setEnabled(true);
+            btnConsultarSaldos.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getBaseContext(), ConsultarSaldosActivity.class);
+                    intent.putExtra("cuarto", reservacionBD.getNumHabitacionAsigado());
+                    intent.putExtra("siglas", datosReservacion.getSiglasHotel());
+                    intent.putExtra("apellido", datosReservacion.getApellidoUsuario());
+                    startActivity(intent);
+                }
+            });
         }
 
     }
@@ -447,6 +474,8 @@ public class MiReservacionDetailActivity extends Activity {
     }
 
     public void checkOut(){
+        progress = ProgressDialog.show(MiReservacionDetailActivity.this, "Cargando...",
+                "Espere por favor", true);
         String enviarxml = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://tempuri.org/\">\n" +
                 "    <SOAP-ENV:Body>\n" +
                 "        <ns1:WS_CheckOUT>\n" +
@@ -471,16 +500,16 @@ public class MiReservacionDetailActivity extends Activity {
         StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.URL_CHECKS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                System.out.println("Check Out Response"+response);
                 try {
-
+                    progress.dismiss();
                     JSONObject jsonObj = null;
                     JSONObject body = null;
                     JSONObject checkOutResult = null;
 
                     jsonObj = XML.toJSONObject(response);
-                    body = jsonObj.getJSONObject("soap:Envelope").getJSONObject("soap:Body");
-                    checkOutResult = body.getJSONObject("WS_CheckOUTResponse").getJSONObject("WS_CheckOUTResult");
+                    body = jsonObj.getJSONObject("s:Envelope").getJSONObject("s:Body");
+                    checkOutResult = body.getJSONObject("WS_CheckOUTResponse");
 
                     Log.d("JSON", checkOutResult.toString());
 
@@ -501,6 +530,7 @@ public class MiReservacionDetailActivity extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progress.dismiss();
                 error.printStackTrace();
                 NetworkResponse response = error.networkResponse;
                 String datos = new String(response.data);
@@ -538,12 +568,50 @@ public class MiReservacionDetailActivity extends Activity {
     }
 
     public void finObtenerCheckOut(JSONObject checkOutResult) throws Exception{
-        if(checkOutResult.getInt("a:CodigoError")!=0){
-            alert(checkOutResult.getString("a:DescError"));
-        }else {
-            alert("Check out Exitoso");
+        //if(checkOutResult.getInt("a:CodigoError")!=0){
+        if(checkOutResult.getString("WS_CheckOUTResult").contains("incorrecto")){
+            //alert(checkOutResult.getString("a:DescError"));
+            alert(checkOutResult.getString("WS_CheckOUTResult"));
+        } else if(checkOutResult.getString("WS_CheckOUTResult").equalsIgnoreCase("OK")){
+
+
+            ReservacionBD reservacionBD = new ReservacionBD();
+            reservacionBD.setNombreUsuario(datosReservacion.getNombreUsuario());
+            reservacionBD.setApellidoUsuario(datosReservacion.getApellidoUsuario());
+            reservacionBD.setNombreHotel(datosReservacion.getNombreHotel());
+            reservacionBD.setFechaLlegada(datosReservacion.getFechaLlegada());
+            reservacionBD.setFechaSalida(datosReservacion.getFechaSalida());
+            reservacionBD.setDescripcionLugarHotel(datosReservacion.getDescripcionLugarHotel());
+            reservacionBD.setSiglasHotel(datosReservacion.getSiglasHotel());
+            reservacionBD.setDeschabitacion(datosReservacion.getDeschabitacion());
+            reservacionBD.setLatitudHotel(datosReservacion.getLatitudHotel());
+            reservacionBD.setLongitudHotel(datosReservacion.getLongitudHotel());
+            reservacionBD.setHabCosto(datosReservacion.getHabCosto());
+            reservacionBD.setTotal(datosReservacion.getTotal());
+            reservacionBD.setSubtotal(datosReservacion.getSubtotal());
+            reservacionBD.setIva(datosReservacion.getIva());
+            reservacionBD.setNumReservacion(datosReservacion.getNumReservacion());
+            reservacionBD.setAdultos(datosReservacion.getAdultos());
+            reservacionBD.setNumHabitacionAsigado(datosReservacion.getNumHabitacionAsigado());
+            reservacionBD.setInfantes(datosReservacion.getInfantes());
+            reservacionBD.setCodigoHabitacion(datosReservacion.getCodigoHabitacion());
+            reservacionBD.setNumNoches(datosReservacion.getNumNoches());
+            reservacionBD.setNumHabitaciones(datosReservacion.getNumHabitaciones());
+            reservacionBD.setDireccionHotel(datosReservacion.getDireccionHotel());
+            reservacionBD.setCheckIn(false);
+            reservacionBD.setCheckOut(false);
+            reservacionBD.setConsultarSaldos(false);
+
+            ReservacionBDD ds = new ReservacionBDD( this );
+            ds.open();
+            ds.update(reservacionBD, "" + numReservacion);
+            ds.close();
             btnCheckOut.setEnabled(false);
+            btnConsultarSaldos.setEnabled(false);
             btnFacturacion.setEnabled(true);
+            alert("Check out Exitoso");
+        }else{
+            alert(checkOutResult.getString("WS_CheckOUTResult"));
         }
     }
 

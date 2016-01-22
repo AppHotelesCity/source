@@ -137,6 +137,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
     TextView lblSubTotal2;
     TextView lblIVA2;
     int contador;
+    int contadorReservaciones;
     int numHuesped;
     private static final int PAYMENT_METHOD_CARD = 100;
     private static final int PAYMENT_METHOD_PAYPAL = 101;
@@ -1066,6 +1067,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                 new PayPalCaller( this, PayPalCaller.INITIATE_PAYMENT, _payPalPayment, this, _progress ).execute();
             }
         }else {
+            contadorReservaciones=0;
             enviarReservacion();
         }
 
@@ -1281,7 +1283,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         reservacionBD.setNumHabitaciones(numHabitacion);
         reservacionBD.setDireccionHotel(getAddressString());
         reservacionBD.setCheckIn(true);
-        reservacionBD.setCheckOut(true);
+        reservacionBD.setCheckOut(false);
         if(getTotalCostAlt()==0){
             reservacionBD.setTotal("" + precioHabitacion);
         }else{
@@ -1338,7 +1340,8 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             startActivity(intent);
         }
         System.out.println("Reservacion OK " + reservacion);
-
+        contadorReservaciones++;
+        enviarReservacion();
         /*AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionActivity.this);
         builder.setTitle("Hoteles City")
                 .setMessage("El numero de reservacion es " + reservacion)
@@ -1366,8 +1369,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         Log.d("ReservacionActivity", "Enviar Tarjeta ");
         progress = ProgressDialog.show(ReservacionActivity.this, "Cargando...",
                 "Espere por favor", true);
-        for (int i = 0; i < titulares.size(); i++) {
-
+            if(contadorReservaciones < titulares.size()){
 
             String enviarxml = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
                     "    <s:Body>\n" +
@@ -1467,27 +1469,27 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             enviarxml = enviarxml.replace("{codigopromocion}", "");
 
 
-            enviarxml = enviarxml.replace("{correoelectronico}", titulares.get(i).getEmail());
-            enviarxml = enviarxml.replace("{telefono}", titulares.get(i).getPhone());
+            enviarxml = enviarxml.replace("{correoelectronico}", titulares.get(contadorReservaciones).getEmail());
+            enviarxml = enviarxml.replace("{telefono}", titulares.get(contadorReservaciones).getPhone());
             enviarxml = enviarxml.replace("{totalacompadultos}", ""+(1+numAdultos));
             enviarxml = enviarxml.replace("{totalacompmenores}", "" + (0+numInfantes));
             enviarxml = enviarxml.replace("{codigopais}", "MEX");
             enviarxml = enviarxml.replace("{acompanantes}", "");
-            enviarxml = enviarxml.replace("{huespednombre}", titulares.get(i).getName());
-            enviarxml = enviarxml.replace("{huespedapellidos}", titulares.get(i).getLastName());
+            enviarxml = enviarxml.replace("{huespednombre}", titulares.get(contadorReservaciones).getName());
+            enviarxml = enviarxml.replace("{huespedapellidos}", titulares.get(contadorReservaciones).getLastName());
 
 
             enviarxml = enviarxml.replace("{codigohotel}", _hotel.getSiglas());
             enviarxml = enviarxml.replace("{estanciaentrada}", llegada);
             enviarxml = enviarxml.replace("{numeronoches}", ""+numNoches);
 
-            enviarxml = enviarxml.replace("{reservantenombre}", titulares.get(i).getName());
-            enviarxml = enviarxml.replace("{reservanteapellidos}", titulares.get(i).getLastName());
-            enviarxml = enviarxml.replace("{reservantecorreoelectronico}", titulares.get(i).getEmail());
-            enviarxml = enviarxml.replace("{reservantetelefono}", titulares.get(i).getPhone());
+            enviarxml = enviarxml.replace("{reservantenombre}", titulares.get(contadorReservaciones).getName());
+            enviarxml = enviarxml.replace("{reservanteapellidos}", titulares.get(contadorReservaciones).getLastName());
+            enviarxml = enviarxml.replace("{reservantecorreoelectronico}", titulares.get(contadorReservaciones).getEmail());
+            enviarxml = enviarxml.replace("{reservantetelefono}", titulares.get(contadorReservaciones).getPhone());
 
 
-            enviarxml = enviarxml.replace("{depositomonto}", preciosList.get(i));
+            enviarxml = enviarxml.replace("{depositomonto}", preciosList.get(contadorReservaciones));
             enviarxml = enviarxml.replace("{depositotipomoneda}", "MX");
             enviarxml = enviarxml.replace("{depositofecha}", llegada);
             enviarxml = enviarxml.replace("{formapago}", "TCRED");
@@ -1534,15 +1536,15 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                                     FinenviarReservacion("" + InsertBookingv3_01Response.getInt("a:NumReservacion"));
 
                                 }catch(Exception e){
-                                    alert("Se ha producido un error intenta mas tarde.");
-                                    Intent intent =  new Intent(getBaseContext(),MainActivity.class);
-                                    startActivity(intent);
+                                    alert("Hubo un problema al tratar de hacer tu reservacion, vuelve a intentarlo");
+                                }finally {
+                                    progress.dismiss();
                                 }
                                 return;
 
                             }
 
-                        progress.dismiss();
+
 
                         } catch (JSONException e) {
                             Log.e("JSON exception", e.getMessage());
@@ -1553,13 +1555,13 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                         //AltaTarjetaResult
 
 
-                    try{
+                    /*try{
                         FinenviarReservacion("");
                     }catch(Exception e ){
                         alert("Se ha producido un error intenta mas tarde");
                         Intent intent =  new Intent(getBaseContext(),MainActivity.class);
                         startActivity(intent);
-                    }
+                    }*/
 
                 }
             }, new Response.ErrorListener() {

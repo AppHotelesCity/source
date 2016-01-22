@@ -100,6 +100,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                                         intent.putExtra("descipcionHabitacionJSON",habitacionesArrayList.get(position).getDescripcion());
                                         intent.putExtra("precioDestino", habitacionBaseArrayList.get(position).getCosto());
                                         intent.putExtra("precioSubtotal", habitacionBaseArrayList.get(position).getSubTotal());
+                                        System.out.println("PRECIO123Normal->" + habitacionBaseArrayList.get(posicion).getCosto());
                                         intent.putExtra("precioIVA", habitacionBaseArrayList.get(position).getIVA());
                                         intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
                                         v.getContext().startActivity(intent);
@@ -133,6 +134,7 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                                         intent.putExtra("precioDestino", habitacionBaseArrayList.get(position).getCosto());
                                         intent.putExtra("precioSubtotal", habitacionBaseArrayList.get(position).getSubTotal());
                                         intent.putExtra("precioIVA", habitacionBaseArrayList.get(position).getIVA());
+                                        System.out.println("PRECIO123Normal->" + habitacionBaseArrayList.get(posicion).getCosto());
                                         intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
                                         v.getContext().startActivity(intent);
                                     }
@@ -155,6 +157,9 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
                                         intent.putExtra("descipcionHabitacionJSON",habitacionesArrayList.get(position).getDescripcion());
                                         intent.putExtra("precioPremio", habitacionBaseArrayListCity.get(posicion).getCosto());
                                         intent.putExtra("precioSubtotal", habitacionBaseArrayListCity.get(posicion).getSubTotal());
+                                        System.out.println("SUBTOTAL123City->" + habitacionBaseArrayListCity.get(posicion).getSubTotal());
+                                        System.out.println("SUBTOTAL124City->" + habitacionBaseArrayListCity.get(posicion).getCosto());
+                                        System.out.println("SUBTOTAL125City->" + habitacionBaseArrayListCity.get(posicion).getIVA());
                                         intent.putExtra("precioIVA", habitacionBaseArrayListCity.get(posicion).getIVA());
                                         intent.putExtra("codigoBase", habitacionBaseArrayList.get(position).getCodigoBase());
                                         v.getContext().startActivity(intent);

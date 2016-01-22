@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.zebstudios.cityexpress.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="com.zebstudios.cityexpress.permission.UA_DATA" />
@@ -275,7 +275,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/ToolbarColor" >
         </activity>
-        <activity android:name=".DetalleHotelCercaActivity"
+        <activity
+            android:name=".DetalleHotelCercaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ToolbarColor" >
+        </activity>
+        <activity android:name=".ConsultarSaldosActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ToolbarColor">
         </activity>

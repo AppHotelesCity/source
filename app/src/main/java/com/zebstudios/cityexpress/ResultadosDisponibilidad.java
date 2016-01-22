@@ -452,7 +452,6 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
             public void onResponse(String response) {
                 try {
                     obtenerHoteles(new JSONArray(response));
-                    progress.dismiss();
                 } catch (JSONException e) {
                     e.printStackTrace();
 
@@ -469,16 +468,32 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
+                }finally {
+                    progress.dismiss();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
                 progress.dismiss();
+                error.printStackTrace();
+                AlertDialog.Builder builder = new AlertDialog.Builder(ResultadosDisponibilidad.this);
+                builder.setTitle("Hoteles City")
+                        .setMessage("Se produjo un problema con la conexión. Vuelve a intentarlo")
+                        .setNeutralButton(R.string.entendido, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
-        registro.setRetryPolicy(new DefaultRetryPolicy(12000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        registro.setRetryPolicy(new DefaultRetryPolicy(15000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(this).add(registro);
     }
 

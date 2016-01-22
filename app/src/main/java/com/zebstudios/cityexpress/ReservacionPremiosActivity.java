@@ -150,7 +150,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
     int numHuesped;
     ProgressDialog progress;
     int contador;
-
+    int contadorReservaciones;
     private static final int PAYMENT_METHOD_CARD = 100;
     private static final int PAYMENT_METHOD_PAYPAL = 101;
     private int _paymentMethod;
@@ -324,9 +324,9 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
         departure = PrincipalFragment._departureDate;
         numNoches = ResultadosDisponibilidad.totalNoches;
         numNoches = Math.abs(numNoches);
-        precioHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getCosto().replace(",", ""));
-        subtotalHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getSubTotal().replace(",", ""));
-        IVAHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getIVA().replace(",", ""));
+        precioHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitacionesCity().get(posicionHab).getCosto().replace(",", ""));
+        subtotalHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitacionesCity().get(posicionHab).getSubTotal().replace(",", ""));
+        IVAHabitacion = Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitacionesCity().get(posicionHab).getIVA().replace(",", ""));
         _lastGuestIndex = 0;
         System.out.println("numNoches" + numNoches);
         System.out.println("IVAHABITACION" + IVAHabitacion);
@@ -335,12 +335,8 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
         ResultadosDisponibilidad.habitacionBaseList.get(posicionHab);
 
 
-        if (bundle.getBoolean("city")) {
-            precio = bundle.getString("precioPremio");
-            precioHabitacion = Double.parseDouble(precio);
-        } else {
-            precio = bundle.getString("precioDestino");
-        }
+        precio = bundle.getString("precioPremio");
+        precioHabitacion = Double.parseDouble(precio);
         System.out.println("HotelPosicionPrecioListado->" + precioHabitacion);
         System.out.println("PsoicionHotel" + posicionHot);
         System.out.println("PsoiconHabitacion" + posicionHab);
@@ -1267,6 +1263,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                 new PayPalCaller( this, PayPalCaller.INITIATE_PAYMENT, _payPalPayment, this, _progress ).execute();
             }
         }else {
+            contadorReservaciones = 0;
             enviarReservacion();
         }
 
@@ -1275,8 +1272,9 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
 
     public void enviarReservacion(){
         Log.d("ReservacionActivity", "Enviar Tarjeta ");
-
-        for (int i = 0; i < titulares.size(); i++) {
+        progress = ProgressDialog.show(ReservacionPremiosActivity.this, "Cargando...",
+                "Espere por favor", true);
+        if(contadorReservaciones < titulares.size()){
             String enviarxml = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
                     "    <s:Body>\n" +
                     "        <InsertBookingv3_01 xmlns=\"http://tempuri.org/\">\n" +
@@ -1375,30 +1373,30 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
             enviarxml = enviarxml.replace("{codigopromocion}", "");
 
 
-            enviarxml = enviarxml.replace("{correoelectronico}", titulares.get(i).getEmail());
-            enviarxml = enviarxml.replace("{telefono}", titulares.get(i).getPhone());
+            enviarxml = enviarxml.replace("{correoelectronico}", titulares.get(contadorReservaciones).getEmail());
+            enviarxml = enviarxml.replace("{telefono}", titulares.get(contadorReservaciones).getPhone());
             /*enviarxml = enviarxml.replace("{totalacompadultos}", "1");
             enviarxml = enviarxml.replace("{totalacompmenores}", "0");*/
             enviarxml = enviarxml.replace("{totalacompadultos}", ""+(1+numAdultos));
             enviarxml = enviarxml.replace("{totalacompmenores}", "" + (0+numInfantes));
             enviarxml = enviarxml.replace("{codigopais}", "MEX");
             enviarxml = enviarxml.replace("{acompanantes}", "");
-            enviarxml = enviarxml.replace("{huespednombre}", titulares.get(i).getName());
-            enviarxml = enviarxml.replace("{huespedapellidos}", titulares.get(i).getName());
+            enviarxml = enviarxml.replace("{huespednombre}", titulares.get(contadorReservaciones).getName());
+            enviarxml = enviarxml.replace("{huespedapellidos}", titulares.get(contadorReservaciones).getName());
 
 
             enviarxml = enviarxml.replace("{codigohotel}", _hotel.getSiglas());
             enviarxml = enviarxml.replace("{estanciaentrada}", llegada);
             enviarxml = enviarxml.replace("{numeronoches}", "" + numNoches);
 
-            enviarxml = enviarxml.replace("{reservantenombre}", titulares.get(i).getName());
-            enviarxml = enviarxml.replace("{reservanteapellidos}", titulares.get(i).getLastName());
-            enviarxml = enviarxml.replace("{reservantecorreoelectronico}", titulares.get(i).getEmail());
-            enviarxml = enviarxml.replace("{reservantetelefono}", titulares.get(i).getPhone());
+            enviarxml = enviarxml.replace("{reservantenombre}", titulares.get(contadorReservaciones).getName());
+            enviarxml = enviarxml.replace("{reservanteapellidos}", titulares.get(contadorReservaciones).getLastName());
+            enviarxml = enviarxml.replace("{reservantecorreoelectronico}", titulares.get(contadorReservaciones).getEmail());
+            enviarxml = enviarxml.replace("{reservantetelefono}", titulares.get(contadorReservaciones).getPhone());
 
 
             //enviarxml = enviarxml.replace("{depositomonto}", precio); //Total?
-            enviarxml = enviarxml.replace("{depositomonto}", preciosList.get(i));
+            enviarxml = enviarxml.replace("{depositomonto}", preciosList.get(contadorReservaciones));
             enviarxml = enviarxml.replace("{depositotipomoneda}", "MXN");
             enviarxml = enviarxml.replace("{depositofecha}", llegada);
             enviarxml = enviarxml.replace("{formapago}", "SMART");
@@ -1458,6 +1456,9 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                     } catch (JSONException e) {
                         Log.e("JSON exception", e.getMessage());
                         e.printStackTrace();
+                    }finally {
+                        progress.dismiss();
+
                     }
 
                     //FinenviarReservacion("");
@@ -1465,6 +1466,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    progress.dismiss();
                     error.printStackTrace();
                     NetworkResponse response = error.networkResponse;
                     String datos = new String(response.data);
@@ -1553,7 +1555,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
         reservacionBD.setNumHabitaciones(numHabitacion);
         reservacionBD.setDireccionHotel(getAddressString());
         reservacionBD.setCheckIn(true);
-        reservacionBD.setCheckOut(true);
+        reservacionBD.setCheckOut(false);
         reservacionBD.setConsultarSaldos(false);
         reservacionBD.setCityPremios(true);
         System.out.println("DIreccionHotel" + getAddressString());
@@ -1598,7 +1600,8 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
             startActivity(intent);
         }
         System.out.println("Reservacion OK " + reservacion);
-
+        contadorReservaciones++;
+        enviarReservacion();
 
        /* AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
         builder.setTitle("Hoteles City")
