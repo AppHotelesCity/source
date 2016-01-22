@@ -486,6 +486,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 numInfantes = position;
+                changeInfantes(numInfantes);
                 //changeAdultos(numAdultos,numInfantes);*/
             }
 
@@ -803,11 +804,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
     //Cambiar la tarifa de adultos.
     public void changeAdultos(final int numAdultos){
         int totalAdultos = numAdultos + numInfantes;
-
-        if(!(totalAdultos<numPersonas)){
-            //alert("Has alcanzado el limite permitido de personas por habitaciòn");
-        }
-        else if(numAdultos<=1){
+        if(numAdultos<=1){
             ninos.clear();
             int max=numPersonas-numAdultos;
             for (int i = 0; i < max; i++) {
@@ -822,7 +819,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                 cambiarTarifa();
             }
         }
-        else if(numAdultos>1 && totalAdultos<numPersonas ){
+        else if(numAdultos>1  ){
             maxPersonas = true;
             System.out.println("Cambiar tarifa");
             System.out.println("NumeroDEAdultos->" + adultos.get(posicion));
@@ -842,6 +839,44 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
             ninos.get(posicion);
             cambiarTarifa();
         }
+    }
+
+    public void changeInfantes(int numInfantes){
+        if(numAdultos>0 && numInfantes>0){
+            cambiarTarifa();
+        }
+        /*else if(numAdultos==0){
+            if(numInfantes<=1) {
+                adultos.clear();
+                int max = numPersonas - numInfantes;
+                for (int i = 0; i < max; i++) {
+                    adultos.add("" + i);
+                }
+                SpinnerAdapter adapterNinos = new ArrayAdapter<String>(ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, adultos);
+                spinAdultos.setAdapter(adapterNinos);
+                if (maxPersonas) {
+                    System.out.println("Cambiar tarifa");
+                    System.out.println("NumeroDEAdultos->" + ninos.get(posicion));
+                    maxPersonas = false;
+                    cambiarTarifa();
+                }
+            }
+           else if(numInfantes>1 ){
+                System.out.println("jhdfsjlhdsfhljksdf"+numInfantes);
+                maxPersonas = true;
+                System.out.println("Cambiar tarifa");
+                System.out.println("NumeroDEAdultos->" + ninos.get(posicion));
+                adultos.clear();
+                int max=(numPersonas+numAdultos)-numInfantes;
+                for (int i = 0; i < max; i++) {
+                    adultos.add(""+i);
+                }
+                SpinnerAdapter adapterNinos = new ArrayAdapter<String>(ReservacionActivity.this, R.layout.habitaciones_item, R.id.txtOption, adultos);
+                spinAdultos.setAdapter(adapterNinos);
+                //cambiarTarifa();
+
+            }
+        }*/
     }
 
     public void cambiarTarifa(){
