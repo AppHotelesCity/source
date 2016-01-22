@@ -538,7 +538,7 @@ public class RegistroActivity extends Activity {
                     "            <UserInfo\n" +
                     "                xmlns:d4p1=\"http://schemas.datacontract.org/2004/07/CityExpress.ClienteUnico.Entidades\"\n" +
                     "                xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-                    "                <d4p1:Active>false</d4p1:Active>\n" +
+                    "                <d4p1:Active>true</d4p1:Active>\n" +
                     "                <d4p1:Changed>2015-06-03T14:47:00</d4p1:Changed>\n" +
                     "                <d4p1:CityAccess_Pwd i:nil=\"true\" />\n" +
                     "                <d4p1:CityAccess_Usr i:nil=\"true\" />\n" +
@@ -547,7 +547,7 @@ public class RegistroActivity extends Activity {
                     "                <d4p1:Country>MX</d4p1:Country>\n" +
                     "                <d4p1:Created>2015-06-03T14:47:00</d4p1:Created>\n" +
                     "                <d4p1:Gender>"+ gender +"</d4p1:Gender>\n" +
-                    "                <d4p1:IsValidCityPremios>false</d4p1:IsValidCityPremios>\n" +
+                    "                <d4p1:IsValidCityPremios>true</d4p1:IsValidCityPremios>\n" +
                     "                <d4p1:LastName>"+ edtxtApPaterno.getText().toString() +"</d4p1:LastName>\n" +
                     "                <d4p1:Name>" + edtxtNombre.getText().toString() +"</d4p1:Name>\n" +
                     "                <d4p1:Password>" + edtxtPass.getText().toString() +"</d4p1:Password>\n" +
