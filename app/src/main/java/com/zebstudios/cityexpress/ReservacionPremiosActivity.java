@@ -886,7 +886,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                 "    <GetRoomsAvailablePromoImpuestos xmlns=\"http://tempuri.org/\">\n" +
                 "      <promoRequestModelv3I xmlns:d4p1=\"http://schemas.datacontract.org/2004/07/CityHub\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
                 "        <d4p1:CodigoPromocion />\n" +
-                "        <d4p1:CodigoTarifa>1114</d4p1:CodigoTarifa>\n" +
+                "        <d4p1:CodigoTarifa>1114</d4p1:CodigoTarifa>\n" + //1115P
                 "        <d4p1:FechaInicial>"+llegada+"</d4p1:FechaInicial>\n" +
                 "        <d4p1:Hotel>"+ siglasHotel +"</d4p1:Hotel>\n" +
                 "        <d4p1:NumeroAdultos>"+((numAdultos+numInfantes)+1)+"</d4p1:NumeroAdultos>\n" +
@@ -1016,7 +1016,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                         }else if(tagname.equalsIgnoreCase("CodigoError")){
 
                         }else if(tagname.equalsIgnoreCase("CodigoTarifa")){
-                            if(text.equalsIgnoreCase("1115P")){
+                            if(text.equalsIgnoreCase("1114")){ //1115P
                                 System.out.println("Hola15");
                                 cityPremios = true;
                             }else{
@@ -1125,10 +1125,10 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                 if(descripcion.getString("a:CodigoTarifa").equalsIgnoreCase("1115P")){
 
                     //descripcion.getString("")
-                    JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBaseI"));
+                   /* JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBaseI"));
                     JSONArray habitacionBase = new JSONArray(tarifaBase.getString("a:HabBaseI"));
 
-                    for (int j = 0; j < habitacionBase.length(); j++) {
+                   /* for (int j = 0; j < habitacionBase.length(); j++) {
 
                         habitacionCity = new HabitacionBase();
                         JSONObject habitacionBaseDisponibilidad = new JSONObject(habitacionBase.get(j).toString());
@@ -1142,6 +1142,68 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                         habitacionCity.setIVA(costoNoche.get("a:IVA").toString());
                         habitacionCity.setSubTotal(costoNoche.get("a:SubTotal").toString());
                         habitacionCityPremiosList.add(habitacionCity);
+                    }*/
+                    JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBaseI"));
+                    JSONArray habitacionBaseJSON = new JSONArray(tarifaBase.getString("a:HabBaseI"));
+
+                    for (int j = 0; j < habitacionBaseJSON.length(); j++) {
+                        habitacionBase = new HabitacionBase();
+                        JSONObject habitacionBaseDisponibilidad = new JSONObject(habitacionBaseJSON.get(j).toString());
+                        System.out.println("CUATRO->"+habitacionBaseDisponibilidad.getString("a:CodBase"));
+                        habitacionBase.setCodigoBase(habitacionBaseDisponibilidad.getString("a:CodBase"));
+                        System.out.println("CINCO->"+habitacionBaseDisponibilidad.getString("a:Noches"));
+                        JSONObject noche = new JSONObject(habitacionBaseDisponibilidad.getString("a:Noches"));
+                        JSONObject costoNoche = new JSONObject(noche.getString("a:NocheI"));
+                        System.out.println("CostoTotal->" + costoNoche.get("a:Costo"));
+                        habitacionBase.setCosto(costoNoche.get("a:Costo").toString());
+                        habitacionBase.setIVA(costoNoche.get("a:IVA").toString());
+                        habitacionBase.setSubTotal(costoNoche.get("a:SubTotal").toString());
+                        System.out.println("COSTOSUBTOTAL" + costoNoche.get("a:SubTotal").toString());
+                        habitacionBaseList.add(habitacionBase);
+
+                        if(habitacionBase.getCodigoBase().equalsIgnoreCase(codigoBase)){
+
+                            precioHabitacion = Double.parseDouble(habitacionBase.getCosto().replace(",",""));
+                            IVAHabitacion2 = Double.parseDouble(habitacionBase.getIVA().replace(",", ""));
+                            subtotalHabitacion2 = Double.parseDouble(habitacionBase.getSubTotal().replace(",", ""));
+                            System.out.println("IVAHABITACION2" + IVAHabitacion2);
+                            sumary.clear();
+                            preciosList.clear();
+                            subtotal = 0;
+                            IVA = 0;
+                            for (int k = 0; k < numHabitacion; k++) {
+                                if(k==numHuesped){
+                                    sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
+                                    for (int l = 0; l < Math.abs(numNoches); l++) {
+                                        sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + subtotalHabitacion2));//precioHabitacion));
+                                        preciosList.add(subtotalHabitacion2+"");
+                                        subtotal += subtotalHabitacion2;
+                                        IVA += IVAHabitacion2;
+                                    }
+                                }else{
+                                    sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
+                                    for (int l = 0; l < Math.abs(numNoches); l++) {
+                                        sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + guess.getPrecio()));//precioHabitacion))//// ;
+                                        subtotal += guess.getPrecio();
+                                        preciosList.add(subtotal+"");
+                                        IVA += guess.getIva();
+                                    }
+                                }
+
+                            }
+
+                            NestedListView list = (NestedListView) findViewById(R.id.list_summary);
+                            NestedListView list2 = (NestedListView) findViewById(R.id.list_summary2);
+                            SummaryListAdapter adapter = new SummaryListAdapter(this, sumary);
+                            list.setAdapter(adapter);
+                            list2.setAdapter(adapter);
+                            lblTotal.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "MXN");//String.format( "Total: $%,.2f ",1123 ) );
+                            lblTotal2.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "MXN");// String.format( "Total: $%,.2f ", 34345 )  );
+                            lblIVA.setText(String.format("Impuestos: $%,.2f ", IVA) + "MXN");
+                            lblIVA2.setText(String.format("Impuestos: $%,.2f ", IVA) + "MXN");
+                            lblSubTotal.setText(String.format("Subtotal: $%,.2f ", subtotal) + "MXN");
+                            lblSubTotal2.setText(String.format("Subtotal: $%,.2f ", subtotal) + "MXN");
+                        }
                     }
                 }else if(descripcion.getString("a:CodigoTarifa").equalsIgnoreCase("1114")){
 
@@ -1404,7 +1466,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
 
             enviarxml = enviarxml.replace("{smart}", "true");
             enviarxml = enviarxml.replace("{codigohabitacion}", codigoBase);
-            enviarxml = enviarxml.replace("{codigotarifa}", "1114");
+            enviarxml = enviarxml.replace("{codigotarifa}", "1114"); // 1115P
             enviarxml = enviarxml.replace("{codigopromocion}", "");
 
 
@@ -1479,7 +1541,6 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                         if (InsertBookingv3_01Response.has("a:NumReservacion")) {
 
                             FinenviarReservacion("" + InsertBookingv3_01Response.getInt("a:NumReservacion"));
-                            return;
 
                         }else{
                             alert("Hubo un problema al tratar de hacer tu reservacion, vuelve a intentarlo");
@@ -1489,6 +1550,8 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                         //AltaTarjetaResult
 
                     } catch (JSONException e) {
+                        alert("Hubo un problema al tratar de hacer tu reservacion, vuelve a intentarlo");
+                        progress.dismiss();
                         Log.e("JSON exception", e.getMessage());
                         e.printStackTrace();
                     }finally {
@@ -1544,99 +1607,100 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
 
 
     public void FinenviarReservacion(String reservacion){
-        System.out.println("Reservacion OK " + reservacion);
+        if(reservacion != "") {
+            System.out.println("Reservacion OK " + reservacion);
 
-        ReservacionBD reservacionBD = new ReservacionBD();
-        reservacionBD.setNombreUsuario(titulares.get(contador).getName());
-        reservacionBD.setEmailUsuario(titulares.get(contador).getEmail());
-        reservacionBD.setApellidoUsuario(titulares.get(contador).getLastName());
-        reservacionBD.setNombreHotel(_hotel.getNombre());
-        reservacionBD.setFechaLlegada(arrival);
-        reservacionBD.setFechaSalida(departure);
-        reservacionBD.setEmailHotel(_hotel.getEmail());
-        reservacionBD.setNumHabitacionAsigado("");
-        reservacionBD.setDescripcionLugarHotel(_hotel.getLugaresCercanos());
-        reservacionBD.setSiglasHotel(_hotel.getSiglas());
-        reservacionBD.setDeschabitacion(descripcionHabitacionJSON);
-        reservacionBD.setLatitudHotel(_hotel.getLatitude());
-        reservacionBD.setLongitudHotel(_hotel.getLongitude());
-        //reservacionBD.setHabCosto("" + precioHabitacion);
-        reservacionBD.setHabCosto("" + titulares.get(contador).getPrecio());
-        reservacionBD.setNumReservacion(Integer.parseInt(reservacion));
+            ReservacionBD reservacionBD = new ReservacionBD();
+            reservacionBD.setNombreUsuario(titulares.get(contador).getName());
+            reservacionBD.setEmailUsuario(titulares.get(contador).getEmail());
+            reservacionBD.setApellidoUsuario(titulares.get(contador).getLastName());
+            reservacionBD.setNombreHotel(_hotel.getNombre());
+            reservacionBD.setFechaLlegada(arrival);
+            reservacionBD.setFechaSalida(departure);
+            reservacionBD.setEmailHotel(_hotel.getEmail());
+            reservacionBD.setNumHabitacionAsigado("");
+            reservacionBD.setDescripcionLugarHotel(_hotel.getLugaresCercanos());
+            reservacionBD.setSiglasHotel(_hotel.getSiglas());
+            reservacionBD.setDeschabitacion(descripcionHabitacionJSON);
+            reservacionBD.setLatitudHotel(_hotel.getLatitude());
+            reservacionBD.setLongitudHotel(_hotel.getLongitude());
+            //reservacionBD.setHabCosto("" + precioHabitacion);
+            reservacionBD.setHabCosto("" + titulares.get(contador).getPrecio());
+            reservacionBD.setNumReservacion(Integer.parseInt(reservacion));
         /*reservacionBD.setAdultos(1);
         reservacionBD.setInfantes(1);*/
-        reservacionBD.setAdultos(titulares.get(contador).getAdultos());
-        reservacionBD.setInfantes(titulares.get(contador).getNinos());
-        reservacionBD.setCodigoHabitacion(codigoBase);
+            reservacionBD.setAdultos(titulares.get(contador).getAdultos());
+            reservacionBD.setInfantes(titulares.get(contador).getNinos());
+            reservacionBD.setCodigoHabitacion(codigoBase);
         /*reservacionBD.setTotal("" + precioHabitacion);
         reservacionBD.setSubtotal("" + subtotalHabitacion);
         reservacionBD.setIva("" + IVAHabitacion);*/
-        if(getTotalCostAlt()==0){
-            reservacionBD.setTotal("" + precioHabitacion);
-        }else{
-            reservacionBD.setTotal(""+getTotalCostAlt());
-        }
-        if(subtotal ==0){
-            reservacionBD.setSubtotal("" + subtotalHabitacion);
-        }else{
-            reservacionBD.setSubtotal("" + subtotal);
-        }
-        if(IVA == 0){
-            reservacionBD.setIva("" + titulares.get(contador).getIva());
-        }else{
-            reservacionBD.setIva("" + titulares.get(contador).getIva());
-        }
-        reservacionBD.setNumNoches(numNoches);
-        reservacionBD.setNumHabitaciones(numHabitacion);
-        reservacionBD.setDireccionHotel(getAddressString());
-        reservacionBD.setCheckIn(true);
-        reservacionBD.setCheckOut(false);
-        reservacionBD.setConsultarSaldos(false);
-        reservacionBD.setCityPremios(true);
-        System.out.println("DIreccionHotel" + getAddressString());
-        System.out.println("numNohe" + numNoches);
-        System.out.println("descHabitacion"+ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());
+            if (getTotalCostAlt() == 0) {
+                reservacionBD.setTotal("" + precioHabitacion);
+            } else {
+                reservacionBD.setTotal("" + getTotalCostAlt());
+            }
+            if (subtotal == 0) {
+                reservacionBD.setSubtotal("" + subtotalHabitacion);
+            } else {
+                reservacionBD.setSubtotal("" + subtotal);
+            }
+            if (IVA == 0) {
+                reservacionBD.setIva("" + titulares.get(contador).getIva());
+            } else {
+                reservacionBD.setIva("" + titulares.get(contador).getIva());
+            }
+            reservacionBD.setNumNoches(numNoches);
+            reservacionBD.setNumHabitaciones(numHabitacion);
+            reservacionBD.setDireccionHotel(getAddressString());
+            reservacionBD.setCheckIn(true);
+            reservacionBD.setCheckOut(false);
+            reservacionBD.setConsultarSaldos(false);
+            reservacionBD.setCityPremios(true);
+            System.out.println("DIreccionHotel" + getAddressString());
+            System.out.println("numNohe" + numNoches);
+            System.out.println("descHabitacion" + ResultadosDisponibilidad.listaGeneralHotel.get(posicionHot).getArrayHabitaciones().get(posicionHab).getDescBase());
 
         /*realm= Realm.getInstance(this);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(reservacionBD);
         realm.commitTransaction();*/
 
-        ReservacionBDD ds = new ReservacionBDD( this );
-        ds.open();
-        ds.insert(reservacionBD);
-        ds.close();
-        new EmailSender( reservacionBD ).execute();
-        contador++;
-        if(contador==titulares.size()){
-            Intent intent = new Intent(ReservacionPremiosActivity.this, HotelReservaResultActivity.class);
-            intent.putExtra("numReservacion", reservacion);
-            intent.putExtra("numHabitaciones", numHabitacion);
-            intent.putExtra("precioHabitacion", precioHabitacion);
-            intent.putExtra("numNoches", numNoches);
+            ReservacionBDD ds = new ReservacionBDD(this);
+            ds.open();
+            ds.insert(reservacionBD);
+            ds.close();
+            new EmailSender(reservacionBD).execute();
+            contador++;
+            if (contador == titulares.size()) {
+                Intent intent = new Intent(ReservacionPremiosActivity.this, HotelReservaResultActivity.class);
+                intent.putExtra("numReservacion", reservacion);
+                intent.putExtra("numHabitaciones", numHabitacion);
+                intent.putExtra("precioHabitacion", precioHabitacion);
+                intent.putExtra("numNoches", numNoches);
             /*intent.putExtra("total",getTotalCost());
             intent.putExtra("subtotal",getSubTotalCost());
             intent.putExtra("iva",getIVACost());*/
-            if(getTotalCostAlt()==0){
-                intent.putExtra("total",getTotalCost());
-            }else{
-                intent.putExtra("total",getTotalCostAlt());
+                if (getTotalCostAlt() == 0) {
+                    intent.putExtra("total", getTotalCost());
+                } else {
+                    intent.putExtra("total", getTotalCostAlt());
+                }
+                if (subtotal == 0) {
+                    intent.putExtra("subtotal", getSubTotalCost());
+                } else {
+                    intent.putExtra("subtotal", subtotal);
+                }
+                if (IVA == 0) {
+                    intent.putExtra("iva", getIVACost());
+                } else {
+                    intent.putExtra("iva", IVA);
+                }
+                startActivity(intent);
             }
-            if(subtotal ==0){
-                intent.putExtra("subtotal",getSubTotalCost());
-            }else{
-                intent.putExtra("subtotal",subtotal);
-            }
-            if(IVA ==0){
-                intent.putExtra("iva",getIVACost());
-            } else {
-                intent.putExtra("iva",IVA);
-            }
-            startActivity(intent);
-        }
-        System.out.println("Reservacion OK " + reservacion);
-        contadorReservaciones++;
-        enviarReservacion();
+            System.out.println("Reservacion OK " + reservacion);
+            contadorReservaciones++;
+            enviarReservacion();
 
        /* AlertDialog.Builder builder = new AlertDialog.Builder(ReservacionPremiosActivity.this);
         builder.setTitle("Hoteles City")
@@ -1650,6 +1714,9 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
 
         AlertDialog dialog = builder.create();
         dialog.show();*/
+        }else{
+            alert("Hubo un problema al tratar de hacer tu reservacion, vuelve a intentarlo");
+        }
     }
 
     public void ErrorenviarReservacion(){
@@ -2597,12 +2664,12 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                 d.setPrecio(subtotalHabitacion2);
             }
         }
-        d.setAdultos( spinAdultos.getSelectedItemPosition() );
+        d.setAdultos(spinAdultos.getSelectedItemPosition());
         d.setNinos(spinNinos.getSelectedItemPosition());
         numAdultos=0;
+        numInfantes = 0;
         spinAdultos.setSelection(0);
         spinNinos.setSelection(0);
-        numInfantes = 0;
         guess=d;
     }
 
