@@ -563,6 +563,7 @@ public class RegistroActivity extends Activity {
                     "            </UserInfo>\n" +
                     "            <AfilCityPrem>0</AfilCityPrem>\n" +
                     "            <Title>Mr</Title>\n" +
+                    "           <Enabled>1</Enabled>\n"+
                     "        </InsertUser >\n" +
                     "    </soapenv:Body>\n" +
                     "</soapenv:Envelope>";
