@@ -445,9 +445,9 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
 
     public void buscarDisponibilidad(String busqueda){
         //System.out.println("->"+busqueda);
-
+        System.out.println("https://www.cityexpress.com/umbraco/api/MobileAppServices/GetHotelsWithServices?SearchTerms="+busqueda.replace(" ", "%20"));
         contador=0;
-        StringRequest registro = new StringRequest(Request.Method.GET,"https://www.cityexpress.com/umbraco/api/MobileAppServices/GetHotelsWithServices?SearchTerms="+busqueda, new Response.Listener<String>() {
+        StringRequest registro = new StringRequest(Request.Method.GET,"https://www.cityexpress.com/umbraco/api/MobileAppServices/GetHotelsWithServices?SearchTerms="+busqueda.replace(" ", "%20"), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
