@@ -116,7 +116,7 @@ public class ReservacionesFragment extends Fragment
                             public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                 for (final int position : reverseSortedPositions) {
                                     System.out.println("->" + reservationsListAdapter.getItem(position) + "NUmoeri de reservacion"+_reservations.get(position).getNumReservacion());
-                                    if(hoy.before(_reservations.get(position).getFechaLlegada())) {
+                                    if(_reservations.get(position).getFechaLlegada().getDate() < hoy.getDate()) {
                                         new AlertDialog.Builder(getActivity())
                                                 .setTitle("Hoteles City")
                                                 .setMessage("Deseas eliminar esta reservación?")
@@ -138,6 +138,8 @@ public class ReservacionesFragment extends Fragment
 
                                             }
                                         }).create().show();
+                                    }else{
+                                        System.out.println("Despues");
                                     }
                                 }
                                 reservationsListAdapter.notifyDataSetChanged();
