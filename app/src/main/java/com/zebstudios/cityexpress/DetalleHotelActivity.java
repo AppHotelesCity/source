@@ -192,9 +192,9 @@ public class DetalleHotelActivity extends ActionBarActivity{
         //Servicios
         _serviciosListAdapter = new ServicesListAdapter(this, ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios() );
 
-        listView.setAdapter( _serviciosListAdapter );
+        listView.setAdapter(_serviciosListAdapter);
 
-        listView.setDivider( null );
+        listView.setDivider(null);
         listView.setDividerHeight(0);
         //Analytics analytics = (Analytics)getApplication();
         //analytics.sendAppEventTrack("HOTEL DETAIL ANDROID", "SERVICES", "HOTEL", _hotel.getNombre(), 1);
@@ -493,31 +493,44 @@ public class DetalleHotelActivity extends ActionBarActivity{
             if (density == DisplayMetrics.DENSITY_XXHIGH) {
                 int viewHeight = 620 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size();
                 recyclerViewHabitaciones.getLayoutParams().height = viewHeight;
+
+                int altura = 120 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+                listView.getLayoutParams().height = altura;
                 System.out.println("AltoXX");
             }
             if (density == DisplayMetrics.DENSITY_XXXHIGH) {
                 int viewHeight = 750 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size();
                 recyclerViewHabitaciones.getLayoutParams().height = viewHeight;
+                int altura = 150 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+                listView.getLayoutParams().height = altura;
                 System.out.println("Alto XXX");
             }
             if (density == DisplayMetrics.DENSITY_HIGH) {
                 int viewHeight = 320 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size();
                 recyclerViewHabitaciones.getLayoutParams().height = viewHeight;
+                int altura = 70 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+                listView.getLayoutParams().height = altura;
                 System.out.println("Alto");
             }
             if (density == DisplayMetrics.DENSITY_XHIGH) {
                 int viewHeight = 450 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size();
                 recyclerViewHabitaciones.getLayoutParams().height = viewHeight;
+                int altura = 93 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+                listView.getLayoutParams().height = altura;
                 System.out.println("AltoX");
             }
             else if (density == DisplayMetrics.DENSITY_MEDIUM) {
                 int viewHeight = 300 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size();
                 recyclerViewHabitaciones.getLayoutParams().height = viewHeight;
+                int altura = 80 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+                listView.getLayoutParams().height = altura;
                 System.out.println("Medio");
             }
             else if (density == DisplayMetrics.DENSITY_LOW) {
                 int viewHeight = 280 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size();
                 recyclerViewHabitaciones.getLayoutParams().height = viewHeight;
+                int altura = 60 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+                listView.getLayoutParams().height = altura;
                 System.out.println("Bajo");
             }
 

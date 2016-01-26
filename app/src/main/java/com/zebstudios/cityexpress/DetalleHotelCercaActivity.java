@@ -111,6 +111,41 @@ public class DetalleHotelCercaActivity extends ActionBarActivity {
             }
         }*/
        // pedirDetalleHabitacion(ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getSiglas(),siglas );
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int density = metrics.densityDpi;
+
+        if (density == DisplayMetrics.DENSITY_XXHIGH) {
+
+            int altura = 120 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+            listView.getLayoutParams().height = altura;
+            System.out.println("AltoXX");
+        }
+        if (density == DisplayMetrics.DENSITY_XXXHIGH) {
+            int altura = 150 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+            listView.getLayoutParams().height = altura;
+            System.out.println("Alto XXX");
+        }
+        if (density == DisplayMetrics.DENSITY_HIGH) {
+            int altura = 70 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+            listView.getLayoutParams().height = altura;
+            System.out.println("Alto");
+        }
+        if (density == DisplayMetrics.DENSITY_XHIGH) {
+            int altura = 93 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+            listView.getLayoutParams().height = altura;
+            System.out.println("AltoX");
+        }
+        else if (density == DisplayMetrics.DENSITY_MEDIUM) {
+            int altura = 80 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+            listView.getLayoutParams().height = altura;
+            System.out.println("Medio");
+        }
+        else if (density == DisplayMetrics.DENSITY_LOW) {
+            int altura = 60 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+            listView.getLayoutParams().height = altura;
+            System.out.println("Bajo");
+        }
 
 
         TextView lblAddress = (TextView) findViewById(R.id.lblAddress);
@@ -129,13 +164,13 @@ public class DetalleHotelCercaActivity extends ActionBarActivity {
         CirclePageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);
         indicator.setViewPager( viewPager );
 
-        final float density = getResources().getDisplayMetrics().density;
+        final float densidad = getResources().getDisplayMetrics().density;
         //indicator.setBackgroundColor(0xFFCCCCCC);
-        indicator.setRadius( 4 * density );
+        indicator.setRadius( 4 * densidad );
         indicator.setPageColor(0xFF264b89); // 0xFF264b89
         indicator.setFillColor(0xFF264b89);
         indicator.setStrokeColor(0xFF9daeca);
-        indicator.setStrokeWidth(1 * density);
+        indicator.setStrokeWidth(1 * densidad);
 
         if( _hotel.getDescripcionMaps() != null && !_hotel.getDescripcionMaps().equalsIgnoreCase( "null" ) )
         {

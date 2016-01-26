@@ -2084,6 +2084,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             txtEmail.setEnabled( true );
             txtSocio.setEnabled( true );
             cbAfiliate.setEnabled( true );
+            cbAfiliate.setChecked(true);
             txtPhone.setEnabled( true );
             spinViaje.setEnabled( true );
             spinAdultos.setEnabled(true);
@@ -2158,6 +2159,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                 txtEmail.setEnabled( true );
                 txtSocio.setEnabled( true );
                 cbAfiliate.setEnabled( true );
+                cbAfiliate.setChecked(true);
                 txtPhone.setEnabled( true );
                 spinViaje.setEnabled( true );
                 spinAdultos.setEnabled(true);
@@ -2169,7 +2171,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         txtLast.setText( d.getLastName() );
         txtEmail.setText( d.getEmail() );
         txtSocio.setText(d.getSocio());
-        cbAfiliate.setChecked(d.isAfiliate());
+        cbAfiliate.setChecked(true);
         txtPhone.setText(d.getPhone());
         spinViaje.setSelection(d.getViaje());
         spinAdultos.setSelection(d.getAdultos());
