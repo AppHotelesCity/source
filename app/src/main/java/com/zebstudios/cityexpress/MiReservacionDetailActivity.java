@@ -263,7 +263,7 @@ public class MiReservacionDetailActivity extends Activity {
         txtHabitacion.setText(datosReservacion.getNumHabitacionAsigado());
         txtTipoHabitacion .setText(datosReservacion.getDeschabitacion());
         txtPrecioHabitacion.setText("$" + datosReservacion.getHabCosto() + "M.N");
-        txtNumAdultos.setText("" + (datosReservacion.getAdultos() + 1));
+        txtNumAdultos.setText("" + (datosReservacion.getAdultos()));
         txtNumNiños .setText("" + datosReservacion.getInfantes());
         txtPrecioTotal .setText(String.format("Total: $%,.2f ", total())+ " M.N");
         txtPrecioSubtotal .setText(String.format("Subtotal: $%,.2f ", Double.parseDouble(datosReservacion.getHabCosto().replace(",", ""))) + " M.N");

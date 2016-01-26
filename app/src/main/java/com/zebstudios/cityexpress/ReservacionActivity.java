@@ -371,12 +371,12 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         lblDepartureDate2.setText(sdfecha.format(departure));
 
 
-        lblTotal.setText(String.format("Total: $%,.2f ", getTotalCost()) + "MXN");//String.format( "Total: $%,.2f ",1123 ) );
-        lblTotal2.setText(String.format("Total: $%,.2f ", getTotalCost()) + "MXN");// String.format( "Total: $%,.2f ", 34345 )  );
-        lblIVA.setText(String.format("Impuestos: $%,.2f ", getIVACost()) + "MXN");
-        lblIVA2.setText(String.format("Impuestos: $%,.2f ", getIVACost()) + "MXN");
-        lblSubTotal.setText(String.format("Subtotal: $%,.2f ", getSubTotalCost()) + "MXN");
-        lblSubTotal2.setText(String.format("Subtotal: $%,.2f ", getSubTotalCost()) + "MXN");
+        lblTotal.setText(String.format("Total: $%,.2f ", getTotalCost()) + "M.N");//String.format( "Total: $%,.2f ",1123 ) );
+        lblTotal2.setText(String.format("Total: $%,.2f ", getTotalCost()) + "M.N");// String.format( "Total: $%,.2f ", 34345 )  );
+        lblIVA.setText(String.format("Impuestos: $%,.2f ", getIVACost()) + "M.N");
+        lblIVA2.setText(String.format("Impuestos: $%,.2f ", getIVACost()) + "M.N");
+        lblSubTotal.setText(String.format("Subtotal: $%,.2f ", getSubTotalCost()) + "M.N");
+        lblSubTotal2.setText(String.format("Subtotal: $%,.2f ", getSubTotalCost()) + "M.N");
 
         //  NestedListView list = (NestedListView) findViewById( R.id.list_summary );
         // NestedListView list2 = (NestedListView) findViewById( R.id.list_summary2 );
@@ -539,7 +539,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             huespedes.add("Huésped titular - habitación " + (i + 1));
             sumary.add(new SummaryEntry(0, "Habitación " + (i + 1)));
             for (int j = 0; j < Math.abs(numNoches); j++) {
-                sumary.add(new SummaryEntry(1, "Noche " + (j + 1) + " $" + subtotalHabitacion));//precioHabitacion));
+                sumary.add(new SummaryEntry(1, "Noche " + (j + 1) + " $" + subtotalHabitacion + " M.N"));//precioHabitacion));
                 preciosList.add(""+subtotalHabitacion);
             }
             titulares.add(new GuestData());
@@ -986,7 +986,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                                 if(k==numHuesped){
                                     sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
                                     for (int l = 0; l < Math.abs(numNoches); l++) {
-                                        sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + subtotalHabitacion2));//precioHabitacion));
+                                        sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + subtotalHabitacion2 + " M.N"));//precioHabitacion));
                                         preciosList.add(subtotalHabitacion2+"");
                                         subtotal += subtotalHabitacion2;
                                         IVA += IVAHabitacion2;
@@ -994,7 +994,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                                 }else{
                                     sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
                                     for (int l = 0; l < Math.abs(numNoches); l++) {
-                                        sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + guess.getPrecio()));//precioHabitacion))//// ;
+                                        sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + guess.getPrecio() + " M.N"));//precioHabitacion))//// ;
                                         subtotal += guess.getPrecio();
                                         preciosList.add(subtotal+"");
                                         IVA += guess.getIva();
@@ -1008,12 +1008,12 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                             SummaryListAdapter adapter = new SummaryListAdapter(this, sumary);
                             list.setAdapter(adapter);
                             list2.setAdapter(adapter);
-                            lblTotal.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "MXN");//String.format( "Total: $%,.2f ",1123 ) );
-                            lblTotal2.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "MXN");// String.format( "Total: $%,.2f ", 34345 )  );
-                            lblIVA.setText(String.format("Impuestos: $%,.2f ", IVA) + "MXN");
-                            lblIVA2.setText(String.format("Impuestos: $%,.2f ", IVA) + "MXN");
-                            lblSubTotal.setText(String.format("Subtotal: $%,.2f ", subtotal) + "MXN");
-                            lblSubTotal2.setText(String.format("Subtotal: $%,.2f ", subtotal) + "MXN");
+                            lblTotal.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "M.N");//String.format( "Total: $%,.2f ",1123 ) );
+                            lblTotal2.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "M.N");// String.format( "Total: $%,.2f ", 34345 )  );
+                            lblIVA.setText(String.format("Impuestos: $%,.2f ", IVA) + "M.N");
+                            lblIVA2.setText(String.format("Impuestos: $%,.2f ", IVA) + "M.N");
+                            lblSubTotal.setText(String.format("Subtotal: $%,.2f ", subtotal) + "M.N");
+                            lblSubTotal2.setText(String.format("Subtotal: $%,.2f ", subtotal) + "M.N");
                         }
                     }
                 }
@@ -2121,7 +2121,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                     if(k==numHuesped){
                         sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
                         for (int l = 0; l < Math.abs(numNoches); l++) {
-                            sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + d.getPrecio()));//precioHabitacion));
+                            sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + d.getPrecio()+ " M.N"));//precioHabitacion));
                             preciosList.add(""+d.getPrecio());
                             subtotal+=d.getPrecio();
                             IVA += d.getIva();
@@ -2129,7 +2129,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                     }else{
                         sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
                         for (int l = 0; l < Math.abs(numNoches); l++) {
-                            sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + d.getPrecio()));//precioHabitacion));
+                            sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + d.getPrecio()+ " M.N"));//precioHabitacion));
                             subtotal+=d.getPrecio();
                             preciosList.add(d.getPrecio()+"");
                             IVA +=d.getIva();
@@ -2143,12 +2143,12 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                 SummaryListAdapter adapter = new SummaryListAdapter(this, sumary);
                 list.setAdapter(adapter);
                 list2.setAdapter(adapter);
-                lblSubTotal.setText(String.format("Subtotal: $%,.2f ", subtotal) + "MXN");
-                lblSubTotal2.setText(String.format("Subtotal: $%,.2f ", subtotal) + "MXN");
-                lblIVA.setText(String.format("Impuestos: $%,.2f ", IVA) + "MXN");
-                lblIVA2.setText(String.format("Impuestos: $%,.2f ", IVA) + "MXN");
-                lblTotal.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "MXN");//String.format( "Total: $%,.2f ",1123 ) );
-                lblTotal2.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "MXN");// Str
+                lblSubTotal.setText(String.format("Subtotal: $%,.2f ", subtotal) + "M.N");
+                lblSubTotal2.setText(String.format("Subtotal: $%,.2f ", subtotal) + "M.N");
+                lblIVA.setText(String.format("Impuestos: $%,.2f ", IVA) + "M.N");
+                lblIVA2.setText(String.format("Impuestos: $%,.2f ", IVA) + "M.N");
+                lblTotal.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "M.N");//String.format( "Total: $%,.2f ",1123 ) );
+                lblTotal2.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "M.N");// Str
 
             }
             else
