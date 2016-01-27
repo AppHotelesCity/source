@@ -508,7 +508,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
             if (density == DisplayMetrics.DENSITY_HIGH) {
                 int viewHeight = 320 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size();
                 recyclerViewHabitaciones.getLayoutParams().height = viewHeight;
-                int altura = 80 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+                int altura = 95 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
                 listView.getLayoutParams().height = altura;
                 System.out.println("Alto");
             }

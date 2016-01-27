@@ -117,32 +117,32 @@ public class DetalleHotelCercaActivity extends ActionBarActivity {
 
         if (density == DisplayMetrics.DENSITY_XXHIGH) {
 
-            int altura = 120 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+            int altura = 120 * _hotel.getServicios().length;
             listView.getLayoutParams().height = altura;
             System.out.println("AltoXX");
         }
         if (density == DisplayMetrics.DENSITY_XXXHIGH) {
-            int altura = 150 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+            int altura = 150 * _hotel.getServicios().length;
             listView.getLayoutParams().height = altura;
             System.out.println("Alto XXX");
         }
         if (density == DisplayMetrics.DENSITY_HIGH) {
-            int altura = 80 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+            int altura = 95 * _hotel.getServicios().length;
             listView.getLayoutParams().height = altura;
             System.out.println("Alto");
         }
         if (density == DisplayMetrics.DENSITY_XHIGH) {
-            int altura = 95 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+            int altura = 90 * _hotel.getServicios().length;
             listView.getLayoutParams().height = altura;
             System.out.println("AltoX");
         }
         else if (density == DisplayMetrics.DENSITY_MEDIUM) {
-            int altura = 80 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+            int altura = 80 * _hotel.getServicios().length;
             listView.getLayoutParams().height = altura;
             System.out.println("Medio");
         }
         else if (density == DisplayMetrics.DENSITY_LOW) {
-            int altura = 60 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+            int altura = 60 * _hotel.getServicios().length;
             listView.getLayoutParams().height = altura;
             System.out.println("Bajo");
         }
