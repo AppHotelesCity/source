@@ -161,9 +161,9 @@ public class HotelReservaResultActivity extends Activity {
         btnAbrirUbicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String geoUri = "http://maps.google.com/maps?q=loc:" + datosReservacion.getLatitudHotel() + "," + datosReservacion.getLongitudHotel() + " (" + datosReservacion.getNombreHotel() + ")";
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("http://maps.google.com/maps?saddr=" +datosReservacion.getLongitudHotel()+ "&daddr="+datosReservacion.getLatitudHotel()));
+                        Uri.parse(geoUri));
                 startActivity(intent);
                 
             }
