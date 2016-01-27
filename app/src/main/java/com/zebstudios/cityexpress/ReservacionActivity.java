@@ -2010,6 +2010,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         d.setDataOption(btnMisma.isChecked() ? 0 : 1);
         if( _lastGuestIndex == 0 || ( _lastGuestIndex != 0 && !btnMisma.isChecked() ) )
         {
+            System.out.println("ENTREACA2=0");
             d.setName(txtName.getText().toString());
             d.setLastName(txtLast.getText().toString());
             d.setEmail(txtEmail.getText().toString());
@@ -2095,7 +2096,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             d = titulares.get( _lastGuestIndex );
             if( d.getDataOption() == 0 )
             {
-                btnMisma.setChecked( true );
+                btnMisma.setChecked( false );
             }
             else
             {

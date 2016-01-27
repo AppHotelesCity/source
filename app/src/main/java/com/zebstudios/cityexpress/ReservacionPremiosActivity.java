@@ -2715,7 +2715,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
             d = titulares.get( _lastGuestIndex );
             if( d.getDataOption() == 0 )
             {
-                btnMisma.setChecked( true );
+                btnMisma.setChecked( false );
             }
             else
             {
