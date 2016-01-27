@@ -127,12 +127,12 @@ public class DetalleHotelCercaActivity extends ActionBarActivity {
             System.out.println("Alto XXX");
         }
         if (density == DisplayMetrics.DENSITY_HIGH) {
-            int altura = 70 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+            int altura = 80 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
             listView.getLayoutParams().height = altura;
             System.out.println("Alto");
         }
         if (density == DisplayMetrics.DENSITY_XHIGH) {
-            int altura = 93 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
+            int altura = 95 * ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getServicios().length;
             listView.getLayoutParams().height = altura;
             System.out.println("AltoX");
         }
