@@ -2666,28 +2666,32 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
             }else{
                 d.setIva(IVAHabitacion2);
             }
+            d.setAdultos(spinAdultos.getSelectedItemPosition());
+            d.setNinos(spinNinos.getSelectedItemPosition());
         }
         if(_lastGuestIndex>0 && btnMisma.isChecked()){
             System.out.println("ENTREACA");
-            d.setName( txtName.getText().toString() );
-            d.setLastName( txtLast.getText().toString() );
-            d.setEmail( txtEmail.getText().toString() );
-            d.setSocio( txtSocio.getText().toString() );
-            d.setAfiliate( cbAfiliate.isChecked() );
+            d.setName( txtName.getText().toString());
+            d.setLastName( txtLast.getText().toString());
+            d.setEmail( txtEmail.getText().toString());
+            d.setSocio(txtSocio.getText().toString());
+            d.setAfiliate(cbAfiliate.isChecked());
             d.setPhone( txtPhone.getText().toString() );
             d.setViaje( spinViaje.getSelectedItemPosition() );
             if(subtotalHabitacion2 == 0){
                 d.setPrecio(subtotalHabitacion);
-            }else{
+            } else {
                 d.setPrecio(subtotalHabitacion2);
             }
+            d.setAdultos(spinAdultos.getSelectedItemPosition());
+            d.setNinos(spinNinos.getSelectedItemPosition());
         }
-        d.setAdultos(spinAdultos.getSelectedItemPosition());
-        d.setNinos(spinNinos.getSelectedItemPosition());
+        //d.setAdultos(spinAdultos.getSelectedItemPosition());
+        //d.setNinos(spinNinos.getSelectedItemPosition());
         numAdultos=0;
         numInfantes = 0;
-        spinAdultos.setSelection(0);
-        spinNinos.setSelection(0);
+        //spinAdultos.setSelection(0);
+        //spinNinos.setSelection(0);
         guess=d;
     }
 

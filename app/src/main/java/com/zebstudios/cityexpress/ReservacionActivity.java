@@ -1319,6 +1319,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         reservacionBD.setLongitudHotel(_hotel.getLongitude());
         reservacionBD.setHabCosto("" + titulares.get(contador).getPrecio());
         reservacionBD.setNumReservacion(Integer.parseInt(reservacion));
+        System.out.println("Adultos------------->"+titulares.get(contador).getAdultos());
         reservacionBD.setAdultos(titulares.get(contador).getAdultos());
         reservacionBD.setInfantes(titulares.get(contador).getNinos());
         reservacionBD.setCodigoHabitacion(codigoBase);
@@ -2040,7 +2041,8 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                 d.setIva(IVAHabitacion);
             }else{
                 d.setIva(IVAHabitacion2);
-            }
+            } d.setAdultos(spinAdultos.getSelectedItemPosition());
+            d.setNinos(spinNinos.getSelectedItemPosition());
         }
         if(_lastGuestIndex>0 && btnMisma.isChecked()){
             System.out.println("ENTREACA");
@@ -2053,16 +2055,17 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             d.setViaje(spinViaje.getSelectedItemPosition());
             if(subtotalHabitacion2 == 0){
                 d.setPrecio(subtotalHabitacion);
-            }else{
+            } else {
                 d.setPrecio(subtotalHabitacion2);
             }
+            d.setAdultos(spinAdultos.getSelectedItemPosition());
+            d.setNinos(spinNinos.getSelectedItemPosition());
         }
-        d.setAdultos(spinAdultos.getSelectedItemPosition());
-        d.setNinos(spinNinos.getSelectedItemPosition());
+
         numAdultos=0;
         numInfantes = 0;
-        spinAdultos.setSelection(0);
-        spinNinos.setSelection(0);
+        //spinAdultos.setSelection(0);
+        //spinNinos.setSelection(0);
 
         guess=d;
     }
@@ -2193,6 +2196,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         txtPhone.setText(d.getPhone());
         spinViaje.setSelection(d.getViaje());
         spinAdultos.setSelection(d.getAdultos());
+        System.out.println("GETAdultos->"+d.getAdultos());
         spinNinos.setSelection(d.getNinos());
     }
 
