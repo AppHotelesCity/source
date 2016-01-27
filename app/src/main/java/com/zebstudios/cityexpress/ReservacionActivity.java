@@ -153,6 +153,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
     ArrayList<String> huespedes;
     static ArrayList<SummaryEntry> sumary;
     static ArrayList<String> preciosList;
+    static ArrayList<String> ivaList;
     boolean maxPersonas = false;
     boolean ninosBandera =false;
     GuestData guess;
@@ -534,6 +535,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         huespedes = new ArrayList<String>();
         sumary = new ArrayList<SummaryEntry>();
         preciosList = new ArrayList<String>();
+        ivaList = new ArrayList<String>();
 
         for (int i = 0; i < numHabitacion; i++) {
             huespedes.add("Huésped titular - habitación " + (i + 1));
@@ -541,6 +543,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             for (int j = 0; j < Math.abs(numNoches); j++) {
                 sumary.add(new SummaryEntry(1, "Noche " + (j + 1) + " $" + subtotalHabitacion + " M.N"));//precioHabitacion));
                 preciosList.add(""+subtotalHabitacion);
+                ivaList.add(""+IVAHabitacion);
             }
             titulares.add(new GuestData());
 
@@ -980,6 +983,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                             System.out.println("IVAHABITACION2" + IVAHabitacion2);
                             sumary.clear();
                             preciosList.clear();
+                            ivaList.clear();
                             subtotal = 0;
                             IVA = 0;
                             for (int k = 0; k < numHabitacion; k++) {
@@ -990,6 +994,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                                         preciosList.add(subtotalHabitacion2+"");
                                         subtotal += subtotalHabitacion2;
                                         IVA += IVAHabitacion2;
+                                        ivaList.add(""+IVA);
                                     }
                                 }else{
                                     sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
@@ -998,6 +1003,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                                         subtotal += guess.getPrecio();
                                         preciosList.add(subtotal+"");
                                         IVA += guess.getIva();
+                                        ivaList.add(""+IVA);
                                     }
                                 }
 
@@ -1412,10 +1418,10 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
                 double totalReservacion=0;
                 if(IVAHabitacion2 == 0 && subtotal == 0){
-                    totalReservacion = Double.parseDouble(preciosList.get(contadorReservaciones)) + IVAHabitacion;
+                    totalReservacion = Double.parseDouble(preciosList.get(contadorReservaciones)) + Double.parseDouble(ivaList.get(contadorReservaciones));
 
                 }else{
-                    totalReservacion = Double.parseDouble(preciosList.get(contadorReservaciones)) + IVAHabitacion2;
+                    totalReservacion = Double.parseDouble(preciosList.get(contadorReservaciones)) + Double.parseDouble(ivaList.get(contadorReservaciones));
                 }
 
             String enviarxml = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
@@ -2038,25 +2044,26 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         }
         if(_lastGuestIndex>0 && btnMisma.isChecked()){
             System.out.println("ENTREACA");
-            d.setName( txtName.getText().toString() );
-            d.setLastName( txtLast.getText().toString() );
-            d.setEmail( txtEmail.getText().toString() );
-            d.setSocio( txtSocio.getText().toString() );
-            d.setAfiliate( cbAfiliate.isChecked() );
-            d.setPhone( txtPhone.getText().toString() );
-            d.setViaje( spinViaje.getSelectedItemPosition() );
+            d.setName(txtName.getText().toString());
+            d.setLastName(txtLast.getText().toString());
+            d.setEmail(txtEmail.getText().toString());
+            d.setSocio(txtSocio.getText().toString());
+            d.setAfiliate(cbAfiliate.isChecked());
+            d.setPhone(txtPhone.getText().toString());
+            d.setViaje(spinViaje.getSelectedItemPosition());
             if(subtotalHabitacion2 == 0){
                 d.setPrecio(subtotalHabitacion);
             }else{
                 d.setPrecio(subtotalHabitacion2);
             }
         }
-        d.setAdultos( spinAdultos.getSelectedItemPosition() );
+        d.setAdultos(spinAdultos.getSelectedItemPosition());
         d.setNinos(spinNinos.getSelectedItemPosition());
         numAdultos=0;
+        numInfantes = 0;
         spinAdultos.setSelection(0);
         spinNinos.setSelection(0);
-        numInfantes = 0;
+
         guess=d;
     }
 
@@ -2124,6 +2131,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                 spinNinos.setEnabled(false);
                 sumary.clear();
                 preciosList.clear();
+                ivaList.clear();
                 subtotal =0;
                 IVA = 0;
                 for (int k = 0; k < numHabitacion; k++) {
@@ -2134,6 +2142,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                             preciosList.add(""+d.getPrecio());
                             subtotal+=d.getPrecio();
                             IVA += d.getIva();
+                            ivaList.add(""+IVA);
                         }
                     }else{
                         sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
@@ -2142,6 +2151,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                             subtotal+=d.getPrecio();
                             preciosList.add(d.getPrecio()+"");
                             IVA +=d.getIva();
+                            ivaList.add(""+IVA);
                         }
                     }
 

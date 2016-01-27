@@ -166,6 +166,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
     ArrayList<String> huespedes;
     static ArrayList<SummaryEntry> sumary;
     static ArrayList<String> preciosList;
+    static ArrayList<String> ivaList;
     boolean maxPersonas = false;
     GuestData guess;
     double subtotal;
@@ -719,6 +720,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
         huespedes = new ArrayList<String>();
         sumary = new ArrayList<SummaryEntry>();
         preciosList = new ArrayList<String>();
+        ivaList = new ArrayList<String>();
 
         for( int i = 0; i < numHabitacion; i++ )
         {
@@ -728,6 +730,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
             {
                 sumary.add( new SummaryEntry( 1, "Noche " + ( j + 1 ) + " $" + subtotalHabitacion + " M.N"));//precioHabitacion));
                 preciosList.add(""+subtotalHabitacion);
+                ivaList.add(""+IVAHabitacion);
             }
             titulares.add(new GuestData());
         }
@@ -1169,6 +1172,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                             System.out.println("IVAHABITACION2" + IVAHabitacion2);
                             sumary.clear();
                             preciosList.clear();
+                            ivaList.clear();
                             subtotal = 0;
                             IVA = 0;
                             for (int k = 0; k < numHabitacion; k++) {
@@ -1179,6 +1183,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                                         preciosList.add(subtotalHabitacion2+"");
                                         subtotal += subtotalHabitacion2;
                                         IVA += IVAHabitacion2;
+                                        ivaList.add(""+IVA);
                                     }
                                 }else{
                                     sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
@@ -1187,6 +1192,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                                         subtotal += guess.getPrecio();
                                         preciosList.add(subtotal+"");
                                         IVA += guess.getIva();
+                                        ivaList.add(""+IVA);
                                     }
                                 }
 
@@ -1233,6 +1239,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                             System.out.println("IVAHABITACION2" + IVAHabitacion2);
                             sumary.clear();
                             preciosList.clear();
+                            ivaList.clear();
                             subtotal = 0;
                             IVA = 0;
                             for (int k = 0; k < numHabitacion; k++) {
@@ -1243,6 +1250,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                                         preciosList.add(subtotalHabitacion2+"");
                                         subtotal += subtotalHabitacion2;
                                         IVA += IVAHabitacion2;
+                                        ivaList.add(""+IVA);
                                     }
                                 }else{
                                     sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
@@ -1251,6 +1259,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                                         subtotal += guess.getPrecio();
                                         preciosList.add(subtotal+"");
                                         IVA += guess.getIva();
+                                        ivaList.add(""+IVA);
                                     }
                                 }
 
@@ -1374,10 +1383,10 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
         if(contadorReservaciones < titulares.size()){
             double totalReservacion=0;
             if(IVAHabitacion2 == 0 && subtotal == 0){
-                totalReservacion = Double.parseDouble(preciosList.get(contadorReservaciones)) + IVAHabitacion;
+                totalReservacion = Double.parseDouble(preciosList.get(contadorReservaciones))+ Double.parseDouble(ivaList.get(contadorReservaciones));
 
             }else{
-                totalReservacion = Double.parseDouble(preciosList.get(contadorReservaciones)) + IVAHabitacion2;
+                totalReservacion = Double.parseDouble(preciosList.get(contadorReservaciones)) + Double.parseDouble(ivaList.get(contadorReservaciones));
             }
 
 
@@ -2745,6 +2754,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                 spinNinos.setEnabled(false);
                 sumary.clear();
                 preciosList.clear();
+                ivaList.clear();
                 subtotal =0;
                 IVA = 0;
                 for (int k = 0; k < numHabitacion; k++) {
@@ -2755,6 +2765,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                             preciosList.add(""+d.getPrecio());
                             subtotal+=d.getPrecio();
                             IVA += d.getIva();
+                            ivaList.add(""+IVA);
                         }
                     }else{
                         sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
@@ -2763,6 +2774,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
                             subtotal+=d.getPrecio();
                             preciosList.add(d.getPrecio()+"");
                             IVA +=d.getIva();
+                            ivaList.add(""+IVA);
                         }
                     }
 
