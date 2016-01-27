@@ -1406,7 +1406,17 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         Log.d("ReservacionActivity", "Enviar Tarjeta ");
         progress = ProgressDialog.show(ReservacionActivity.this, "Cargando...",
                 "Espere por favor", true);
+
+
             if(contadorReservaciones < titulares.size()){
+
+                double totalReservacion=0;
+                if(IVAHabitacion2 == 0 && subtotal == 0){
+                    totalReservacion = Double.parseDouble(preciosList.get(contadorReservaciones)) + IVAHabitacion;
+
+                }else{
+                    totalReservacion = Double.parseDouble(preciosList.get(contadorReservaciones)) + IVAHabitacion2;
+                }
 
             String enviarxml = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
                     "    <s:Body>\n" +
@@ -1508,9 +1518,9 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
             enviarxml = enviarxml.replace("{correoelectronico}", titulares.get(contadorReservaciones).getEmail());
             enviarxml = enviarxml.replace("{telefono}", titulares.get(contadorReservaciones).getPhone());
-            enviarxml = enviarxml.replace("{totalacompadultos}", ""+(1+numAdultos));
-            enviarxml = enviarxml.replace("{totalacompmenores}", "" + (0+numInfantes));
-            enviarxml = enviarxml.replace("{codigopais}", "MEX");
+            enviarxml = enviarxml.replace("{totalacompadultos}", ""+(numAdultos));
+            enviarxml = enviarxml.replace("{totalacompmenores}", "" + (numInfantes));
+                enviarxml = enviarxml.replace("{codigopais}", "MEX");
             enviarxml = enviarxml.replace("{acompanantes}", "");
             enviarxml = enviarxml.replace("{huespednombre}", titulares.get(contadorReservaciones).getName());
             enviarxml = enviarxml.replace("{huespedapellidos}", titulares.get(contadorReservaciones).getLastName());
@@ -1520,13 +1530,13 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             enviarxml = enviarxml.replace("{estanciaentrada}", llegada);
             enviarxml = enviarxml.replace("{numeronoches}", ""+numNoches);
 
-            enviarxml = enviarxml.replace("{reservantenombre}", titulares.get(contadorReservaciones).getName());
-            enviarxml = enviarxml.replace("{reservanteapellidos}", titulares.get(contadorReservaciones).getLastName());
+                enviarxml = enviarxml.replace("{reservantenombre}", titulares.get(contadorReservaciones).getName());
+                enviarxml = enviarxml.replace("{reservanteapellidos}", titulares.get(contadorReservaciones).getLastName());
             enviarxml = enviarxml.replace("{reservantecorreoelectronico}", titulares.get(contadorReservaciones).getEmail());
             enviarxml = enviarxml.replace("{reservantetelefono}", titulares.get(contadorReservaciones).getPhone());
 
 
-            enviarxml = enviarxml.replace("{depositomonto}", preciosList.get(contadorReservaciones));
+            enviarxml = enviarxml.replace("{depositomonto}",""+ totalReservacion);//preciosList.get(contadorReservaciones) );
             enviarxml = enviarxml.replace("{depositotipomoneda}", "MX");
             enviarxml = enviarxml.replace("{depositofecha}", llegada);
             enviarxml = enviarxml.replace("{formapago}", "TCRED");
@@ -1539,9 +1549,6 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             enviarxml = enviarxml.replace("{tdc_mes}", spinExpMonth.getSelectedItem().toString());
             enviarxml = enviarxml.replace("{tdc_nombre}", txtCardNumber.getText());
             enviarxml = enviarxml.replace("{tdc_numero}", txtCardNumber.getText());
-
-
-            Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
 
             System.out.println("XML a enviar --> " + enviarxml);
 

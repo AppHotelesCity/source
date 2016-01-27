@@ -1372,6 +1372,15 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
         progress = ProgressDialog.show(ReservacionPremiosActivity.this, "Cargando...",
                 "Espere por favor", true);
         if(contadorReservaciones < titulares.size()){
+            double totalReservacion=0;
+            if(IVAHabitacion2 == 0 && subtotal == 0){
+                totalReservacion = Double.parseDouble(preciosList.get(contadorReservaciones)) + IVAHabitacion;
+
+            }else{
+                totalReservacion = Double.parseDouble(preciosList.get(contadorReservaciones)) + IVAHabitacion2;
+            }
+
+
             String enviarxml = "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
                     "    <s:Body>\n" +
                     "        <InsertBookingv3_01 xmlns=\"http://tempuri.org/\">\n" +
@@ -1474,8 +1483,8 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
             enviarxml = enviarxml.replace("{telefono}", titulares.get(contadorReservaciones).getPhone());
             /*enviarxml = enviarxml.replace("{totalacompadultos}", "1");
             enviarxml = enviarxml.replace("{totalacompmenores}", "0");*/
-            enviarxml = enviarxml.replace("{totalacompadultos}", ""+(1+numAdultos));
-            enviarxml = enviarxml.replace("{totalacompmenores}", "" + (0+numInfantes));
+            enviarxml = enviarxml.replace("{totalacompadultos}", ""+(numAdultos));
+            enviarxml = enviarxml.replace("{totalacompmenores}", "" + (numInfantes));
             enviarxml = enviarxml.replace("{codigopais}", "MEX");
             enviarxml = enviarxml.replace("{acompanantes}", "");
             enviarxml = enviarxml.replace("{huespednombre}", titulares.get(contadorReservaciones).getName());
@@ -1493,7 +1502,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
 
 
             //enviarxml = enviarxml.replace("{depositomonto}", precio); //Total?
-            enviarxml = enviarxml.replace("{depositomonto}", preciosList.get(contadorReservaciones));
+            enviarxml = enviarxml.replace("{depositomonto}", ""+totalReservacion);//preciosList.get(contadorReservaciones));
             enviarxml = enviarxml.replace("{depositotipomoneda}", "MXN");
             enviarxml = enviarxml.replace("{depositofecha}", llegada);
             enviarxml = enviarxml.replace("{formapago}", "SMART");
