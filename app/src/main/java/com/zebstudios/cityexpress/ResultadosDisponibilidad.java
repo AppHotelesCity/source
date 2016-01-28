@@ -110,7 +110,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resultados_disponibilidad);
-
+        HttpsTrustManager.allowAllSSL();
         edtxtHotelDestino = (EditText) findViewById(R.id.edtxtHotelDestinoResultados);
         txt_salida = (TextView) findViewById(R.id.txtSalida);
         txt_llegada = (TextView) findViewById(R.id.txtLlegada);
@@ -572,7 +572,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     "</soapenv:Envelope>";
 
 
-            StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
+            StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.URL_RESERVACIONES, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) { //wsMotor2014 // wsMotor2015_Prod
                     System.out.println(contador + "->contador" + response);
@@ -666,7 +666,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                     "</s:Envelope>";
 
             System.out.println("XMLHOTELES"+cadena);
-            StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
+            StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.URL_RESERVACIONES, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) { //wsMotor2014 // wsMotor2015_Prod
                     System.out.println("IMPUESTOS->"+response);

@@ -905,7 +905,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
         System.out.println("XMLHOTELES"+cadena);
         progress = ProgressDialog.show(ReservacionPremiosActivity.this, "Cargando...",
                 "Espere por favor", true);
-        StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
+        StringRequest registro = new StringRequest(Request.Method.POST,APIAddress.URL_RESERVACIONES, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) { //wsMotor2014 // wsMotor2015_Prod
 

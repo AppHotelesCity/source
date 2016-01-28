@@ -216,7 +216,7 @@ public class RegistroActivity extends Activity {
         progress = ProgressDialog.show(RegistroActivity.this, "Cargando...",
                 "Espere por favor", true);
         System.out.println("CADENARESGIRTRO"+cadena);
-        StringRequest registro = new StringRequest(Request.Method.POST,"http://wshc.hotelescity.com:9742/wcfMiCityExpress_WCF_Des/ClienteUnico.svc", new Response.Listener<String>() {
+        StringRequest registro = new StringRequest(Request.Method.POST,APIAddress.URL_INICIO_SESION, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 System.out.println("RESPUESTA OK -------> "+response);

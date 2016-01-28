@@ -21,16 +21,17 @@ public class APIAddress
 	public static final String PAYPAL_MERCHANT_API = "https://api-3t.paypal.com/nvp";
 	public static final String PAYPAL_MERCHANT_WEB = "https://www.paypal.com/cgi-bin/webscr";
 	public static final String RESERVATION_ENGINE_URL = "http://wshc.hotelescity.com:9742/wsMotorapp/ReservationEngine.svc";
-	public static final String CITYPREMIOS_ENGINE_URL = "http://wshc.hotelescity.com:9742/wcfCityPremios_Des/CityPremios/wcfCityPremiosExterno.svc"; //quitar _Des
+	public static final String CITYPREMIOS_ENGINE_URL = "http://wshc.hotelescity.com:9742/wcfCityPremios/CityPremios/wcfCityPremiosExterno.svc"; //quitar _Des
 	public static final int PAYPAL_MODE = 1;
 
 
 	//SharedPrefereces
 	public static String LOGIN_USUARIO_PREFERENCES = "datosUsuarioPreferences";
 
-	public static String CLIENTE_UNICO = "http://wshc.hotelescity.com:9742/WS_Smart_Des/SmartAdmin.asmx?wsdl";
+	public static String CLIENTE_UNICO = "http://wshc.hotelescity.com:9742/ws_smart_Prod/smartadmin.asmx";//"http://wshc.hotelescity.com:9742/WS_Smart_Prod/SmartAdmin.asmx?wsdl"; //poner _Des
 
-	public static String URL_RESERVACIONES = "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc";
+	public static String URL_RESERVACIONES = "http://wshc.hotelescity.com:9742/wsMotor2015_Prod/ReservationEngine.svc";// "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc";
 
-	public static String URL_CHECKS = "http://wshc.hotelescity.com:9742/WHS_Reservations_Des/WHSReservationEngine.svc?wsdl";
+	public static String URL_CHECKS = "http://wshc.hotelescity.com:9742/WHS_Reservations_Prod/WHSReservationEngine.svc?wsdl";
+	public static String URL_INICIO_SESION = "http://wshc.hotelescity.com:9742/wcfMiCityExpress_WCF_Prod/ClienteUnico.svc";
 }

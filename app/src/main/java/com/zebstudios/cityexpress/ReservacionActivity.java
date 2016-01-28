@@ -714,7 +714,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
             System.out.println("XMLHOTELES"+cadena);
         progress = ProgressDialog.show(ReservacionActivity.this, "Cargando...",
                 "Espere por favor", true);
-            StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
+            StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.URL_RESERVACIONES, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) { //wsMotor2014 // wsMotor2015_Prod
 
@@ -1029,6 +1029,120 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         } catch (JSONException e) {
             Log.e("JSON exception", e.getMessage());
             e.printStackTrace();
+
+            try {
+                jsonObj = XML.toJSONObject(hotel);
+                JSONObject envelope = new JSONObject(jsonObj.getString("s:Envelope"));
+
+                JSONObject sbody = new JSONObject(envelope.getString("s:Body"));
+
+                JSONObject roomsAvaliables = new JSONObject(sbody.getString("GetRoomsAvailablePromoImpuestosResponse"));
+
+                JSONObject resultRoomsAvailable = new JSONObject(roomsAvaliables.getString("GetRoomsAvailablePromoImpuestosResult"));
+
+                JSONObject disponibilidad = new JSONObject(resultRoomsAvailable.getString("a:Disponibilidad"));
+
+                //System.out.println("Disponibilidad->"+disponibilidad.getString("a:Available"));
+                //mobilegate = jsonObj.getJSONObject("Costo");
+
+                JSONArray arreglodisponibilidad = new JSONArray(disponibilidad.getString("a:AvailableI"));
+
+                for (int i = 0; i < arreglodisponibilidad.length(); i++) {
+                    JSONObject descripcion = new JSONObject(arreglodisponibilidad.getString(i));
+
+                    if(descripcion.getString("a:CodigoTarifa").equalsIgnoreCase("1115P")){
+
+                        //descripcion.getString("")
+                        JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBaseI"));
+                        JSONObject habitacionBaseDisponibilidad = new JSONObject(tarifaBase.getString("a:HabBaseI"));
+
+
+                            habitacionCity = new HabitacionBase();
+                            System.out.println("CUATRO1115P->"+habitacionBaseDisponibilidad.getString("a:CodBase"));
+                            habitacionCity.setCodigoBase(habitacionBaseDisponibilidad.getString("a:CodBase"));
+                            System.out.println("CINCO115P->"+habitacionBaseDisponibilidad.getString("a:Noches"));
+                            JSONObject noche = new JSONObject(habitacionBaseDisponibilidad.getString("a:Noches"));
+                            JSONObject costoNoche = new JSONObject(noche.getString("a:NocheI"));
+                            System.out.println("CostoTotal->" + costoNoche.get("a:Costo"));
+                            habitacionCity.setCosto(costoNoche.get("a:Costo").toString());
+                            habitacionCity.setIVA(costoNoche.get("a:IVA").toString());
+                            habitacionCity.setSubTotal(costoNoche.get("a:SubTotal").toString());
+                            habitacionCityPremiosList.add(habitacionCity);
+
+                    }else if(descripcion.getString("a:CodigoTarifa").equalsIgnoreCase("1114")){
+
+                        JSONObject tarifaBase = new JSONObject(descripcion.getString("a:TarifaBaseI"));
+                        JSONObject habitacionBaseDisponibilidad = new JSONObject(tarifaBase.getString("a:HabBaseI"));
+
+                            habitacionBase = new HabitacionBase();
+                            System.out.println("CUATRO->"+habitacionBaseDisponibilidad.getString("a:CodBase"));
+                            habitacionBase.setCodigoBase(habitacionBaseDisponibilidad.getString("a:CodBase"));
+                            System.out.println("CINCO->"+habitacionBaseDisponibilidad.getString("a:Noches"));
+                            JSONObject noche = new JSONObject(habitacionBaseDisponibilidad.getString("a:Noches"));
+                            JSONObject costoNoche = new JSONObject(noche.getString("a:NocheI"));
+                            System.out.println("CostoTotal->" + costoNoche.get("a:Costo"));
+                            habitacionBase.setCosto(costoNoche.get("a:Costo").toString());
+                            habitacionBase.setIVA(costoNoche.get("a:IVA").toString());
+                            habitacionBase.setSubTotal(costoNoche.get("a:SubTotal").toString());
+                            System.out.println("COSTOSUBTOTAL" + costoNoche.get("a:SubTotal").toString());
+                            habitacionBaseList.add(habitacionBase);
+
+                            if(habitacionBase.getCodigoBase().equalsIgnoreCase(codigoBase)){
+
+                                precioHabitacion = Double.parseDouble(habitacionBase.getCosto().replace(",",""));
+                                IVAHabitacion2 = Double.parseDouble(habitacionBase.getIVA().replace(",", ""));
+                                subtotalHabitacion2 = Double.parseDouble(habitacionBase.getSubTotal().replace(",", ""));
+                                System.out.println("IVAHABITACION2" + IVAHabitacion2);
+                                sumary.clear();
+                                preciosList.clear();
+                                ivaList.clear();
+                                subtotal = 0;
+                                IVA = 0;
+                                for (int k = 0; k < numHabitacion; k++) {
+                                    if(k==numHuesped){
+                                        sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
+                                        for (int l = 0; l < Math.abs(numNoches); l++) {
+                                            sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + subtotalHabitacion2 + " M.N"));//precioHabitacion));
+                                            preciosList.add(subtotalHabitacion2+"");
+                                            subtotal += subtotalHabitacion2;
+                                            IVA += IVAHabitacion2;
+                                            ivaList.add(""+IVA);
+                                        }
+                                    }else{
+                                        sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
+                                        for (int l = 0; l < Math.abs(numNoches); l++) {
+                                            sumary.add(new SummaryEntry(1, "Noche " + (l + 1) + " $" + guess.getPrecio() + " M.N"));//precioHabitacion))//// ;
+                                            subtotal += guess.getPrecio();
+                                            preciosList.add(subtotal+"");
+                                            IVA += guess.getIva();
+                                            ivaList.add(""+IVA);
+                                        }
+                                    }
+
+                                }
+
+                                NestedListView list = (NestedListView) findViewById(R.id.list_summary);
+                                NestedListView list2 = (NestedListView) findViewById(R.id.list_summary2);
+                                SummaryListAdapter adapter = new SummaryListAdapter(this, sumary);
+                                list.setAdapter(adapter);
+                                list2.setAdapter(adapter);
+                                lblTotal.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "M.N");//String.format( "Total: $%,.2f ",1123 ) );
+                                lblTotal2.setText(String.format("Total: $%,.2f ", getTotalCostAlt()) + "M.N");// String.format( "Total: $%,.2f ", 34345 )  );
+                                lblIVA.setText(String.format("Impuestos: $%,.2f ", IVA) + "M.N");
+                                lblIVA2.setText(String.format("Impuestos: $%,.2f ", IVA) + "M.N");
+                                lblSubTotal.setText(String.format("Subtotal: $%,.2f ", subtotal) + "M.N");
+                                lblSubTotal2.setText(String.format("Subtotal: $%,.2f ", subtotal) + "M.N");
+
+                        }
+                    }
+                }
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+
+
+
+
         }
     }
 
@@ -1562,7 +1676,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
             final String finalEnviarxml = enviarxml;
 
-            StringRequest registro = new StringRequest(Request.Method.POST, "http://wshc.hotelescity.com:9742/wsMotor2014/ReservationEngine.svc", new Response.Listener<String>() {
+            StringRequest registro = new StringRequest(Request.Method.POST, APIAddress.URL_RESERVACIONES, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
 
