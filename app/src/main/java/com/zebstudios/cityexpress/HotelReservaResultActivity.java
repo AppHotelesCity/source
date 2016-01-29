@@ -140,6 +140,35 @@ public class HotelReservaResultActivity extends Activity {
                 Intent email = new Intent(Intent.ACTION_SEND);
                 email.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
                 email.setType("message/rfc822");
+                email.putExtra(Intent.EXTRA_SUBJECT, "Detalles de mi reservación");
+                email.putExtra(Intent.EXTRA_TEXT, "" + datosReservacion.getNombreHotel() + " " + datosReservacion.getDireccionHotel() + "Comprobante de reservación"
+                        + " Tu reservación ha sido confirmada con la clave " + datosReservacion.getNumReservacion()
+                        + " " + datosReservacion.getNombreUsuario() + " " + datosReservacion.getApellidoUsuario() + "\n"
+                        + "\nHOTEL"
+                        + "\n\n" + datosReservacion.getDireccionHotel()
+                        + "\n\nPaís:MX"
+                        + "\n\nTélefono: 014491492900"
+                        + "\n\nFax: "
+                        + "\n\nLlegada Check in: " + datosReservacion.getFechaLlegada()
+                        + "\n\nSalida Check out " + datosReservacion.getFechaSalida()
+                        + "\n\nCuartos: 1"
+                        + "\n\nNombre: " + datosReservacion.getNombreUsuario() + " " + datosReservacion.getApellidoUsuario()
+                        + "\n\nTipo de Habitación: " + datosReservacion.getDeschabitacion()
+                        + "\n\nAcompañantes: " + (datosReservacion.getAdultos() + datosReservacion.getInfantes()
+                        + "\n\nTarifa por Cuarto: " + datosReservacion.getHabCosto()
+                        + "\n\nTotal a pagar: " + total()
+                        + "\n\nTarifas sujetas a cambios sin previo aviso.\n\n" +
+                        "Aplica cargo por persona extra.\n\n" +
+                        "Aplican restricciones.\n\n" +
+                        "Políticas de cambios y cancelaciones de reservaciones:\n\n" +
+                        "1.- Cualquier cambio o cancelación a su reservación deberá solicitarla al 01 800 248 9397 con anticipación mínima de 24 horas antes de la fecha de llegada al hotel proporcionando su (s) clave (s) de confirmación.\n" +
+                        "2.- En temporada alta cualquier cambio ó cancelación deberá solicitarlo 72 horas antes de la fecha de llegada al hotel y proporcionar su (s) clave (s) de confirmación. Para conocer la información acerca de las fechas de temporada alta, consúltenos al 01 800 248 9397.\n" +
+                        "3.- De no realizarse el cambio o cancelación en el tiempo y forma antes mencionada, se hará el cargo por el monto de una noche más impuestos por cada habitación a la tarjeta de crédito con la que se garantizó la reservación.\n" +
+                        "4.- El día de llegada, el hotel pre-verificará el crédito de la tarjeta de crédito con la que se garantiza la reservación. Si dicha tarjeta no es autorizada, y en caso de alta ocupación en el hotel, la reservación no garantizada se cancelará automáticamente.\n" +
+                        "5.- En estancias de más de una noche, si el huésped no se presenta al hotel, se aplicará el cargo de “No Show” solo por la primera noche de habitación reservada más impuestos a la tarjeta de crédito con la que se garantizó la reservación. El resto de la estancia se cancelará automáticamente.Habrá cargo extra por persona adicional (mayor a 12 años).\n" +
+                        "\nLa capacidad máxima de personas dependerá del tipo habitación reservado.\n" +
+                        "\nEl costo varía según la marca del hotel.\n" +
+                        "\nPara mayor información también contáctenos a través de nuestro"));
                 startActivityForResult(Intent.createChooser(email, "Send Email"), 1);
                 addEvent("HotelDetails-SendEmail-Smartphone");
             }
@@ -212,5 +241,8 @@ public class HotelReservaResultActivity extends Activity {
         _map.moveCamera(CameraUpdateFactory.newLatLngZoom(hotelPosition, 14));
         m.showInfoWindow();
 
+    }
+    public double total(){
+        return (Double.parseDouble(datosReservacion.getHabCosto().replace(",","")) + Double.parseDouble(datosReservacion.getIva().replace(",","")));
     }
 }

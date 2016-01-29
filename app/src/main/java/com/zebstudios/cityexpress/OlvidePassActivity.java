@@ -120,7 +120,7 @@ public class OlvidePassActivity extends Activity {
         String SOAP_ACTION = "http://tempuri.org/IClienteUnico/PasswordRecovery";
         String METHOD_NAME = "PasswordRecovery";
         String NAMESPACE = "http://tempuri.org/";
-        String URL = "http://wshc.hotelescity.com:9742/wcfMiCityExpress_WCF_Des/ClienteUnico.svc";
+        String URL = "http://wshc.hotelescity.com:9742/wcfMiCityExpress_WCF_Prod/ClienteUnico.svc";
 
         try {
 
