@@ -161,7 +161,7 @@ public class IniciarSesionActivity extends Activity {
         String SOAP_ACTION = "http://tempuri.org/IClienteUnico/ValidateUser";
         String METHOD_NAME = "ValidateUser";
         String NAMESPACE = "http://tempuri.org/";
-        String URL = "http://wshc.hotelescity.com:9742/wcfMiCityExpress_WCF_Des/ClienteUnico.svc";
+        String URL = "http://wshc.hotelescity.com:9742/wcfMiCityExpress_WCF_Prod/ClienteUnico.svc"; //_Des
 
         try {
             SoapObject Request = new SoapObject(NAMESPACE, METHOD_NAME);
@@ -189,7 +189,7 @@ public class IniciarSesionActivity extends Activity {
                SharedPreferences.Editor editor = prefs.edit();
                editor.putString("activo", test.getPropertyAsString("Active"));
                editor.putString("nombre",test.getPropertySafelyAsString("Name"));
-               editor.putString("apellido",test.getPropertySafelyAsString("LastName"));
+               editor.putString("apellido",test.getPropertySafelyAsString("SecondLastName"));
                editor.putString("usuario",test.getPropertySafelyAsString("Username"));
                editor.putString("pais",test.getPropertySafelyAsString("Country"));
                editor.putString("genero", test.getPropertySafelyAsString("Gender"));

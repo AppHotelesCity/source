@@ -304,7 +304,7 @@ public class RegistroActivity extends Activity {
         String SOAP_ACTION = "http://tempuri.org/IClienteUnico/Country";
         String METHOD_NAME = "Country";
         String NAMESPACE = "http://tempuri.org/";
-        String URL = "http://wshc.hotelescity.com:9742/wcfMiCityExpress_WCF_Des/ClienteUnico.svc";
+        String URL = "http://wshc.hotelescity.com:9742/wcfMiCityExpress_WCF_Prod/ClienteUnico.svc";
 
         try {
             SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
