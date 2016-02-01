@@ -180,7 +180,7 @@ public class HotelReservaResultActivity extends Activity {
                 
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, "Ya tengo mi reserva en...");
+                intent.putExtra(Intent.EXTRA_TEXT, "Ya tengo mi reserva en " + datosReservacion.getNombreHotel());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(Intent.createChooser(intent,  "Compartir en: " ));
 

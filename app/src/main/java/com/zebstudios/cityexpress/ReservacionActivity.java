@@ -159,6 +159,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
     GuestData guess;
     double subtotal;
     double IVA;
+    double totalReservacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,7 +194,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                 onBackPressed();
             }
         });
-
+        totalReservacion = 0;
         //a<sdfg
         Bundle bundle = getIntent().getExtras();
         posicionHot = bundle.getInt("posicionHotel");
@@ -994,7 +995,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                                         preciosList.add(subtotalHabitacion2+"");
                                         subtotal += subtotalHabitacion2;
                                         IVA += IVAHabitacion2;
-                                        ivaList.add(""+IVA);
+                                        ivaList.add(""+IVAHabitacion2);
                                     }
                                 }else{
                                     sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
@@ -1003,7 +1004,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                                         subtotal += guess.getPrecio();
                                         preciosList.add(subtotal+"");
                                         IVA += guess.getIva();
-                                        ivaList.add(""+IVA);
+                                        ivaList.add(""+guess.getIva());
                                     }
                                 }
 
@@ -1106,7 +1107,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                                             preciosList.add(subtotalHabitacion2+"");
                                             subtotal += subtotalHabitacion2;
                                             IVA += IVAHabitacion2;
-                                            ivaList.add(""+IVA);
+                                            ivaList.add(""+IVAHabitacion2);
                                         }
                                     }else{
                                         sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
@@ -1115,7 +1116,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                                             subtotal += guess.getPrecio();
                                             preciosList.add(subtotal+"");
                                             IVA += guess.getIva();
-                                            ivaList.add(""+IVA);
+                                            ivaList.add(""+guess.getIva());
                                         }
                                     }
 
@@ -1531,7 +1532,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
             if(contadorReservaciones < titulares.size()){
 
-                double totalReservacion=0;
+                totalReservacion=0;
                 if(IVAHabitacion2 == 0 && subtotal == 0){
                     totalReservacion = Double.parseDouble(preciosList.get(contadorReservaciones)) + Double.parseDouble(ivaList.get(contadorReservaciones));
 
@@ -1658,6 +1659,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
 
             enviarxml = enviarxml.replace("{depositomonto}",""+ totalReservacion);//preciosList.get(contadorReservaciones) );
+                System.out.println("TOTALRESERVACION->"+totalReservacion);
             enviarxml = enviarxml.replace("{depositotipomoneda}", "MX");
             enviarxml = enviarxml.replace("{depositofecha}", llegada);
             enviarxml = enviarxml.replace("{formapago}", "TCRED");
@@ -2205,8 +2207,8 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
 
         //prepareNinosSpinner( d.getAdultos() + 1 ); // Acompañantes + Titular
-        spinAdultos.setSelection( d.getAdultos() );
-        spinNinos.setSelection( d.getNinos() );
+        //spinAdultos.setSelection( d.getAdultos() );
+        //spinNinos.setSelection( d.getNinos() );
 
         if( _lastGuestIndex == 0 )
         {
@@ -2244,8 +2246,8 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                 cbAfiliate.setEnabled( false );
                 txtPhone.setEnabled( false );
                 spinViaje.setEnabled( false );
-                spinAdultos.setEnabled(false);
-                spinNinos.setEnabled(false);
+                //spinAdultos.setEnabled(false);
+                //spinNinos.setEnabled(false);
                 sumary.clear();
                 preciosList.clear();
                 ivaList.clear();
@@ -2259,7 +2261,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                             preciosList.add(""+d.getPrecio());
                             subtotal+=d.getPrecio();
                             IVA += d.getIva();
-                            ivaList.add(""+IVA);
+                            ivaList.add(""+d.getIva());
                         }
                     }else{
                         sumary.add(new SummaryEntry(0, "Habitación " + (k + 1)));
@@ -2268,7 +2270,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                             subtotal+=d.getPrecio();
                             preciosList.add(d.getPrecio()+"");
                             IVA +=d.getIva();
-                            ivaList.add(""+IVA);
+                            ivaList.add(""+d.getIva());
                         }
                     }
 
@@ -2590,7 +2592,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
 
                 ReservacionBD huesped = _results;
                 String correo = huesped.getEmailUsuario();
-                String reservante = "[" + huesped.getNombreUsuario() + " " + huesped.getApellidoUsuario() + "^" + descripcionHabitacionJSON + "^" + ""+numAdultos + "^" + numNoches + "^" + precioHabitacion + "]";
+                String reservante = "[" + huesped.getNombreUsuario() + " " + huesped.getApellidoUsuario() + "^" + descripcionHabitacionJSON + "^" + ""+numAdultos + "^" + numNoches + "^" + totalReservacion + "]";
                 reservante = reservante.replaceAll( ",", " " );
 
                /* total += Double.parseDouble(_results.getHabCosto());

@@ -189,7 +189,7 @@ public class IniciarSesionActivity extends Activity {
                SharedPreferences.Editor editor = prefs.edit();
                editor.putString("activo", test.getPropertyAsString("Active"));
                editor.putString("nombre",test.getPropertySafelyAsString("Name"));
-               editor.putString("apellido",test.getPropertySafelyAsString("SecondLastName"));
+               editor.putString("apellido",test.getPropertySafelyAsString("LastName"));
                editor.putString("usuario",test.getPropertySafelyAsString("Username"));
                editor.putString("pais",test.getPropertySafelyAsString("Country"));
                editor.putString("genero", test.getPropertySafelyAsString("Gender"));
