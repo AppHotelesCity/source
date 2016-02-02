@@ -447,24 +447,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
         });
 
 
-        //Log.d( "TEST", "MAX: " + _room.getMaxAdultos() );
 
-        /*ArrayList<String> adultos = new ArrayList<String>();
-        ArrayList<String> ninos = new ArrayList<String>();*/
-/*
-        for( int i = 0; i <= _room.getMaxAdultos() - 1; i++ )
-        {
-            adultos.add( "" + i );
-        }
-        for( int i = 0; i <= _room.getMaxAdultos() - 1; i++ )
-        {
-            ninos.add( "" + i );
-        }
-*/
-        /*adultos.add("0");
-        adultos.add("1");
-        ninos.add("0");
-        ninos.add("1");*/
 
         Spinner spinAdultos = (Spinner) findViewById( R.id.spinAdultos );
         SpinnerAdapter adapterAdultos = new ArrayAdapter<String>( ReservacionPremiosActivity.this, R.layout.habitaciones_item, R.id.txtOption, adultos );
@@ -3196,9 +3179,7 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
         {
             super.onPreExecute();
 
-            /*_progress = ProgressDialogFragment.newInstance( "Enviando respuesta..." );
-            _progress.setCancelable( false );
-            _progress.show( getSupportFragmentManager(), "Dialog" );*/
+
         }
 
         @Override
@@ -3214,72 +3195,8 @@ public class ReservacionPremiosActivity extends Activity implements PayPalCaller
 
             ReservacionBD huesped = _results;
             String correo = huesped.getEmailUsuario();
-            //String reservante = "[" + huesped.getNombreUsuario() + " " + huesped.getApellidoUsuario() + "^" + descripcionHabitacionJSON + "^" + "1" + "^" + numNoches + "^" + precioHabitacion + "]";
             String reservante = "[" + huesped.getNombreUsuario() + " " + huesped.getApellidoUsuario() + "^" + descripcionHabitacionJSON + "^" + ""+numAdultos + "^" + numNoches + "^" + totalReservacion + "]";
             reservante = reservante.replaceAll( ",", " " );
-
-               /* total += Double.parseDouble(_results.getHabCosto());
-                //if( i == 0 )
-               // {
-                    para = huesped.getEmailUsuario();
-                    codigos += _results.getNumReservacion();
-                    reservantes += reservante;
-                //}
-               /* else
-                {
-                    if( !para.equalsIgnoreCase( correo ) && !isInList( correo, ccs ) )
-                    {
-                        ccs.add( correo );
-                    }
-                    codigos += "," + _results.getNumReservacion();
-                    reservantes += "," + reservante;
-                }*/
-
-
-           /* for( int i = 0; i < titulares.size(); i++ )
-            {
-                GuestData g = titulares.get( i );
-                if( i == 0 )
-                {
-                    if( g.isAfiliate() )
-                    {
-                        afiliates.add( g.getEmail() );
-                    }
-                }
-                else if( g.isAfiliate() && g.getDataOption() != 0 )
-                {
-                    if( !isInList( g.getEmail(), afiliates ) )
-                    {
-                        afiliates.add( g.getEmail() );
-                    }
-                }
-            }*/
-
-            /*String cctext = "";
-            for( int i = 0; i < ccs.size(); i++ )
-            {
-                if( i == 0 )
-                {
-                    cctext = ccs.get( i );
-                }
-                else
-                {
-                    cctext += "," + ccs.get( i );
-                }
-            }
-
-            String afiliatestext = "";
-            for( int i = 0; i < afiliates.size(); i++ )
-            {
-                if( i == 0 )
-                {
-                    afiliatestext = afiliates.get( i );
-                }
-                else
-                {
-                    afiliatestext += "," + afiliates.get( i );
-                }
-            }*/
 
             SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy" );
             ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();

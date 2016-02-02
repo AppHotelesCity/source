@@ -195,8 +195,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         txt_llegada.setText(sdf.format(_departureDate));
 
 
-        /*txt_salida.setText(dia+" "+mesT+" "+anio);
-        txt_llegada.setText(dia+" "+mesT+" "+anio);*/
+
 
 
         btndisponibilidad.setOnClickListener(new View.OnClickListener() {
@@ -272,19 +271,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
         }
         _map = _mapView.getMap();
 
-        /*if (findViewById(R.id.fragment_contenedor) != null) {
 
-            if (savedInstanceState != null) {
-                return;
-            }
-
-            ListadoHotelesFragment listadoHotelesFragment = new ListadoHotelesFragment();
-
-            listadoHotelesFragment.setArguments(getIntent().getExtras());
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_contenedor, listadoHotelesFragment).commit();
-        }*/
 
         btnMapa.setBackgroundResource(R.color.control_border_light);
         imageBusqueda.setOnClickListener(new View.OnClickListener() {
@@ -318,10 +305,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                 listaTarjetasHotel.setVisibility(View.VISIBLE);
                 btnMapa.setBackgroundResource(R.color.control_border_light);
                 btnListas.setBackgroundResource(R.color.white);
-                /*ListadoHotelesFragment listadoHotelesFragment = new ListadoHotelesFragment();
-                listadoHotelesFragment.setArguments(getIntent().getExtras());
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_contenedor, listadoHotelesFragment).commit();*/
+
             }
         });
         btnMapa.setOnClickListener(new View.OnClickListener() {
@@ -332,10 +316,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                 _mapView.setVisibility(View.VISIBLE);
                 listaTarjetasHotel.setVisibility(View.GONE);
 
-               /* ListadoHotelesFragment menuPrincipal = new ListadoHotelesFragment();
-                menuPrincipal.setArguments(getIntent().getExtras());
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_contenedor, menuPrincipal).commit();*/
+
             }
         });
 
@@ -585,14 +566,7 @@ public class ResultadosDisponibilidad extends ActionBarActivity {
                         e.printStackTrace();
                     }
                     obtenerDescripcionHotel(response);
-                   /* try {
-                        JSONObject nuevo = new JSONObject(hotelJSON.get(contador).toString());
-                        listaGeneralHotel.add(new Hotel(new JSONObject(nuevo.getString("Hotele")), new JSONArray(nuevo.getString("Imagenes")), habitacionBaseList, habitacionCityPremiosList));
-                        System.out.println("TotalHabitaciones->"+listaGeneralHotel.get(0).getArrayHabitaciones().size());
 
-                    }catch(JSONException e){
-
-                    }*/
                     contador++;
                     pedirDescripcionHotel();
                 }

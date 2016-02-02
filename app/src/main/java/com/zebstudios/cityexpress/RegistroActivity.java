@@ -227,7 +227,6 @@ public class RegistroActivity extends Activity {
                     JSONObject a = new JSONObject(jsonObj.getString("s:Envelope"));
                     JSONObject b = new JSONObject(a.getString("s:Body"));
                     JSONObject c = new JSONObject(b.getString("InsertUserResponse"));
-                   // JSONObject respuesta = new JSONObject(c.getString("InsertUserResult"));
                     respuesta =c.getString("InsertUserResult").replace("|","") ;
 
                     System.out.println("RESPUESTASERVICIO"+ respuesta);
@@ -340,19 +339,7 @@ public class RegistroActivity extends Activity {
             for (int i = 0; i < arrayPais.size(); i++) {
                 paises[i] = arrayPais.get(i).getDescripcion();
             }
-           /* System.out.println("+++->" + test.getPropertySafelyAsString("Active"));
-            System.out.println("+++->" + test.getPropertySafelyAsString("Country"));
-            System.out.println("+++->"+test.getPropertySafelyAsString("Gender"));
-            System.out.println("+++->"+test.getPropertySafelyAsString("IsValidCityPremios"));
-            System.out.println("+++->" + test.getPropertySafelyAsString("Name"));
-            System.out.println("+++->"+test.getPropertySafelyAsString("LastName"));
-            System.out.println("+++->"+test.getPropertySafelyAsString("Pers_Id_F2G"));
-            System.out.println("+++->"+test.getPropertySafelyAsString("Phone"));
-            System.out.println("+++->"+test.getPropertySafelyAsString("UserType_ID"));
-            System.out.println("+++->"+test.getPropertySafelyAsString("User_Changed"));
-            System.out.println("+++->"+test.getPropertySafelyAsString("User_Created"));
-            System.out.println("+++->"+test.getPropertySafelyAsString("User_ID"));
-            System.out.println("+++->"+test.getPropertySafelyAsString("Username"));*/
+
             //Get the attributes in the array
           /*  String tem = (String) test.getAttribute("Active");
             System.out.println("Active->"+tem);

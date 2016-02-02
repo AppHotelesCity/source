@@ -24,9 +24,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import static com.appsee.Appsee.startScreen;
 
-/**
- * Created by edwinhernandez on 28/12/15.
- */
+
 public class BlogFragment extends Fragment {
     View _view;
     private List<RSSArticle> _articlesBlog;
@@ -42,7 +40,7 @@ public class BlogFragment extends Fragment {
         }
 
         _articlesBlog = new ArrayList<RSSArticle>();
-        new GetRSS( 2, "https://www.cityexpress.com/blog/feed/" ).execute(); //http://blog.cityexpress.com/tag/14/feed/
+        new GetRSS( 2, "https://www.cityexpress.com/blog/feed/" ).execute();
 
         Analytics analytics = (Analytics)getActivity().getApplication();
         analytics.sendAppScreenTrack( "BLOG ANDROID" );

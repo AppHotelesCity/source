@@ -31,7 +31,6 @@ public class ReservacionesFragment extends Fragment
     ReservacionBDD ds;
     ListView list;
     Date hoy;
-    //RealmResults<ReservacionBD> reservacionesBD;
 
 	public ReservacionesFragment()
 	{

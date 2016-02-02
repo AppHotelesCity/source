@@ -27,8 +27,7 @@ public class SplashScreen extends Activity {
             li.setBackgroundDrawable( getResources().getDrawable(R.drawable.splash_tablet_4) );
 
         }else{
-            //Telefono
-            // img.setImageResource(R.drawable.splash_1);
+
         }
 
 

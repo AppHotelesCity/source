@@ -315,19 +315,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
         spinYears.setAdapter(adapterYears);
 
 
-        //Log.d( "TEST", "MAX: " + _room.getMaxAdultos() );
 
-
-/*
-        for( int i = 0; i <= _room.getMaxAdultos() - 1; i++ )
-        {
-            adultos.add( "" + i );
-        }
-        for( int i = 0; i <= _room.getMaxAdultos() - 1; i++ )
-        {
-            ninos.add( "" + i );
-        }
-*/
 
 
         Spinner spinAdultos = (Spinner) findViewById(R.id.spinAdultos);
@@ -2000,43 +1988,7 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                 return false;
             }
         }
-      /*  if(_paymentMethod == PAYMENT_METHOD_PAYPAL){
 
-        }
-            /*EditText txtCardName = (EditText) findViewById( R.id.txtCardName );
-            if( txtCardName.getText().toString().trim().length() == 0 )
-            {
-                alert( "Por favor ingresa el nombre del titular de la tarjeta de crédito." );
-                return false;
-            }
-
-            EditText txtCardNumber = (EditText) findViewById( R.id.txtCardNumber );
-            if( !CCUtils.validCC( txtCardNumber.getText().toString() ) )
-            {
-                alert( "El número de tarjeta es inválido." );
-                return false;
-            }
-
-            Spinner spinExpMonth = (Spinner) findViewById( R.id.spinExpMonth );
-            if( spinExpMonth.getSelectedItemPosition() == 0 )
-            {
-                alert( "Selecciona el mes de expiración de la tarjeta de crédito." );
-                return false;
-            }
-
-            Spinner spinExpYear = (Spinner) findViewById( R.id.spinExpYear );
-            if( spinExpYear.getSelectedItemPosition() == 0 )
-            {
-                alert( "Selecciona el año de expiración de la tarjeta de crédito." );
-                return false;
-            }
-
-            EditText txtCardCode = (EditText) findViewById( R.id.txtCardCode );
-            if( txtCardCode.getText().toString().trim().length() != 3 || !isNumeric( txtCardCode.getText().toString().trim() ) )
-            {
-                alert( "El código de validación de la tarjeta es incorrecto. Ingresa los últimos tres dígitos del número que se encuentra en la parte posterior de la tarjeta." );
-                return false;
-            }*/
 
         return true;
     }
@@ -2594,69 +2546,6 @@ public class ReservacionActivity extends Activity implements PayPalCaller.PayPal
                 String correo = huesped.getEmailUsuario();
                 String reservante = "[" + huesped.getNombreUsuario() + " " + huesped.getApellidoUsuario() + "^" + descripcionHabitacionJSON + "^" + ""+numAdultos + "^" + numNoches + "^" + totalReservacion + "]";
                 reservante = reservante.replaceAll( ",", " " );
-
-               /* total += Double.parseDouble(_results.getHabCosto());
-                //if( i == 0 )
-               // {
-                    para = huesped.getEmailUsuario();
-                    codigos += _results.getNumReservacion();
-                    reservantes += reservante;
-                //}
-               /* else
-                {
-                    if( !para.equalsIgnoreCase( correo ) && !isInList( correo, ccs ) )
-                    {
-                        ccs.add( correo );
-                    }
-                    codigos += "," + _results.getNumReservacion();
-                    reservantes += "," + reservante;
-                }*/
-
-
-           /* for( int i = 0; i < titulares.size(); i++ )
-            {
-                GuestData g = titulares.get( i );
-                if( i == 0 )
-                {
-                    if( g.isAfiliate() )
-                    {
-                        afiliates.add( g.getEmail() );
-                    }
-                }
-                else if( g.isAfiliate() && g.getDataOption() != 0 )
-                {
-                    if( !isInList( g.getEmail(), afiliates ) )
-                    {
-                        afiliates.add( g.getEmail() );
-                    }
-                }
-            }*/
-
-            /*String cctext = "";
-            for( int i = 0; i < ccs.size(); i++ )
-            {
-                if( i == 0 )
-                {
-                    cctext = ccs.get( i );
-                }
-                else
-                {
-                    cctext += "," + ccs.get( i );
-                }
-            }
-
-            String afiliatestext = "";
-            for( int i = 0; i < afiliates.size(); i++ )
-            {
-                if( i == 0 )
-                {
-                    afiliatestext = afiliates.get( i );
-                }
-                else
-                {
-                    afiliatestext += "," + afiliates.get( i );
-                }
-            }*/
 
             SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy" );
             ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();

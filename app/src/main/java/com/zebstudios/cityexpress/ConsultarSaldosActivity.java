@@ -83,7 +83,6 @@ public class ConsultarSaldosActivity extends Activity {
 
         Log.e("ReservacionActivity", "XML a enviar --> " + enviarxml);
 
-        System.out.println("XML a enviar --> " + enviarxml);
 
 
         final String finalEnviarxml = enviarxml;
@@ -100,7 +99,6 @@ public class ConsultarSaldosActivity extends Activity {
 
                     jsonObj = XML.toJSONObject(response);
 
-                    System.out.println(""+jsonObj);
 
                     body = jsonObj.getJSONObject("s:Envelope").getJSONObject("s:Body").getJSONObject("Get_Guest_BalanceResponse").getJSONObject("Get_Guest_BalanceResult").getJSONObject("a:folios").getString("a:Folios");
                     listadoTarjetasResult = new JSONArray(body);
@@ -152,7 +150,6 @@ public class ConsultarSaldosActivity extends Activity {
 
         };
 
-        System.out.println("registro->" + registro.toString());
         registro.setRetryPolicy(new DefaultRetryPolicy(17000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(this).add(registro);
 
@@ -163,7 +160,6 @@ public class ConsultarSaldosActivity extends Activity {
     public void obtenerFolios(JSONArray foliosJSON) throws  Exception{
 
         for (int i = 0; i < foliosJSON.length(); i++) {
-            System.out.println("****->" + foliosJSON.get(i));
             JSONObject balance = new JSONObject(foliosJSON.get(i).toString());
 
             folios.add(new Folio(balance.getString("a:folio_code"),balance.getString("a:balance")));

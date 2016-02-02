@@ -176,19 +176,7 @@ public class Hotel implements Serializable {
         }
 
     }
-    /*public Hotel(JSONObject json, JSONArray imagenesHotel, ArrayList<HabitacionBase> habitaciones){
-        this(json, 0);
-        try {
-            this.arrayHabitaciones= habitaciones;
-            _imagenes = new String[imagenesHotel.length()];
-            for (int i = 0; i <imagenesHotel.length(); i++) {
-                _imagenes[i] = imagenesHotel.get(i).toString();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-    }*/
 
     public Hotel(JSONObject json, JSONArray imagenesHotel){
         this(json, 0);

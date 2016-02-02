@@ -81,8 +81,7 @@ public class MiReservacionDetailActivity extends Activity {
     ImageView imageBack;
     ReservacionBD datosReservacion;
     ProgressDialog progress;
-   // RealmResults<ReservacionBD> datosReservacion;
-   // Realm realm;
+
     int numReservacion;
     @Override
 
@@ -92,7 +91,7 @@ public class MiReservacionDetailActivity extends Activity {
 
          txtNumeroReservacion = (TextView) findViewById(R.id.txt_num_reservacion);
          txtNombreUsuario = (TextView) findViewById(R.id.txt_nombre_usuario);
-         txtHabitacion = (TextView) findViewById(R.id.txt_habitacion_reservacion); //numero de habitacion
+         txtHabitacion = (TextView) findViewById(R.id.txt_habitacion_reservacion);
          txtNombreHotel = (TextView) findViewById(R.id.txt_nombre_hotel);
          txtLlegada = (TextView) findViewById(R.id.txt_fecha_llegada);
          txtSalida = (TextView) findViewById(R.id.txt_fecha_salida);
@@ -130,12 +129,10 @@ public class MiReservacionDetailActivity extends Activity {
         Bundle bundle =  getIntent().getExtras();
         numReservacion = bundle.getInt("numReservacion");
 
-       // realm = Realm.getInstance(getBaseContext());
         ReservacionBDD ds = new ReservacionBDD( this );
         ds.open();
         datosReservacion =ds.getReservante(numReservacion);
         ds.close();
-       // datosReservacion = realm.where(ReservacionBD.class).equalTo("numReservacion",numReservacion).findAll();
 
         System.out.println("NombreHotel" + datosReservacion.getNombreHotel() + "TOTAL->" + datosReservacion.getHabCosto() + "SiglasHotel->" + datosReservacion.getSiglasHotel());
 
@@ -477,10 +474,6 @@ public class MiReservacionDetailActivity extends Activity {
             ds.update(reservacionBD, "" + numReservacion);
             ds.close();
 
-           /* realm= Realm.getInstance(this);
-            realm.beginTransaction();
-            realm.copyToRealmOrUpdate(reservacionBD);
-            realm.commitTransaction();*/
             txtHabitacion.setText(", Habitación " + checkInResult.getString("a:room"));
             alert("Check in realizado correctamente. El número de tu habitación es " + checkInResult.getString("a:room") + ". La fecha de check-out es " + checkInResult.getString("a:dateout") + " antes de la 1:00 PM");
             btnCheckIn.setEnabled(false);
@@ -554,7 +547,7 @@ public class MiReservacionDetailActivity extends Activity {
                     e.printStackTrace();
                 }
 
-                //
+
 
             }
         }, new Response.ErrorListener() {

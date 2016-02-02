@@ -49,8 +49,6 @@ public class HotelReservaResultActivity extends Activity {
     Button btnCompartir;
     Button btnAbrirUbicacion;
     ReservacionBD datosReservacion;
-   // RealmResults<ReservacionBD> datosReservacion;
-   // Realm realm;
     int numReservacion;
     int numHabitaciones;
     int numNoches;
@@ -115,7 +113,6 @@ public class HotelReservaResultActivity extends Activity {
         list.setAdapter(adapter);
 
 
-        //realm = Realm.getInstance(getBaseContext());
         ReservacionBDD ds = new ReservacionBDD( this );
         ds.open();
         datosReservacion =ds.getReservante(numReservacion);

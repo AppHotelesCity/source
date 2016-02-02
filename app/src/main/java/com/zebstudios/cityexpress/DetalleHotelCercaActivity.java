@@ -56,13 +56,7 @@ public class DetalleHotelCercaActivity extends ActionBarActivity {
     private ListView listView;
     private WeatherReport _weatherReport;
     private LinearLayout linearLayoutDescripcion;
-    private String siglas;
-    ArrayList<RoomAvailableExtra> _extras;
-    static RoomAvailable habitacion;
-    static ArrayList<RoomAvailable> roomAvailableArrayList;
-    static Hotel hotelActual;
     private Hotel _hotel;
-    int posicion;
     ImageView imageViewBack;
     TextView txttitleActionbar;
 
@@ -91,27 +85,13 @@ public class DetalleHotelCercaActivity extends ActionBarActivity {
             }
         });
 
-       /* Bundle bundle = getIntent().getExtras();
-        posicion = bundle.getInt("posicion");
-        System.out.println("PosicionDetalleHote"+posicion);*/
+
 
         Intent intent = getIntent();
         _hotel = (Hotel) intent.getSerializableExtra( "HOTEL" );
         txtTitulo.setText(_hotel.getNombre().toUpperCase());
         txttitleActionbar.setText(_hotel.getNombre());
-       /* roomAvailableArrayList = new ArrayList<RoomAvailable>();
-        _extras = new ArrayList<RoomAvailableExtra>();
-        //Detalles
-
-       /* for (int i = 0; i < ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().size(); i++) {
-            if(i==0){
-                siglas = ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().get(i).getCodigoBase();
-            }else{
-                siglas += ","+ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getArrayHabitaciones().get(i).getCodigoBase();
-            }
-        }*/
-       // pedirDetalleHabitacion(ResultadosDisponibilidad.listaGeneralHotel.get(posicion).getSiglas(),siglas );
-        DisplayMetrics metrics = new DisplayMetrics();
+      DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int density = metrics.densityDpi;
 
@@ -290,18 +270,7 @@ public class DetalleHotelCercaActivity extends ActionBarActivity {
             }
         });
 
-/*
-        habitacion = new RoomAvailable();
-        habitacion.setMaxAdultos(_extras.get(0).getNumPersonas());
-        habitacion.setCode(ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().get(0).getCodigoBase());
-        habitacion.setTitle(ResultadosDisponibilidad.listaGeneralHotel.get(0).getNombre());
-        habitacion.setMoneda("MXN");
-        habitacion.setDescription(_extras.get(0).getDescripcion());
-        habitacion.setImagen(_extras.get(0).getImagenApp());
-        habitacion.setPromoCode("");
-        habitacion.setTotal(Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().get(0).getCosto()));
 
-        roomAvailableArrayList.add(habitacion);*/
 
         new GetWeather().execute();
 

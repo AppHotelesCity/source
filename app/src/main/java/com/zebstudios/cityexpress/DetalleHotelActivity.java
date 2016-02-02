@@ -181,7 +181,6 @@ public class DetalleHotelActivity extends ActionBarActivity{
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("btnChat", "Web View Chat");
                 Uri chatwv = Uri.parse("http://chat.hotelescity.com/WebAPISamples76/Chat/HtmlChatFrameSet.jsp");
                 Intent intent = new Intent(Intent.ACTION_VIEW, chatwv);
                 startActivity(intent);
@@ -263,18 +262,7 @@ public class DetalleHotelActivity extends ActionBarActivity{
             }
         });
 
-/*
-        habitacion = new RoomAvailable();
-        habitacion.setMaxAdultos(_extras.get(0).getNumPersonas());
-        habitacion.setCode(ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().get(0).getCodigoBase());
-        habitacion.setTitle(ResultadosDisponibilidad.listaGeneralHotel.get(0).getNombre());
-        habitacion.setMoneda("MXN");
-        habitacion.setDescription(_extras.get(0).getDescripcion());
-        habitacion.setImagen(_extras.get(0).getImagenApp());
-        habitacion.setPromoCode("");
-        habitacion.setTotal(Double.parseDouble(ResultadosDisponibilidad.listaGeneralHotel.get(0).getArrayHabitaciones().get(0).getCosto()));
 
-        roomAvailableArrayList.add(habitacion);*/
 
         new GetWeather().execute();
 
@@ -352,7 +340,6 @@ public class DetalleHotelActivity extends ActionBarActivity{
             imageView.setPadding( padding, padding, padding, padding );
             imageView.setScaleType( ImageView.ScaleType.FIT_XY );
             new ImageLoader( imageView, _imageCache ).execute( _images[position] );
-            //( (ViewPager) container ).addView( imageView, 0 );
             container.addView( imageView, 0 );
             return imageView;
         }

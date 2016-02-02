@@ -53,7 +53,6 @@ public class HabitacionAdapter extends RecyclerView.Adapter<HabitacionAdapter.Ha
 
     @Override
     public void onBindViewHolder(final HabitacionViewHolder holder, final int position) {
-        //final Hotel hotel = arrayHoteles.get(0);
 
         final HabitacionBase habitacionBase= habitacionBaseArrayList.get(position);
         double precioAux = 0;

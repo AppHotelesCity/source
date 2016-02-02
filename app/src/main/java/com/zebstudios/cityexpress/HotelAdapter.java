@@ -98,8 +98,6 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
             holder.cardViewHotel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                /*Intent intent = new Intent(holder.context,DetalleHotelActivity.class);
-                holder.context.startActivity(intent);*/
                     Intent intent = new Intent(holder.context, DetalleHotelActivity.class);
                     intent.putExtra("posicion", position);
                     holder.context.startActivity(intent);
